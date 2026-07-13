@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal Injury Settlement Calculator (2026) — Free Estimate Tool | FairClaimCalculator</title>
+<meta name="description" content="Estimate your personal injury settlement value in seconds using the multiplier method insurance adjusters use. Free, private, no sign-up. Educational estimate only.">
+<link rel="canonical" href="https://fairclaimcalculator.com/">
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Personal Injury Settlement Calculator — Free Estimate Tool">
+<meta property="og:description" content="Estimate your personal injury settlement value using the multiplier method. Free, private, no sign-up.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://fairclaimcalculator.com/">
+
+<!-- FAQPage structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How accurate is a personal injury settlement calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A settlement calculator gives a rough, educational estimate based on the multiplier method — a starting-point formula insurance adjusters sometimes reference. It cannot account for the specific facts of your case, your state's laws, the insurer's internal practices, or how a jury might view your evidence. Real settlements are negotiated case by case."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the multiplier method for calculating settlements?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The multiplier method estimates general (pain and suffering) damages by multiplying your economic damages — medical bills, lost wages, and property damage — by a number typically between 1.5 and 5, based on injury severity. That result is added to your economic damages for a total estimate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does my percentage of fault affect my settlement?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In most states, yes. Under comparative negligence rules, your recovery is typically reduced by your own percentage of fault. Some states bar recovery entirely if you are found more than 50% at fault. Rules vary significantly by state."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I use this calculator instead of talking to an attorney?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. This tool is for general education only. It does not review your evidence, medical records, or state law, and it does not constitute legal advice. Many personal injury attorneys offer free initial consultations, which will give you a far more reliable picture of your case's value."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo">FairClaim<span>Calculator</span></a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Settlement Calculator</a></li>
+        <li><a href="/calculators/car-accident-settlement-calculator.html">Car Accident</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Personal Injury Settlement Calculator</h1>
+    <p class="lead">Get a free, private estimate of your potential settlement range using the same "multiplier method" insurance adjusters use as a starting point — in under a minute, no sign-up required.</p>
+    <div class="trust-badges">
+      <span>🔒 100% private — nothing you enter is stored or sent anywhere</span>
+      <span>⚖️ Educational estimate, not legal advice</span>
+      <span>🆓 Free, no email required</span>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="container">
+
+    <div class="calc-card">
+      <h2>Estimate Your Settlement Range</h2>
+      <form id="settlement-form">
+        <div class="form-grid">
+          <div class="field">
+            <label for="medicalBills">Total medical bills to date ($)</label>
+            <input type="number" id="medicalBills" name="medicalBills" min="0" step="1" placeholder="e.g. 8500" required>
+            <span class="hint">Include ER visits, imaging, physical therapy, medication, and any expected future treatment costs.</span>
+          </div>
+          <div class="field">
+            <label for="lostWages">Lost wages / income ($)</label>
+            <input type="number" id="lostWages" name="lostWages" min="0" step="1" placeholder="e.g. 2000">
+            <span class="hint">Income lost from missed work due to your injury and recovery.</span>
+          </div>
+          <div class="field">
+            <label for="propertyDamage">Property damage ($)</label>
+            <input type="number" id="propertyDamage" name="propertyDamage" min="0" step="1" placeholder="e.g. 3000">
+            <span class="hint">Vehicle repair/replacement or other damaged property, if applicable.</span>
+          </div>
+          <div class="field">
+            <label for="severity">Injury severity</label>
+            <select id="severity" name="severity" required>
+              <option value="minor">Minor — full recovery within weeks, no lasting effects</option>
+              <option value="moderate" selected>Moderate — weeks to months of treatment</option>
+              <option value="severe">Severe — surgery, long recovery, lasting impact</option>
+              <option value="catastrophic">Catastrophic — permanent disability or disfigurement</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="faultPercentage">Your estimated share of fault (%)</label>
+            <input type="number" id="faultPercentage" name="faultPercentage" min="0" max="100" step="1" value="0">
+            <span class="hint">Leave at 0 if the other party was fully at fault. Most states reduce recovery by your share.</span>
+          </div>
+          <div class="field">
+            <label for="ongoingTreatment">
+              <input type="checkbox" id="ongoingTreatment" name="ongoingTreatment" style="width:auto;display:inline-block;margin-right:6px;">
+              I'm still receiving treatment / haven't fully recovered
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Calculate My Estimate</button>
+      </form>
+
+      <div class="result-box" id="settlement-result">
+        <h3>Estimated Settlement Range</h3>
+        <div class="range">—</div>
+        <div class="breakdown"></div>
+      </div>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Important: this is an educational estimate, not legal advice.</strong>
+      This calculator uses a simplified version of the multiplier method for general education purposes only. It does not review your medical records, evidence, insurance policy, or state law, and it is not a prediction, guarantee, or offer of any specific settlement amount. Actual settlements depend on negotiation, evidence, jurisdiction, and many factors this tool cannot assess. For advice about your specific situation, consult a licensed personal injury attorney in your state. See our <a href="/disclaimer.html">full disclaimer</a>.
+    </div>
+
+    <article class="explainer">
+      <h2>How Personal Injury Settlements Are Actually Calculated</h2>
+      <p>When an insurance company or attorney evaluates a personal injury claim, they typically start by separating damages into two categories: <strong>economic damages</strong> (costs you can point to a receipt or pay stub for) and <strong>non-economic damages</strong> (harder-to-quantify harm like pain, suffering, and loss of enjoyment of life).</p>
+
+      <h3>Economic damages</h3>
+      <p>These are your out-of-pocket, documentable losses: medical bills (past and reasonably expected future treatment), lost wages or lost earning capacity, and property damage such as a totaled vehicle. Because these numbers come from bills and pay records, they're usually the least disputed part of a claim.</p>
+
+      <h3>Non-economic damages and the multiplier method</h3>
+      <p>Pain and suffering has no receipt. To estimate it, adjusters and attorneys commonly use the <strong>multiplier method</strong>: they take your total economic damages and multiply that number by a factor — usually between 1.5 and 5 — based on how severe and how life-altering the injury was. A sprained wrist that heals in six weeks might use a multiplier near the low end. A herniated disc requiring surgery and leaving permanent mobility limits would sit at the high end.</p>
+
+      <div class="example-box">
+        <strong>Example:</strong> Sarah was rear-ended and required physical therapy for a moderate soft-tissue neck injury. Her medical bills totaled $6,000 and she missed one week of work worth $1,200, for economic damages of $7,200. Using a moderate-injury multiplier of 2.5, her estimated general damages would be $18,000, for a total estimated settlement range of roughly $22,000–$28,000 before any fault adjustment.
+      </div>
+
+      <h3>Comparative negligence and your percentage of fault</h3>
+      <p>Most U.S. states apply some form of <strong>comparative negligence</strong>: if you were partly responsible for the accident, your settlement is reduced by your percentage of fault. Some states use "pure" comparative negligence (you can recover even if you're 99% at fault, just reduced accordingly), others use a "modified" rule that bars recovery entirely once you cross a 50% or 51% fault threshold, and a handful of states still use "contributory negligence," which can bar recovery if you were even slightly at fault. Because this varies so much by state, our calculator only applies a simplified, general reduction — it is not a substitute for checking your specific state's rule.</p>
+
+      <h3>What this calculator does <em>not</em> account for</h3>
+      <p>No online tool can fully replace a case evaluation. Things this calculator cannot see include: the strength of your evidence, whether liability is disputed, your state's specific damage caps (several states cap non-economic or punitive damages by statute), the insurance policy's coverage limits, pre-existing conditions that complicate causation, and how a particular insurer or jury in your jurisdiction tends to value similar cases. Treat the number this tool gives you as a rough starting point for a conversation — not a number to expect an insurer to simply hand over.</p>
+
+      <h3>What actually moves a settlement number up or down</h3>
+      <p>In practice, the factors that most influence a final settlement include: the clarity and completeness of your medical documentation, whether you followed your treatment plan without gaps, how clearly liability can be established, whether there were witnesses or video evidence, the at-fault party's insurance policy limits (you generally cannot recover more than the policy provides), and — often decisively — whether you have experienced legal representation negotiating on your behalf.</p>
+    </article>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <h3>How accurate is a personal injury settlement calculator?</h3>
+        <p>It gives a rough, educational estimate based on a simplified formula. It cannot account for your case's specific facts, your state's laws, or how an insurer or jury might view your evidence. Real settlements are negotiated case by case.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is the multiplier method for calculating settlements?</h3>
+        <p>It estimates pain-and-suffering damages by multiplying your economic damages (medical bills, lost wages, property damage) by a factor typically between 1.5 and 5, based on injury severity, then adds that to your economic damages.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does my percentage of fault affect my settlement?</h3>
+        <p>In most states, yes — your recovery is typically reduced by your own percentage of fault under comparative negligence rules. Some states bar recovery entirely above a certain fault threshold. Rules vary significantly by state.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Should I use this calculator instead of talking to an attorney?</h3>
+        <p>No. This tool is for general education only and does not constitute legal advice. Many personal injury attorneys offer free consultations that will give you a far more reliable picture of your case's value.</p>
+      </div>
+    </div>
+
+    <h2>Explore Injury-Specific Calculators</h2>
+    <div class="related-tools">
+      <a href="/calculators/car-accident-settlement-calculator.html">Car Accident Settlement Calculator →</a>
+      <a href="#" aria-disabled="true" style="opacity:0.5;">Slip and Fall Settlement Calculator (coming soon)</a>
+      <a href="#" aria-disabled="true" style="opacity:0.5;">Dog Bite Settlement Calculator (coming soon)</a>
+      <a href="#" aria-disabled="true" style="opacity:0.5;">Workers' Comp Settlement Calculator (coming soon)</a>
+    </div>
+
+    <div class="author-bio">
+      <div class="avatar">FC</div>
+      <div>
+        <h4>Reviewed by the FairClaimCalculator Editorial Team</h4>
+        <p>Our content is researched using publicly available legal resources, state bar association guidance, and consumer legal-education publications. We are not a law firm and do not provide legal representation. Read more on our <a href="/about.html">About page</a>.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/terms-of-service.html">Terms of Service</a>
+      <a href="/disclaimer.html">Legal Disclaimer</a>
+    </div>
+    <p>&copy; 2026 FairClaimCalculator.com. This website provides free educational estimates only and is not a law firm. No attorney-client relationship is formed by using this site.</p>
+  </div>
+</footer>
+
+<div id="cookie-consent-banner">
+  <div class="cookie-inner">
+    <p>We use cookies for essential site function and, with your consent, to show relevant ads that keep this tool free. See our <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+    <div class="cookie-actions">
+      <button id="cookie-reject">Reject non-essential</button>
+      <button id="cookie-accept">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/calculator.js"></script>
+<script src="/js/main.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    FairClaim.initCalculatorForm("settlement-form", "settlement-result");
+  });
+</script>
+
+</body>
+</html>
