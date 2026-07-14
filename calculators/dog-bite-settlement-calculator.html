@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dog Bite Settlement Calculator (2026) — Free Estimate | FairClaimCalculator</title>
+<meta name="description" content="Estimate your dog bite settlement value with our free calculator. Covers strict liability and one-bite rule states. Educational estimate only, no sign-up.">
+<link rel="canonical" href="https://fairclaimcalculator.com/calculators/dog-bite-settlement-calculator.html">
+<link rel="stylesheet" href="/css/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the average dog bite settlement amount?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dog bite settlements vary widely based on wound severity, scarring, and whether the injury required surgery or reconstructive treatment. Minor bites may settle for a few thousand dollars, while bites causing permanent scarring, nerve damage, or requiring plastic surgery can reach well into six figures."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the dog owner always liable for a dog bite?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on your state. About two-thirds of U.S. states apply 'strict liability' — the owner is responsible regardless of whether the dog bit someone before. Other states follow a 'one-bite rule,' where you generally must show the owner knew or should have known the dog had dangerous tendencies. Some states use a hybrid negligence-based standard."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does homeowners or renters insurance cover dog bite claims?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In many cases, yes — most dog bite settlements are actually paid out through the dog owner's homeowners or renters insurance liability coverage, not out of pocket. Some insurers exclude specific breeds or apply lower liability sublimits for dog-bite claims, so coverage can vary by policy."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo">FairClaim<span>Calculator</span></a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Settlement Calculator</a></li>
+        <li><a href="/calculators/car-accident-settlement-calculator.html">Car Accident</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Dog Bite Settlement Calculator</h1>
+    <p class="lead">Estimate your potential dog bite settlement using the multiplier method. Free, private, no sign-up.</p>
+    <div class="trust-badges">
+      <span>🔒 100% private — nothing is stored</span>
+      <span>⚖️ Educational estimate, not legal advice</span>
+      <span>🆓 Free, no email required</span>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="container">
+
+    <div class="calc-card">
+      <h2>Estimate Your Dog Bite Settlement</h2>
+      <form id="settlement-form">
+        <div class="form-grid">
+          <div class="field">
+            <label for="medicalBills">Total medical bills to date ($)</label>
+            <input type="number" id="medicalBills" name="medicalBills" min="0" step="1" placeholder="e.g. 3800" required>
+            <span class="hint">ER/urgent care, stitches, rabies post-exposure treatment, follow-up care, scar revision.</span>
+          </div>
+          <div class="field">
+            <label for="lostWages">Lost wages / income ($)</label>
+            <input type="number" id="lostWages" name="lostWages" min="0" step="1" placeholder="e.g. 600">
+            <span class="hint">Income lost from missed work during recovery.</span>
+          </div>
+          <div class="field">
+            <label for="propertyDamage">Other out-of-pocket costs ($)</label>
+            <input type="number" id="propertyDamage" name="propertyDamage" min="0" step="1" placeholder="e.g. 150">
+            <span class="hint">Torn clothing, transportation to appointments, etc.</span>
+          </div>
+          <div class="field">
+            <label for="severity">Injury severity</label>
+            <select id="severity" name="severity" required>
+              <option value="minor">Minor — superficial puncture, no stitches</option>
+              <option value="moderate" selected>Moderate — stitches required, temporary scarring</option>
+              <option value="severe">Severe — deep wounds, permanent scarring, nerve damage</option>
+              <option value="catastrophic">Catastrophic — reconstructive surgery, disfigurement</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="faultPercentage">Your estimated share of fault (%)</label>
+            <input type="number" id="faultPercentage" name="faultPercentage" min="0" max="100" step="1" value="0">
+            <span class="hint">Consider whether you provoked the dog or ignored posted warnings.</span>
+          </div>
+          <div class="field">
+            <label for="ongoingTreatment">
+              <input type="checkbox" id="ongoingTreatment" name="ongoingTreatment" style="width:auto;display:inline-block;margin-right:6px;">
+              I'm still receiving treatment / haven't fully recovered
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Calculate My Estimate</button>
+      </form>
+
+      <div class="result-box" id="settlement-result">
+        <h3>Estimated Settlement Range</h3>
+        <div class="range">—</div>
+        <div class="breakdown"></div>
+      </div>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Important: this is an educational estimate, not legal advice.</strong>
+      This calculator uses a simplified version of the multiplier method for general education only. It does not review your medical records, animal control report, or your state's specific dog-bite statute, and it is not a prediction or guarantee of any settlement amount. For advice about your specific case, consult a licensed personal injury attorney in your state. See our <a href="/disclaimer.html">full disclaimer</a>.
+    </div>
+
+    <article class="explainer">
+      <h2>How Dog Bite Settlements Work</h2>
+      <p>Dog bite claims are handled differently depending on where the bite occurred, because dog-bite liability rules vary more by state than almost any other type of personal injury claim. Understanding which rule your state follows is often the first step in evaluating a claim.</p>
+
+      <h3>Strict liability vs. the one-bite rule</h3>
+      <p>Most U.S. states — roughly two-thirds — apply a strict liability standard: the dog's owner is responsible for injuries the dog causes regardless of whether the dog has ever bitten anyone before, with limited exceptions such as trespassing or provocation. A smaller group of states still follow some version of the traditional "one-bite rule," which generally requires showing the owner knew or should have known the dog had dangerous or aggressive tendencies. A few states apply a negligence-based standard, focusing on whether the owner failed to reasonably control the animal.</p>
+
+      <div class="example-box">
+        <strong>Example:</strong> Jordan was delivering a package when a neighbor's dog, which had gotten loose from an unlatched gate, bit their forearm. The wound required 12 stitches and a round of precautionary rabies treatment, totaling $3,600 in medical bills and $450 in missed wages, for economic damages of $4,050. Given the visible scarring risk from a moderate-to-severe bite, a multiplier of around 3 would put estimated general damages near $12,150, for a total estimated range of roughly $14,000–$18,000, generally paid through the owner's homeowners insurance liability coverage.
+      </div>
+
+      <h3>Common defenses raised by dog owners and insurers</h3>
+      <p>Owners and their insurers often raise defenses such as provocation (you startled, hurt, or teased the dog), trespassing (you were on the property without permission), assumption of risk (you knowingly interacted with a dog displaying warning signs, such as growling or a posted "Beware of Dog" sign), or comparative fault if you ignored a clear warning.</p>
+
+      <h3>Why insurance coverage matters so much here</h3>
+      <p>Because most dog bite settlements are ultimately paid by the owner's homeowners or renters insurance rather than out of the owner's own pocket, the insurer's policy limits and any breed-specific exclusions can significantly shape what's actually recoverable — separate from what a court might otherwise award.</p>
+    </article>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <h3>What is the average dog bite settlement amount?</h3>
+        <p>Settlements vary widely based on wound severity and scarring. Minor bites may settle for a few thousand dollars, while bites causing permanent scarring or requiring reconstructive surgery can reach well into six figures.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Is the dog owner always liable for a dog bite?</h3>
+        <p>It depends on your state's rule — strict liability, one-bite, or negligence-based — and on defenses like provocation or trespassing that may reduce or eliminate liability.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does homeowners or renters insurance cover dog bite claims?</h3>
+        <p>Often yes — most settlements are paid through the owner's homeowners or renters liability coverage, though some insurers apply breed exclusions or lower sublimits.</p>
+      </div>
+    </div>
+
+    <h2>Explore Other Injury Calculators</h2>
+    <div class="related-tools">
+      <a href="/">General Personal Injury Settlement Calculator →</a>
+      <a href="/calculators/car-accident-settlement-calculator.html">Car Accident Settlement Calculator →</a>
+      <a href="/calculators/slip-and-fall-settlement-calculator.html">Slip and Fall Settlement Calculator →</a>
+      <a href="/calculators/workers-comp-settlement-calculator.html">Workers' Comp Settlement Calculator →</a>
+    </div>
+
+    <div class="author-bio">
+      <div class="avatar">FC</div>
+      <div>
+        <h4>Reviewed by the FairClaimCalculator Editorial Team</h4>
+        <p>Our content is researched using publicly available legal resources, state bar association guidance, and consumer legal-education publications. We are not a law firm and do not provide legal representation. Read more on our <a href="/about.html">About page</a>.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/terms-of-service.html">Terms of Service</a>
+      <a href="/disclaimer.html">Legal Disclaimer</a>
+    </div>
+    <p>&copy; 2026 FairClaimCalculator.com. This website provides free educational estimates only and is not a law firm. No attorney-client relationship is formed by using this site.</p>
+  </div>
+</footer>
+
+<div id="cookie-consent-banner">
+  <div class="cookie-inner">
+    <p>We use cookies for essential site function and, with your consent, to show relevant ads that keep this tool free. See our <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+    <div class="cookie-actions">
+      <button id="cookie-reject">Reject non-essential</button>
+      <button id="cookie-accept">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/calculator.js"></script>
+<script src="/js/main.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    FairClaim.initCalculatorForm("settlement-form", "settlement-result");
+  });
+</script>
+
+</body>
+</html>

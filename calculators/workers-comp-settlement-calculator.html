@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workers' Comp Settlement Calculator (2026) — Free Estimate | FairClaimCalculator</title>
+<meta name="description" content="Estimate your workers' compensation wage-replacement benefit with our free calculator. Covers temporary and permanent disability. Educational estimate only, no sign-up.">
+<link rel="canonical" href="https://fairclaimcalculator.com/calculators/workers-comp-settlement-calculator.html">
+<link rel="stylesheet" href="/css/style.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does workers' compensation include pain and suffering?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, in nearly every U.S. state, workers' compensation is a no-fault system that does not include pain-and-suffering or general damages the way a personal injury lawsuit does. Instead, it pays a percentage of your lost wages (typically around two-thirds) plus medical treatment, and separately, benefits for any permanent impairment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does workers' comp pay per week?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most states calculate temporary disability benefits as roughly two-thirds of your average weekly wage before the injury, subject to a state-specific minimum and maximum weekly benefit cap. The exact percentage and caps vary by state."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is a permanent partial disability (PPD) settlement calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PPD is typically based on an impairment rating assigned by a doctor (often using AMA Guides percentages) applied to a state-specific schedule that assigns a set number of compensable weeks to each body part. Because these schedules vary drastically by state, PPD value should be treated as a rough range until reviewed against your specific state's schedule."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo">FairClaim<span>Calculator</span></a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Settlement Calculator</a></li>
+        <li><a href="/calculators/car-accident-settlement-calculator.html">Car Accident</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Workers' Comp Settlement Calculator</h1>
+    <p class="lead">Estimate your workers' compensation wage-replacement benefit. Free, private, no sign-up.</p>
+    <div class="trust-badges">
+      <span>🔒 100% private — nothing is stored</span>
+      <span>⚖️ Educational estimate, not legal advice</span>
+      <span>🆓 Free, no email required</span>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="container">
+
+    <div class="disclaimer-box" style="margin-bottom: 24px;">
+      <strong>Workers' comp works differently from a car accident or slip-and-fall claim.</strong>
+      It's a no-fault system: fault doesn't matter, and in nearly every state it does not include pain-and-suffering damages. Instead, it pays a wage-replacement benefit (roughly two-thirds of your average weekly wage, subject to state caps) plus separately-covered medical treatment, and — if applicable — a permanent impairment benefit. This calculator estimates only the wage-replacement piece; see below for why permanent and total disability figures are handled differently.
+    </div>
+
+    <div class="calc-card">
+      <h2>Estimate Your Workers' Comp Benefit</h2>
+      <form id="wc-form">
+        <div class="form-grid">
+          <div class="field">
+            <label for="averageWeeklyWage">Average weekly wage before injury ($)</label>
+            <input type="number" id="averageWeeklyWage" name="averageWeeklyWage" min="0" step="1" placeholder="e.g. 900" required>
+            <span class="hint">Typically averaged over the 13-52 weeks before your injury.</span>
+          </div>
+          <div class="field">
+            <label for="disabilityType">Disability classification</label>
+            <select id="disabilityType" name="disabilityType" required>
+              <option value="ttd" selected>Temporary Total Disability (TTD) — completely unable to work</option>
+              <option value="tpd">Temporary Partial Disability (TPD) — working reduced hours/lighter duty</option>
+              <option value="ppd">Permanent Partial Disability (PPD) — doctor assigned an impairment rating</option>
+              <option value="ptd">Permanent Total Disability (PTD) — unable to return to any work</option>
+            </select>
+          </div>
+          <div class="field" data-field-group="weeks">
+            <label for="weeks">Weeks of disability (so far or expected)</label>
+            <input type="number" id="weeks" name="weeks" min="0" step="1" placeholder="e.g. 10">
+            <span class="hint">Number of weeks you have been / expect to be out or on reduced duty.</span>
+          </div>
+          <div class="field" data-field-group="impairment">
+            <label for="impairmentRating">Impairment rating from your doctor (%)</label>
+            <input type="number" id="impairmentRating" name="impairmentRating" min="0" max="100" step="1" placeholder="e.g. 15">
+            <span class="hint">Whole-person or body-part impairment percentage from your treating/evaluating physician.</span>
+          </div>
+          <div class="field" data-field-group="ptd-note" style="display:none;">
+            <span class="hint">Permanent total disability settlements are typically negotiated lump sums based on the present value of lifetime benefits — this calculator will show your estimated ongoing weekly benefit only, not a total settlement figure.</span>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Calculate My Estimate</button>
+      </form>
+
+      <div class="result-box" id="wc-result">
+        <h3>Estimated Benefit</h3>
+        <div class="range">—</div>
+        <div class="breakdown"></div>
+      </div>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Important: this is an educational estimate, not legal advice.</strong>
+      This calculator uses simplified, generic assumptions (a standard ~2/3 wage-replacement rate and illustrative PPD week ranges) and does not apply your specific state's minimum/maximum weekly benefit caps, waiting period rules, or body-part impairment schedule. It is not a prediction or guarantee of any benefit amount. For your specific claim, consult a licensed workers' compensation attorney in your state. See our <a href="/disclaimer.html">full disclaimer</a>.
+    </div>
+
+    <article class="explainer">
+      <h2>How Workers' Comp Benefits Actually Work</h2>
+      <p>Workers' compensation trades away your right to sue your employer for negligence in exchange for a guaranteed, no-fault benefit — you don't need to prove your employer did anything wrong, but in return, you generally can't recover pain-and-suffering damages the way you could in a car accident or slip-and-fall claim against a third party. Benefits fall into a few distinct categories, and confusing them is one of the most common mistakes injured workers make when trying to estimate what they're owed.</p>
+
+      <h3>Temporary disability: TTD and TPD</h3>
+      <p>If you're completely unable to work while recovering, you typically receive Temporary Total Disability (TTD) benefits — usually around two-thirds of your average weekly wage, subject to your state's minimum and maximum caps, for as long as you remain medically unable to work (up to a state-specific limit). If you can work in a limited capacity or lighter-duty role at reduced pay, Temporary Partial Disability (TPD) generally covers a portion of the difference between your pre-injury and reduced post-injury wages.</p>
+
+      <div class="example-box">
+        <strong>Example:</strong> Priya earned an average of $960 per week before a warehouse injury left her on Temporary Total Disability for 8 weeks while she recovered from a shoulder injury. At roughly two-thirds of her average weekly wage, her estimated weekly benefit would be about $640, for an estimated total TTD benefit near $5,120 over that period — separate from her medical treatment, which is generally billed directly to the workers' comp insurer rather than reimbursed to her.
+      </div>
+
+      <h3>Permanent partial disability (PPD) is a different calculation entirely</h3>
+      <p>Once you reach "maximum medical improvement" (MMI) — the point where your condition is expected to improve no further — a doctor may assign a permanent impairment rating, often using the AMA Guides to the Evaluation of Permanent Impairment. States then apply that rating to a schedule assigning a set number of compensable weeks to each body part (for example, a certain number of weeks for total loss of use of an arm, scaled down proportionally for a partial rating). Because this schedule varies drastically by state, any PPD dollar estimate should be treated as a broad illustrative range, not a precise figure, until checked against your specific state's schedule.</p>
+
+      <h3>Permanent total disability and lump-sum settlements</h3>
+      <p>If you're unable to return to any gainful employment, permanent total disability (PTD) benefits are typically ongoing rather than a one-time payment. In practice, many workers' comp claims — especially PPD and PTD cases — eventually resolve through a negotiated lump-sum settlement (sometimes called a "compromise and release") that accounts for the present value of future benefits, remaining life expectancy, and future medical needs. Pricing that kind of settlement responsibly requires case-specific actuarial and legal analysis well beyond what a simple online calculator can provide.</p>
+    </article>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <h3>Does workers' compensation include pain and suffering?</h3>
+        <p>No — in nearly every state, workers' comp is a no-fault system that pays wage replacement and medical treatment, plus impairment benefits if applicable, but not pain-and-suffering damages.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How much does workers' comp pay per week?</h3>
+        <p>Most states use roughly two-thirds of your average weekly wage before the injury, subject to a state-specific minimum and maximum weekly cap.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How is a permanent partial disability (PPD) settlement calculated?</h3>
+        <p>PPD is based on a doctor-assigned impairment rating applied to your state's schedule of compensable weeks per body part — this varies significantly by state, so treat any estimate as a rough range.</p>
+      </div>
+    </div>
+
+    <h2>Explore Other Injury Calculators</h2>
+    <div class="related-tools">
+      <a href="/">General Personal Injury Settlement Calculator →</a>
+      <a href="/calculators/car-accident-settlement-calculator.html">Car Accident Settlement Calculator →</a>
+      <a href="/calculators/slip-and-fall-settlement-calculator.html">Slip and Fall Settlement Calculator →</a>
+      <a href="/calculators/dog-bite-settlement-calculator.html">Dog Bite Settlement Calculator →</a>
+    </div>
+
+    <div class="author-bio">
+      <div class="avatar">FC</div>
+      <div>
+        <h4>Reviewed by the FairClaimCalculator Editorial Team</h4>
+        <p>Our content is researched using publicly available legal resources, state bar association guidance, and consumer legal-education publications. We are not a law firm and do not provide legal representation. Read more on our <a href="/about.html">About page</a>.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/terms-of-service.html">Terms of Service</a>
+      <a href="/disclaimer.html">Legal Disclaimer</a>
+    </div>
+    <p>&copy; 2026 FairClaimCalculator.com. This website provides free educational estimates only and is not a law firm. No attorney-client relationship is formed by using this site.</p>
+  </div>
+</footer>
+
+<div id="cookie-consent-banner">
+  <div class="cookie-inner">
+    <p>We use cookies for essential site function and, with your consent, to show relevant ads that keep this tool free. See our <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+    <div class="cookie-actions">
+      <button id="cookie-reject">Reject non-essential</button>
+      <button id="cookie-accept">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/calculator.js"></script>
+<script src="/js/main.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    FairClaim.initWorkersCompForm("wc-form", "wc-result");
+  });
+</script>
+
+</body>
+</html>
