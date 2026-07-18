@@ -1,126 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- privacy-policy.html and terms-of-service.html are intentionally excluded:
      both carry <meta name="robots" content="noindex,follow">, and per Google's
-     guidance, noindexed URLs should not be submitted via sitemap. -->
+     guidance, noindexed URLs should not be submitted via sitemap.
+     This sitemap was rebuilt on 2026-07-19 as part of a full pivot away from
+     the personal-injury calculator content that previously lived here — see
+     BUILD-LOG.md. New tool/guide/state URLs are added only once they are
+     actually live; state pages stay noindex/out of this file until verified. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.fairclaimcalculator.com/</loc>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.fairclaimcalculator.com/calculators/car-accident-settlement-calculator.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/calculators/slip-and-fall-settlement-calculator.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/calculators/dog-bite-settlement-calculator.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/calculators/workers-comp-settlement-calculator.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/comparative-negligence-by-state.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/personal-injury-statute-of-limitations-by-state.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/dog-bite-laws-by-state.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/average-settlement-amounts-by-injury-type.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/how-the-multiplier-method-works.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/how-to-calculate-lost-wages-after-an-accident.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/how-long-does-a-settlement-take.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/should-you-accept-the-first-settlement-offer.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/personal-injury-demand-letter.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/taxes-on-personal-injury-settlement.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/structured-settlement-vs-lump-sum.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/how-insurance-adjusters-evaluate-claims.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/what-to-do-after-a-car-accident.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/slip-and-fall-liability-commercial-vs-residential.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/workers-comp-vs-personal-injury-lawsuit.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/what-is-pain-and-suffering.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.fairclaimcalculator.com/articles/why-insurance-companies-deny-claims.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://www.fairclaimcalculator.com/about.html</loc>
-    <changefreq>yearly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
