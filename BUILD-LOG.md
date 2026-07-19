@@ -69,7 +69,7 @@ Each queue item = one session's worth of work unless noted. Pages must clear
 - [ ] **Q2.** `/methodology/` page skeleton (versioned config explanation, source caveats — can be thin at first and grow as tools ship).
 
 ### Phase 3 — core tools (build in this order per doc §10.2/§16)
-- [ ] **Q3.** Tool 3 — Settlement Check Breakdown (`/settlement-check-breakdown/`)
+- [x] **Q3.** Tool 3 — Settlement Check Breakdown (`/settlement-check-breakdown/`) — **shipped 2026-07-19.**
 - [ ] **Q4.** Tool 2 — Total-Loss / ACV Offer Audit (`/total-loss-offer-calculator/`) — flagship
 - [ ] **Q5.** Tool 4 — Evidence Packet & Claim Letter Builder (`/claim-letter-builder/`)
 - [ ] **Q6.** Tool 1 — Diminished Value Baseline & Market Evidence Worksheet (`/diminished-value-calculator/`)
@@ -136,6 +136,34 @@ unchecked item.
   pivot and lists what's coming, but no tool is live yet.
 - Next session starts **Q3 — Tool 3: Settlement Check Breakdown** (first
   core tool per the build order).
+
+### Session 3 — 2026-07-19 (same day, continued)
+- Built and shipped **Tool 3: Settlement Check Breakdown** at
+  `/settlement-check-breakdown/` — integer-cent calculation engine in
+  `js/settlement-breakdown.js` (dual browser/Node export so the math can be
+  sanity-tested with `node -e "require('./js/settlement-breakdown.js')..."`
+  before shipping — 8 scenarios run and passed 2026-07-19, covering: no
+  loan, first-party deductible, loan payoff less than settlement, loan
+  payoff exceeding settlement (GAP scenario), salvage retention, stated-
+  check mismatch detection, deductible-exceeds-ACV flag, and `toCents`
+  input validation).
+- Page includes: full visible arithmetic waterfall, plain-language
+  definitions (ACV/deductible/lienholder/GAP/salvage), worked example,
+  3-question FAQ (JSON-LD matches visible text), BreadcrumbList schema,
+  full on-page SEO per `CONTENT-STANDARDS.md`.
+- Added "Settlement Breakdown" to primary nav on every page. Updated
+  homepage's "totaled" scenario card and "what's coming" list to link the
+  live tool. Added the URL to `sitemap.xml`. Deleted the now-fully-unused
+  `js/calculator.js` (old PI multiplier/workers-comp logic — dead code
+  after the pivot).
+- Ran tag-balance + single-H1 sanity checks across all 8 HTML files —
+  clean.
+- **Nothing deployed live to the actual domain yet** — this is committed
+  in the local repo only. Whether it's already connected to a host (GitHub
+  Pages / Netlify / other) and whether it needs a push to go live is
+  something only the user can confirm; asked in this session's reply.
+- Next session starts **Q4 — Tool 2: Total-Loss / ACV Offer Audit**
+  (flagship tool).
 
 ---
 

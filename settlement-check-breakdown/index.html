@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Total-Loss Settlement Check Breakdown | FairClaimCalculator</title>
+<meta name="description" content="See exactly how a total-loss offer turns into your check — ACV, deductible, loan payoff, GAP, and salvage, laid out step by step. Free, no email, math shown in full.">
+<link rel="canonical" href="https://www.fairclaimcalculator.com/settlement-check-breakdown/">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<meta property="og:site_name" content="FairClaimCalculator">
+<meta property="og:title" content="Total-Loss Settlement Check Breakdown | FairClaimCalculator">
+<meta property="og:description" content="See exactly how a total-loss offer turns into your check — ACV, deductible, loan payoff, GAP, and salvage, laid out step by step.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.fairclaimcalculator.com/settlement-check-breakdown/">
+<meta property="og:image" content="https://www.fairclaimcalculator.com/images/og-default.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Total-Loss Settlement Check Breakdown | FairClaimCalculator">
+<meta name="twitter:image" content="https://www.fairclaimcalculator.com/images/og-default.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.fairclaimcalculator.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Settlement Check Breakdown", "item": "https://www.fairclaimcalculator.com/settlement-check-breakdown/" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does this tool tell me what I'm legally owed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It organizes the arithmetic behind a total-loss settlement check so you can see each step and compare it to what the insurer told you. It does not determine what you are legally owed — that depends on your state, policy, and facts."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a lienholder, and why does it get paid first?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A lienholder is the bank or lender with a security interest in your vehicle because of an outstanding loan or lease. Insurers generally pay the lienholder directly, up to the loan payoff amount, before any remaining settlement goes to you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this tool guarantee a GAP payout?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. GAP coverage is typically a separate claim to a separate provider with its own terms, exclusions, and possible deductible. This tool only shows a potential shortfall amount as an educational estimate — always verify against your actual GAP certificate."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo">FairClaim<span>Calculator</span></a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/settlement-check-breakdown/">Settlement Breakdown</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <p style="font-size:0.85rem; color:var(--color-text-muted); margin:0 0 8px;"><a href="/" style="color:inherit;">Home</a> / Settlement Check Breakdown</p>
+    <h1>See How Your Total-Loss Settlement Check Was Calculated</h1>
+    <p class="lead">Enter the numbers from your insurer's offer and this tool lays out, step by step, how they add up to a check — deductible, loan payoff, GAP scenario, and salvage all shown separately, with the full arithmetic visible.</p>
+    <div class="trust-badges">
+      <span>🔒 Free — no email or account required</span>
+      <span>🧮 Every step of the math is shown</span>
+      <span>💾 Nothing you enter is sent to a server</span>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="container">
+
+    <div class="calc-card">
+      <h2>Break Down Your Settlement Check</h2>
+      <form id="settlement-breakdown-form">
+        <div class="form-grid">
+          <div class="field">
+            <label for="acv">Insurer's stated ACV / base vehicle value ($)</label>
+            <input type="number" id="acv" name="acv" min="0" step="1" placeholder="e.g. 18500" required>
+            <span class="hint">The "actual cash value" or base number the insurer says your vehicle is worth, before any deductions.</span>
+          </div>
+          <div class="field">
+            <label for="claimType">Claim type</label>
+            <select id="claimType" name="claimType">
+              <option value="third-party">Another driver's insurer (third-party)</option>
+              <option value="first-party">My own insurer (first-party)</option>
+            </select>
+            <span class="hint">Third-party claims generally don't have your own deductible applied.</span>
+          </div>
+          <div class="field" data-field-group="deductible">
+            <label for="deductible">Your deductible ($)</label>
+            <input type="number" id="deductible" name="deductible" min="0" step="1" placeholder="e.g. 500">
+          </div>
+          <div class="field">
+            <label for="taxFees">Sales tax / fees insurer added on top ($)</label>
+            <input type="number" id="taxFees" name="taxFees" min="0" step="1" placeholder="0">
+            <span class="hint">Only fill this in if your insurer's paperwork shows tax/fees added separately. Whether your state requires this varies — verify with your state, don't assume.</span>
+          </div>
+          <div class="field">
+            <label for="hasLoan">Do you still owe money on a loan or lease?</label>
+            <select id="hasLoan" name="hasLoan">
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </div>
+          <div class="field" data-field-group="loan">
+            <label for="loanPayoff">Loan/lease payoff amount ($)</label>
+            <input type="number" id="loanPayoff" name="loanPayoff" min="0" step="1" placeholder="e.g. 12000">
+          </div>
+          <div class="field" data-field-group="gap">
+            <label for="hasGap">Do you have GAP coverage?</label>
+            <select id="hasGap" name="hasGap">
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="retainingSalvage">Are you keeping the wrecked vehicle (owner-retained salvage)?</label>
+            <select id="retainingSalvage" name="retainingSalvage">
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </div>
+          <div class="field" data-field-group="salvage">
+            <label for="salvageDeduction">Salvage deduction insurer applied ($)</label>
+            <input type="number" id="salvageDeduction" name="salvageDeduction" min="0" step="1" placeholder="e.g. 2000">
+          </div>
+          <div class="field">
+            <label for="priorPayment">Prior partial payment already received ($)</label>
+            <input type="number" id="priorPayment" name="priorPayment" min="0" step="1" placeholder="0">
+          </div>
+          <div class="field">
+            <label for="statedCheck">What did the insurer say your check would be? ($)</label>
+            <input type="number" id="statedCheck" name="statedCheck" min="0" step="1" placeholder="Optional — enables the match check">
+            <span class="hint">Optional. If you enter this, the tool tells you whether it matches the breakdown below.</span>
+          </div>
+        </div>
+
+        <div data-field-errors class="disclaimer-box" style="display:none;"></div>
+
+        <button type="submit" class="btn-primary">Calculate Breakdown</button>
+      </form>
+
+      <div class="result-box" id="settlement-breakdown-result">
+        <h3>Your Settlement Breakdown</h3>
+        <div class="range">—</div>
+        <p data-status style="display:none; font-weight:600; margin:0 0 10px;"></p>
+        <div class="breakdown"></div>
+        <p data-gap-note style="display:none; margin-top:12px; font-size:0.85rem; color:var(--color-text-muted);"></p>
+      </div>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Educational tool, not legal advice.</strong>
+      This calculator organizes arithmetic; it does not determine what you are legally owed, evaluate your policy, or guarantee any GAP payout. See our <a href="/disclaimer.html">full disclaimer</a>.
+    </div>
+
+    <article class="explainer">
+      <h2>How This Breakdown Is Built</h2>
+      <p>An insurer's total-loss check rarely equals the "vehicle value" number by itself. Between the stated actual cash value (ACV) and the number that actually lands in your account, several line items can apply — some that reduce the check, and some, like a loan payoff, that redirect part of it entirely. This tool walks through them in a fixed order: ACV, plus any tax or fees the insurer added, minus your deductible (first-party claims only), giving a gross settlement. From there, if you have a loan or lease, the lienholder is generally paid first — up to the payoff amount — before anything comes to you. Any GAP coverage, salvage retention, or prior partial payment are each shown as their own line, not blended into a single mystery number.</p>
+
+      <div class="example-box">
+        <strong>Example:</strong> An insurer states an ACV of $14,200 on a first-party claim with a $500 deductible, no tax/fees added. Gross settlement is $13,700. The owner still owes $9,000 on the loan, so the lienholder is paid $9,000, leaving $4,700 for the owner. No GAP, no salvage retention, no prior payment. If the insurer said the check would be $4,700, this tool would report "math checks out." If the insurer said $4,000 instead, it would flag a $700 mismatch and suggest asking the adjuster to explain the difference line by line.
+      </div>
+
+      <h2>Plain-Language Definitions</h2>
+      <h3>ACV (Actual Cash Value)</h3>
+      <p>The insurer's estimate of what your vehicle was worth immediately before the loss — not what it would cost to buy a brand-new replacement, and not necessarily what you paid for it.</p>
+
+      <h3>Deductible</h3>
+      <p>The amount you agreed to absorb yourself under your own policy before your insurer pays out. It generally applies to first-party claims (your own insurer paying under your own coverage), not to a claim against another driver's insurer.</p>
+
+      <h3>Lienholder</h3>
+      <p>The bank, credit union, or leasing company with a legal financial interest in the vehicle because you still owe money on it. Insurers typically pay the lienholder directly, up to the loan or lease payoff amount, before releasing any remainder to you.</p>
+
+      <h3>GAP coverage</h3>
+      <p>A separate, optional coverage (often sold through a dealer or lender) meant to cover the difference when your loan balance is higher than the insurer's settlement. It is usually a separate claim to a separate provider, with its own terms and possible exclusions — this tool shows a potential shortfall, not a guaranteed GAP payout.</p>
+
+      <h3>Owner-retained salvage</h3>
+      <p>If you choose to keep the wrecked vehicle instead of surrendering it to the insurer, the insurer typically deducts an estimated salvage value from your settlement to account for the vehicle you're keeping.</p>
+    </article>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <h3>Does this tool tell me what I'm legally owed?</h3>
+        <p>No. It organizes the arithmetic behind a total-loss settlement check so you can see each step and compare it to what the insurer told you. It does not determine what you are legally owed — that depends on your state, policy, and facts.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What is a lienholder, and why does it get paid first?</h3>
+        <p>A lienholder is the bank or lender with a security interest in your vehicle because of an outstanding loan or lease. Insurers generally pay the lienholder directly, up to the loan payoff amount, before any remaining settlement goes to you.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does this tool guarantee a GAP payout?</h3>
+        <p>No. GAP coverage is typically a separate claim to a separate provider with its own terms, exclusions, and possible deductible. This tool only shows a potential shortfall amount as an educational estimate — always verify against your actual GAP certificate.</p>
+      </div>
+    </div>
+
+    <h2>More Tools Coming</h2>
+    <div class="related-tools">
+      <a href="/">Back to Home →</a>
+      <a href="/about.html">About This Site →</a>
+    </div>
+    <p style="font-size:0.82rem; color:var(--color-text-muted);">Calculation logic version 1.0 — last reviewed July 2026.</p>
+
+    <div class="author-bio">
+      <div class="avatar">DB</div>
+      <div>
+        <h4>Reviewed by the FairClaimCalculator Editorial Team</h4>
+        <p>This tool's logic is documented and versioned in the open — every formula step is shown above, not hidden. We are not a law firm, insurer, or appraisal company. Read more on our <a href="/about.html">About page</a>.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/terms-of-service.html">Terms of Service</a>
+      <a href="/disclaimer.html">Legal Disclaimer</a>
+    </div>
+    <p>&copy; 2026 FairClaimCalculator.com. This website provides free educational tools only and is not a law firm, insurer, or appraisal company. No attorney-client relationship is formed by using this site.</p>
+  </div>
+</footer>
+
+<div id="cookie-consent-banner">
+  <div class="cookie-inner">
+    <p>We use cookies for essential site function and, with your consent, to show relevant ads that keep this tool free. See our <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+    <div class="cookie-actions">
+      <button id="cookie-reject">Reject non-essential</button>
+      <button id="cookie-accept">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/settlement-breakdown.js"></script>
+<script src="/js/main.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    FairClaim.initSettlementBreakdownForm("settlement-breakdown-form", "settlement-breakdown-result");
+  });
+</script>
+
+</body>
+</html>
