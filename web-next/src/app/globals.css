@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------- */
+/* Design tokens — HSL triplets (no hsl() wrapper) consumed by            */
+/* tailwind.config.ts via hsl(var(--token) / <alpha-value>).              */
+/* Dark is the shipped default. `.light` is defined for a future toggle.  */
+/* ---------------------------------------------------------------------- */
+:root {
+  --background: 240 6% 7%;
+  --foreground: 210 20% 98%;
+
+  --surface: 240 6% 10%;
+  --surface-hover: 240 6% 13%;
+
+  --accent: 235 86% 65%;
+  --accent-foreground: 0 0% 100%;
+  --accent-muted: 235 60% 65%;
+
+  --muted: 240 5% 15%;
+  --muted-foreground: 220 9% 62%;
+
+  --border: 240 6% 18%;
+
+  --radius: 0.75rem;
+}
+
+.light {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 4%;
+
+  --surface: 240 20% 98.5%;
+  --surface-hover: 240 15% 96%;
+
+  --accent: 235 86% 58%;
+  --accent-foreground: 0 0% 100%;
+  --accent-muted: 235 60% 58%;
+
+  --muted: 240 5% 96%;
+  --muted-foreground: 240 4% 40%;
+
+  --border: 240 6% 90%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: auto; /* Lenis owns smooth scrolling */
+}
+
+body {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+::selection {
+  background: hsl(var(--accent) / 0.35);
+  color: hsl(var(--foreground));
+}
+
+/* Subtle scrollbar to match the dark surface */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.4);
+}
+
+/* Long-form legal/editorial copy (About, Privacy, Terms, Disclaimer).
+   Hand-styled rather than pulling in @tailwindcss/typography for one use case. */
+.legal-prose h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: hsl(var(--foreground));
+}
+.legal-prose h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+.legal-prose p {
+  margin-top: 1rem;
+  line-height: 1.75;
+  color: hsl(var(--muted-foreground));
+}
+.legal-prose strong {
+  color: hsl(var(--foreground));
+  font-weight: 600;
+}
+.legal-prose a {
+  color: hsl(var(--accent));
+  text-underline-offset: 3px;
+}
+.legal-prose a:hover {
+  text-decoration: underline;
+}
+.legal-prose > *:first-child {
+  margin-top: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

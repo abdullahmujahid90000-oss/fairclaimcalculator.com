@@ -1,0 +1,7 @@
+npm error code ENOTEMPTY
+npm error syscall rename
+npm error path /sessions/sweet-confident-babbage/mnt/fairclaimcalculator.com/web-next/node_modules/acorn
+npm error dest /sessions/sweet-confident-babbage/mnt/fairclaimcalculator.com/web-next/node_modules/.acorn-zaoHcIVq
+npm error errno -39
+npm error ENOTEMPTY: directory not empty, rename '/sessions/sweet-confident-babbage/mnt/fairclaimcalculator.com/web-next/node_modules/acorn' -> '/sessions/sweet-confident-babbage/mnt/fairclaimcalculator.com/web-next/node_modules/.acorn-zaoHcIVq'
+npm error A complete log of this run can be found in: /sessions/sweet-confident-babbage/.npm/_logs/2026-07-20T10_52_56_998Z-debug-0.log
