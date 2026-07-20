@@ -32,7 +32,7 @@ export function Cta() {
                 </Link>
               </Button>
               <Button asChild variant="secondary" size="lg">
-                <Link href="/#how-it-works">View Demo</Link>
+                <Link href="/#live-demo">View Demo</Link>
               </Button>
             </div>
           </div>

@@ -68,7 +68,7 @@ export function Hero() {
               </Link>
             </Button>
             <Button asChild variant="ghost" size="lg">
-              <Link href="/#how-it-works">
+              <Link href="/#live-demo">
                 <PlayCircle size={18} />
                 View Demo
               </Link>
