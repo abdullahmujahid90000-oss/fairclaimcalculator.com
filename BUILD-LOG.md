@@ -71,7 +71,7 @@ Each queue item = one session's worth of work unless noted. Pages must clear
 ### Phase 3 — core tools (build in this order per doc §10.2/§16)
 - [x] **Q3.** Tool 3 — Settlement Check Breakdown (`/settlement-check-breakdown/`) — **shipped 2026-07-19.**
 - [x] **Q4.** Tool 2 — Total-Loss / ACV Offer Audit (`/total-loss-offer-calculator/`) — flagship. **Shipped 2026-07-19.**
-- [ ] **Q5.** Tool 4 — Evidence Packet & Claim Letter Builder (`/claim-letter-builder/`)
+- [x] **Q5.** Tool 4 — Evidence Packet & Claim Letter Builder (`/claim-letter-builder/`) — **shipped 2026-07-19.**
 - [ ] **Q6.** Tool 1 — Diminished Value Baseline & Market Evidence Worksheet (`/diminished-value-calculator/`)
 - [ ] **Q7.** Tool 5 — Next-Step Decision Guide (folded into `/check-my-offer/` flow)
 - [ ] **Q8.** `/check-my-offer/` flagship hub tying the audit modules together
@@ -198,6 +198,44 @@ unchecked item.
   needed before Search Console / real indexing can happen.
 - Next session starts **Q5 — Tool 4: Evidence Packet & Claim Letter
   Builder.**
+
+### Session 5 — 2026-07-19 (same day, continued)
+- Confirmed with user: repo is directly connected to GitHub (this chat's
+  file edits land in the real local repo), and Google Search Console is
+  already attached/indexing. Committed all Session 3+4 work with a real
+  message (`729310a`) — **note: `git push` fails from this sandbox (no
+  stored credentials)**; the user's own sync/push process needs to run
+  for anything to actually go live and get crawled. This applies to every
+  session's work, not just this one — flag it each time until confirmed
+  otherwise.
+- Built and shipped **Tool 4: Evidence Packet & Claim Letter Builder** at
+  `/claim-letter-builder/` — 6 letter modes (valuation-report request,
+  factual-correction request, comparable-vehicle reconsideration request,
+  diminished-value claim notice, adjustment-explanation request,
+  appraisal-clause request). The 7th mode in the doc — state insurance
+  department complaint — is intentionally NOT built, per the doc's own
+  rule that it requires per-state workflow verification first (none
+  exists yet). All templates are factual/calm, no threats, fake
+  deadlines, legal citations, or "bad faith" language; blank fields
+  become bracket placeholders, never "undefined" text.
+- Also includes a static evidence checklist (9 items) and local
+  print/PDF export via an isolated `#print-letter` print-CSS block (no
+  external PDF library needed) — letter output lives in a `<textarea>`
+  so there's no HTML-injection surface from user text.
+- Letter-generation engine (`js/claim-letter-builder.js`) built with the
+  same dual browser/Node pattern as Tools 2 and 3; sanity-tested via
+  `node -e`: all 6 modes produce non-empty text with correct bracket
+  placeholders when fields are blank, and correct substitution when
+  filled (verified with a filled `factual-correction` example) — no
+  "undefined" leakage in any mode.
+- All 3 live tools now cross-link each other in "More Tools" sections.
+  Nav, homepage, and `sitemap.xml` updated. Ran tag-balance, single-H1,
+  and **exact nav-link-set** consistency checks across all 10 HTML files
+  — confirmed byte-identical nav on every page, zero tag mismatches.
+- Next session starts **Q6 — Tool 1: Diminished-Value Baseline & Market
+  Evidence Worksheet** (the 17c-baseline tool — must use the verified
+  17c/Mabry framing from `PHASE-0-RESEARCH.md` §2, never presented as
+  "true diminished value").
 
 ---
 

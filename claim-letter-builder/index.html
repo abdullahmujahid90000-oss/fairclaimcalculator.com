@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claim Letter &amp; Evidence Packet Builder | FairClaimCalculator</title>
+<meta name="description" content="Generate an editable, factual letter for your auto claim — request a valuation report, dispute vehicle facts, or ask for an adjustment explanation. Free, printable, no email.">
+<link rel="canonical" href="https://www.fairclaimcalculator.com/claim-letter-builder/">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<meta property="og:site_name" content="FairClaimCalculator">
+<meta property="og:title" content="Claim Letter & Evidence Packet Builder | FairClaimCalculator">
+<meta property="og:description" content="Generate an editable, factual letter for your auto claim — request a valuation report, dispute vehicle facts, or ask for an adjustment explanation.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.fairclaimcalculator.com/claim-letter-builder/">
+<meta property="og:image" content="https://www.fairclaimcalculator.com/images/og-default.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claim Letter & Evidence Packet Builder | FairClaimCalculator">
+<meta name="twitter:image" content="https://www.fairclaimcalculator.com/images/og-default.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.fairclaimcalculator.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Claim Letter & Evidence Packet Builder", "item": "https://www.fairclaimcalculator.com/claim-letter-builder/" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Will this letter guarantee a better offer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It's a factual, calm request or notice — not a legal filing and not a negotiation tactic. It does not include threats, fake deadlines, or legal citations, and it doesn't guarantee any particular response or outcome."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to fill in every field?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Any field you leave blank is replaced with a bracketed placeholder like [Insurer Name] so you can fill it in yourself before sending. The letter is fully editable in the text box before you copy, print, or save it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this send the letter for me or store what I write?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Nothing you type is sent to a server. The letter is generated and edited entirely in your browser, and it's your responsibility to review, personalize, and send it yourself."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo">FairClaim<span>Calculator</span></a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/settlement-check-breakdown/">Settlement Breakdown</a></li>
+        <li><a href="/total-loss-offer-calculator/">Total-Loss Offer Audit</a></li>
+        <li><a href="/claim-letter-builder/">Letter Builder</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <p style="font-size:0.85rem; color:var(--color-text-muted); margin:0 0 8px;"><a href="/" style="color:inherit;">Home</a> / Claim Letter Builder</p>
+    <h1>Build a Factual Claim Letter and Evidence Checklist</h1>
+    <p class="lead">Pick what you need to ask for, fill in what you know, and get an editable, factual letter draft — plus a checklist of evidence worth gathering before you send anything.</p>
+    <div class="trust-badges">
+      <span>🔒 Free — nothing you type is sent anywhere</span>
+      <span>✏️ Fully editable before you send it</span>
+      <span>🖨️ Print or save as a local PDF</span>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="container">
+
+    <div class="calc-card">
+      <h2>Choose a Letter and Fill In the Details</h2>
+      <form id="claim-letter-form">
+        <div class="form-grid">
+          <div class="field">
+            <label for="letterMode">What do you need to ask for?</label>
+            <select id="letterMode" name="letterMode">
+              <option value="valuation-report">Request for Complete Valuation Report</option>
+              <option value="factual-correction">Factual Correction Request</option>
+              <option value="comparable-reconsideration">Comparable-Vehicle Reconsideration Request</option>
+              <option value="dv-notice">Diminished-Value Claim Notice</option>
+              <option value="adjustment-explanation">Request for Written Explanation of Adjustment</option>
+              <option value="appraisal-clause">Request for Policy Appraisal-Clause Language</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="yourName">Your name</label>
+            <input type="text" id="yourName" name="yourName" placeholder="Optional — leave blank for a placeholder">
+          </div>
+          <div class="field">
+            <label for="insurerName">Insurer name</label>
+            <input type="text" id="insurerName" name="insurerName" placeholder="e.g. Acme Mutual Insurance">
+          </div>
+          <div class="field">
+            <label for="adjusterName">Adjuster name</label>
+            <input type="text" id="adjusterName" name="adjusterName" placeholder="Optional">
+          </div>
+          <div class="field">
+            <label for="claimNumber">Claim number</label>
+            <input type="text" id="claimNumber" name="claimNumber" placeholder="Optional">
+          </div>
+          <div class="field">
+            <label for="vehicleDesc">Vehicle</label>
+            <input type="text" id="vehicleDesc" name="vehicleDesc" placeholder="e.g. 2019 Honda Accord EX-L">
+          </div>
+          <div class="field">
+            <label for="dateOfLoss">Date of loss</label>
+            <input type="text" id="dateOfLoss" name="dateOfLoss" placeholder="Optional">
+          </div>
+          <div class="field">
+            <label for="letterDate">Letter date</label>
+            <input type="text" id="letterDate" name="letterDate" placeholder="Defaults to today">
+          </div>
+        </div>
+
+        <div class="field" data-field-group="factual-correction" style="display:none;">
+          <label for="correctionDetails">What's incorrect, and what should it say instead?</label>
+          <textarea id="correctionDetails" name="correctionDetails" rows="3" style="width:100%; padding:12px; border:1px solid var(--color-border); border-radius:6px; font-family:inherit; font-size:1rem;"></textarea>
+        </div>
+
+        <div class="field" data-field-group="comparable-reconsideration" style="display:none;">
+          <label for="comparablesDetails">Comparable vehicles you'd like considered</label>
+          <textarea id="comparablesDetails" name="comparablesDetails" rows="3" style="width:100%; padding:12px; border:1px solid var(--color-border); border-radius:6px; font-family:inherit; font-size:1rem;" placeholder="Paste details from your Total-Loss Offer Audit comps, if you've run it."></textarea>
+        </div>
+
+        <div class="field" data-field-group="dv-notice" style="display:none;">
+          <label for="repairSummary">Brief repair summary</label>
+          <textarea id="repairSummary" name="repairSummary" rows="2" style="width:100%; padding:12px; border:1px solid var(--color-border); border-radius:6px; font-family:inherit; font-size:1rem; margin-bottom:12px;"></textarea>
+          <label for="dvBasis">Why you believe diminished value applies</label>
+          <textarea id="dvBasis" name="dvBasis" rows="2" style="width:100%; padding:12px; border:1px solid var(--color-border); border-radius:6px; font-family:inherit; font-size:1rem;"></textarea>
+        </div>
+
+        <div class="field" data-field-group="adjustment-explanation" style="display:none;">
+          <label for="adjustmentDetails">Which adjustment(s) do you want explained?</label>
+          <textarea id="adjustmentDetails" name="adjustmentDetails" rows="3" style="width:100%; padding:12px; border:1px solid var(--color-border); border-radius:6px; font-family:inherit; font-size:1rem;"></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top:18px;">Generate Letter</button>
+      </form>
+
+      <div class="result-box" id="claim-letter-result">
+        <h3>Your Letter Draft</h3>
+        <p class="section-note">This is fully editable — review it, fill in any bracketed placeholders, and change anything before sending.</p>
+        <textarea id="letter-output" class="letter-output"></textarea>
+        <div class="letter-actions">
+          <button type="button" id="copy-letter-btn" class="primary">Copy Letter</button>
+          <button type="button" id="print-letter-btn">Print / Save as PDF</button>
+        </div>
+        <p id="copy-confirm" style="display:none; color:var(--color-primary-dark); font-size:0.85rem; margin-top:8px;">Copied to clipboard.</p>
+      </div>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Before you send anything:</strong>
+      Verify every name, date, figure, recipient, and attachment yourself. This tool generates a factual draft only — it is not legal advice, does not include legal citations or deadlines, and does not guarantee any particular response.
+    </div>
+
+    <div class="calc-card">
+      <h2>Evidence Checklist</h2>
+      <p class="section-note">A general starting list — not every item applies to every claim.</p>
+      <ul class="checklist-list">
+        <li><input type="checkbox" id="ck1"><label for="ck1">Insurer's complete written valuation or repair estimate</label></li>
+        <li><input type="checkbox" id="ck2"><label for="ck2">Photos of the vehicle before and after the loss, if available</label></li>
+        <li><input type="checkbox" id="ck3"><label for="ck3">Repair invoice or itemized repair order</label></li>
+        <li><input type="checkbox" id="ck4"><label for="ck4">Comparable vehicle listings you've collected (with source, date checked, and price)</label></li>
+        <li><input type="checkbox" id="ck5"><label for="ck5">Maintenance records or upgrade receipts showing the vehicle's condition</label></li>
+        <li><input type="checkbox" id="ck6"><label for="ck6">Loan or lease payoff statement, if applicable</label></li>
+        <li><input type="checkbox" id="ck7"><label for="ck7">GAP coverage certificate, if applicable</label></li>
+        <li><input type="checkbox" id="ck8"><label for="ck8">Copy of the relevant policy pages, including any appraisal-clause language</label></li>
+        <li><input type="checkbox" id="ck9"><label for="ck9">A dated log of calls/emails with the insurer, including who you spoke with</label></li>
+      </ul>
+    </div>
+
+    <article class="explainer">
+      <h2>How to Use Each Letter Mode</h2>
+      <p>Each mode is meant for a specific, narrow ask — not a general complaint. A <strong>valuation report request</strong> is usually the right first step any time you've only been given a summary or a verbal number: you're entitled to see the actual report before you can meaningfully evaluate it. A <strong>factual correction request</strong> only makes sense once you've actually reviewed that report and found something concrete and specific — a wrong trim, wrong mileage, a missing option package — not a general feeling that the number is too low. A <strong>comparable-vehicle reconsideration request</strong> works well after you've gathered your own comps (the <a href="/total-loss-offer-calculator/">Total-Loss Offer Audit</a> tool helps organize these). A <strong>diminished-value claim notice</strong> is for repaired vehicles, not total losses, and should only reference facts you can support. A <strong>request for written explanation of adjustment</strong> is useful when a specific line item — like a "typical negotiation" deduction — isn't explained anywhere in the report. And a <strong>request for policy appraisal-clause language</strong> is a good first step before considering the formal appraisal process, since that clause's exact terms vary policy to policy.</p>
+
+      <div class="example-box">
+        <strong>Example:</strong> After running the Total-Loss Offer Audit, an owner finds the insurer's report shows a comparable listing that's actually a stale, already-sold listing three counties away. Rather than writing a general complaint, they use the Comparable-Vehicle Reconsideration Request mode, describe the specific comps they found instead — three active listings within 25 miles, same trim and mileage band — and ask, in writing, for a response.
+      </div>
+    </article>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <h3>Will this letter guarantee a better offer?</h3>
+        <p>No. It's a factual, calm request or notice — not a legal filing and not a negotiation tactic. It does not include threats, fake deadlines, or legal citations, and it doesn't guarantee any particular response or outcome.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Do I need to fill in every field?</h3>
+        <p>No. Any field you leave blank is replaced with a bracketed placeholder like [Insurer Name] so you can fill it in yourself before sending. The letter is fully editable in the text box before you copy, print, or save it.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Does this send the letter for me or store what I write?</h3>
+        <p>No. Nothing you type is sent to a server. The letter is generated and edited entirely in your browser, and it's your responsibility to review, personalize, and send it yourself.</p>
+      </div>
+    </div>
+
+    <h2>More Tools</h2>
+    <div class="related-tools">
+      <a href="/total-loss-offer-calculator/">Total-Loss Offer Audit →</a>
+      <a href="/settlement-check-breakdown/">Settlement Check Breakdown →</a>
+      <a href="/">Back to Home →</a>
+    </div>
+    <p style="font-size:0.82rem; color:var(--color-text-muted);">Letter templates version 1.0 — last reviewed July 2026.</p>
+
+    <div class="author-bio">
+      <div class="avatar">DB</div>
+      <div>
+        <h4>Reviewed by the FairClaimCalculator Editorial Team</h4>
+        <p>Every letter template is factual and non-accusatory by design — no legal citations, threats, or fake deadlines. We are not a law firm, insurer, or appraisal company. Read more on our <a href="/about.html">About page</a>.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/terms-of-service.html">Terms of Service</a>
+      <a href="/disclaimer.html">Legal Disclaimer</a>
+    </div>
+    <p>&copy; 2026 FairClaimCalculator.com. This website provides free educational tools only and is not a law firm, insurer, or appraisal company. No attorney-client relationship is formed by using this site.</p>
+  </div>
+</footer>
+
+<div id="cookie-consent-banner">
+  <div class="cookie-inner">
+    <p>We use cookies for essential site function and, with your consent, to show relevant ads that keep this tool free. See our <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+    <div class="cookie-actions">
+      <button id="cookie-reject">Reject non-essential</button>
+      <button id="cookie-accept">Accept</button>
+    </div>
+  </div>
+</div>
+
+<div id="print-letter" aria-hidden="true"></div>
+
+<script src="/js/claim-letter-builder.js"></script>
+<script src="/js/main.js"></script>
+<script>
+  (function () {
+    var form = document.getElementById("claim-letter-form");
+    var resultBox = document.getElementById("claim-letter-result");
+    var output = document.getElementById("letter-output");
+    var modeSelect = document.getElementById("letterMode");
+    var groups = document.querySelectorAll("[data-field-group]");
+
+    function syncVisibility() {
+      var mode = modeSelect.value;
+      groups.forEach(function (g) {
+        g.style.display = g.getAttribute("data-field-group") === mode ? "" : "none";
+      });
+    }
+    modeSelect.addEventListener("change", syncVisibility);
+    syncVisibility();
+
+    // Default the letter date to today, editable by the user.
+    document.getElementById("letterDate").value = FairClaim.today();
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var fields = {
+        yourName: form.yourName.value,
+        insurerName: form.insurerName.value,
+        adjusterName: form.adjusterName.value,
+        claimNumber: form.claimNumber.value,
+        vehicleDesc: form.vehicleDesc.value,
+        dateOfLoss: form.dateOfLoss.value,
+        letterDate: form.letterDate.value,
+        correctionDetails: form.correctionDetails ? form.correctionDetails.value : "",
+        comparablesDetails: form.comparablesDetails ? form.comparablesDetails.value : "",
+        repairSummary: form.repairSummary ? form.repairSummary.value : "",
+        dvBasis: form.dvBasis ? form.dvBasis.value : "",
+        adjustmentDetails: form.adjustmentDetails ? form.adjustmentDetails.value : ""
+      };
+      output.value = FairClaim.generateLetter(modeSelect.value, fields);
+      resultBox.classList.add("visible");
+      resultBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    document.getElementById("copy-letter-btn").addEventListener("click", function () {
+      var confirmEl = document.getElementById("copy-confirm");
+      function showConfirm() {
+        confirmEl.style.display = "";
+        setTimeout(function () { confirmEl.style.display = "none"; }, 2500);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(output.value).then(showConfirm, function () {
+          output.select();
+          document.execCommand("copy");
+          showConfirm();
+        });
+      } else {
+        output.select();
+        document.execCommand("copy");
+        showConfirm();
+      }
+    });
+
+    document.getElementById("print-letter-btn").addEventListener("click", function () {
+      document.getElementById("print-letter").textContent = output.value;
+      window.print();
+    });
+  })();
+</script>
+
+</body>
+</html>
