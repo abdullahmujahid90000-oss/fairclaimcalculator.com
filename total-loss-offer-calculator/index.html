@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Total-Loss Offer Calculator &amp; ACV Audit | FairClaimCalculator</title>
+<meta name="description" content="Audit your total-loss offer field by field — check the valuation report facts, compare the insurer's comps to your own, and see the arithmetic. Free, no email.">
+<link rel="canonical" href="https://www.fairclaimcalculator.com/total-loss-offer-calculator/">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<meta property="og:site_name" content="FairClaimCalculator">
+<meta property="og:title" content="Total-Loss Offer Calculator & ACV Audit | FairClaimCalculator">
+<meta property="og:description" content="Audit your total-loss offer field by field — check the valuation report facts, compare the insurer's comps to your own, and see the arithmetic.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.fairclaimcalculator.com/total-loss-offer-calculator/">
+<meta property="og:image" content="https://www.fairclaimcalculator.com/images/og-default.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Total-Loss Offer Calculator & ACV Audit | FairClaimCalculator">
+<meta name="twitter:image" content="https://www.fairclaimcalculator.com/images/og-default.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.fairclaimcalculator.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Total-Loss Offer Calculator", "item": "https://www.fairclaimcalculator.com/total-loss-offer-calculator/" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does this tool tell me the correct ACV for my vehicle?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It compares the insurer's own comparables and your comparables transparently — mean, median, and range for each set — without asserting a single legally correct actual cash value. That determination depends on your state, policy, and facts."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as a 'possible mismatch'?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Any valuation-report field you mark as incorrect, unknown, or not shown in the report. The tool doesn't accuse the insurer of an error — it flags the item as worth verifying before you accept the offer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the outlier check work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Any comparable vehicle priced more than 20% away from the median of its group is flagged as a possible outlier. This is a simple, disclosed heuristic for your own review — not a recognized legal or statistical standard."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo">FairClaim<span>Calculator</span></a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/settlement-check-breakdown/">Settlement Breakdown</a></li>
+        <li><a href="/total-loss-offer-calculator/">Total-Loss Offer Audit</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <p style="font-size:0.85rem; color:var(--color-text-muted); margin:0 0 8px;"><a href="/" style="color:inherit;">Home</a> / Total-Loss Offer Calculator</p>
+    <h1>Audit Your Total-Loss Vehicle Valuation</h1>
+    <p class="lead">Check the facts in the insurer's valuation report, enter your own comparable vehicles, and see exactly how the numbers compare — mean, median, range, and any outliers — before you decide what to do next.</p>
+    <div class="trust-badges">
+      <span>🔒 Free — no email or account required</span>
+      <span>🧮 Transparent math, no hidden weights</span>
+      <span>🚫 Doesn't determine what you're legally owed</span>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="container">
+
+    <div class="calc-card">
+      <h2>Run Your Offer Audit</h2>
+      <form id="total-loss-audit-form">
+
+        <h3 class="section-heading">1. Claim Basics</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="claimType">Claim type</label>
+            <select id="claimType" name="claimType">
+              <option value="third-party">Another driver's insurer (third-party)</option>
+              <option value="first-party">My own insurer (first-party)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="acv">Insurer's stated ACV / base value ($)</label>
+            <input type="number" id="acv" name="acv" min="0" step="1" placeholder="e.g. 18500" required>
+            <span class="hint">The number the insurer's valuation report lands on before deductions.</span>
+          </div>
+        </div>
+
+        <h3 class="section-heading">2. Check the Valuation Report Facts</h3>
+        <p class="section-note">For each item, mark what you actually know. "Incorrect," "unknown," and "not shown" all get flagged below as worth verifying — this isn't an accusation, just a checklist.</p>
+        <div class="audit-table-wrap">
+          <table class="audit-table">
+            <thead>
+              <tr><th scope="col">Report field</th><th scope="col" style="width:38%;">Your assessment</th></tr>
+            </thead>
+            <tbody id="mismatch-fields-body"></tbody>
+          </table>
+        </div>
+
+        <h3 class="section-heading">3. Insurer's Comparable Vehicles (up to 4)</h3>
+        <p class="section-note">Enter the insurer's own comps from the valuation report, using the adjusted value shown for each.</p>
+        <div class="audit-table-wrap">
+          <table class="audit-table">
+            <thead>
+              <tr><th scope="col">#</th><th scope="col">Year</th><th scope="col">Mileage</th><th scope="col">Distance (mi)</th><th scope="col">Adjusted value ($)</th></tr>
+            </thead>
+            <tbody id="insurer-comps-body"></tbody>
+          </table>
+        </div>
+
+        <h3 class="section-heading">4. Your Own Comparable Vehicles (up to 6)</h3>
+        <p class="section-note">Vehicles you've found yourself — dealer or private-party listings, as close to your vehicle's year/trim/mileage/condition as possible.</p>
+        <div class="audit-table-wrap">
+          <table class="audit-table">
+            <thead>
+              <tr><th scope="col">#</th><th scope="col">Year</th><th scope="col">Mileage</th><th scope="col">Distance (mi)</th><th scope="col">Asking price ($)</th></tr>
+            </thead>
+            <tbody id="user-comps-body"></tbody>
+          </table>
+        </div>
+
+        <div data-field-errors class="disclaimer-box" style="display:none;"></div>
+
+        <button type="submit" class="btn-primary">Run My Audit</button>
+      </form>
+
+      <div class="result-box" id="total-loss-audit-result">
+        <h3>Your Audit Results</h3>
+        <div class="range">—</div>
+
+        <h4 style="margin-bottom:6px;">Possible Mismatches to Verify</h4>
+        <div data-mismatches></div>
+
+        <h4 style="margin:16px 0 6px;">Insurer's Comparable Vehicles</h4>
+        <div data-insurer-stats></div>
+
+        <h4 style="margin:16px 0 6px;">Your Comparable Vehicles</h4>
+        <div data-user-stats></div>
+
+        <h4 style="margin:16px 0 6px;">Consistency Flags</h4>
+        <div data-flags></div>
+      </div>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Educational tool, not legal advice or a professional appraisal.</strong>
+      This tool organizes facts and arithmetic; it does not determine fault, interpret your policy, or assert a legally correct ACV. See our <a href="/disclaimer.html">full disclaimer</a>.
+    </div>
+
+    <article class="explainer">
+      <h2>ACV vs. Replacement Cost, Asking Price, and Loan Balance</h2>
+      <p>These four numbers are often confused, and insurers, owners, and lenders are usually talking about different ones. <strong>Actual cash value (ACV)</strong> is the insurer's estimate of what your vehicle was worth immediately before the loss — not what it would cost to replace it new. <strong>Replacement cost</strong> would be the price of a comparable-or-better vehicle today, which is almost always higher than ACV for anything but a nearly-new vehicle, and standard auto policies pay ACV, not replacement cost, unless you specifically carry a replacement-cost endorsement. <strong>Asking price</strong> is simply what a comparable vehicle is listed for — not necessarily what it will actually sell for, since listings are routinely negotiated down. <strong>Loan balance</strong> is what you owe your lender and has no legal relationship to what your vehicle was worth — a car can easily be worth less than its payoff amount, which is exactly the scenario GAP coverage exists for. Confusing any of these with each other is one of the most common reasons a total-loss settlement feels wrong when it may actually be internally consistent — or vice versa.</p>
+
+      <h2>Why Comps Diverge, and What the Numbers Above Actually Mean</h2>
+      <p>No two comparable-vehicle sets will ever match perfectly, and a spread between the insurer's comps and yours doesn't automatically mean either side is wrong. The <strong>median</strong> (the middle value when comps are sorted) is generally more resistant to a single unusually high or low listing than the <strong>mean</strong> (the simple average), which is why this tool shows both side by side rather than picking one. The <strong>outlier flag</strong> above uses a simple, disclosed rule — any comp more than 20% from its group's median — purely so you can see how much a single unusual listing is pulling the average around, not as a professional appraisal standard.</p>
+
+      <div class="example-box">
+        <strong>Example:</strong> An insurer's four comps come out to a median of $15,200 and a mean of $16,800 — the mean is pulled up by one $22,000 outlier comp that's 45% above the median. The owner's own three comps median at $17,100. The insurer's stated ACV is $14,500 — below the low end of its own comp range. That's exactly the kind of internal-consistency flag this tool is built to surface: not proof of anything, but a specific, concrete question to bring to the adjuster.
+      </div>
+    </article>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <h3>Does this tool tell me the correct ACV for my vehicle?</h3>
+        <p>No. It compares the insurer's own comparables and your comparables transparently — mean, median, and range for each set — without asserting a single legally correct actual cash value. That determination depends on your state, policy, and facts.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What counts as a "possible mismatch"?</h3>
+        <p>Any valuation-report field you mark as incorrect, unknown, or not shown in the report. The tool doesn't accuse the insurer of an error — it flags the item as worth verifying before you accept the offer.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How does the outlier check work?</h3>
+        <p>Any comparable vehicle priced more than 20% away from the median of its group is flagged as a possible outlier. This is a simple, disclosed heuristic for your own review — not a recognized legal or statistical standard.</p>
+      </div>
+    </div>
+
+    <h2>More Tools</h2>
+    <div class="related-tools">
+      <a href="/settlement-check-breakdown/">Settlement Check Breakdown →</a>
+      <a href="/">Back to Home →</a>
+      <a href="/about.html">About This Site →</a>
+    </div>
+    <p style="font-size:0.82rem; color:var(--color-text-muted);">Calculation logic version 1.0 — last reviewed July 2026.</p>
+
+    <div class="author-bio">
+      <div class="avatar">DB</div>
+      <div>
+        <h4>Reviewed by the FairClaimCalculator Editorial Team</h4>
+        <p>This tool's logic — including the outlier threshold — is documented in the open above, not hidden. We are not a law firm, insurer, or appraisal company. Read more on our <a href="/about.html">About page</a>.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/terms-of-service.html">Terms of Service</a>
+      <a href="/disclaimer.html">Legal Disclaimer</a>
+    </div>
+    <p>&copy; 2026 FairClaimCalculator.com. This website provides free educational tools only and is not a law firm, insurer, or appraisal company. No attorney-client relationship is formed by using this site.</p>
+  </div>
+</footer>
+
+<div id="cookie-consent-banner">
+  <div class="cookie-inner">
+    <p>We use cookies for essential site function and, with your consent, to show relevant ads that keep this tool free. See our <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+    <div class="cookie-actions">
+      <button id="cookie-reject">Reject non-essential</button>
+      <button id="cookie-accept">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/total-loss-audit.js"></script>
+<script src="/js/main.js"></script>
+<script>
+  (function () {
+    var statusOptions = [
+      ["correct", "Correct"],
+      ["incorrect", "Incorrect"],
+      ["unknown", "Not sure"],
+      ["not_shown", "Not shown in report"]
+    ];
+
+    var mismatchBody = document.getElementById("mismatch-fields-body");
+    FairClaim.MISMATCH_FIELDS.forEach(function (f) {
+      var tr = document.createElement("tr");
+      var tdLabel = document.createElement("td");
+      tdLabel.textContent = f.label;
+      var tdSelect = document.createElement("td");
+      var select = document.createElement("select");
+      select.name = "status_" + f.key;
+      select.id = "status_" + f.key;
+      statusOptions.forEach(function (opt) {
+        var o = document.createElement("option");
+        o.value = opt[0];
+        o.textContent = opt[1];
+        select.appendChild(o);
+      });
+      tdSelect.appendChild(select);
+      tr.appendChild(tdLabel);
+      tr.appendChild(tdSelect);
+      mismatchBody.appendChild(tr);
+    });
+
+    function buildCompRow(prefix, index, fields) {
+      var tr = document.createElement("tr");
+      var tdNum = document.createElement("td");
+      tdNum.textContent = "#" + index;
+      tr.appendChild(tdNum);
+      fields.forEach(function (f) {
+        var td = document.createElement("td");
+        var input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.step = "1";
+        input.id = prefix + index + "-" + f;
+        input.name = prefix + index + "-" + f;
+        input.placeholder = "";
+        td.appendChild(input);
+        tr.appendChild(td);
+      });
+      return tr;
+    }
+
+    var insurerBody = document.getElementById("insurer-comps-body");
+    for (var i = 1; i <= 4; i++) {
+      insurerBody.appendChild(buildCompRow("insurer", i, ["year", "mileage", "distance", "value"]));
+    }
+
+    var userBody = document.getElementById("user-comps-body");
+    for (var j = 1; j <= 6; j++) {
+      userBody.appendChild(buildCompRow("user", j, ["year", "mileage", "distance", "price"]));
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      FairClaim.initTotalLossAuditForm("total-loss-audit-form", "total-loss-audit-result");
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -70,7 +70,7 @@ Each queue item = one session's worth of work unless noted. Pages must clear
 
 ### Phase 3 — core tools (build in this order per doc §10.2/§16)
 - [x] **Q3.** Tool 3 — Settlement Check Breakdown (`/settlement-check-breakdown/`) — **shipped 2026-07-19.**
-- [ ] **Q4.** Tool 2 — Total-Loss / ACV Offer Audit (`/total-loss-offer-calculator/`) — flagship
+- [x] **Q4.** Tool 2 — Total-Loss / ACV Offer Audit (`/total-loss-offer-calculator/`) — flagship. **Shipped 2026-07-19.**
 - [ ] **Q5.** Tool 4 — Evidence Packet & Claim Letter Builder (`/claim-letter-builder/`)
 - [ ] **Q6.** Tool 1 — Diminished Value Baseline & Market Evidence Worksheet (`/diminished-value-calculator/`)
 - [ ] **Q7.** Tool 5 — Next-Step Decision Guide (folded into `/check-my-offer/` flow)
@@ -164,6 +164,40 @@ unchecked item.
   something only the user can confirm; asked in this session's reply.
 - Next session starts **Q4 — Tool 2: Total-Loss / ACV Offer Audit**
   (flagship tool).
+
+### Session 4 — 2026-07-19 (same day, continued)
+- Built and shipped **Tool 2: Total-Loss / ACV Offer Audit** (flagship) at
+  `/total-loss-offer-calculator/` — implements Modules A-C from master
+  prompt §3.3: claim basics, a 10-field valuation-report mismatch
+  checklist (correct/incorrect/unknown/not-shown → "possible mismatch to
+  verify," never an accusation), insurer comps (up to 4) vs. user comps
+  (up to 6, meeting the doc's "at least six" for the user's own set), and
+  an internal-consistency engine: mean/median/range for each comp set, a
+  disclosed 20%-from-median outlier flag, ACV-vs-insurer's-own-range check,
+  and ACV-vs-user-comp-median gap.
+- Calculation engine (`js/total-loss-audit.js`) built with the same
+  dual browser/Node pattern as Tool 3, sanity-tested via `node -e` before
+  shipping: mismatch evaluation, comp stats (mean/median/min/max),
+  outlier detection + before/after exclusion, empty-comps handling
+  (returns null, no crash), and ACV-outside-range / ACV-vs-user-gap
+  flagging — all verified correct.
+- **Scoping note, logged honestly rather than silently skipped:** the
+  master prompt's Module C also mentions a "weighted evidence-quality
+  score" based on completeness/similarity. This build implements
+  mean/median/range/outlier handling (which is what §4.2's own Tool 2
+  requirements list explicitly asks for) but not a separate numeric
+  quality score. Candidate for a later polish pass if wanted — not
+  currently on the queue below, add it back in if desired.
+- Added new nav item ("Total-Loss Offer Audit") across all 9 pages.
+  Updated homepage: totaled-car scenario card and "what's coming" list
+  now link the live tool. Cross-linked the two live tools to each other
+  (no orphan pages). Added the URL to `sitemap.xml`. Ran tag-balance,
+  single-H1, and nav-consistency checks across all 9 HTML files — clean.
+- Still not deployed to a live host — repo-only. Not yet resolved: how
+  this site is actually hosted (asked in session 3, not yet answered) —
+  needed before Search Console / real indexing can happen.
+- Next session starts **Q5 — Tool 4: Evidence Packet & Claim Letter
+  Builder.**
 
 ---
 
