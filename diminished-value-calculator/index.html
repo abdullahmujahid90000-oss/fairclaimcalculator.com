@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diminished Value Calculator: 17c Baseline &amp; Market Evidence | FairClaimCalculator</title>
+<meta name="description" content="Estimate a transparent 17c-style diminished-value baseline and build a separate market-evidence worksheet side by side — never averaged into one number. Free, no email.">
+<link rel="canonical" href="https://www.fairclaimcalculator.com/diminished-value-calculator/">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<meta property="og:site_name" content="FairClaimCalculator">
+<meta property="og:title" content="Diminished Value Calculator: 17c Baseline & Market Evidence | FairClaimCalculator">
+<meta property="og:description" content="Estimate a transparent 17c-style diminished-value baseline and build a separate market-evidence worksheet side by side — never averaged into one number.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.fairclaimcalculator.com/diminished-value-calculator/">
+<meta property="og:image" content="https://www.fairclaimcalculator.com/images/og-default.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Diminished Value Calculator: 17c Baseline & Market Evidence | FairClaimCalculator">
+<meta name="twitter:image" content="https://www.fairclaimcalculator.com/images/og-default.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.fairclaimcalculator.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Diminished Value Calculator", "item": "https://www.fairclaimcalculator.com/diminished-value-calculator/" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is the 17c result my vehicle's true diminished value?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The 17c calculation is a commonly-used insurer-style baseline that traces back to a 2002 Georgia class-settlement order, not a nationwide legal standard. Georgia's own insurance regulator has stated no formula was ever approved as determinative. This tool shows it as one labeled reference point, next to — never averaged with — real market evidence."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why are the 17c baseline and the market evidence worksheet shown separately?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Averaging a formula result with real comparable-sale evidence would create a number with no clear meaning — it wouldn't be the formula's answer or the market's answer. Keeping them separate lets you see both and decide for yourself which is more persuasive for your situation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I don't have any comparable vehicles yet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The worksheet will tell you so plainly instead of inventing a market range. It shows exactly what to collect: similar year/make/model/trim and mileage, in your local market, split into a clean-history group and an accident-history group."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="logo">FairClaim<span>Calculator</span></a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/settlement-check-breakdown/">Settlement Breakdown</a></li>
+        <li><a href="/total-loss-offer-calculator/">Total-Loss Offer Audit</a></li>
+        <li><a href="/diminished-value-calculator/">DV Baseline</a></li>
+        <li><a href="/claim-letter-builder/">Letter Builder</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <p style="font-size:0.85rem; color:var(--color-text-muted); margin:0 0 8px;"><a href="/" style="color:inherit;">Home</a> / Diminished Value Calculator</p>
+    <h1>Estimate a Diminished-Value Baseline: 17c Formula &amp; Market Evidence</h1>
+    <p class="lead">See a transparent, insurer-style "17c" baseline with every number shown — and build a separate market-evidence worksheet from real comparable vehicles. The two are never averaged into one "correct" figure.</p>
+    <div class="trust-badges">
+      <span>🔒 Free — no email or account required</span>
+      <span>🧮 Full formula shown, no hidden multipliers</span>
+      <span>🚫 Not "true" diminished value — a labeled comparison only</span>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="container">
+
+    <div class="calc-card">
+      <h2>Build Your Baseline &amp; Worksheet</h2>
+      <form id="dv-baseline-form">
+
+        <h3 class="section-heading">1. Vehicle Value &amp; Damage</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="preAccidentValue">Pre-accident value ($)</label>
+            <input type="number" id="preAccidentValue" name="preAccidentValue" min="0" step="1" placeholder="e.g. 25000" required>
+            <span class="hint">Your best documented estimate of what the vehicle was worth immediately before the loss.</span>
+          </div>
+          <div class="field">
+            <label for="valueSource">Where this value came from</label>
+            <select id="valueSource" name="valueSource">
+              <option value="">Select a source</option>
+              <option value="NADA/J.D. Power guide value">NADA / J.D. Power guide value</option>
+              <option value="KBB guide value">KBB guide value</option>
+              <option value="Insurer's stated pre-loss value">Insurer's stated pre-loss value</option>
+              <option value="Independent appraisal">Independent appraisal</option>
+              <option value="Recent comparable sale/purchase price">Recent comparable sale / purchase price</option>
+              <option value="Other/estimate">Other / my own estimate</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mileage">Mileage at time of loss</label>
+            <input type="number" id="mileage" name="mileage" min="0" step="1" placeholder="e.g. 45000" required>
+          </div>
+          <div class="field">
+            <label for="damageCategory">Damage category</label>
+            <select id="damageCategory" name="damageCategory" required>
+              <option value="">Select a category</option>
+              <option value="severe">Severe — structural or frame damage</option>
+              <option value="major">Major — structural work plus multiple panels replaced</option>
+              <option value="moderate">Moderate — some structural work and panel replacement</option>
+              <option value="minor">Minor — panel damage only, no structural involvement</option>
+              <option value="none">Cosmetic only — fully repaired, no structural damage</option>
+            </select>
+            <span class="hint">This drives the damage-severity modifier in the 17c-style calculation below.</span>
+          </div>
+        </div>
+
+        <h3 class="section-heading">2. Claim Context (for your records — not part of the arithmetic)</h3>
+        <p class="section-note">These details don't have a verified numeric weight in the public 17c formula, so this tool records them as context for your letter and evidence packet rather than folding them into the calculation silently.</p>
+        <div class="form-grid">
+          <div class="field">
+            <label for="structural">Structural/frame damage confirmed?</label>
+            <select id="structural" name="structural">
+              <option value="unknown">Not sure</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="airbag">Airbags deployed?</label>
+            <select id="airbag" name="airbag">
+              <option value="unknown">Not sure</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="panelCount">Panels replaced (count)</label>
+            <input type="number" id="panelCount" name="panelCount" min="0" step="1" placeholder="e.g. 3">
+          </div>
+          <div class="field">
+            <label for="priorDamage">Any prior accident/damage history?</label>
+            <select id="priorDamage" name="priorDamage">
+              <option value="unknown">Not sure</option>
+              <option value="no">No, none known</option>
+              <option value="yes">Yes, prior history exists</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="repairsComplete">Repairs complete?</label>
+            <select id="repairsComplete" name="repairsComplete">
+              <option value="yes">Yes, repairs are complete</option>
+              <option value="no">No, still in progress</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="claimState">State</label>
+            <input type="text" id="claimState" name="claimState" placeholder="e.g. Georgia">
+          </div>
+          <div class="field">
+            <label for="claimRelationship">Claim relationship</label>
+            <select id="claimRelationship" name="claimRelationship">
+              <option value="first-party">My own insurer (first-party)</option>
+              <option value="third-party">Another driver's insurer (third-party)</option>
+            </select>
+          </div>
+        </div>
+
+        <h3 class="section-heading">3. Market Evidence Worksheet (optional, recommended)</h3>
+        <p class="section-note">Enter comparable vehicles you've found yourself — same year/make/model, similar trim and mileage, similar local market. Split them into a clean-history group and an accident-history group if you can find both.</p>
+
+        <p style="font-weight:600; font-size:0.88rem; margin:14px 0 4px;">Clean-history comparables (up to 4)</p>
+        <div class="audit-table-wrap">
+          <table class="audit-table">
+            <thead><tr><th scope="col">#</th><th scope="col">Year</th><th scope="col">Mileage</th><th scope="col">Distance (mi)</th><th scope="col">Asking/sale price ($)</th></tr></thead>
+            <tbody id="clean-comps-body"></tbody>
+          </table>
+        </div>
+
+        <p style="font-weight:600; font-size:0.88rem; margin:14px 0 4px;">Accident-history comparables (up to 4)</p>
+        <div class="audit-table-wrap">
+          <table class="audit-table">
+            <thead><tr><th scope="col">#</th><th scope="col">Year</th><th scope="col">Mileage</th><th scope="col">Distance (mi)</th><th scope="col">Asking/sale price ($)</th></tr></thead>
+            <tbody id="accident-comps-body"></tbody>
+          </table>
+        </div>
+
+        <div data-field-errors class="disclaimer-box" style="display:none;"></div>
+
+        <button type="submit" class="btn-primary">Build My Baseline &amp; Worksheet</button>
+      </form>
+
+      <div class="result-box" id="dv-baseline-result">
+        <h3>Claim Context Summary</h3>
+        <p class="section-note">Recorded for your own reference and for use in the Claim Letter Builder — not run through any formula.</p>
+        <div data-context></div>
+
+        <h3 style="margin-top:26px;">The 17c Insurer-Style Baseline</h3>
+        <p class="section-note">Not "true" diminished value — see why below. Every number is shown; nothing is hidden inside a single multiplier.</p>
+        <div data-baseline></div>
+
+        <h3 style="margin-top:26px;">Market Evidence Worksheet</h3>
+        <p class="section-note">Built from the comparables you entered above, kept completely separate from the baseline.</p>
+        <div data-market></div>
+
+        <div class="disclaimer-box" style="margin-top:20px;">
+          <strong>Why we never average these two numbers.</strong>
+          The 17c baseline and the market evidence worksheet answer different questions with different methods. Averaging them would produce a number that isn't the formula's answer and isn't the market's answer — it would just look precise while meaning nothing specific. Use both as separate, labeled inputs to your own judgment or your adjuster conversation.
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Educational tool, not legal advice or a professional appraisal.</strong>
+      This tool shows a labeled formula reference and organizes market evidence you provide. It does not determine your vehicle's legally correct diminished value, interpret your policy, or replace an independent appraisal. See our <a href="/disclaimer.html">full disclaimer</a>.
+    </div>
+
+    <article class="explainer">
+      <h2>Where the 17c Formula Actually Comes From</h2>
+      <p>The 17c formula is often described as if a court simply invented "the" diminished-value formula. That's not accurate, and getting the history right matters for how much weight to give the number. In 2001, the Georgia Supreme Court held in <em>State Farm Mutual Automobile Insurance Co. v. Mabry</em>, 274 Ga. 498, 556 S.E.2d 114 (Ga. 2001), that Georgia law requires insurers to evaluate and, where applicable, pay first-party policyholders for diminished value after a covered repair — not just the repair cost itself. The Court did not hand down a specific calculation formula.</p>
+      <p>Because the underlying litigation involved a class of more than 25,000 claimants whose vehicles could not practically be individually appraised, the Superior Court of Muscogee County approved a generic formula — a 10% base-value cap adjusted by a damage-severity multiplier and a mileage multiplier — in a 2002 class-settlement order, as a practical mechanism for resolving that specific class action. It was a settlement shortcut for a mass-claims situation, not a scientifically validated method for any individual vehicle, and not authored by the Supreme Court itself.</p>
+      <p>In December 2008, Georgia's insurance regulator (the Office of Insurance and Safety Fire Commissioner, Directive 08-P&amp;C-2) stated that the Department had not approved any specific formula for calculating diminished value and that carriers should not represent to insureds that it had. Despite that, the same general calculation structure has spread well beyond Georgia and beyond the case it came from, often presented by insurers as a standard worksheet without that history attached.</p>
+      <p>This tool uses the commonly-published version of that formula — a 10% base-value cap, a damage-severity multiplier, and a mileage multiplier — because it's the version most claimants are likely to encounter on an insurer's own worksheet. It is shown here with its actual origin attached and labeled as a baseline for comparison, never as your vehicle's legally correct diminished value.</p>
+
+      <h2>How the Calculation Works, Step by Step</h2>
+      <p>The result above is built from three steps, each shown with your actual numbers substituted in:</p>
+      <p><strong>Step 1 — Base loss assumption:</strong> the pre-accident value is multiplied by a flat 10%, which becomes the maximum this baseline can ever produce, regardless of how severe the damage was.</p>
+      <p><strong>Step 2 — Damage-severity modifier:</strong> that 10%-cap figure is multiplied again by a modifier from 0.00 (cosmetic-only, no structural involvement) to 1.00 (severe structural or frame damage), reflecting how much of a resale stigma that category of damage is assumed to carry.</p>
+      <p><strong>Step 3 — Mileage modifier:</strong> the result is multiplied a third time by a mileage-based factor that steps down from 1.00 at low mileage to 0.00 at 100,000+ miles — the idea being that a high-mileage vehicle's value is already discounted, so accident history adds proportionally less additional stigma.</p>
+      <div class="example-box">
+        <strong>Worked example:</strong> A $25,000 pre-accident value, moderate damage (0.50 modifier), and 45,000 miles (0.60 modifier): $25,000 × 10% = $2,500 → $2,500 × 0.50 = $1,250 → $1,250 × 0.60 = $750 final baseline. Because the three factors are multiplied rather than added, any inaccuracy in the damage category or mileage band compounds through the whole result — which is exactly why the market evidence worksheet exists as a separate check.
+      </div>
+
+      <h2>Why the Market Evidence Worksheet Is Kept Separate</h2>
+      <p>The 17c-style baseline uses a fixed formula that doesn't know anything about your specific local market, vehicle segment, or actual buyer behavior — a national guide value multiplied by generic percentages, no matter the car. Real comparable sales — actual listings or sale prices for similar vehicles with and without disclosed accident history — reflect what buyers are actually paying right now, in your area, for a vehicle like yours. Neither method is automatically more correct: the formula is transparent and consistent but generic, while comps are specific but harder to gather reliably and can vary with how carefully they're matched. Showing both, clearly labeled, side by side, is more honest than picking one and calling it "the" answer — or worse, quietly averaging two numbers that were never meant to be combined.</p>
+    </article>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      <div class="faq-item">
+        <h3>Is the 17c result my vehicle's true diminished value?</h3>
+        <p>No. The 17c calculation is a commonly-used insurer-style baseline that traces back to a 2002 Georgia class-settlement order, not a nationwide legal standard. Georgia's own insurance regulator has stated no formula was ever approved as determinative. This tool shows it as one labeled reference point, next to — never averaged with — real market evidence.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Why are the 17c baseline and the market evidence worksheet shown separately?</h3>
+        <p>Averaging a formula result with real comparable-sale evidence would create a number with no clear meaning — it wouldn't be the formula's answer or the market's answer. Keeping them separate lets you see both and decide for yourself which is more persuasive for your situation.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What if I don't have any comparable vehicles yet?</h3>
+        <p>The worksheet will tell you so plainly instead of inventing a market range. It shows exactly what to collect: similar year/make/model/trim and mileage, in your local market, split into a clean-history group and an accident-history group.</p>
+      </div>
+    </div>
+
+    <h2>More Tools</h2>
+    <div class="related-tools">
+      <a href="/total-loss-offer-calculator/">Total-Loss Offer Audit →</a>
+      <a href="/settlement-check-breakdown/">Settlement Check Breakdown →</a>
+      <a href="/claim-letter-builder/">Claim Letter Builder →</a>
+      <a href="/">Back to Home →</a>
+    </div>
+    <p style="font-size:0.82rem; color:var(--color-text-muted);">Calculation logic version 1.0 — last reviewed July 2026. 17c multiplier table sourced from the commonly-published description of the 2002 Muscogee County, Georgia class-settlement order; see our <a href="/disclaimer.html">disclaimer</a> for the full framing.</p>
+
+    <div class="author-bio">
+      <div class="avatar">DB</div>
+      <div>
+        <h4>Reviewed by the FairClaimCalculator Editorial Team</h4>
+        <p>This tool's formula, source, and limitations are documented in the open above, not hidden behind a single number. We are not a law firm, insurer, or appraisal company. Read more on our <a href="/about.html">About page</a>.</p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/terms-of-service.html">Terms of Service</a>
+      <a href="/disclaimer.html">Legal Disclaimer</a>
+    </div>
+    <p>&copy; 2026 FairClaimCalculator.com. This website provides free educational tools only and is not a law firm, insurer, or appraisal company. No attorney-client relationship is formed by using this site.</p>
+  </div>
+</footer>
+
+<div id="cookie-consent-banner">
+  <div class="cookie-inner">
+    <p>We use cookies for essential site function and, with your consent, to show relevant ads that keep this tool free. See our <a href="/privacy-policy.html">Privacy Policy</a>.</p>
+    <div class="cookie-actions">
+      <button id="cookie-reject">Reject non-essential</button>
+      <button id="cookie-accept">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script src="/js/diminished-value-baseline.js"></script>
+<script src="/js/main.js"></script>
+<script>
+  (function () {
+    function buildCompRow(prefix, index) {
+      var tr = document.createElement("tr");
+      var tdNum = document.createElement("td");
+      tdNum.textContent = "#" + index;
+      tr.appendChild(tdNum);
+      ["year", "mileage", "distance", "price"].forEach(function (f) {
+        var td = document.createElement("td");
+        var input = document.createElement("input");
+        input.type = "number";
+        input.min = "0";
+        input.step = "1";
+        input.id = prefix + index + "-" + f;
+        input.name = prefix + index + "-" + f;
+        td.appendChild(input);
+        tr.appendChild(td);
+      });
+      return tr;
+    }
+
+    var cleanBody = document.getElementById("clean-comps-body");
+    for (var i = 1; i <= 4; i++) { cleanBody.appendChild(buildCompRow("clean", i)); }
+
+    var accidentBody = document.getElementById("accident-comps-body");
+    for (var j = 1; j <= 4; j++) { accidentBody.appendChild(buildCompRow("accident", j)); }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      FairClaim.initDVBaselineForm("dv-baseline-form", "dv-baseline-result");
+    });
+  })();
+</script>
+
+</body>
+</html>

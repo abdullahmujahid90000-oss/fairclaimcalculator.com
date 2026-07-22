@@ -72,7 +72,7 @@ Each queue item = one session's worth of work unless noted. Pages must clear
 - [x] **Q3.** Tool 3 — Settlement Check Breakdown (`/settlement-check-breakdown/`) — **shipped 2026-07-19.**
 - [x] **Q4.** Tool 2 — Total-Loss / ACV Offer Audit (`/total-loss-offer-calculator/`) — flagship. **Shipped 2026-07-19.**
 - [x] **Q5.** Tool 4 — Evidence Packet & Claim Letter Builder (`/claim-letter-builder/`) — **shipped 2026-07-19.**
-- [ ] **Q6.** Tool 1 — Diminished Value Baseline & Market Evidence Worksheet (`/diminished-value-calculator/`)
+- [x] **Q6.** Tool 1 — Diminished Value Baseline & Market Evidence Worksheet (`/diminished-value-calculator/`) — **shipped 2026-07-22.**
 - [ ] **Q7.** Tool 5 — Next-Step Decision Guide (folded into `/check-my-offer/` flow)
 - [ ] **Q8.** `/check-my-offer/` flagship hub tying the audit modules together
 
@@ -236,6 +236,68 @@ unchecked item.
   Evidence Worksheet** (the 17c-baseline tool — must use the verified
   17c/Mabry framing from `PHASE-0-RESEARCH.md` §2, never presented as
   "true diminished value").
+
+### Session 6 — 2026-07-22
+- Built and shipped **Tool 1: Diminished-Value Baseline & Market Evidence
+  Worksheet** at `/diminished-value-calculator/` — the 17c-formula tool.
+- Before hardcoding the multiplier table, ran a live web search to verify
+  the commonly-published 17c structure (10% base-value cap × damage-
+  severity multiplier 0.00–1.00 × mileage multiplier stepping 1.00→0.00
+  in ~20k-mile bands) against multiple independent secondary sources
+  (diminishedvalueofgeorgia.com, supercarclaims.com, snapclaim.com,
+  cfm-calculator.com) — all describe the same structure, and one source's
+  own worked example ($25,000 value, moderate damage, 45,000 miles →
+  $750) was used as a Node sanity-test case and passed exactly.
+- Calculation engine (`js/diminished-value-baseline.js`) built with the
+  same dual browser/Node pattern as Tools 2–4, versioned config
+  (`DV_CONFIG`, version 1.0, reviewed July 2026) with an explicit source
+  note distinguishing this from "true diminished value" and citing the
+  2002 Muscogee County settlement-order origin + Georgia OCI Directive
+  08-P&C-2. Sanity-tested via `node -e` across 27 assertions: published-
+  example replication, zero/negative/non-numeric value rejection, extreme
+  mileage and extreme value rejection (implausible-input ceiling), every
+  mileage-band boundary, severe-damage-at-low-mileage (full 10% cap),
+  cosmetic-only damage (zero result regardless of mileage), empty/garbage
+  market-comps handling (returns null, no crash), and multi-comp
+  mean/median/range/gap computation — all passed.
+- **Scoping decision, logged honestly:** the master prompt's Tool 1 input
+  list includes structural/frame involvement, airbag deployment, panel
+  replacement count, prior damage history, repairs-complete flag, and
+  state/claim relationship. None of these has a verified numeric weight
+  in the public 17c formula (only damage category and mileage do), so
+  rather than inventing undisclosed additional multipliers, these fields
+  are collected and echoed back in a plain "Claim Context Summary" panel
+  (for the user's own records and for reuse in the Claim Letter Builder)
+  and are NOT run through the arithmetic. This mirrors the Tool 2 scoping
+  precedent (weighted evidence-quality score not implemented) — a
+  disclosed, defensible choice rather than a silent omission.
+- Page has two clearly separate result panels (17c baseline; market
+  evidence worksheet built from up to 4 clean-history + 4 accident-
+  history user comps) plus an explicit "why we never average these"
+  note, per the doc's hard requirement. Full on-page SEO (title/meta/
+  canonical/OG/Twitter/BreadcrumbList+FAQPage JSON-LD), a corrected
+  17c/Mabry history section (same framing as `disclaimer.html`), and a
+  "Calculation logic version 1.0 — last reviewed July 2026" footer citing
+  the source basis.
+- Added "DV Baseline" to primary nav on all 11 HTML files (the 10
+  pre-existing pages plus the new page). Updated homepage's repaired-
+  vehicle scenario card and "what's coming next" list to link the live
+  tool. Cross-linked all three other live tools' "More Tools" sections to
+  the new tool (and vice versa) — no orphan pages. Added the URL to
+  `sitemap.xml`.
+- Ran tag-balance, single-H1, duplicate-id, and exact-nav-link-set
+  consistency checks across all 11 HTML files via a Python script — zero
+  mismatches, byte-identical nav confirmed on every page.
+- Still git-push-from-this-sandbox caveat applies (see Session 5) — work
+  is committed locally; the user's own sync process publishes it.
+- **All 4 of the 5 originally-scoped core tools are now live** (Tool 5 —
+  Next-Step Decision Guide — is intentionally folded into the not-yet-
+  built `/check-my-offer/` hub, Q7/Q8). Next session starts **Q7/Q8 —
+  the `/check-my-offer/` flagship hub** tying all four audit tools
+  together with a next-step decision guide, OR, if the user wants content
+  instead of another tool, **Q9** (first P0 guide: How to Dispute a
+  Total-Loss Valuation). Default trigger words pull Q7/Q8 per queue
+  order unless redirected.
 
 ---
 
