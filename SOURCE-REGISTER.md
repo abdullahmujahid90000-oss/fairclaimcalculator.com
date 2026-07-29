@@ -107,9 +107,98 @@ invented legal citations, threats, deadlines, or "bad faith" accusations.
 
 ---
 
-## 6. What is NOT yet in this register
+## 6. Phase 5 Guide Library (15 guides, `/guides/`)
 
-No guides have been published yet (Phase 5). Each guide, when written, adds
-its own primary-source citations here before publication — never after. A
-guide does not ship without its sources logged in this file and reflected
-on the public `/sources/` page.
+Each guide below cites its sources inline next to the claim (rendered via
+its own `sources: string[]` prop in `GuideLayout.astro`) and states plainly,
+in its own "What this guide cannot tell you" section, what it does not
+verify. Sources marked **(primary)** are official government/regulatory
+sources or primary litigation records. Sources marked **(secondary/general)**
+are compiled from industry commentary, general concept explanations, or
+this site's own methodology notes — not independent verification against
+all 50 states' statutes. Guides are told to direct readers to confirm
+state-specific rules with their own state insurance department.
+
+### Total Loss cluster (`/guides/total-loss/`)
+
+1. **How Insurers Value a Total-Loss Vehicle** —
+   (a) state total-loss threshold variance (percentage-of-ACV test vs.
+   Total Loss Formula in ~20 states incl. California, Georgia, Washington)
+   — *secondary*, compiled from multiple summaries, not independently
+   verified against all 50 states; (b) New Hampshire Insurance Department,
+   [List of Accepted Valuation Methods for Total Loss](https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss)
+   — *primary*.
+2. **How to Read Your Total-Loss Valuation Report** —
+   (a) general commentary on CCC/Mitchell/Audatex-style report structure —
+   *secondary/general*; (b) same NH DOI valuation-methods list as above —
+   *primary*.
+3. **Finding Your Own Comparable Vehicles** — methodology note describing a
+   search technique; not tied to an external citation.
+4. **Common Valuation Report Errors to Check For** — checklist of
+   factual/data-error categories drawn from consumer-facing guidance and
+   litigation commentary about valuation systems generally; not a citation
+   to any single insurer or product finding.
+5. **ACV vs. Replacement Cost vs. Loan Payoff vs. Asking Price** — general
+   concept explanation; cross-references the Settlement Check Breakdown
+   calculator's own methodology note.
+6. **Sales Tax, Title, and Fees on a Total-Loss Settlement** —
+   (a) Texas Comptroller, [Motor Vehicle Tax Guide — Insurance Settlement Transfers](https://comptroller.texas.gov/taxes/publications/96-254/insurance-settlement-transfers.php)
+   — *primary*; (b) 34 Tex. Admin. Code § 3.62,
+   [Insurance Settlements](https://www.law.cornell.edu/regulations/texas/34-Tex-Admin-Code-SS-3-62)
+   via Cornell Law's LII — *primary*; (c) general multi-state summary
+   (roughly two-thirds of states require some form of sales-tax
+   reimbursement, typically after proof of replacement purchase) —
+   *secondary*, not independently verified against all 50 states.
+7. **Owner-Retained Total Loss & Salvage Titles** —
+   (a) Wikipedia, [Salvage title](https://en.wikipedia.org/wiki/Salvage_title)
+   — *secondary/general* overview, branding criteria differ by state;
+   (b) New York State Department of Financial Services,
+   [OGC Opinion No. 00-02-07: Salvage Vehicle Branding](https://www.dfs.ny.gov/insurance/ogco2000/rg000207.htm)
+   — *primary*.
+8. **How to Dispute a Total-Loss Valuation Factually** — general description
+   of the appraisal-clause process (independent appraisers per side, neutral
+   umpire if they disagree); a common policy provision whose exact wording
+   varies by insurer/state — not tied to one external citation.
+
+### Diminished Value cluster (`/guides/diminished-value/`)
+
+9. **What Is Diminished Value?** — general concept explanation; defers the
+   17c-specific history/formula to guide #11 below.
+10. **Inherent vs. Repair-Related Diminished Value** — general industry
+    concept distinction from claims/appraisal literature; not tied to a
+    single external citation.
+11. **The 17c Formula's Real History, Calculation, and Limits** —
+    (a) *Mabry v. State Farm Mutual Automobile Insurance Co.*, Superior
+    Court of Muscogee County, Georgia (2001–2002 class settlement) —
+    *primary litigation record*, same citation as register entry #1 above;
+    (b) Georgia Office of Insurance and Safety Fire Commissioner, Directive
+    08-P&C-2 (December 2008) — *primary*, same citation as register entry
+    #1 above.
+12. **Building Diminished-Value Market Evidence** — methodology note
+    describing the clean-history vs. accident-history comparison technique;
+    not tied to an external legal source.
+
+### Claim Process cluster (`/guides/claim-process/`)
+
+13. **First-Party vs. Third-Party Auto Claims** — National Association of
+    Insurance Commissioners (NAIC),
+    [Unfair Claims Settlement Practices Act (Model Act #900)](https://content.naic.org/sites/default/files/model-law-900.pdf)
+    — *primary*, a model law defining first-party/third-party claimants and
+    baseline claims-handling standards; most states have adopted some
+    version, but enacted text varies by state.
+14. **When to Consider an Independent Appraisal or Attorney** — same
+    general appraisal-clause description as guide #8 above; not tied to one
+    external citation.
+15. **Auto Claim Evidence Checklist** — practical checklist compiled for
+    this site, expanding on the Claim Letter Builder's own evidence
+    checklist; not a citation to an external standard.
+
+---
+
+## 7. What is NOT yet in this register
+
+Phase 5 (the 15-guide library above) is complete and logged. Nothing
+currently published on the site is missing from this register. Any future
+guide, calculator, or claim added after this point must have its sources
+logged here — and reflected on the public `/sources/` page — before
+publication, never after.

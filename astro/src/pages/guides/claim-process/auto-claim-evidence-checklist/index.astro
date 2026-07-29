@@ -1,0 +1,74 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "Auto Claim Evidence Checklist | FairClaimCalculator";
+const description =
+  "A general checklist of evidence worth gathering for a total-loss or diminished-value auto claim, from the valuation report to comparable listings and repair documentation.";
+const path = "/guides/claim-process/auto-claim-evidence-checklist/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Auto Claim Evidence Checklist"
+  cluster={{ name: "Claim Process", href: "/guides/claim-process/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="A general organizing checklist for total-loss and diminished-value claim evidence. Not every item applies to every claim — use what's relevant to yours."
+  sources={[
+    "Practical checklist compiled for this site; not a citation to an external standard. See the Claim Letter Builder's own evidence checklist, which this guide expands on.",
+  ]}
+  relatedLinks={[
+    { label: "Claim Letter & Evidence Packet Builder", href: "/calculators/claim-letter-builder/" },
+    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
+    { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+  ]}
+>
+  <h2>Paperwork from the insurer</h2>
+  <ul>
+    <li>The complete written valuation report (not just a summary letter) — comparables and adjustments included.</li>
+    <li>The claim number, adjuster name, and all written correspondence, dated.</li>
+    <li>Any repair estimate or damage assessment provided.</li>
+    <li>Your policy's declarations page and full policy document (for coverage limits, deductibles, and the appraisal clause's exact wording).</li>
+  </ul>
+
+  <h2>Your own vehicle records</h2>
+  <ul>
+    <li>Title, registration, and VIN.</li>
+    <li>Recent service/maintenance records (useful for verifying mileage and condition).</li>
+    <li>Photos of the vehicle's condition and any factory options, ideally from before the accident.</li>
+    <li>Purchase records if relevant (not for arguing ACV directly, but for your own reference).</li>
+  </ul>
+
+  <h2>Market evidence you gather</h2>
+  <ul>
+    <li>Comparable vehicle listings: URL, date checked, price, mileage, trim, distance, and dealer vs. private-party status for each.</li>
+    <li>For a diminished-value claim: separate clean-history and accident-history comparable groups (see <a href="/guides/diminished-value/building-diminished-value-market-evidence/">building market evidence</a>).</li>
+    <li>Screenshots of any listing you rely on, in case it's removed later.</li>
+  </ul>
+
+  <h2>If you're pursuing a diminished-value claim specifically</h2>
+  <ul>
+    <li>Documentation of the completed repair (invoice, parts used, shop name).</li>
+    <li>A vehicle-history report (Carfax/AutoCheck-style) showing the accident is now on record.</li>
+    <li>Any independent appraisal you've obtained, if applicable.</li>
+  </ul>
+
+  <h2>Put it to work</h2>
+  <p>
+    Once you've gathered this, the
+    <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit</a>,
+    <a href="/calculators/diminished-value-baseline/">Diminished Value Baseline</a>, and
+    <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown</a> calculators
+    turn it into organized statistics and arithmetic, and the
+    <a href="/calculators/claim-letter-builder/">Claim Letter Builder</a> turns your findings into
+    an editable written request.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you exactly what evidence your specific insurer or state process requires — this
+    is a general starting checklist, not a guarantee of what will be accepted or needed for your
+    claim.
+  </p>
+</GuideLayout>

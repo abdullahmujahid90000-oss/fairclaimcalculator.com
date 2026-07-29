@@ -1,0 +1,67 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "Common Errors in Total-Loss Valuation Reports | FairClaimCalculator";
+const description =
+  "The most common factual mistakes found in insurer total-loss valuation reports — mileage, trim, condition, and comparable-selection errors — and how to check for them.";
+const path = "/guides/total-loss/common-valuation-report-errors/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Common Valuation Report Errors to Check For"
+  cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="Valuation reports are generated partly from data entry and partly from automated searches — both can contain factual errors. Here are the ones worth checking for line by line."
+  sources={[
+    "This guide describes categories of factual/data errors commonly discussed in consumer-facing total-loss guidance and litigation commentary about valuation systems; it is a checklist of what to verify, not a citation to a specific finding about any one insurer or product.",
+  ]}
+  relatedLinks={[
+    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
+    { label: "Reading Your Total-Loss Valuation Report", href: "/guides/total-loss/reading-your-total-loss-valuation-report/" },
+    { label: "How to Dispute a Total-Loss Valuation", href: "/guides/total-loss/how-to-dispute-a-total-loss-valuation/" },
+  ]}
+>
+  <h2>Vehicle description errors</h2>
+  <ul>
+    <li>Wrong trim level recorded (e.g., base trim listed instead of your actual mid- or upper-trim).</li>
+    <li>Missing factory options that add real value (navigation, premium audio, sunroof, tow package, leather).</li>
+    <li>Incorrect mileage — check it against your last service record or odometer photo, not just memory.</li>
+    <li>Wrong drivetrain or engine configuration (e.g., AWD vehicle recorded as FWD).</li>
+  </ul>
+
+  <h2>Comparable-selection errors</h2>
+  <ul>
+    <li>Comps from far outside your local market without a clear reason.</li>
+    <li>Comps with a significantly different trim or mileage than your vehicle, with no adjustment noted.</li>
+    <li>Comps that are stale listings — up for sale a long time, suggesting the asking price was too high to actually sell at.</li>
+    <li>Too few comps to support a stable average — two or fewer comparables is a thin sample.</li>
+  </ul>
+
+  <h2>Adjustment errors</h2>
+  <ul>
+    <li>Large, unexplained deductions with no stated reason or rate.</li>
+    <li>Condition downgrades applied without an inspection to support them.</li>
+    <li>Mileage adjustments that don't match the actual mileage gap between your car and the comp.</li>
+  </ul>
+
+  <div class="example-box">
+    <p>
+      <strong>How to work through this systematically:</strong> the
+      <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit calculator</a>'s
+      comparable-quality review walks through exactly these categories — year, mileage, trim,
+      configuration, distance, listing status, condition, and insurer-shown adjustments — for every
+      comp you enter, and lists each mismatch as a specific question to raise rather than a guessed
+      dollar figure.
+    </p>
+  </div>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It can't tell you whether a specific error actually occurred in your report, or how much it's
+    worth if it did — only your own comparison against real comps and your own paperwork can show
+    that. Its job is to tell you exactly where to look.
+  </p>
+</GuideLayout>

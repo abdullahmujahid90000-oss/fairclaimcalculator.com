@@ -1,0 +1,77 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "Building Diminished-Value Market Evidence | FairClaimCalculator";
+const description =
+  "How to build real market evidence for a diminished-value claim by comparing clean-history and accident-history vehicle listings — a stronger, more specific alternative to a formula alone.";
+const path = "/guides/diminished-value/building-diminished-value-market-evidence/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Building Diminished-Value Market Evidence"
+  cluster={{ name: "Diminished Value", href: "/guides/diminished-value/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="Real market evidence compares what buyers actually pay for clean-history vehicles versus otherwise-identical accident-history vehicles in your specific market — a stronger complement to a disclosed formula baseline."
+  sources={[
+    "Methodology note describing a comparison technique (clean-history vs. accident-history comparable groups), not a citation to an external legal source.",
+  ]}
+  relatedLinks={[
+    { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+    { label: "The 17c Formula's Real History, Calculation, and Limits", href: "/guides/diminished-value/the-17c-formula-history-calculation-and-limits/" },
+    { label: "Finding Your Own Comparable Vehicles", href: "/guides/total-loss/finding-your-own-comparable-vehicles/" },
+  ]}
+>
+  <h2>The core idea</h2>
+  <p>
+    Instead of relying only on a formula, gather two groups of real listings for your same
+    year/make/model/trim: vehicles with a <strong>clean title history</strong>, and vehicles with a
+    <strong>disclosed accident/repair history</strong> (visible on a Carfax/AutoCheck-style report).
+    Compare the two groups' prices directly — the gap between them is real market evidence of
+    diminished value for your specific vehicle, in your specific market.
+  </p>
+
+  <h2>How to build a usable comparison</h2>
+  <ol>
+    <li>Search for 4 or more listings in each group if possible — clean-history and accident-history.</li>
+    <li>Match year, mileage range, and trim as closely as you can between the two groups.</li>
+    <li>Record price, mileage, and a link/date-checked for every listing.</li>
+    <li>Enter both groups into the <a href="/calculators/diminished-value-baseline/">Diminished Value Baseline calculator</a>'s market-evidence worksheet.</li>
+  </ol>
+
+  <div class="example-box">
+    <p>
+      <strong>Worked example.</strong> Clean-history group: 5 listings, median $21,400. Accident-history
+      group: 4 listings, median $19,600. The median gap of $1,800 is real evidence for your specific
+      market — distinct from, and potentially different than, a 17c-style formula result for the
+      same car. The calculator only reports a median gap when both groups have a sufficient sample
+      size; with fewer listings, it labels the comparison as limited rather than presenting a false
+      sense of precision.
+    </p>
+  </div>
+
+  <h2>Why sample size matters</h2>
+  <p>
+    A comparison built from one listing in each group could easily reflect those two sellers'
+    pricing quirks rather than a real market pattern. More listings per group make the median and
+    range more representative — which is why the calculator flags small samples as limited evidence
+    rather than a confident conclusion.
+  </p>
+
+  <h2>Why this is never averaged with the 17c-style baseline</h2>
+  <p>
+    The formula baseline and the market-evidence comparison answer different questions — one is a
+    disclosed, standardized calculation; the other is what your specific local market actually
+    shows. Averaging them would produce a number that misrepresents both. The calculator always
+    displays them as two separate, clearly labeled outputs.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you how many comparable listings are "enough" for your specific insurer's
+    process, or guarantee that a market gap you find will be accepted as your claim's value — only
+    that it's stronger evidence than an unsupported assertion.
+  </p>
+</GuideLayout>

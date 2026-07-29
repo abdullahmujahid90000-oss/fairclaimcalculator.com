@@ -1,0 +1,162 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+interface ClusterInfo { name: string; href: string; }
+interface RelatedLink { label: string; href: string; }
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  h1: string;
+  cluster: ClusterInfo;
+  publishedDate: string;
+  reviewedDate: string;
+  summary: string;
+  sources: string[];
+  relatedLinks: RelatedLink[];
+  /** Extra BreadcrumbList/Article JSON-LD beyond the default breadcrumb — optional. */
+  structuredData?: object[];
+}
+
+const {
+  title,
+  description,
+  path,
+  h1,
+  cluster,
+  publishedDate,
+  reviewedDate,
+  summary,
+  sources,
+  relatedLinks,
+  structuredData: extraStructuredData = [],
+} = Astro.props;
+
+const siteOrigin = "https://www.fairclaimcalculator.com";
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteOrigin}/` },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `${siteOrigin}/guides/` },
+      { "@type": "ListItem", position: 3, name: cluster.name, item: `${siteOrigin}${cluster.href}` },
+      { "@type": "ListItem", position: 4, name: h1, item: `${siteOrigin}${path}` },
+    ],
+  },
+  ...extraStructuredData,
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container guide-container">
+    <p class="breadcrumb-text">
+      <a href="/">Home</a> / <a href={cluster.href}>{cluster.name}</a>
+    </p>
+    <h1 class="page-title">{h1}</h1>
+    <p class="lead">{summary}</p>
+
+    <div class="guide-byline">
+      <span>By David Bennett</span>
+      <span aria-hidden="true">·</span>
+      <span>Published {publishedDate}</span>
+      <span aria-hidden="true">·</span>
+      <span>Last reviewed {reviewedDate}</span>
+    </div>
+
+    <div class="notice">
+      This guide organizes publicly available information for general education. It is not legal
+      advice and does not replace your policy, your state's law, or a licensed professional's
+      review of your specific situation. See <a href="/editorial-policy/">how this guide was
+      researched</a>.
+    </div>
+
+    <article class="guide-body">
+      <slot />
+    </article>
+
+    <section class="calc-card" aria-labelledby="guide-sources-heading">
+      <h2 id="guide-sources-heading">Sources</h2>
+      <ul class="quality-list">
+        {sources.map((source) => <li set:html={source} />)}
+      </ul>
+      <p class="section-note">
+        Every source above is also tracked in the site's public <a href="/sources/">source
+        register</a>. Spot an error or an outdated citation? Use the <a href="/corrections/">corrections
+        page</a>.
+      </p>
+    </section>
+
+    <h2>Related Tools &amp; Guides</h2>
+    <div class="related-tools">
+      {relatedLinks.map((link) => <a href={link.href}>{link.label} →</a>)}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-container { max-width: 760px; }
+
+  .guide-byline {
+    color: var(--color-text-muted);
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    gap: 8px;
+    margin: 0 0 20px;
+  }
+
+  .guide-body { margin: 28px 0; }
+  .guide-body :global(h2) {
+    color: var(--color-primary-dark);
+    font-size: 1.25rem;
+    margin: 34px 0 12px;
+  }
+  .guide-body :global(h3) {
+    color: var(--color-primary-dark);
+    font-size: 1.05rem;
+    margin: 24px 0 8px;
+  }
+  .guide-body :global(p) { margin: 0 0 14px; }
+  .guide-body :global(ul),
+  .guide-body :global(ol) { margin: 0 0 14px; padding-left: 22px; }
+  .guide-body :global(li) { margin-bottom: 6px; }
+  .guide-body :global(table) {
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    margin: 0 0 18px;
+    width: 100%;
+  }
+  .guide-body :global(th),
+  .guide-body :global(td) {
+    border: 1px solid var(--color-border);
+    padding: 8px 10px;
+    text-align: left;
+  }
+  .guide-body :global(th) { background: var(--color-bg-soft); }
+  .guide-body :global(.example-box) {
+    background: var(--color-bg-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    margin: 0 0 20px;
+    padding: 16px 18px;
+  }
+  .guide-body :global(.example-box p:last-child) { margin-bottom: 0; }
+  .guide-body :global(.state-note) {
+    background: #eff6ff;
+    border: 1px solid #93c5fd;
+    border-radius: 8px;
+    color: #1e3a8a;
+    margin: 0 0 18px;
+    padding: 12px 14px;
+  }
+  .guide-body :global(.limits-note) {
+    background: var(--color-warning-bg);
+    border: 1px solid var(--color-warning-border);
+    border-radius: 8px;
+    color: #7c4a12;
+    margin: 0 0 18px;
+    padding: 12px 14px;
+  }
+  .guide-body :global(sup a) { font-size: 0.75rem; }
+</style>

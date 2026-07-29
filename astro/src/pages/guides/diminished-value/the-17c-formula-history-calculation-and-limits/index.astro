@@ -1,0 +1,79 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "The 17c Formula: Real History, Calculation, and Limits | FairClaimCalculator";
+const description =
+  "Where the '17c' diminished-value formula actually comes from, exactly how it's calculated, and why it is not a national or state legal standard for diminished value.";
+const path = "/guides/diminished-value/the-17c-formula-history-calculation-and-limits/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="The 17c Formula: Real History, Calculation, and Limits"
+  cluster={{ name: "Diminished Value", href: "/guides/diminished-value/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="The commonly published '17c' diminished-value formula traces back to a 2002 Georgia class-action settlement, not a nationally recognized legal or regulatory standard. A Georgia regulator directive later said explicitly that no formula is approved as determinative."
+  sources={[
+    'The formula\'s name and structure are commonly traced to the <em>Mabry v. State Farm Mutual Automobile Insurance Co.</em> class-action settlement, Superior Court of Muscogee County, Georgia (2001–2002) — the litigation most often cited as the origin of the calculation approach that spread into industry practice afterward.',
+    'Georgia Office of Insurance and Safety Fire Commissioner, Directive 08-P&C-2 (December 2008) — states that no specific diminished-value calculation methodology has been approved by the Commissioner as determinative of diminished value.',
+  ]}
+  relatedLinks={[
+    { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+    { label: "What Is Diminished Value?", href: "/guides/diminished-value/what-is-diminished-value/" },
+    { label: "Building Diminished-Value Market Evidence", href: "/guides/diminished-value/building-diminished-value-market-evidence/" },
+  ]}
+>
+  <h2>Where the name "17c" comes from</h2>
+  <p>
+    The formula circulating today as "17c" is commonly associated with a 2001–2002 class-action
+    settlement, <em>Mabry v. State Farm Mutual Automobile Insurance Co.</em>, in Muscogee County,
+    Georgia. That litigation is the most frequently cited origin point for the specific calculation
+    structure (a base value, a percentage cap, and damage/mileage multipliers) that later spread
+    into broader claims-industry use as a rough starting point for diminished-value discussions.
+  </p>
+  <div class="limits-note">
+    <strong>This is not a national or state legal standard.</strong> It did not originate as, and
+    has not become, a government-mandated formula for calculating diminished value. Its spread into
+    common use reflects industry practice adopting a convenient, disclosed structure — not a
+    regulator or legislature requiring it.
+  </div>
+
+  <h2>The calculation, step by step</h2>
+  <ol>
+    <li><strong>Start with pre-accident value</strong> — your vehicle's value immediately before the loss.</li>
+    <li><strong>Apply a 10% base value cap</strong> — the maximum possible diminished value is treated as 10% of that pre-accident value, regardless of damage severity.</li>
+    <li><strong>Apply a damage-severity multiplier</strong> — a fraction (commonly ranging from 1.00 for severe structural damage down to 0.00 for damage categories treated as having no measurable effect) applied to the capped value.</li>
+    <li><strong>Apply a mileage multiplier</strong> — a further fraction that reduces the result as mileage increases, reflecting that high-mileage vehicles are seen as losing comparatively less specifically from an accident history.</li>
+  </ol>
+  <div class="example-box">
+    <p>
+      <strong>Worked example.</strong> Pre-accident value: $20,000. 10% cap: $2,000. A moderate
+      damage multiplier of 0.50: $1,000. A mileage multiplier of 0.80 for moderate mileage: a final
+      disclosed baseline of <strong>$800</strong>. Every substituted number in this chain is shown
+      in the <a href="/calculators/diminished-value-baseline/">Diminished Value Baseline
+      calculator</a>'s output — nothing is hidden inside a single final figure.
+    </p>
+  </div>
+
+  <h2>Why this site calls it a "baseline," never "true diminished value"</h2>
+  <p>
+    Because the formula is a commonly published convention, not a verified measurement of your
+    specific car's actual value loss in your actual local market. The Georgia regulator directive
+    above is explicit that no formula has been approved as determinative — meaning even in the
+    state most associated with its origin, it is not treated as legally conclusive. This site
+    presents the 17c-style result strictly as a transparent comparison baseline, and separately
+    builds real market evidence from actual comparable listings — see
+    <a href="/guides/diminished-value/building-diminished-value-market-evidence/">Building
+    Diminished-Value Market Evidence</a> — rather than ever averaging the two into one number.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you what multiplier values any specific insurer uses in practice (they vary),
+    whether your state permits a first-party diminished-value claim at all, or what your vehicle's
+    real diminished value is in your local market — only real comparable-sale evidence for your
+    specific car can speak to that.
+  </p>
+</GuideLayout>

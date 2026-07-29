@@ -1,0 +1,80 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "What Is Diminished Value? | FairClaimCalculator";
+const description =
+  "Diminished value is the drop in a repaired vehicle's resale value from having an accident on its history, even after quality repairs. Here's what it is and isn't.";
+const path = "/guides/diminished-value/what-is-diminished-value/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="What Is Diminished Value?"
+  cluster={{ name: "Diminished Value", href: "/guides/diminished-value/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="Diminished value (DV) is the idea that a vehicle is worth less after being in an accident and repaired — even if the repair is perfect — simply because buyers pay less for a car with an accident on its record."
+  sources={[
+    "General concept explanation; the specific 17c-style formula and its origin are covered in a separate guide with its own primary sources — see below.",
+  ]}
+  relatedLinks={[
+    { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+    { label: "Inherent vs. Repair-Related Diminished Value", href: "/guides/diminished-value/inherent-vs-repair-related-diminished-value/" },
+    { label: "The 17c Formula's Real History, Calculation, and Limits", href: "/guides/diminished-value/the-17c-formula-history-calculation-and-limits/" },
+  ]}
+>
+  <h2>The basic idea</h2>
+  <p>
+    Two identical cars, same year/mileage/trim — except one has a clean title history and one has
+    an accident and repair on its vehicle-history report (Carfax, AutoCheck, etc.). Buyers and
+    dealers routinely pay less for the second one, even when the repair was done perfectly. That
+    gap is diminished value.
+  </p>
+
+  <h2>Two different kinds of DV</h2>
+  <p>
+    "Diminished value" gets used loosely, but it actually describes two different situations — see
+    <a href="/guides/diminished-value/inherent-vs-repair-related-diminished-value/">Inherent vs.
+    Repair-Related Diminished Value</a> for the full distinction. In short: <strong>inherent DV</strong>
+    is the value lost just from having an accident on the record, regardless of repair quality.
+    <strong>Repair-related DV</strong> is additional value lost from a repair that was incomplete,
+    used non-OEM parts, or wasn't done to the vehicle's original standard.
+  </p>
+
+  <h2>Two ways to think about measuring it</h2>
+  <p>
+    There are two genuinely different approaches, and this site deliberately keeps them
+    separate rather than blending them into one number:
+  </p>
+  <ul>
+    <li>
+      <strong>A disclosed formula baseline</strong> — a transparent, published calculation (the
+      "17c-style" formula) that starts from your car's pre-accident value and applies fixed
+      percentage caps and multipliers for damage severity and mileage. See
+      <a href="/guides/diminished-value/the-17c-formula-history-calculation-and-limits/">the 17c
+      formula guide</a> for its real origin and limits.
+    </li>
+    <li>
+      <strong>Real market evidence</strong> — actual sale prices of comparable clean-title vs.
+      accident-history vehicles, which shows what buyers in your specific market actually pay for
+      the difference. See
+      <a href="/guides/diminished-value/building-diminished-value-market-evidence/">building market
+      evidence</a>.
+    </li>
+  </ul>
+  <div class="limits-note">
+    <strong>Why we never average these two numbers:</strong> the formula baseline and real market
+    evidence measure different things and can disagree significantly. Averaging them would produce
+    a number that represents neither — the
+    <a href="/calculators/diminished-value-baseline/">Diminished Value Baseline calculator</a> always
+    shows both, side by side, never combined.
+  </div>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you whether your state recognizes first-party diminished-value claims (some do
+    not, or limit them significantly), or what your specific vehicle's diminished value actually is.
+    Both depend on your state's law and real market evidence for your car.
+  </p>
+</GuideLayout>

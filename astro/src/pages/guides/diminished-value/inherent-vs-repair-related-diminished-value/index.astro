@@ -1,0 +1,78 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "Inherent vs. Repair-Related Diminished Value | FairClaimCalculator";
+const description =
+  "The difference between inherent diminished value (from the accident itself) and repair-related diminished value (from how the repair was done), and why the distinction matters.";
+const path = "/guides/diminished-value/inherent-vs-repair-related-diminished-value/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Inherent vs. Repair-Related Diminished Value"
+  cluster={{ name: "Diminished Value", href: "/guides/diminished-value/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="Inherent DV is the value lost simply because an accident is now on the vehicle's history. Repair-related DV is additional value lost from how the repair itself was done. They have different causes and different evidence."
+  sources={[
+    "General industry concept distinction, commonly discussed in claims and appraisal literature; not tied to a single external citation.",
+  ]}
+  relatedLinks={[
+    { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+    { label: "What Is Diminished Value?", href: "/guides/diminished-value/what-is-diminished-value/" },
+    { label: "Building Diminished-Value Market Evidence", href: "/guides/diminished-value/building-diminished-value-market-evidence/" },
+  ]}
+>
+  <h2>Inherent diminished value</h2>
+  <p>
+    This is the value lost purely from having "accident" show up on a vehicle-history report —
+    even with a flawless, factory-spec repair. Buyers still discount for it, because a
+    history-report accident is a permanent, visible fact about the car regardless of repair
+    quality. This is the kind of DV the 17c-style baseline is built to approximate.
+  </p>
+
+  <h2>Repair-related diminished value</h2>
+  <p>
+    This is <em>additional</em> value lost specifically because of how the repair was carried out
+    — for example:
+  </p>
+  <ul>
+    <li>Aftermarket parts used instead of OEM (original equipment manufacturer) parts.</li>
+    <li>Frame or structural work that wasn't restored to factory specifications.</li>
+    <li>Paint that doesn't match, or visible panel-gap/alignment issues.</li>
+    <li>A repair that leaves mechanical or safety-system issues unresolved.</li>
+  </ul>
+  <p>
+    Repair-related DV requires different evidence than inherent DV — typically an inspection or
+    a body-shop/appraiser's documentation of specifically what fell short of factory standard,
+    rather than just a market-comparison of clean vs. accident-history vehicles.
+  </p>
+
+  <div class="example-box">
+    <p>
+      <strong>Worked example.</strong> Two cars with the same accident history and repair cost:
+      one repaired entirely with OEM parts and returned to factory panel gaps; one repaired with
+      aftermarket body panels and a visible paint mismatch. Both may show similar <em>inherent</em>
+      DV in a market comparison — but the second car likely carries additional <em>repair-related</em>
+      DV that a market comparison alone won't necessarily isolate, since it depends on inspection
+      findings specific to that repair.
+    </p>
+  </div>
+
+  <h2>Why this site's calculator focuses on inherent DV</h2>
+  <p>
+    The <a href="/calculators/diminished-value-baseline/">Diminished Value Baseline calculator</a>'s
+    17c-style output and market-evidence worksheet are both structured around inherent DV — value
+    lost from the accident history itself. It does not attempt to inspect or quantify repair
+    quality, since that requires a physical inspection this tool cannot perform. If you believe your
+    specific repair fell short of factory standard, that's a separate, inspection-based claim best
+    supported by a qualified appraiser's documentation.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you whether your specific repair has a quality problem — only a physical
+    inspection can determine that.
+  </p>
+</GuideLayout>

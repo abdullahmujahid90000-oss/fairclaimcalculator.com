@@ -1,0 +1,61 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "U.S. Auto Claim Guides | FairClaimCalculator";
+const description =
+  "15 source-backed guides on total-loss valuation, diminished value, and the U.S. auto claims process — each cites its sources and says plainly what it can't tell you.";
+const path = "/guides/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Guides", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Guides</p>
+    <h1 class="page-title">U.S. Auto Claim Guides</h1>
+    <p class="lead">
+      Fifteen guides across three clusters, written for the U.S. auto claims process. Every guide
+      names its author, states its published and reviewed dates, cites its sources next to
+      consequential claims, and says plainly what it cannot tell you.
+    </p>
+
+    <div class="cluster-grid">
+      <a href="/guides/total-loss/" class="cluster-card">
+        <h2>Total Loss</h2>
+        <p>8 guides — how insurers value a totaled vehicle, reading the report, finding comparables, and disputing a valuation factually.</p>
+      </a>
+      <a href="/guides/diminished-value/" class="cluster-card">
+        <h2>Diminished Value</h2>
+        <p>4 guides — what diminished value means, the 17c formula's real history, and building market evidence.</p>
+      </a>
+      <a href="/guides/claim-process/" class="cluster-card">
+        <h2>Claim Process</h2>
+        <p>3 guides — first-party vs. third-party claims, when outside help may be worth it, and an evidence checklist.</p>
+      </a>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Educational guides, not legal advice.</strong>
+      These guides organize publicly available information for general education. See the
+      <a href="/editorial-policy/">editorial policy</a>, <a href="/sources/">source register</a>,
+      and <a href="/disclaimer/">full disclaimer</a>.
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .cluster-grid { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 24px 0 30px; }
+  @media (max-width: 720px) { .cluster-grid { grid-template-columns: 1fr; } }
+  .cluster-card { display: block; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 20px; text-decoration: none; color: inherit; }
+  .cluster-card:hover, .cluster-card:focus-visible { border-color: var(--color-primary); }
+  .cluster-card h2 { margin: 0 0 8px; color: var(--color-primary-dark); }
+  .cluster-card p { margin: 0; font-size: 0.9rem; color: var(--color-text-muted); }
+</style>

@@ -1,0 +1,73 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "Sales Tax, Title, and Fees on a Total-Loss Settlement | FairClaimCalculator";
+const description =
+  "Whether your insurer owes sales tax and title/registration fees on a total-loss settlement, how that's usually handled, and why it varies by state.";
+const path = "/guides/total-loss/sales-tax-title-fees-on-a-total-loss/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Sales Tax, Title, and Fees on a Total-Loss Settlement"
+  cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="Many states require insurers to reimburse sales tax (and sometimes title/registration fees) when you replace a totaled vehicle — but the process is rarely automatic, and it varies significantly by state."
+  sources={[
+    'Texas Comptroller, <a href="https://comptroller.texas.gov/taxes/publications/96-254/insurance-settlement-transfers.php" target="_blank" rel="noopener">Motor Vehicle Tax Guide — Insurance Settlement Transfers</a> (primary, state government) — a real example of one state\'s specific rule.',
+    '34 Tex. Admin. Code § 3.62, <a href="https://www.law.cornell.edu/regulations/texas/34-Tex-Admin-Code-SS-3-62" target="_blank" rel="noopener">Insurance Settlements</a> (primary regulatory text, via Cornell Law\'s Legal Information Institute).',
+    "General multi-state summary (roughly two-thirds of states require some form of sales-tax reimbursement, typically only after proof of a replacement purchase) compiled from secondary industry sources, not independently verified against all 50 states — always confirm your own state's rule and your insurer's specific process before assuming tax is or isn't owed.",
+  ]}
+  relatedLinks={[
+    { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+    { label: "ACV vs. Replacement Cost vs. Loan Payoff vs. Asking Price", href: "/guides/total-loss/acv-vs-replacement-cost-loan-payoff-asking-price/" },
+  ]}
+>
+  <h2>The general pattern</h2>
+  <p>
+    In many states, sales tax on the replacement vehicle is a recoverable part of a total-loss
+    settlement — but in most of those states, it isn't included upfront. Instead, the common
+    process is:
+  </p>
+  <ol>
+    <li>The insurer pays the ACV settlement without tax included.</li>
+    <li>You buy a replacement vehicle and pay sales tax on that purchase.</li>
+    <li>You submit proof of the replacement purchase (and sometimes a state-specific affidavit) to the insurer.</li>
+    <li>The insurer reimburses the tax, often within a limited window (commonly around 30 days from settlement — confirm your own state and insurer's deadline).</li>
+  </ol>
+  <p class="state-note">
+    <strong>What varies by state:</strong> a smaller number of states have the insurer calculate
+    and include future sales tax directly in the original settlement check, rather than waiting for
+    a reimbursement request. Title and registration fee treatment varies separately, and some states
+    require a specific state form (an affidavit or waiver) to avoid paying tax twice. This guide
+    describes the common pattern, not a citation for your specific state — verify directly with
+    your insurer and, if needed, your state's Department of Revenue or DMV.
+  </p>
+
+  <div class="example-box">
+    <p>
+      <strong>Worked example.</strong> Your ACV settlement is $18,000 with no tax included. You buy
+      a $19,000 replacement vehicle and pay $1,330 in sales tax at a 7% rate. If your state requires
+      tax reimbursement, submitting your bill of sale to the insurer should result in that $1,330
+      being reimbursed separately from the original $18,000 check — not baked into it.
+    </p>
+  </div>
+
+  <h2>Where this shows up in your settlement math</h2>
+  <p>
+    The <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown calculator</a>
+    only adds tax/fees to its arithmetic if you tell it your insurer's own paperwork actually shows
+    them — it never assumes a state's tax rate or rule for you, since that would risk being wrong
+    for your specific situation.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you whether your state requires tax reimbursement, what the exact process or
+    deadline is, or whether title/registration fees are included — those specifics depend on your
+    state and your policy, and should be confirmed directly with your insurer or state government
+    resources before you assume either way.
+  </p>
+</GuideLayout>

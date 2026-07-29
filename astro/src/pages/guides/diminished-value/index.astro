@@ -1,0 +1,56 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Diminished Value Guides | FairClaimCalculator";
+const description =
+  "Source-backed guides on what diminished value means, the 17c formula's real history and limits, and how to build real market evidence.";
+const path = "/guides/diminished-value/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Guides", item: "https://www.fairclaimcalculator.com/guides/" },
+      { "@type": "ListItem", position: 3, name: "Diminished Value", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+
+const guides = [
+  { title: "What Is Diminished Value?", href: "/guides/diminished-value/what-is-diminished-value/", desc: "The basic concept, and the two different ways to measure it." },
+  { title: "Inherent vs. Repair-Related Diminished Value", href: "/guides/diminished-value/inherent-vs-repair-related-diminished-value/", desc: "Value lost from the accident itself vs. from how the repair was done." },
+  { title: "The 17c Formula's Real History, Calculation, and Limits", href: "/guides/diminished-value/the-17c-formula-history-calculation-and-limits/", desc: "Where the formula actually comes from, and why it's not a legal standard." },
+  { title: "Building Diminished-Value Market Evidence", href: "/guides/diminished-value/building-diminished-value-market-evidence/", desc: "How to compare clean-history and accident-history listings." },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/guides/">Guides</a> / Diminished Value</p>
+    <h1 class="page-title">Diminished Value Guides</h1>
+    <p class="lead">
+      Four guides on what diminished value means, the 17c formula's real origin and limits, and how
+      to build market evidence — each cites its sources and says plainly what it can't tell you.
+    </p>
+    <div class="guide-hub-grid">
+      {guides.map((g) => (
+        <a href={g.href} class="guide-hub-card">
+          <h2>{g.title}</h2>
+          <p>{g.desc}</p>
+        </a>
+      ))}
+    </div>
+    <p class="browse-link"><a href="/calculators/diminished-value-baseline/">Ready to check your own vehicle? Open the Diminished Value Baseline calculator →</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-hub-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 24px 0 30px; }
+  @media (max-width: 640px) { .guide-hub-grid { grid-template-columns: 1fr; } }
+  .guide-hub-card { display: block; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 18px; text-decoration: none; color: inherit; }
+  .guide-hub-card:hover, .guide-hub-card:focus-visible { border-color: var(--color-primary); }
+  .guide-hub-card h2 { margin: 0 0 6px; font-size: 1.02rem; color: var(--color-primary-dark); }
+  .guide-hub-card p { margin: 0; font-size: 0.88rem; color: var(--color-text-muted); }
+  .browse-link { margin: 10px 0 50px; }
+</style>

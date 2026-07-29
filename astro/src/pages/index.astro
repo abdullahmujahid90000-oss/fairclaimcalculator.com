@@ -3,9 +3,9 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import ScenarioCard from "@components/ScenarioCard.astro";
 import CalculatorCard from "@components/CalculatorCard.astro";
 
-const title = "Check Your Auto Claim Offer — Facts, Comparables & Math Shown | FairClaimCalculator";
+const title = "US Auto Claim Calculators — Facts, Comparables & Math Shown | FairClaimCalculator";
 const description =
-  "Check the facts, comparables, and arithmetic behind your auto claim offer — privately, with every calculation shown. Free, no login, four live calculators.";
+  "Free tools for U.S. drivers to check the facts, comparables, and arithmetic behind an auto total-loss or diminished-value claim offer — private, all 50 states, every calculation shown.";
 const path = "/";
 
 const structuredData = [
@@ -20,15 +20,22 @@ const structuredData = [
 ---
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
   <section class="hero container">
+    <p class="hero-eyebrow">For U.S. auto insurance claims — all 50 states</p>
     <h1>Check the facts, comparables, and arithmetic behind your auto claim offer</h1>
     <p class="lead">
-      Free tools that help you audit a total-loss or diminished-value offer — privately, in your
-      browser, with every calculation shown. No login, no email gate, no guesses.
+      Free tools built for the U.S. auto claims process, helping you audit a total-loss or
+      diminished-value offer — privately, in your browser, with every calculation shown. No login,
+      no email gate, no guesses.
     </p>
     <div class="hero-ctas">
       <a href="/check-my-offer/" class="btn-primary">Check My Offer</a>
       <a href="/calculators/" class="btn-secondary">Browse Calculators</a>
     </div>
+    <ul class="trust-badges hero-badges">
+      <li><span aria-hidden="true">🇺🇸</span> Built for U.S. claims, every state</li>
+      <li><span aria-hidden="true">🔒</span> Runs privately in your browser</li>
+      <li><span aria-hidden="true">📖</span> Sources cited, arithmetic shown</li>
+    </ul>
   </section>
 
   <section class="container">
@@ -113,9 +120,29 @@ const structuredData = [
     </div>
   </section>
 
-  <!-- Guides section intentionally removed until the source-backed guide
-       cluster (Phase 5) exists. Do not relink /guides/* until each hub and
-       its articles are actually published — see ASTRO-REBUILD-PLAN.md. -->
+  <section class="container guides-section">
+    <h2>Learn Before You Sign Anything</h2>
+    <p class="section-intro">
+      Fifteen source-backed guides on how insurers value a total loss, what diminished value
+      actually is, and how the U.S. claims process works — each cites its sources and says
+      plainly what it can't tell you.
+    </p>
+    <div class="guides-grid">
+      <a href="/guides/total-loss/" class="guide-card">
+        <h3>Total Loss</h3>
+        <p>8 guides — valuation, reading the report, comparables, and disputing it factually.</p>
+      </a>
+      <a href="/guides/diminished-value/" class="guide-card">
+        <h3>Diminished Value</h3>
+        <p>4 guides — what it means, the 17c formula's real history, and building market evidence.</p>
+      </a>
+      <a href="/guides/claim-process/" class="guide-card">
+        <h3>Claim Process</h3>
+        <p>3 guides — first-party vs. third-party claims, outside help, and an evidence checklist.</p>
+      </a>
+    </div>
+    <p class="browse-link"><a href="/guides/">Browse all guides →</a></p>
+  </section>
 
   <section class="container author-section">
     <h2>Who runs this site</h2>
@@ -145,10 +172,19 @@ const structuredData = [
 
 <style>
   .hero { padding: 48px 0 32px; }
+  .hero-eyebrow {
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    font-weight: 750;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+  }
   .hero h1 { font-size: 2rem; margin: 0 0 12px; color: var(--color-primary-dark); max-width: 760px; }
   .hero .lead { font-size: 1.1rem; color: var(--color-text-muted); max-width: 620px; margin: 0 0 24px; }
 
   .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-badges { margin: 22px 0 0; }
 
   .btn-primary {
     display: inline-flex;

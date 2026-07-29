@@ -1,0 +1,68 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "When to Consider an Independent Appraisal or Attorney | FairClaimCalculator";
+const description =
+  "Signs that a factual dispute alone may not be enough, and when a qualified independent appraiser, your policy's appraisal clause, or a licensed attorney may be worth involving.";
+const path = "/guides/claim-process/when-to-consider-an-independent-appraisal-or-attorney/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="When to Consider an Independent Appraisal or Attorney"
+  cluster={{ name: "Claim Process", href: "/guides/claim-process/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="Most factual disputes can be raised directly with your insurer using your own evidence. Some situations call for a qualified independent appraiser, your policy's appraisal clause, or a licensed attorney instead."
+  sources={[
+    "General description of the appraisal-clause process (independent appraisers per side, resolved by an umpire if they disagree) — a common auto-policy provision whose exact wording and scope varies by insurer and state; always read your own policy.",
+  ]}
+  relatedLinks={[
+    { label: "How to Dispute a Total-Loss Valuation", href: "/guides/total-loss/how-to-dispute-a-total-loss-valuation/" },
+    { label: "Claim Letter & Evidence Packet Builder", href: "/calculators/claim-letter-builder/" },
+  ]}
+>
+  <h2>When a factual letter is usually enough</h2>
+  <p>
+    If your dispute is about specific, checkable facts — a wrong trim, a stale comparable, a
+    mileage error, a missing adjustment explanation — a clear, evidence-backed letter to your
+    adjuster (see the <a href="/calculators/claim-letter-builder/">Claim Letter Builder</a>) is
+    usually the right first step, and often resolves things without needing outside help.
+  </p>
+
+  <h2>Signs it may be time for more help</h2>
+  <ul>
+    <li>You've sent a specific, well-documented factual dispute and received no substantive response.</li>
+    <li>The insurer disagrees with your comparables but won't explain their own methodology or adjustments.</li>
+    <li>The dollar gap between the offer and your evidence is large relative to the vehicle's value.</li>
+    <li>Your policy is denying a claim type entirely (e.g., refusing to consider a diminished-value claim your state may actually permit).</li>
+    <li>You suspect the claims-handling process itself is unreasonably slow or unresponsive, not just the number.</li>
+  </ul>
+
+  <h2>The policy's appraisal clause</h2>
+  <p>
+    Many auto policies include an appraisal clause specifically for value disagreements: each side
+    selects an independent appraiser, and if the two appraisers can't agree, a neutral umpire
+    resolves the difference (an agreement between any two of the three is typically binding). This
+    can be faster and less costly than litigation, but its availability, trigger conditions, and
+    exact process depend entirely on your policy's actual wording — read yours, or ask your insurer
+    directly whether it applies to your claim.
+  </p>
+
+  <h2>When a licensed attorney may help</h2>
+  <p>
+    An attorney is worth considering when the dispute involves your legal rights and remedies
+    rather than just facts and arithmetic — for example, a denied claim you believe violates your
+    state's claims-handling rules, a significant unresolved diminished-value dispute in a state
+    where the law is unclear, or any situation where you're unsure of your legal options. A
+    consultation doesn't obligate you to litigate; it's a way to understand your position.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you whether your specific situation warrants an appraisal clause or an attorney,
+    what either will cost, or what outcome to expect — those depend on your policy, your state, and
+    the specifics of your dispute.
+  </p>
+</GuideLayout>

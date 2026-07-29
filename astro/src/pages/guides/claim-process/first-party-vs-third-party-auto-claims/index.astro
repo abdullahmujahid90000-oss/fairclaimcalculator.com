@@ -1,0 +1,71 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "First-Party vs. Third-Party Auto Claims Explained | FairClaimCalculator";
+const description =
+  "The difference between filing a claim with your own insurer (first-party) versus the at-fault driver's insurer (third-party), and why it changes your rights and process.";
+const path = "/guides/claim-process/first-party-vs-third-party-auto-claims/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="First-Party vs. Third-Party Auto Claims"
+  cluster={{ name: "Claim Process", href: "/guides/claim-process/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="A first-party claim is against your own insurer, under your own policy's contract terms. A third-party claim is against another driver's insurer, based on their legal liability to you — and the two follow meaningfully different rules."
+  sources={[
+    'National Association of Insurance Commissioners (NAIC), <a href="https://content.naic.org/sites/default/files/model-law-900.pdf" target="_blank" rel="noopener">Unfair Claims Settlement Practices Act (Model Act #900)</a> — a model law defining first-party and third-party claimants and setting baseline claims-handling standards; most states have adopted some version of it, but the specific text enacted varies by state.',
+  ]}
+  relatedLinks={[
+    { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+    { label: "When to Consider an Independent Appraisal or Attorney", href: "/guides/claim-process/when-to-consider-an-independent-appraisal-or-attorney/" },
+    { label: "Auto Claim Evidence Checklist", href: "/guides/claim-process/auto-claim-evidence-checklist/" },
+  ]}
+>
+  <h2>The core distinction</h2>
+  <table>
+    <thead><tr><th></th><th>First-party claim</th><th>Third-party claim</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Who you claim against</strong></td><td>Your own insurer</td><td>Another driver's insurer</td></tr>
+      <tr><td><strong>Basis of the claim</strong></td><td>Your own policy's contract terms</td><td>Their legal liability for the accident</td></tr>
+      <tr><td><strong>Fault typically matters?</strong></td><td>Often less (depends on coverage type)</td><td>Central — liability usually must be established</td></tr>
+      <tr><td><strong>Deductible?</strong></td><td>Yours may apply (collision/comprehensive)</td><td>Generally none — you're not the policyholder</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Why the NAIC model act matters here</h2>
+  <p>
+    The National Association of Insurance Commissioners' Unfair Claims Settlement Practices Act is
+    a model law — a template most states have adopted in some form — that defines a "first party
+    claimant" as someone asserting a right to payment under their own policy, and sets baseline
+    standards insurers must meet for prompt, reasonable claims handling for both first- and
+    third-party claimants. Because it's a <em>model</em> act, the specific rules that actually apply
+    to you depend on how your state enacted (and possibly modified) it.
+  </p>
+  <p class="state-note">
+    <strong>What varies by state:</strong> exactly which claims-handling standards apply, how
+    strictly they're enforced, and whether they create a private right to sue for violations, all
+    differ by state. Check your own state insurance department's consumer resources for your
+    state's specific rules.
+  </p>
+
+  <h2>Why the distinction affects your total-loss or DV claim</h2>
+  <p>
+    A first-party total-loss claim runs through your own policy's ACV/deductible/loan-payoff
+    mechanics — exactly what the
+    <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown calculator</a>
+    traces. A third-party diminished-value claim instead depends on the other driver's liability and
+    your state's rules on whether first-party or third-party DV claims are even recognized — which
+    varies significantly and should be confirmed with your state insurance department or an
+    attorney.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you which type of claim applies to your specific accident, whether your state
+    recognizes a first-party diminished-value claim, or what your state's specific claims-handling
+    timeline requirements are.
+  </p>
+</GuideLayout>

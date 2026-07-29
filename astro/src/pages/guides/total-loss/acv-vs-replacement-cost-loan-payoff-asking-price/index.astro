@@ -1,0 +1,65 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "ACV vs. Replacement Cost vs. Loan Payoff vs. Asking Price | FairClaimCalculator";
+const description =
+  "Why your total-loss check almost never matches what you paid, what a similar car costs today, or what you owe on your loan — and why those are four different numbers.";
+const path = "/guides/total-loss/acv-vs-replacement-cost-loan-payoff-asking-price/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="ACV vs. Replacement Cost vs. Loan Payoff vs. Asking Price"
+  cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="A total-loss settlement is based on actual cash value (ACV) — a distinct number from what you paid, what a similar car is listed for today, or your remaining loan balance. Confusing them is the single biggest source of 'why is this check so low' frustration."
+  sources={[
+    "General insurance-claims concept explanation; not tied to a single external citation. See the settlement-waterfall methodology note on the Settlement Check Breakdown calculator's own methodology page.",
+  ]}
+  relatedLinks={[
+    { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+    { label: "How Insurers Value a Total-Loss Vehicle", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
+    { label: "Owner-Retained Total Loss & Salvage Titles", href: "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/" },
+  ]}
+>
+  <h2>Four different numbers, often confused as one</h2>
+  <table>
+    <thead><tr><th>Number</th><th>What it actually measures</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Actual cash value (ACV)</strong></td><td>What your specific car — with its actual mileage, condition, and options — was worth in the local used market right before the accident. This is what a total-loss settlement is based on.</td></tr>
+      <tr><td><strong>Replacement cost</strong></td><td>What it costs today to buy a similar car from a dealer, which is often higher than ACV because dealer prices include margin, reconditioning, and a warranty your totaled car may not have had.</td></tr>
+      <tr><td><strong>Loan payoff</strong></td><td>What you still owe your lender — unrelated to the car's market value. If it's higher than ACV, that gap is exactly what GAP insurance is designed to cover.</td></tr>
+      <tr><td><strong>Original purchase price / asking price</strong></td><td>What you paid, or what similar cars are listed for (not sold for) today. Depreciation alone usually makes this higher than current ACV.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="example-box">
+    <p>
+      <strong>Worked example.</strong> You paid $28,000 three years ago. Today's ACV comes back at
+      $19,500. A similar car at a dealer lot is listed for $22,000. You still owe $21,000 on your
+      loan. All four numbers are "real" — but only the $19,500 is what the insurer owes for the
+      total loss itself. The $1,500 gap between ACV and your loan payoff is a potential GAP claim,
+      not a total-loss dispute.
+    </p>
+  </div>
+
+  <h2>Why this matters for your claim</h2>
+  <p>
+    If you dispute your settlement by pointing to what you paid or what a dealer is asking, you're
+    arguing the wrong number — the insurer will (correctly) say those aren't ACV. A stronger
+    dispute compares the insurer's ACV to <em>real comparable sales</em>, which is exactly what the
+    <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit</a> and
+    <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown</a> calculators
+    are built to do — one checks whether the ACV itself is well-supported, the other traces ACV
+    through deductions to your actual check and flags a possible GAP shortfall as its own separate
+    line.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you whether your GAP coverage will actually pay a shortfall — that depends
+    entirely on your GAP contract's own terms and exclusions, which you need to check separately.
+  </p>
+</GuideLayout>

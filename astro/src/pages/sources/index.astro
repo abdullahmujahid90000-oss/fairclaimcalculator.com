@@ -39,8 +39,9 @@ const groups = [
     </p>
 
     <div class="notice">
-      No guides are published yet, so this register currently covers only the four calculators'
-      formula and methodology sources. It will grow as the source-backed guide library is published.
+      This page covers the four calculators' formula and methodology sources below. The 15-guide
+      library's sources are cited inline on each guide's own page (in its "Sources" section) rather
+      than duplicated here — see the summary and links in the Guides section further down.
     </div>
 
     {groups.map((group) => (
@@ -52,6 +53,24 @@ const groups = [
         <p><a href={group.href}>Open this calculator →</a></p>
       </div>
     ))}
+
+    <div class="calc-card">
+      <h2>Guides</h2>
+      <p>
+        Each of the 15 guides in the <a href="/guides/">guide library</a> cites its own sources
+        inline, next to the claim, in a Sources section at the bottom of the page. Sources include
+        primary government and regulatory records (e.g., the NAIC's Unfair Claims Settlement
+        Practices Act, the Texas Comptroller's insurance-settlement-transfer rules, the New York
+        DFS's salvage-title opinion, and the New Hampshire Insurance Department's list of accepted
+        valuation methods) alongside general concept explanations and this site's own methodology
+        notes, each labeled for what it is.
+      </p>
+      <ul class="quality-list">
+        <li><a href="/guides/total-loss/">Total Loss guides (8)</a></li>
+        <li><a href="/guides/diminished-value/">Diminished Value guides (4)</a></li>
+        <li><a href="/guides/claim-process/">Claim Process guides (3)</a></li>
+      </ul>
+    </div>
 
     <div class="disclaimer-box">
       <strong>Found a sourcing error?</strong>

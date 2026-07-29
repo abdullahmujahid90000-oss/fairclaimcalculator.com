@@ -1,0 +1,61 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Total-Loss Guides | FairClaimCalculator";
+const description =
+  "Source-backed guides on how U.S. insurers value a totaled vehicle, reading a valuation report, finding comparables, and disputing a valuation factually.";
+const path = "/guides/total-loss/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Guides", item: "https://www.fairclaimcalculator.com/guides/" },
+      { "@type": "ListItem", position: 3, name: "Total Loss", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+
+const guides = [
+  { title: "How Insurers Value a Total-Loss Vehicle", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/", desc: "Total-loss thresholds, ACV, and how comparable vehicles build a valuation." },
+  { title: "How to Read Your Total-Loss Valuation Report", href: "/guides/total-loss/reading-your-total-loss-valuation-report/", desc: "The sections in a typical CCC/Mitchell/Audatex-style report, explained." },
+  { title: "Finding Your Own Comparable Vehicles", href: "/guides/total-loss/finding-your-own-comparable-vehicles/", desc: "How to search well and what makes a comp strong or weak." },
+  { title: "Common Valuation Report Errors to Check For", href: "/guides/total-loss/common-valuation-report-errors/", desc: "Vehicle-description, comp-selection, and adjustment mistakes to watch for." },
+  { title: "ACV vs. Replacement Cost vs. Loan Payoff vs. Asking Price", href: "/guides/total-loss/acv-vs-replacement-cost-loan-payoff-asking-price/", desc: "Four different numbers people often confuse as one." },
+  { title: "Sales Tax, Title, and Fees on a Total-Loss Settlement", href: "/guides/total-loss/sales-tax-title-fees-on-a-total-loss/", desc: "Whether tax/fee reimbursement applies, and the common process." },
+  { title: "Owner-Retained Total Loss & Salvage Titles", href: "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/", desc: "How the salvage-value deduction and title branding work." },
+  { title: "How to Dispute a Total-Loss Valuation Factually", href: "/guides/total-loss/how-to-dispute-a-total-loss-valuation/", desc: "A step-by-step, evidence-based dispute process." },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/guides/">Guides</a> / Total Loss</p>
+    <h1 class="page-title">Total-Loss Guides</h1>
+    <p class="lead">
+      Eight guides covering how U.S. insurers value a totaled vehicle, how to check the valuation
+      report, and how to dispute it factually — each cites its sources and says plainly what it
+      can't tell you.
+    </p>
+    <div class="guide-hub-grid">
+      {guides.map((g) => (
+        <a href={g.href} class="guide-hub-card">
+          <h2>{g.title}</h2>
+          <p>{g.desc}</p>
+        </a>
+      ))}
+    </div>
+    <p class="browse-link"><a href="/calculators/">Ready to check your own offer? Browse the calculators →</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-hub-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 24px 0 30px; }
+  @media (max-width: 640px) { .guide-hub-grid { grid-template-columns: 1fr; } }
+  .guide-hub-card { display: block; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 18px; text-decoration: none; color: inherit; }
+  .guide-hub-card:hover, .guide-hub-card:focus-visible { border-color: var(--color-primary); }
+  .guide-hub-card h2 { margin: 0 0 6px; font-size: 1.02rem; color: var(--color-primary-dark); }
+  .guide-hub-card p { margin: 0; font-size: 0.88rem; color: var(--color-text-muted); }
+  .browse-link { margin: 10px 0 50px; }
+</style>

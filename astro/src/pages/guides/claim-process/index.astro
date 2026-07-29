@@ -1,0 +1,55 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Claim Process Guides | FairClaimCalculator";
+const description =
+  "Source-backed guides on first-party vs. third-party auto claims, when an appraisal or attorney may help, and a full evidence checklist.";
+const path = "/guides/claim-process/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Guides", item: "https://www.fairclaimcalculator.com/guides/" },
+      { "@type": "ListItem", position: 3, name: "Claim Process", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+
+const guides = [
+  { title: "First-Party vs. Third-Party Auto Claims", href: "/guides/claim-process/first-party-vs-third-party-auto-claims/", desc: "Why the type of claim changes your rights and process." },
+  { title: "When to Consider an Independent Appraisal or Attorney", href: "/guides/claim-process/when-to-consider-an-independent-appraisal-or-attorney/", desc: "Signs a factual letter alone may not be enough." },
+  { title: "Auto Claim Evidence Checklist", href: "/guides/claim-process/auto-claim-evidence-checklist/", desc: "A general checklist for total-loss and diminished-value claims." },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/guides/">Guides</a> / Claim Process</p>
+    <h1 class="page-title">Claim Process Guides</h1>
+    <p class="lead">
+      Three guides on how the U.S. auto claims process works — first-party vs. third-party claims,
+      when outside help may be worth it, and a full evidence checklist.
+    </p>
+    <div class="guide-hub-grid">
+      {guides.map((g) => (
+        <a href={g.href} class="guide-hub-card">
+          <h2>{g.title}</h2>
+          <p>{g.desc}</p>
+        </a>
+      ))}
+    </div>
+    <p class="browse-link"><a href="/check-my-offer/">Not sure where to start? Try Check My Offer →</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .guide-hub-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 24px 0 30px; }
+  @media (max-width: 640px) { .guide-hub-grid { grid-template-columns: 1fr; } }
+  .guide-hub-card { display: block; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 18px; text-decoration: none; color: inherit; }
+  .guide-hub-card:hover, .guide-hub-card:focus-visible { border-color: var(--color-primary); }
+  .guide-hub-card h2 { margin: 0 0 6px; font-size: 1.02rem; color: var(--color-primary-dark); }
+  .guide-hub-card p { margin: 0; font-size: 0.88rem; color: var(--color-text-muted); }
+  .browse-link { margin: 10px 0 50px; }
+</style>

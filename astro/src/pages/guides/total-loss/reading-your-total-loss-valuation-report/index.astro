@@ -1,0 +1,85 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "How to Read a CCC, Mitchell, or Audatex Total-Loss Report | FairClaimCalculator";
+const description =
+  "A plain-language walkthrough of the sections in a typical insurer total-loss valuation report — vehicle description, comparables, adjustments, and the final value.";
+const path = "/guides/total-loss/reading-your-total-loss-valuation-report/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="How to Read Your Total-Loss Valuation Report"
+  cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="Most insurers generate total-loss valuations through CCC, Mitchell, or Audatex-based systems. The report layouts differ, but they all contain the same core sections — here's what to look for in each."
+  sources={[
+    'Report-structure and market-share descriptions are based on general industry commentary about these three widely used valuation platforms; the exact layout and terminology can vary by insurer and by product version. Ask your adjuster for the full report (not a one-page summary) if you were not sent one.',
+    'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a>.',
+  ]}
+  relatedLinks={[
+    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
+    { label: "Common Valuation Report Errors", href: "/guides/total-loss/common-valuation-report-errors/" },
+    { label: "How to Dispute a Total-Loss Valuation", href: "/guides/total-loss/how-to-dispute-a-total-loss-valuation/" },
+  ]}
+>
+  <h2>Ask for the full report, not a summary letter</h2>
+  <p>
+    Many insurers first send a short settlement letter with just a final dollar figure. You are
+    generally entitled to request the underlying valuation report itself — the document that
+    actually shows the comparable vehicles and adjustments behind that number. Ask for it in
+    writing if you weren't sent one automatically (the
+    <a href="/calculators/claim-letter-builder/">Claim Letter Builder</a> has a template for
+    exactly this request).
+  </p>
+
+  <h2>The sections you'll typically find</h2>
+  <h3>1. Vehicle description</h3>
+  <p>
+    Year, make, model, trim, engine/drivetrain, mileage, and factory-installed options. Check every
+    field against your actual vehicle and title — an error here (wrong trim, missing options,
+    wrong mileage) can throw off everything that follows.
+  </p>
+  <h3>2. Condition assessment</h3>
+  <p>
+    A grade or description of your vehicle's pre-accident condition (e.g., "average," "clean," or
+    a numeric scale), sometimes based on an inspection, sometimes on the adjuster's notes alone.
+  </p>
+  <h3>3. Comparable vehicles ("comps")</h3>
+  <p>
+    A list of similar vehicles for sale or recently sold nearby, each with its own price, mileage,
+    trim, and distance from you. This is usually the most important section to check line by line.
+  </p>
+  <h3>4. Adjustments</h3>
+  <p>
+    Dollar additions or deductions applied to each comp to account for differences from your car —
+    mileage, trim/options, and condition are the most common. This is also where valuation
+    critiques most often focus, since adjustment amounts aren't always itemized clearly.
+  </p>
+  <h3>5. Final value calculation</h3>
+  <p>
+    How the adjusted comp prices were combined (commonly an average) into the stated ACV, sometimes
+    with taxes/fees or a base-vs-adjusted value shown separately.
+  </p>
+
+  <div class="example-box">
+    <p>
+      <strong>What to actually do with this:</strong> pull every comp's year, mileage, trim,
+      distance, and adjusted price into the
+      <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit calculator</a>, add
+      your own comparables from the same listing sites, and let it show you the mean, median,
+      range, and a comparable-quality review — all without guessing at what any single number
+      "should" be.
+    </p>
+  </div>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    Report formats vary by insurer, by state, and by which valuation product was used, so this
+    guide can't promise your report looks exactly like this. If a section is missing entirely — no
+    comps listed, no adjustments shown — that itself is worth raising with your adjuster in
+    writing.
+  </p>
+</GuideLayout>

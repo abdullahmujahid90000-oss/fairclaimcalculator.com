@@ -1,0 +1,76 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "How to Find Your Own Comparable Vehicles | FairClaimCalculator";
+const description =
+  "Step-by-step guide to finding real comparable vehicle listings to check an insurer's total-loss valuation, plus what makes a comp strong or weak.";
+const path = "/guides/total-loss/finding-your-own-comparable-vehicles/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Finding Your Own Comparable Vehicles"
+  cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="The fastest way to sanity-check a total-loss offer is to find your own comparable listings — real, currently-available or recently-sold vehicles like yours. Here's how to search well and what makes a comp usable."
+  sources={[
+    "General methodology note: this guide describes a research technique (how to search classifieds/marketplaces for genuinely comparable listings), not a citation to a specific regulation.",
+  ]}
+  relatedLinks={[
+    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
+    { label: "How Insurers Value a Total-Loss Vehicle", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
+    { label: "Common Valuation Report Errors", href: "/guides/total-loss/common-valuation-report-errors/" },
+  ]}
+>
+  <h2>Where to look</h2>
+  <p>
+    Search major used-vehicle marketplaces and dealer inventory sites for your exact
+    year/make/model, then widen or narrow by trim as needed. Include both dealer and private-party
+    listings if you can — the calculator lets you record which is which, since dealer prices
+    typically run higher than private-party prices for the same vehicle.
+  </p>
+
+  <h2>What makes a comp strong</h2>
+  <ul>
+    <li><strong>Same or adjacent model year.</strong> A 2-3+ year gap is a real difference, not a rounding error.</li>
+    <li><strong>Similar mileage.</strong> Tens of thousands of miles apart changes value meaningfully.</li>
+    <li><strong>Matching trim and major options</strong> (engine, drivetrain, packages) — a base trim isn't comparable to a loaded one.</li>
+    <li><strong>Reasonably close geographically.</strong> Regional price differences are real; a comp from across the country is weaker evidence.</li>
+    <li><strong>Currently listed or very recently sold/removed.</strong> A stale listing that's been up for months may reflect an asking price nobody paid.</li>
+  </ul>
+
+  <h2>What makes a comp weak (but still worth noting)</h2>
+  <p>
+    A comp doesn't have to be thrown out just because it's imperfect — but its differences should
+    be written down, not ignored. That's exactly what the calculator's comparable-quality review
+    does: instead of guessing a dollar adjustment for a mismatch, it lists the specific difference
+    (mileage gap, trim mismatch, distance, listing status) as a fact to raise with your adjuster.
+  </p>
+
+  <div class="example-box">
+    <p>
+      <strong>Worked example.</strong> You find four listings for your exact trim within 50 miles,
+      two dealer and two private-party, all within 8,000 miles of your car's mileage. That's a
+      solid comp set. Entering all four into the
+      <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit calculator</a> alongside
+      the insurer's own comps shows both groups' mean, median, and range side by side — with at
+      least 3 comps per group needed before the tool treats a comparison as more than "limited."
+    </p>
+  </div>
+
+  <h2>Keep a record as you go</h2>
+  <p>
+    For each listing, save: the URL, the date you checked it, the price, mileage, trim, and whether
+    it's a dealer or private-party listing. If a listing disappears later, your saved screenshot or
+    note is what makes the comp usable in a letter to your insurer.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It can't tell you how many comps are "enough" for your specific state or insurer's process — some
+    processes expect more, some fewer. Two or more solid comps is a reasonable starting point; three
+    or more starts to look like a real sample rather than an outlier.
+  </p>
+</GuideLayout>

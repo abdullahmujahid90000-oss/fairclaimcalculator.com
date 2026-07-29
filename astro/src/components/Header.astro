@@ -17,12 +17,27 @@
           <!--
             Only link routes that actually exist and are finished. Per
             ASTRO-REBUILD-PLAN.md: never add a route to nav until it is
-            built. The Guides submenu returns once the guide hubs (Phase 5)
-            are published — do not restore it speculatively.
+            built. The Guides submenu was restored once the guide hubs
+            (Phase 5) were published — all 3 cluster hubs + 15 guides now
+            exist under /guides/.
           -->
           <li><a href="/">Home</a></li>
           <li><a href="/check-my-offer/">Check My Offer</a></li>
           <li><a href="/calculators/">Calculators</a></li>
+          <li>
+            <details class="nav-subdisclosure">
+              <summary>
+                Guides
+                <span aria-hidden="true" class="nav-toggle-icon">▾</span>
+              </summary>
+              <ul>
+                <li><a href="/guides/">All Guides</a></li>
+                <li><a href="/guides/total-loss/">Total Loss</a></li>
+                <li><a href="/guides/diminished-value/">Diminished Value</a></li>
+                <li><a href="/guides/claim-process/">Claim Process</a></li>
+              </ul>
+            </details>
+          </li>
           <li><a href="/about/">About</a></li>
           <li><a href="/contact/">Contact</a></li>
         </ul>
@@ -102,10 +117,17 @@
   .nav-disclosure a:hover { color: var(--color-primary); background: var(--color-bg-soft); }
 
   .nav-subdisclosure summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     padding: 10px 12px;
     font-weight: 500;
     min-height: var(--touch-target-min);
   }
+
+  .nav-subdisclosure summary::-webkit-details-marker { display: none; }
 
   .nav-subdisclosure > ul {
     list-style: none;

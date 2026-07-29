@@ -1,0 +1,80 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "Owner-Retained Total Loss & Salvage Titles Explained | FairClaimCalculator";
+const description =
+  "What happens if you keep your totaled vehicle: how the salvage-value deduction works, what a salvage or rebuilt title means, and how it affects value long-term.";
+const path = "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Owner-Retained Total Loss & Salvage Titles"
+  cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
+  publishedDate="2026-07-29"
+  reviewedDate="2026-07-29"
+  summary="If you keep your totaled vehicle instead of surrendering it, the insurer deducts its salvage value from your payout, and your state issues a salvage title — a permanent record that follows the car for life."
+  sources={[
+    'Wikipedia, <a href="https://en.wikipedia.org/wiki/Salvage_title" target="_blank" rel="noopener">Salvage title</a> — general overview; branding criteria differ by state and should be confirmed with your state DMV.',
+    'New York State Department of Financial Services, <a href="https://www.dfs.ny.gov/insurance/ogco2000/rg000207.htm" target="_blank" rel="noopener">OGC Opinion No. 00-02-07: Salvage Vehicle Branding</a> (primary — a real regulator opinion letter on salvage-title branding).',
+  ]}
+  relatedLinks={[
+    { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+    { label: "ACV vs. Replacement Cost vs. Loan Payoff vs. Asking Price", href: "/guides/total-loss/acv-vs-replacement-cost-loan-payoff-asking-price/" },
+  ]}
+>
+  <h2>What "owner retention" means</h2>
+  <p>
+    When your car is declared a total loss, you generally have two options: surrender it to the
+    insurer (who sells it for salvage), or keep it yourself ("owner retain" or "owner buyback"). If
+    you keep it, the insurer deducts an estimated salvage value from your ACV before paying you —
+    since they aren't taking possession of, and reselling, the wreck.
+  </p>
+
+  <div class="example-box">
+    <p>
+      <strong>Worked example.</strong> ACV is $16,000. The insurer estimates salvage value (what
+      the wrecked vehicle itself is worth, e.g., to a salvage buyer or for parts) at $3,200. If you
+      retain the vehicle, your payout is $16,000 − $3,200 = <strong>$12,800</strong>, and you keep
+      the car with a branded title.
+    </p>
+  </div>
+
+  <h2>Salvage title vs. rebuilt title</h2>
+  <ul>
+    <li>
+      <strong>Salvage title:</strong> issued once a vehicle is declared a total loss. In most
+      states, a salvage-titled vehicle cannot legally be driven on public roads until it's repaired
+      and re-inspected.
+    </li>
+    <li>
+      <strong>Rebuilt title:</strong> issued after a previously salvage-titled vehicle is repaired
+      and passes your state's required inspection, allowing it back on the road.
+    </li>
+  </ul>
+  <p class="state-note">
+    <strong>What varies by state:</strong> the exact criteria for issuing a salvage title, the
+    inspection process for a rebuilt title, and whether a title is branded at all for a given
+    damage level, all differ by state. Confirm your state's specific process with your state's DMV
+    or motor vehicle agency before assuming your vehicle can (or can't) be returned to the road.
+  </p>
+
+  <h2>The permanent effect on value</h2>
+  <p>
+    A salvage or rebuilt brand does not go away — it stays attached to the vehicle's history
+    through services like Carfax and the National Motor Vehicle Title Information System (NMVTIS)
+    even after professional repairs. This is a separate concept from — and often confused with —
+    <em>diminished value</em>, which is specifically about a vehicle that was <strong>repaired,
+    not totaled</strong>, and did not receive a salvage title. See
+    <a href="/guides/diminished-value/what-is-diminished-value/">What Diminished Value Means</a> for
+    that distinction.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot estimate your specific vehicle's salvage value, tell you whether your state allows
+    owner retention for your damage level, or predict your state's rebuilt-title inspection
+    requirements — all of these depend on your state and your insurer's own process.
+  </p>
+</GuideLayout>
