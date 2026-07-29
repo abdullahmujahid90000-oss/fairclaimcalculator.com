@@ -386,3 +386,39 @@ this section is just "what happened, when."
   message linking to the 4 live tools) land at their exact old byte-for-byte
   paths in `dist/`, none leak into the sitemap, and the site's 18 real pages
   are unaffected. See ASTRO-REBUILD-PLAN.md R9 for the full account.
+- **2026-07-29 — Required deliverables (SOURCE-REGISTER.md,
+  URL-MIGRATION.md, ADSENSE-READINESS.md) + AdSlot scaffolding.** Wrote all
+  three repo-root docs required by the rebuild brief but not previously
+  created. Built `astro/src/lib/ads/config.ts` (`ADSENSE_ENABLED = false`
+  as a literal constant, `isAdEligible()` with a deny-list that always
+  wins) and `astro/src/components/AdSlot.astro` (renders nothing while
+  disabled/ineligible) — prepared but fully inactive; no page uses it yet.
+- **2026-07-29 — Phase 6, partial: automated code-level accessibility
+  audit.** Ran three scripted checks against the real production build
+  (`dist/`, all 50 HTML files — 19 real pages + 30 legacy stubs):
+  1. Heading/landmark check: every one of the 19 real content pages has
+     exactly one `<h1>`, a `<main>` landmark, a skip-link, and
+     `lang="en-US"`. Zero issues.
+  2. Contrast-ratio check (computed directly from the actual hex values in
+     `tokens.css`, WCAG relative-luminance formula): every color pair
+     actually used on the site — body text, muted text, primary
+     green/dark-green on white and vice versa, error/warning banner text
+     on their backgrounds, the blue focus-ring/accent color — passes AA at
+     the *stricter* 4.5:1 normal-text threshold, not just the 3:1
+     large-text/UI minimum. Lowest ratio found: 5.61:1
+     (text-muted-on-bg-soft). Zero issues.
+  3. Label/ARIA-reference integrity check: every `<label for>`,
+     `aria-describedby`, and `aria-labelledby` across all 19 pages
+     resolves to a real element id. Every form control has an associated
+     label (checked both the explicit `for=` pattern and the implicit
+     wrapped-inside-`<label>` pattern used by `/check-my-offer/`'s radio
+     choice-cards — the script initially flagged those as false positives
+     before I corrected it to recognize implicit labeling too). Zero real
+     issues after the fix.
+  **What this does NOT cover, and is still outstanding:** the actual
+  manual keyboard-only navigation and screen-reader (VoiceOver/NVDA-style)
+  walkthrough at 320/390/768/1024/1440px that Phase 6 calls for, and a
+  Lighthouse/perf-budget run. Both require either a live deployed URL or
+  local browser/AT automation tooling not connected in this session. Do
+  not report Phase 6 as fully done on the strength of the automated pass
+  alone.

@@ -344,8 +344,21 @@ and the user confirms the site is substantively complete:
       guide sections (§7). The homepage's guide-card section and the
       header's Guides submenu are removed (not commented-out-but-linked)
       until this phase actually ships real content.
-- [ ] **P6.** Full accessibility pass + manual keyboard/screen-reader test
+- [~] **P6.** Full accessibility pass + manual keyboard/screen-reader test
       matrix at all 5 breakpoints + Lighthouse/perf budget verification.
+      **Partially done this session** — an automated, code-level audit of
+      every built page (heading structure, landmarks, skip-link presence,
+      `lang` attribute, label association — explicit `for=` or implicit
+      wrapping — aria-describedby/aria-labelledby reference integrity, and
+      a computed contrast-ratio check of every color pair actually used in
+      `tokens.css`) found zero issues across all 19 real content pages.
+      Full detail in `BUILD-LOG.md` §6. **Still not done:** the actual
+      manual keyboard-only and screen-reader walkthrough at
+      320/390/768/1024/1440px this phase calls for, and a Lighthouse/perf
+      budget run — both need either a deployed URL or local browser/AT
+      tooling this sandbox doesn't have connected. Do not treat the
+      automated pass as satisfying this phase; it's real evidence, not a
+      substitute for the manual pass.
 - [ ] **P7.** SEO/migration validation (sitemap `lastmod`, robots.txt,
       canonicals, structured data validator, Search Console render check)
       + AdSense-readiness checklist (still not activating ads).
