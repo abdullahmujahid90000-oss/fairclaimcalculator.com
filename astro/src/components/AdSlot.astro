@@ -1,0 +1,45 @@
+---
+/**
+ * Ad placement slot. Renders nothing at all — no element, no reserved
+ * space, no placeholder markup — unless both:
+ *   1. ADSENSE_ENABLED is true (astro/src/lib/ads/config.ts), and
+ *   2. the current page's path is ad-eligible per isAdEligible().
+ *
+ * No page in this codebase currently uses this component. It exists as
+ * prepared-but-inactive scaffolding per ADSENSE-READINESS.md, so that
+ * wiring in a real, approved placement later is additive (drop <AdSlot>
+ * into a page) rather than requiring a rushed retrofit under pressure to
+ * "just get ads live."
+ *
+ * When real placements are ever added, this component must still:
+ *   - reserve its final dimensions only for placements that are actually
+ *     approved and live (never reserve blank space for a "someday" slot —
+ *     that causes layout shift for nothing);
+ *   - render a clear, visible "Advertisement" label;
+ *   - never be styled to resemble a calculator control, nav item, result,
+ *     or download/print button;
+ *   - never sit adjacent to a form field, submit button, or result panel
+ *     in a way that risks accidental interaction.
+ */
+import { ADSENSE_ENABLED, isAdEligible } from "@lib/ads/config";
+
+interface Props {
+  /** Site-relative path of the current page, e.g. "/guides/total-loss/foo/". */
+  path: string;
+  /** Human-readable slot name for future reference, e.g. "guide-inline-1". Unused while disabled. */
+  slot: string;
+}
+
+const { path } = Astro.props;
+const eligible = ADSENSE_ENABLED && isAdEligible(path);
+---
+{eligible && (
+  <div class="ad-slot" role="complementary" aria-label="Advertisement">
+    <!--
+      Intentionally left for future implementation. Do not add an ad
+      network script tag here without: a real, verified publisher ID: a
+      working consent/CMP gate; and the owner's sign-off per
+      ADSENSE-READINESS.md. See that file before touching this block.
+    -->
+  </div>
+)}
