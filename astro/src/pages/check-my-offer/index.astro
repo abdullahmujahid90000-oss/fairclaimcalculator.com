@@ -1,0 +1,298 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ErrorSummary from "@components/ErrorSummary.astro";
+
+const title = "Which Auto Claim Tool Should I Use? | FairClaimCalculator";
+const description =
+  "Answer two simple questions to find the right free tool for a total-loss offer, settlement check, diminished-value estimate, or factual claim letter.";
+const path = "/check-my-offer/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Check My Offer", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Check My Offer</p>
+    <h1 class="page-title">Find the Right Tool for Your Situation</h1>
+    <p class="lead">
+      Answer two routing questions — no claim number, VIN, name, or financial details. This page
+      recommends where to start; it does not evaluate your claim.
+    </p>
+
+    <div class="calc-card router-card">
+      <h2>What are you trying to check?</h2>
+      <ErrorSummary id="router-error-summary" />
+
+      <form id="offer-router-form" novalidate>
+        <fieldset class="choice-group" id="situation-group">
+          <legend>1. What happened to the vehicle?</legend>
+          <p class="hint" id="situation-hint">Choose the closest answer.</p>
+          <div class="choice-list" aria-describedby="situation-hint">
+            <label class="choice-card">
+              <input type="radio" name="situation" value="total-loss" />
+              <span><strong>It was declared a total loss</strong><small>I have or expect a valuation/settlement offer.</small></span>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="situation" value="repaired" />
+              <span><strong>It was repaired after an accident</strong><small>I am researching possible diminished value.</small></span>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="situation" value="follow-up" />
+              <span><strong>I mainly need to write to the insurer</strong><small>I need a factual request or notice and an evidence checklist.</small></span>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="situation" value="unsure" />
+              <span><strong>I'm not sure</strong><small>Recommend a safe starting point based on my next answer.</small></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="choice-group" id="goal-group">
+          <legend>2. What do you need help with now?</legend>
+          <div class="choice-list">
+            <label class="choice-card">
+              <input type="radio" name="goal" value="audit" />
+              <span><strong>Check a valuation report and its comparable vehicles</strong><small>Review facts, statistics, and comp quality.</small></span>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="goal" value="check" />
+              <span><strong>Understand how the insurer got to my check</strong><small>Trace ACV, deductible, loan payoff, salvage, and prior payments.</small></span>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="goal" value="dv" />
+              <span><strong>Compare a diminished-value baseline with market evidence</strong><small>Keep the formula result and listing evidence separate.</small></span>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="goal" value="letter" />
+              <span><strong>Draft a factual letter and evidence checklist</strong><small>Create an editable local draft; nothing is sent.</small></span>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="goal" value="unsure" />
+              <span><strong>I don't know yet</strong><small>Choose the broadest useful starting point for my situation.</small></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Show My Starting Point</button>
+          <button type="button" class="btn-secondary" id="router-start-over">Start over</button>
+        </div>
+      </form>
+
+      <section class="result-box route-result" id="router-result" hidden aria-labelledby="router-result-heading">
+        <p class="result-label">Recommended starting point</p>
+        <h2 id="router-result-heading" tabindex="-1">—</h2>
+        <p id="router-result-description"></p>
+        <a href="/calculators/" class="btn-primary" id="router-result-link">Open Recommended Tool</a>
+        <p class="section-note" id="router-secondary-note"></p>
+      </section>
+    </div>
+
+    <section class="privacy-note">
+      <h2>Your answers are not saved</h2>
+      <p>
+        This router and all four calculators run locally in your browser. The site does not receive
+        the radio choices or calculator entries you make.
+      </p>
+    </section>
+
+    <div class="disclaimer-box">
+      <strong>This is routing help, not a claim assessment.</strong>
+      The recommendation does not decide coverage, fault, recoverability, value, or legal rights.
+    </div>
+
+    <p class="browse-link"><a href="/calculators/">Prefer to choose yourself? Browse all four calculators →</a></p>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById("offer-router-form") as HTMLFormElement | null;
+  const result = document.getElementById("router-result");
+  const resultHeading = document.getElementById("router-result-heading");
+  const resultDescription = document.getElementById("router-result-description");
+  const resultLink = document.getElementById("router-result-link") as HTMLAnchorElement | null;
+  const secondaryNote = document.getElementById("router-secondary-note");
+  const errorSummary = document.getElementById("router-error-summary");
+  const errorList = document.getElementById("router-error-summary-list");
+
+  const routes = {
+    audit: {
+      title: "Total-Loss Offer Audit",
+      description: "Start with the written valuation report. Check vehicle facts, compare the insurer's comp prices with your own, and review each comp's quality without hidden weights.",
+      href: "/calculators/total-loss-offer-audit/",
+    },
+    check: {
+      title: "Settlement Check Breakdown",
+      description: "Enter the offer's stated ACV and deductions to see how the arithmetic flows to the owner and any lienholder, with a separate possible GAP scenario.",
+      href: "/calculators/settlement-check-breakdown/",
+    },
+    dv: {
+      title: "Diminished Value Baseline",
+      description: "Calculate a disclosed 17c-style comparison baseline and build a separate clean-history versus accident-history market-evidence worksheet.",
+      href: "/calculators/diminished-value-baseline/",
+    },
+    letter: {
+      title: "Claim Letter & Evidence Packet Builder",
+      description: "Choose one narrow factual request, add what you know, and generate an editable plain-text draft plus a general evidence checklist.",
+      href: "/calculators/claim-letter-builder/",
+    },
+  } as const;
+
+  if (form && result && resultHeading && resultDescription && resultLink && errorSummary && errorList) {
+    const selected = (name: string) =>
+      (form.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`))?.value ?? "";
+
+    function preselectFromQuery() {
+      const path = new URLSearchParams(window.location.search).get("path");
+      const target =
+        path === "total-loss"
+          ? form!.querySelector<HTMLInputElement>('input[name="situation"][value="total-loss"]')
+          : path === "diminished-value"
+            ? form!.querySelector<HTMLInputElement>('input[name="situation"][value="repaired"]')
+            : null;
+      if (target) target.checked = true;
+    }
+    preselectFromQuery();
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const situation = selected("situation");
+      const goal = selected("goal");
+      const errors: { id: string; message: string }[] = [];
+      if (!situation) errors.push({ id: "situation-group", message: "Choose what happened to the vehicle." });
+      if (!goal) errors.push({ id: "goal-group", message: "Choose what you need help with now." });
+
+      if (errors.length) {
+        errorList.replaceChildren();
+        errors.forEach((error) => {
+          const item = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `#${error.id}`;
+          link.textContent = error.message;
+          link.addEventListener("click", (clickEvent) => {
+            clickEvent.preventDefault();
+            document.querySelector<HTMLInputElement>(`#${error.id} input`)?.focus();
+          });
+          item.appendChild(link);
+          errorList.appendChild(item);
+        });
+        errorSummary.hidden = false;
+        errorSummary.focus();
+        result.hidden = true;
+        return;
+      }
+
+      errorSummary.hidden = true;
+      let routeKey: keyof typeof routes;
+      if (goal === "audit" || goal === "check" || goal === "dv" || goal === "letter") {
+        routeKey = goal;
+      } else if (situation === "repaired") {
+        routeKey = "dv";
+      } else if (situation === "follow-up") {
+        routeKey = "letter";
+      } else {
+        routeKey = "audit";
+      }
+      const route = routes[routeKey];
+      resultHeading.textContent = route.title;
+      resultDescription.textContent = route.description;
+      resultLink.href = route.href;
+      secondaryNote!.textContent =
+        situation === "total-loss" && routeKey === "letter"
+          ? "If you have not reviewed the valuation report yet, the Total-Loss Offer Audit can help you identify the specific facts to reference first."
+          : "You can switch tools at any time; no answers are transferred or stored.";
+      result.hidden = false;
+      resultHeading.focus();
+    });
+
+    document.getElementById("router-start-over")?.addEventListener("click", () => {
+      form.reset();
+      errorSummary.hidden = true;
+      result.hidden = true;
+      (form.querySelector('input[name="situation"]') as HTMLInputElement | null)?.focus();
+    });
+  }
+</script>
+
+<style>
+  .router-card { margin-top: 26px; }
+
+  .choice-group {
+    border: 0;
+    margin: 26px 0 0;
+    padding: 0;
+  }
+
+  .choice-group legend {
+    color: var(--color-primary-dark);
+    font-size: 1.08rem;
+    font-weight: 750;
+  }
+
+  .choice-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .choice-card {
+    align-items: flex-start;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    min-height: var(--touch-target-min);
+    padding: 14px;
+  }
+
+  .choice-card:has(input:checked) {
+    background: #f0fdf4;
+    border-color: var(--color-primary);
+  }
+
+  .choice-card input {
+    flex: 0 0 auto;
+    margin-top: 1px;
+  }
+
+  .choice-card strong,
+  .choice-card small { display: block; }
+
+  .choice-card small {
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    margin-top: 3px;
+  }
+
+  .result-label {
+    color: var(--color-text-muted);
+    font-size: 0.78rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    margin: 0;
+    text-transform: uppercase;
+  }
+
+  .route-result h2 { margin: 4px 0 6px; }
+  .route-result .btn-primary { margin: 8px 0; }
+
+  .privacy-note {
+    background: var(--color-bg-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+
+  .privacy-note h2 { margin-top: 0; }
+  .privacy-note p { margin-bottom: 0; }
+  .browse-link { margin: 28px 0 50px; }
+</style>

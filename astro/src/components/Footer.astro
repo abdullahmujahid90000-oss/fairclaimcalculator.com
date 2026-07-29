@@ -1,10 +1,13 @@
 ---
-// Persistent footer. Includes a "Privacy choices" link per the brief even
-// though no ad/CMP integration exists yet — it currently routes to the
-// Privacy Policy's own choices section, which honestly describes today's
-// reality (no ads, no personalization) rather than implying a working CMP
-// control that doesn't exist. Update this link's target, not just its
-// label, once a real CMP is wired in.
+// Persistent footer.
+//
+// IMPORTANT: only link routes that exist and are finished (no route may be
+// added to nav/footer/sitemap before it is complete — ASTRO-REBUILD-PLAN.md).
+// The "Privacy choices" link currently points at the Privacy Policy's own
+// #choices section, which honestly describes today's reality (no ads, no
+// tracking, nothing to opt out of yet) rather than a working CMP control
+// that doesn't exist. Update the link's target, not just its label, once a
+// real CMP is wired in.
 ---
 <footer class="site-footer">
   <div class="container">

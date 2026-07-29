@@ -1,0 +1,111 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { SETTLEMENT_BREAKDOWN_CONFIG } from "@lib/calculators/settlement-breakdown";
+import { TOTAL_LOSS_AUDIT_CONFIG } from "@lib/calculators/total-loss-audit";
+import { DV_CONFIG } from "@lib/calculators/diminished-value-baseline";
+import { LETTER_BUILDER_CONFIG } from "@lib/calculators/claim-letter-builder";
+
+const title = "Calculator Methodology | FairClaimCalculator";
+const description =
+  "How each FairClaimCalculator tool works: what it calculates, what inputs it uses, its version and review date, and what it deliberately does not determine.";
+const path = "/methodology/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Methodology", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+
+const tools = [
+  {
+    name: "Settlement Check Breakdown",
+    href: "/calculators/settlement-check-breakdown/",
+    version: SETTLEMENT_BREAKDOWN_CONFIG.version,
+    reviewed: SETTLEMENT_BREAKDOWN_CONFIG.reviewedDate,
+    summary:
+      "Adds and subtracts the figures you enter — stated ACV, tax/fees you say the insurer showed, deductible, loan payoff, retained-salvage deduction, and prior payments — to show the arithmetic path to a check. A possible GAP shortfall is calculated as a separate, clearly labeled scenario.",
+    doesNot:
+      "It does not determine the correct ACV, decide coverage, or confirm GAP eligibility — those depend on your policy and GAP contract terms.",
+    sources: SETTLEMENT_BREAKDOWN_CONFIG.sources,
+  },
+  {
+    name: "Total-Loss Offer Audit",
+    href: "/calculators/total-loss-offer-audit/",
+    version: TOTAL_LOSS_AUDIT_CONFIG.version,
+    reviewed: TOTAL_LOSS_AUDIT_CONFIG.reviewedDate,
+    summary:
+      "Compares the insurer's comparable-vehicle prices with your own using mean, median, range, and sample size, and flags a possible outlier using a disclosed percentage threshold. A separate comparable-quality review lists factual differences (year, mileage, trim, distance, listing status, condition) as questions to verify — never a score or dollar adjustment.",
+    doesNot:
+      "It does not calculate the legally correct ACV, weight comps by quality, or tell you what the insurer must pay.",
+    sources: TOTAL_LOSS_AUDIT_CONFIG.sources,
+  },
+  {
+    name: "Diminished Value Baseline",
+    href: "/calculators/diminished-value-baseline/",
+    version: DV_CONFIG.version,
+    reviewed: DV_CONFIG.reviewedDate,
+    summary:
+      "Produces two separate outputs that are never combined: (1) a transparent, disclosed 17c-style comparison baseline (pre-accident value × 10% cap × damage multiplier × mileage multiplier, with every substituted step shown), and (2) a clean-history vs. accident-history market-evidence worksheet built from listings you enter.",
+    doesNot:
+      "It does not treat the formula as a legal standard, does not average the two outputs into one number, and does not calculate what an insurer owes.",
+    sources: DV_CONFIG.sources,
+  },
+  {
+    name: "Claim Letter & Evidence Packet Builder",
+    href: "/calculators/claim-letter-builder/",
+    version: LETTER_BUILDER_CONFIG.version,
+    reviewed: LETTER_BUILDER_CONFIG.reviewedDate,
+    summary:
+      "Fills a plain-text template with the facts you enter, leaving obvious bracketed placeholders for anything missing. Nothing is sent automatically or stored remotely.",
+    doesNot:
+      "It does not invent legal citations, threats, deadlines, or 'bad faith' accusations, and it does not file anything with a regulator on your behalf.",
+    sources: LETTER_BUILDER_CONFIG.sources,
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Methodology</p>
+    <h1 class="page-title">How the Calculators Work</h1>
+    <p class="lead">
+      Every calculator is a small, versioned piece of arithmetic. This page explains what each one
+      computes, what it is reviewed against, and what it deliberately leaves for you to verify.
+    </p>
+
+    <div class="calc-card">
+      <h2>Shared principles</h2>
+      <ul>
+        <li>All money math is done in integer cents internally to avoid floating-point rounding errors.</li>
+        <li>Every configuration (formula constants, thresholds, bands) is versioned with an effective and reviewed date.</li>
+        <li>No calculator uses a hidden weight, invented score, or unexplained assumption — every number shown traces back to a figure you entered or a disclosed constant.</li>
+        <li>All calculators run locally in your browser. Nothing you type into a calculator is sent to a server.</li>
+        <li>Every calculator is covered by an automated test suite checking normal, boundary, empty, invalid, negative, and extreme inputs.</li>
+      </ul>
+    </div>
+
+    {tools.map((tool) => (
+      <div class="calc-card">
+        <h2>{tool.name}</h2>
+        <p class="confidence-label">Version {tool.version} — last reviewed {tool.reviewed}</p>
+        <p>{tool.summary}</p>
+        <p class="warning-note"><strong>What it does not do:</strong> {tool.doesNot}</p>
+        <p class="section-note"><strong>Basis:</strong></p>
+        <ul class="quality-list">
+          {tool.sources.map((source: string) => <li>{source}</li>)}
+        </ul>
+        <p><a href={tool.href}>Open this calculator →</a></p>
+      </div>
+    ))}
+
+    <div class="disclaimer-box">
+      <strong>Educational tool, not legal advice.</strong>
+      See the full <a href="/disclaimer/">disclaimer</a>, the <a href="/sources/">source register</a>,
+      and the <a href="/editorial-policy/">editorial policy</a> for how content and sources are chosen.
+    </div>
+  </div>
+</BaseLayout>

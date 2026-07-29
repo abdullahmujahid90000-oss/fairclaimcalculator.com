@@ -21,6 +21,8 @@ in §9 below, using the same "next"/"continue" trigger-word convention.
 | R4 | **Hosting: GitHub Pages**, confirmed by the user. Deployment uses a GitHub Actions workflow (build Astro → upload Pages artifact → deploy), which runs on GitHub's own infrastructure once a commit reaches `main` — this works regardless of whether the push comes from this sandbox (which still cannot push directly) or the user's external sync process. | User's explicit answer, 2026-07-22. Decouples "can this sandbox push" from "does the site deploy." |
 | R5 | The existing plain-HTML root site (`index.html`, `about.html`, `js/*.js`, etc.) **stays live and untouched** during migration. The new Astro project builds in a new `astro/` subdirectory with its own toolchain. Nothing is deleted or overwritten until the Astro build has verified parity and the user explicitly approves cutover. | Risk containment — a multi-week rebuild must not leave the live site broken or half-migrated at any commit. |
 | R6 | Canonical origin: `https://www.fairclaimcalculator.com/` (www, per brief). `astro.config.mjs` and the `CNAME` file are set accordingly. | Explicit brief requirement. |
+| R7 | **`@astrojs/sitemap` is pinned to `3.2.1` exactly** (not the `^` range latest, `3.7.3`). The latest 3.x published version is built/tested against Astro 6 internals and crashes (`Cannot read properties of undefined (reading 'reduce')`) against this project's Astro `4.16.x`. `3.2.1`'s own devDependency pins `astro@4.16.4`, matching this project. Re-check compatibility before ever bumping this package. | Discovered and fixed during Phase 2 verification, this session. |
+| R8 | **Global nav/footer must only link routes that exist and are complete — enforced as a standing rule, not a one-time cleanup.** Phase-2-era work had already wired the header nav and footer to 14 trust/guide routes that didn't exist yet (`/about/`, `/methodology/`, `/guides/*`, etc.), which is a direct violation of the "never add a route to nav/sitemap until complete" rule. Fixed this session by trimming nav/footer to real routes only, then building the Phase 4 trust pages so most of those links could be honestly restored. The homepage's "Guides" section and the header's Guides submenu are intentionally left out until Phase 5 guide hubs actually exist — do not restore them speculatively. | Found and fixed during Phase 2 verification, this session. |
 
 ---
 
@@ -110,14 +112,14 @@ a half-broken intermediate state, and R5 stays true throughout the migration.
 | Route | Purpose | Status this session |
 |---|---|---|
 | `/` | Homepage | Phase 1 — built this session |
-| `/check-my-offer/` | Routing quiz → correct tool | Phase 2 |
-| `/calculators/` | Index of 4 tools | Phase 2 |
+| `/check-my-offer/` | Routing quiz → correct tool | Phase 2 — built, verified |
+| `/calculators/` | Index of 4 tools | Phase 2 — built, verified |
 | `/calculators/settlement-check-breakdown/` | Tool | Phase 1 — built this session (reference migration) |
-| `/calculators/total-loss-offer-audit/` | Tool | Phase 2 |
-| `/calculators/diminished-value-baseline/` | Tool | Phase 2 |
-| `/calculators/claim-letter-builder/` | Tool | Phase 2 |
-| `/guides/total-loss/`, `/guides/diminished-value/`, `/guides/claim-process/` + 15 individual guides | Content | Phase 5 |
-| `/about/ /methodology/ /editorial-policy/ /sources/ /corrections/ /advertising-disclosure/ /privacy/ /terms/ /disclaimer/ /accessibility/ /contact/` | Trust framework | Phase 4 |
+| `/calculators/total-loss-offer-audit/` | Tool | Phase 2 — built, verified |
+| `/calculators/diminished-value-baseline/` | Tool | Phase 2 — built, verified |
+| `/calculators/claim-letter-builder/` | Tool | Phase 2 — built, verified |
+| `/guides/total-loss/`, `/guides/diminished-value/`, `/guides/claim-process/` + 15 individual guides | Content | Phase 5 — not started |
+| `/about/ /methodology/ /editorial-policy/ /sources/ /corrections/ /advertising-disclosure/ /privacy/ /terms/ /disclaimer/ /accessibility/ /contact/` | Trust framework | Phase 4 — built this session |
 | `/404` | Custom 404 | Phase 1 — built this session |
 
 ### Old plain-HTML site → new Astro site (redirect manifest, `src/lib/redirects.ts`)
@@ -296,16 +298,44 @@ and the user confirms the site is substantively complete:
       workflow, CNAME/.nojekyll/robots.txt, and **one** fully migrated
       calculator (Settlement Check Breakdown) with Vitest tests, as the
       reference pattern for the rest. **— this session.**
-- [ ] **P2.** Migrate the remaining 3 calculators (Total-Loss Offer Audit
+- [x] **P2.** Migrate the remaining 3 calculators (Total-Loss Offer Audit
       with the comp-quality-review fix, Diminished Value Baseline, Claim
       Letter Builder) + `/calculators/` index + `/check-my-offer/` routing page.
+      **Verified this session:** `npm run typecheck` (`astro check`, 0 errors
+      across 41 files), `npm run test` (74/74 Vitest cases across all 4
+      calculator modules), and `npm run build` (19 static pages) all pass
+      clean. Fixed 4 real typecheck errors found during verification
+      (`RadioNodeList` casts in the settlement-breakdown page's client
+      script; a test-file type-narrowing gap in `total-loss-audit.test.ts`)
+      and added `@astrojs/check`/`typescript` typecheck wiring to both
+      `package.json` and `.github/workflows/deploy.yml` (a typecheck step
+      now runs in CI before tests/build, so a future type regression fails
+      the build instead of shipping silently).
+- [x] **P4.** Trust framework pages: `/about/ /methodology/ /editorial-policy/
+      /sources/ /corrections/ /advertising-disclosure/ /privacy/ /terms/
+      /disclaimer/ /accessibility/ /contact/`. Built this session, pulled
+      forward ahead of P3 because Phase-2-era work already linked these
+      routes from nav/footer/body copy before they existed (see R8) —
+      building them was the fastest honest fix for that integrity gap.
+      `/sources/` pulls its list directly from each calculator's own
+      `sources: string[]` config (no separately-typed claims). `/methodology/`
+      likewise renders each calculator's real `version`/`reviewedDate` from
+      its config object, so the page can't drift out of sync with the code.
+      `/accessibility/` and `/about/` are deliberately worded as current
+      status/commitment, not as a completed audit or a fleshed-out bio —
+      neither has actually happened yet (see §10.2 and Phase 6).
+      Also added the `@astrojs/sitemap` integration (pinned per R7) — the
+      generated `sitemap-0.xml` now lists exactly the 18 real, complete
+      pages, confirmed by inspecting the build output directly.
 - [ ] **P3.** Redirect-stub generation for the old plain-HTML URLs (§3
       table) + retired-content stub pages for the 4 historical PI URLs.
-- [ ] **P4.** Trust framework pages: `/about/ /methodology/ /editorial-policy/
-      /sources/ /corrections/ /advertising-disclosure/ /privacy/ /terms/
-      /disclaimer/ /accessibility/ /contact/`.
+      Still blocked on confirming exact historical filenames via
+      `git log --diff-filter=D` (§10.3) before generating stubs at
+      reconstructed-from-memory paths.
 - [ ] **P5.** First source-backed content cluster — 15 guides across the 3
-      guide sections (§7).
+      guide sections (§7). The homepage's guide-card section and the
+      header's Guides submenu are removed (not commented-out-but-linked)
+      until this phase actually ships real content.
 - [ ] **P6.** Full accessibility pass + manual keyboard/screen-reader test
       matrix at all 5 breakpoints + Lighthouse/perf budget verification.
 - [ ] **P7.** SEO/migration validation (sitemap `lastmod`, robots.txt,

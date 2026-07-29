@@ -1,0 +1,116 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import CalculatorCard from "@components/CalculatorCard.astro";
+
+const title = "Free Auto Claim Calculators | FairClaimCalculator";
+const description =
+  "Four free, private calculators for total-loss offers, settlement checks, diminished value, and factual claim letters. Transparent math, no login.";
+const path = "/calculators/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Calculators", item: "https://www.fairclaimcalculator.com/calculators/" },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Calculators</p>
+    <h1 class="page-title">Four Free Auto Claim Calculators</h1>
+    <p class="lead">
+      Choose the job you need to do. Every tool runs in your browser, shows its arithmetic or
+      template rules, and states what it cannot determine.
+    </p>
+    <div class="page-actions">
+      <a href="/check-my-offer/" class="btn-primary">Help Me Choose</a>
+    </div>
+
+    <section aria-labelledby="total-loss-heading">
+      <h2 id="total-loss-heading">For a total-loss vehicle</h2>
+      <div class="calculator-grid">
+        <CalculatorCard name="Total-Loss Offer Audit" href="/calculators/total-loss-offer-audit/">
+          Check valuation-report facts, compare price groups, and review comp quality without hidden
+          weights or invented dollar adjustments.
+        </CalculatorCard>
+        <CalculatorCard name="Settlement Check Breakdown" href="/calculators/settlement-check-breakdown/">
+          Trace stated ACV, fees, deductible, loan payoff, salvage, prior payments, and a possible
+          GAP shortfall through to the check.
+        </CalculatorCard>
+      </div>
+    </section>
+
+    <section aria-labelledby="repaired-heading">
+      <h2 id="repaired-heading">For a repaired vehicle</h2>
+      <div class="calculator-grid">
+        <CalculatorCard name="Diminished Value Baseline" href="/calculators/diminished-value-baseline/">
+          See a transparent 17c-style comparison baseline next to separate clean-history and
+          accident-history market evidence.
+        </CalculatorCard>
+      </div>
+    </section>
+
+    <section aria-labelledby="followup-heading">
+      <h2 id="followup-heading">For written follow-up</h2>
+      <div class="calculator-grid">
+        <CalculatorCard name="Claim Letter & Evidence Packet Builder" href="/calculators/claim-letter-builder/">
+          Generate one focused, editable factual request and organize the supporting evidence you
+          may want to gather.
+        </CalculatorCard>
+      </div>
+    </section>
+
+    <section class="limits-card" aria-labelledby="limits-heading">
+      <h2 id="limits-heading">What these tools do not do</h2>
+      <ul>
+        <li>They do not determine fault, coverage, market value, or what an insurer legally owes.</li>
+        <li>They do not replace a policy review, licensed attorney, or qualified independent appraiser.</li>
+        <li>They do not send, upload, or save your calculator entries.</li>
+        <li>They do not guarantee a better offer, payment, or claim outcome.</li>
+      </ul>
+    </section>
+
+    <div class="disclaimer-box">
+      <strong>Educational tools, not legal advice.</strong>
+      Use the results as an organized list of arithmetic and questions to verify. See the
+      <a href="/methodology/">methodology</a> and <a href="/disclaimer/">full disclaimer</a>.
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-actions { margin: 20px 0 38px; }
+
+  section { margin: 34px 0; }
+
+  .calculator-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #repaired-heading + .calculator-grid,
+  #followup-heading + .calculator-grid {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 600px;
+  }
+
+  @media (max-width: 640px) {
+    .calculator-grid { grid-template-columns: 1fr; }
+  }
+
+  .limits-card {
+    background: var(--color-bg-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  .limits-card h2 { margin-top: 0; }
+  .limits-card li { margin-bottom: 7px; }
+</style>
+

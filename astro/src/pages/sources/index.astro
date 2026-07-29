@@ -1,0 +1,62 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { SETTLEMENT_BREAKDOWN_CONFIG } from "@lib/calculators/settlement-breakdown";
+import { TOTAL_LOSS_AUDIT_CONFIG } from "@lib/calculators/total-loss-audit";
+import { DV_CONFIG } from "@lib/calculators/diminished-value-baseline";
+import { LETTER_BUILDER_CONFIG } from "@lib/calculators/claim-letter-builder";
+
+const title = "Source Register | FairClaimCalculator";
+const description =
+  "The public register of sources actually cited by FairClaimCalculator's calculators, kept in sync with the site's internal source register.";
+const path = "/sources/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Sources", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+
+const groups = [
+  { name: "Settlement Check Breakdown", href: "/calculators/settlement-check-breakdown/", sources: SETTLEMENT_BREAKDOWN_CONFIG.sources },
+  { name: "Total-Loss Offer Audit", href: "/calculators/total-loss-offer-audit/", sources: TOTAL_LOSS_AUDIT_CONFIG.sources },
+  { name: "Diminished Value Baseline", href: "/calculators/diminished-value-baseline/", sources: DV_CONFIG.sources },
+  { name: "Claim Letter & Evidence Packet Builder", href: "/calculators/claim-letter-builder/", sources: LETTER_BUILDER_CONFIG.sources },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Sources</p>
+    <h1 class="page-title">Source Register</h1>
+    <p class="lead">
+      Every source actually relied on for a calculator's arithmetic or a guide's factual claims is
+      listed here, grouped by the page that cites it. See the <a href="/editorial-policy/">editorial
+      policy</a> for how sources are chosen.
+    </p>
+
+    <div class="notice">
+      No guides are published yet, so this register currently covers only the four calculators'
+      formula and methodology sources. It will grow as the source-backed guide library is published.
+    </div>
+
+    {groups.map((group) => (
+      <div class="calc-card">
+        <h2>{group.name}</h2>
+        <ul class="quality-list">
+          {group.sources.map((source: string) => <li>{source}</li>)}
+        </ul>
+        <p><a href={group.href}>Open this calculator →</a></p>
+      </div>
+    ))}
+
+    <div class="disclaimer-box">
+      <strong>Found a sourcing error?</strong>
+      Use the <a href="/corrections/">corrections page</a> to report it, or the
+      <a href="/contact/">contact page</a> to reach the editor directly.
+    </div>
+  </div>
+</BaseLayout>

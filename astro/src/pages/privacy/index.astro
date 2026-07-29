@@ -1,0 +1,74 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Privacy Policy | FairClaimCalculator";
+const description =
+  "What FairClaimCalculator collects (currently nothing from calculator entries), what it doesn't, and your privacy choices.";
+const path = "/privacy/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Privacy Policy", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Privacy Policy</p>
+    <h1 class="page-title">Privacy Policy</h1>
+    <p class="lead">Last reviewed: 2026-07-29.</p>
+
+    <div class="calc-card">
+      <h2>Calculator entries</h2>
+      <p>
+        Every calculator on this site runs entirely in your browser using client-side JavaScript.
+        The vehicle details, dollar figures, comparable listings, and letter text you type into a
+        calculator are processed on your device only. They are not transmitted to, or stored on, any
+        server operated by this site. Reloading or closing the page clears them.
+      </p>
+
+      <h2 class="section-heading">What this site currently collects</h2>
+      <p>
+        As of the last review date above, this site loads no analytics scripts, no advertising
+        scripts, and no third-party trackers. Your web browser and any network in between (such as
+        your ISP) may still see standard technical information — like your IP address and browser
+        type — simply because that is how the web works; this site does not separately collect or
+        store that information itself. Our hosting provider may keep its own standard server logs;
+        see GitHub's own privacy documentation for how GitHub Pages hosting works.
+      </p>
+
+      <h2 class="section-heading">Cookies</h2>
+      <p>
+        This site does not currently set any cookies of its own. Anything your browser stores
+        locally (such as evidence-checklist checkbox states while a page is open) stays in your
+        browser and is not read by this site's server.
+      </p>
+
+      <h2 class="section-heading" id="choices">Your privacy choices</h2>
+      <p>
+        Because no advertising, analytics, or tracking currently runs on this site, there is nothing
+        to opt out of today. If that changes — for example, if contextual advertising is added — this
+        section will be replaced with a working consent/preference control, and this policy will be
+        updated to describe exactly what runs and how to control it. See the
+        <a href="/advertising-disclosure/">advertising disclosure</a> for the current status.
+      </p>
+
+      <h2 class="section-heading">Children's privacy</h2>
+      <p>This site is not directed to children and does not knowingly collect information from children.</p>
+
+      <h2 class="section-heading">Changes to this policy</h2>
+      <p>
+        If what this site collects or runs changes, this page will be updated and its reviewed date
+        above will change. Material changes will be reflected here before they take effect.
+      </p>
+
+      <h2 class="section-heading">Contact</h2>
+      <p>Questions about this policy can be sent through the <a href="/contact/">contact page</a>.</p>
+    </div>
+  </div>
+</BaseLayout>

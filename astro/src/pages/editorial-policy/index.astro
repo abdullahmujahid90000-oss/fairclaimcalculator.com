@@ -1,0 +1,72 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Editorial Policy | FairClaimCalculator";
+const description =
+  "How FairClaimCalculator researches, sources, reviews, and corrects its calculators and guides — and what it will never publish.";
+const path = "/editorial-policy/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Editorial Policy", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Editorial Policy</p>
+    <h1 class="page-title">Editorial Policy</h1>
+    <p class="lead">
+      This page explains how calculators and guides on this site are researched, written, reviewed,
+      and corrected.
+    </p>
+
+    <div class="calc-card">
+      <h2>Sourcing standard</h2>
+      <ul>
+        <li>Legal, regulatory, and formula-history claims are meant to cite a primary source next to the claim — state insurance-department materials, statutes and regulations, court opinions or settlement orders, official policy-form language, or government consumer guides.</li>
+        <li>Secondary sources (industry commentary, news coverage) may be used to aid discovery of a topic, but are not used as the sole support for a consequential legal or financial claim.</li>
+        <li>A claim is not published merely because other websites repeat it. If a commonly repeated statement cannot be traced to a verifiable primary source, it is described as commonly stated rather than presented as settled fact.</li>
+        <li>Every source actually cited on the site is tracked in the <a href="/sources/">public source register</a>.</li>
+      </ul>
+
+      <h2 class="section-heading">Content creation</h2>
+      <ul>
+        <li>Guides are written to answer one clear question, with a plain-language summary near the top, a worked example, an explanation of what varies by state, and an honest statement of what the guide cannot tell the reader.</li>
+        <li>Guides are not mass-generated. Each is written and reviewed individually; near-duplicate pages built only to target keyword variants are not published.</li>
+        <li>Calculators are built as versioned, tested code. Formula constants, thresholds, and bands are documented with an effective date and a reviewed date, shown on the <a href="/methodology/">methodology page</a> and inside each tool.</li>
+      </ul>
+
+      <h2 class="section-heading">What is never published</h2>
+      <ul>
+        <li>No fabricated reviews, testimonials, awards, or statistics.</li>
+        <li>No invented professional credentials, licenses, headshots, or biographical claims that have not been verified.</li>
+        <li>No claim that the site determines what a reader is legally owed, guarantees an outcome, or replaces a licensed attorney, adjuster, or appraiser.</li>
+        <li>No structured data (schema.org markup) asserting facts — such as reviews, ratings, or professional credentials — that are not fully supported by the visible page content.</li>
+      </ul>
+
+      <h2 class="section-heading">Corrections</h2>
+      <p>
+        Factual errors are corrected as soon as they are identified and verified, and logged on the
+        <a href="/corrections/">corrections page</a>. See that page to report an error.
+      </p>
+
+      <h2 class="section-heading">Independence</h2>
+      <p>
+        This site is not sponsored by, and has no financial relationship with, any insurance company,
+        law firm, or appraisal company. See the <a href="/advertising-disclosure/">advertising
+        disclosure</a> for the site's current (currently nonexistent) revenue model.
+      </p>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Educational tool, not legal advice.</strong>
+      See the <a href="/disclaimer/">full disclaimer</a> for more.
+    </div>
+  </div>
+</BaseLayout>

@@ -5,6 +5,15 @@
 > rebuild. This file remains accurate for the plain-HTML site, which stays
 > live and untouched until the Astro rebuild reaches parity and cutover is
 > explicitly approved (ASTRO-REBUILD-PLAN.md R5/Phase 8).
+>
+> **2026-07-29 update:** per the owner's expanded rebuild brief, this file
+> now also carries a short dated session log for the v2 rebuild itself (§6
+> below), so there is one place recording *when* work happened and was
+> verified, alongside `ASTRO-REBUILD-PLAN.md`'s living architecture/decision/
+> queue record and the newer `SOURCE-REGISTER.md` / `ADSENSE-READINESS.md` /
+> `URL-MIGRATION.md` deliverables. Append to §6 at the end of every v2
+> session; don't duplicate `ASTRO-REBUILD-PLAN.md`'s content here, just log
+> what ran and what was verified.
 
 # BUILD-LOG.md — FairClaimCalculator.com Pivot
 
@@ -320,3 +329,44 @@ unchecked item.
   a real source record.
 - Ads: none enabled; no `ads.txt`; no ad code changes without explicit
   instruction that approval has occurred.
+
+---
+
+## 6. v2 (Astro rebuild) session log
+
+Dated, append-only log of what ran and was verified each session on the
+Astro rebuild. Architecture/decisions/queue live in `ASTRO-REBUILD-PLAN.md`;
+this section is just "what happened, when."
+
+- **2026-07-29 — Phase 2 verification + Phase 4 (trust pages) + integrity fixes.**
+  Found three of four calculators (Total-Loss Offer Audit, Diminished Value
+  Baseline, Claim Letter Builder), their test files, and the
+  `/calculators/`+`/check-my-offer/` pages already present in the working
+  tree, uncommitted and unverified. Audited all of it, then ran
+  `npm run typecheck` / `npm run test` / `npm run build`:
+  - Found and fixed 4 real TypeScript errors (RadioNodeList casts in
+    `settlement-check-breakdown/index.astro`'s client script; a type-
+    narrowing gap in `total-loss-audit.test.ts`).
+  - Fixed a local sandbox-only Rollup optional-dependency install bug
+    (npm/cli#4828); confirmed the fix does not affect the x64 GitHub
+    Actions runner (see ASTRO-REBUILD-PLAN.md R7 for the `@astrojs/sitemap`
+    version-pin story, a related but separate compatibility issue).
+  - Added `@astrojs/check` + a `typecheck` script, wired into
+    `.github/workflows/deploy.yml` so CI now fails on type errors, not just
+    test/build failures.
+  - Added the `@astrojs/sitemap` integration (pinned to `3.2.1` — see R7).
+    Verified `dist/sitemap-0.xml` lists exactly the 18 real complete pages,
+    no 404, no incomplete route.
+  - **Found a real defect:** the header nav, footer, and several pages'
+    body copy already linked 14 trust/guide routes that didn't exist yet —
+    a direct violation of "never add a route to nav until complete." Fixed
+    by trimming nav/footer to real routes, then building all 11 trust/
+    policy pages (Phase 4, pulled forward) so the links could be honestly
+    restored. Removed the homepage's guide-card section and the header's
+    Guides submenu until Phase 5 guides actually exist (see
+    ASTRO-REBUILD-PLAN.md R8 for the full account).
+  - Result: 74/74 Vitest cases pass, 0 typecheck errors across 41 files,
+    clean production build (19 static pages), zero dangling internal
+    links (checked by diffing every `href="/.../"` in `src/` against the
+    set of routes actually built).
+  - Files: see the commit this entry accompanies for the exact list.

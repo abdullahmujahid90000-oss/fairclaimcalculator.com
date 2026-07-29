@@ -1,0 +1,58 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Contact | FairClaimCalculator";
+const description = "How to reach FairClaimCalculator to report an error, ask a question, or raise an accessibility concern.";
+const path = "/contact/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Contact", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+
+const contactEmail = "contact@fairclaimcalculator.com";
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Contact</p>
+    <h1 class="page-title">Contact</h1>
+    <p class="lead">
+      Use this address to report a factual or arithmetic error, ask a question, raise an
+      accessibility concern, or flag a broken link.
+    </p>
+
+    <div class="calc-card">
+      <h2>Email</h2>
+      <p><a href={`mailto:${contactEmail}`}>{contactEmail}</a></p>
+      <p class="section-note">
+        This is not a claims intake line, and messages sent here do not become part of any insurance
+        claim file. This site cannot represent you in a claim, dispute, or legal matter.
+      </p>
+
+      <h2 class="section-heading">What to include</h2>
+      <ul>
+        <li>The exact page or calculator you're writing about.</li>
+        <li>What you expected vs. what you saw.</li>
+        <li>A source, if you're reporting a factual or sourcing error — see the <a href="/corrections/">corrections page</a>.</li>
+      </ul>
+
+      <h2 class="section-heading">Response time</h2>
+      <p>
+        This is an independently run site; there is no guaranteed response time. Confirmed factual or
+        arithmetic errors are prioritized.
+      </p>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Not a substitute for professional advice.</strong>
+      For anything case-specific, contact a licensed attorney, your state insurance department, or a
+      qualified independent appraiser. See the <a href="/disclaimer/">full disclaimer</a>.
+    </div>
+  </div>
+</BaseLayout>

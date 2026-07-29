@@ -1,0 +1,79 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Legal Disclaimer | FairClaimCalculator";
+const description =
+  "FairClaimCalculator is an educational tool, not legal advice. Read the full disclaimer before relying on any calculator result.";
+const path = "/disclaimer/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Disclaimer", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Disclaimer</p>
+    <h1 class="page-title">Legal Disclaimer</h1>
+
+    <div class="disclaimer-box">
+      <strong>This site is an educational tool. It is not legal advice.</strong>
+    </div>
+
+    <div class="calc-card">
+      <h2>Not a professional service</h2>
+      <p>
+        FairClaimCalculator is not a law firm, insurance company, public adjuster, or licensed
+        vehicle appraiser. No attorney-client, adjuster-client, or appraiser-client relationship is
+        formed by using this site, its calculators, or its guides.
+      </p>
+
+      <h2 class="section-heading">Arithmetic, not entitlement</h2>
+      <p>
+        The calculators organize the figures you enter and show the arithmetic that follows from
+        them. They do not determine what you are legally owed, what an insurer must pay, whether
+        coverage applies, who is at fault, or what a court or regulator would decide in your case.
+        A number appearing in a calculator result is a calculation based on your inputs — not a
+        legal or professional conclusion.
+      </p>
+
+      <h2 class="section-heading">First-party vs. third-party claims, and state law</h2>
+      <p>
+        How a total-loss or diminished-value claim is handled can differ significantly depending on
+        whether it is a first-party claim (against your own insurer) or a third-party claim (against
+        another driver's insurer), and depending on your state's specific statutes, regulations, and
+        case law. This site does not attempt to state the law of every state for every situation.
+        Guides note where an answer commonly varies by state; always verify anything case-specific
+        with a licensed attorney or your state insurance department.
+      </p>
+
+      <h2 class="section-heading">No guaranteed outcome</h2>
+      <p>
+        Nothing on this site guarantees a higher settlement, a favorable claim outcome, or any
+        specific result. Insurers, courts, and regulators make their own independent determinations.
+      </p>
+
+      <h2 class="section-heading">The diminished-value baseline specifically</h2>
+      <p>
+        The disclosed 17c-style baseline shown in the Diminished Value Baseline calculator reflects a
+        commonly published version of a formula associated with a 2002 Georgia class-settlement
+        order. It is not a national or state legal standard, and a 2008 Georgia regulatory directive
+        specifically states no formula was approved as determinative of diminished value. See the
+        <a href="/methodology/">methodology page</a> and <a href="/sources/">source register</a>.
+      </p>
+
+      <h2 class="section-heading">Verify before you rely</h2>
+      <p>
+        Always verify calculator inputs and outputs against your own paperwork, and verify anything
+        case-specific with a licensed attorney, your state insurance department, or a qualified
+        independent appraiser before making a decision about your claim.
+      </p>
+    </div>
+  </div>
+</BaseLayout>

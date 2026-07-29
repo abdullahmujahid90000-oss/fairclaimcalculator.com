@@ -1,0 +1,57 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Corrections | FairClaimCalculator";
+const description =
+  "How to report a factual or arithmetic error on FairClaimCalculator, and the public log of corrections that have been made.";
+const path = "/corrections/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Corrections", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Corrections</p>
+    <h1 class="page-title">Corrections</h1>
+    <p class="lead">
+      If a calculator's arithmetic, a formula constant, or a factual statement on this site is
+      wrong, we want to know and fix it.
+    </p>
+
+    <div class="calc-card">
+      <h2>How to report an error</h2>
+      <p>
+        Use the <a href="/contact/">contact page</a> and describe: the exact page or calculator, the
+        specific statement or result you believe is wrong, and — where possible — the source that
+        supports the correction.
+      </p>
+
+      <h2 class="section-heading">What happens next</h2>
+      <ul>
+        <li>Reports are checked against the cited source or against the calculator's own test suite.</li>
+        <li>Verified errors are corrected as soon as practical, and the calculator or page's reviewed date is updated.</li>
+        <li>Substantive corrections (anything affecting arithmetic, a formula constant, or a legal/factual claim) are logged below with a plain description of what changed and why.</li>
+      </ul>
+
+      <h2 class="section-heading">Correction log</h2>
+      <div class="notice">
+        No corrections have been logged yet. This log will list the date, page, and a plain-language
+        description of each substantive correction once one occurs.
+      </div>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Educational tool, not legal advice.</strong>
+      Reporting a correction does not create any professional or legal relationship. See the
+      <a href="/disclaimer/">full disclaimer</a>.
+    </div>
+  </div>
+</BaseLayout>

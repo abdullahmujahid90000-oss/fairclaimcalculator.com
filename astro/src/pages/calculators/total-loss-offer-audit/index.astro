@@ -1,0 +1,684 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ErrorSummary from "@components/ErrorSummary.astro";
+import {
+  MISMATCH_FIELDS,
+  TOTAL_LOSS_AUDIT_CONFIG,
+} from "@lib/calculators/total-loss-audit";
+
+const title = "Total-Loss Offer Audit & Comparable Review | FairClaimCalculator";
+const description =
+  "Audit a total-loss valuation report, compare insurer and owner comps, and review comp quality without hidden weights or invented dollar adjustments. Free and private.";
+const path = "/calculators/total-loss-offer-audit/";
+const insurerRows = Array.from({ length: 4 }, (_, index) => index + 1);
+const ownerRows = Array.from({ length: 6 }, (_, index) => index + 1);
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Calculators", item: "https://www.fairclaimcalculator.com/calculators/" },
+      { "@type": "ListItem", position: 3, name: "Total-Loss Offer Audit", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+
+const statusOptions = [
+  { value: "correct", label: "Correct" },
+  { value: "incorrect", label: "Incorrect" },
+  { value: "unknown", label: "Not sure" },
+  { value: "not_shown", label: "Not shown in report" },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/calculators/">Calculators</a> / Total-Loss Offer Audit</p>
+    <h1 class="page-title">Audit Your Total-Loss Vehicle Valuation</h1>
+    <p class="lead">
+      Check the report facts, compare the insurer's vehicles with your own, and review whether each
+      comparable is actually similar. Price statistics and quality questions stay separate — this
+      tool never invents a dollar adjustment or a “correct” ACV.
+    </p>
+    <ul class="trust-badges">
+      <li><span aria-hidden="true">🔒</span> Free — no login or email</li>
+      <li><span aria-hidden="true">🧮</span> Mean, median, range, and sample size shown</li>
+      <li><span aria-hidden="true">💾</span> Entries stay in your browser</li>
+    </ul>
+
+    <div class="calc-card">
+      <h2>Run Your Offer Audit</h2>
+      <ErrorSummary id="total-loss-error-summary" />
+
+      <form id="total-loss-form" novalidate>
+        <h3 class="section-heading">1. Your vehicle and the insurer's offer</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="claimType">Claim type</label>
+            <select id="claimType" name="claimType" aria-describedby="claimType-hint">
+              <option value="third-party">Another driver's insurer (third-party)</option>
+              <option value="first-party">My own insurer (first-party)</option>
+            </select>
+            <p class="hint" id="claimType-hint">Used only to label your worksheet; it does not change the price statistics.</p>
+          </div>
+          <div class="field">
+            <label for="acv">Insurer's stated ACV / base value</label>
+            <input type="number" id="acv" name="acv" min="0" max="10000000" step="1" inputmode="decimal" required aria-describedby="acv-hint" />
+            <p class="hint" id="acv-hint">U.S. dollars. Example: 18500. Use the base value before deductible or loan payoff.</p>
+          </div>
+          <div class="field">
+            <label for="subjectYear">Your vehicle's model year</label>
+            <input type="number" id="subjectYear" name="subjectYear" min="1886" max="2027" step="1" inputmode="numeric" required aria-describedby="subjectYear-hint" />
+            <p class="hint" id="subjectYear-hint">Whole year. Example: 2020.</p>
+          </div>
+          <div class="field">
+            <label for="subjectMileage">Your vehicle's mileage at the loss</label>
+            <input type="number" id="subjectMileage" name="subjectMileage" min="0" max="500000" step="1" inputmode="numeric" required aria-describedby="subjectMileage-hint" />
+            <p class="hint" id="subjectMileage-hint">Whole miles. Example: 48200.</p>
+          </div>
+          <div class="field">
+            <label for="subjectTrim">Trim / option package</label>
+            <input type="text" id="subjectTrim" name="subjectTrim" maxlength="100" aria-describedby="subjectTrim-hint" />
+            <p class="hint" id="subjectTrim-hint">Optional. Example: EX-L with Technology Package.</p>
+          </div>
+          <div class="field">
+            <label for="subjectConfiguration">Engine, drivetrain, and body style</label>
+            <input type="text" id="subjectConfiguration" name="subjectConfiguration" maxlength="120" aria-describedby="subjectConfiguration-hint" />
+            <p class="hint" id="subjectConfiguration-hint">Optional. Example: 2.0L AWD four-door.</p>
+          </div>
+        </div>
+
+        <h3 class="section-heading">2. Check the valuation-report facts</h3>
+        <p class="section-note">
+          Mark only what you know. “Incorrect,” “not sure,” and “not shown” become questions to
+          verify — never an accusation.
+        </p>
+        <div class="report-checks">
+          {MISMATCH_FIELDS.map((field) => (
+            <div class="field report-check">
+              <label for={`status_${field.key}`}>{field.label}</label>
+              <select id={`status_${field.key}`} name={`status_${field.key}`}>
+                {statusOptions.map((option) => <option value={option.value}>{option.label}</option>)}
+              </select>
+            </div>
+          ))}
+        </div>
+
+        <h3 class="section-heading">3. Insurer comparables</h3>
+        <p class="section-note">
+          Add up to four vehicles from the written valuation report. Group comparisons require at
+          least two priced comps; fewer than three are labeled as limited.
+        </p>
+        {insurerRows.map((index) => (
+          <fieldset class="comp-card" data-comp-card={`insurer-${index}`}>
+            <legend>Insurer comp {index}</legend>
+            <div class="form-grid compact-grid">
+              <div class="field">
+                <label for={`insurer-${index}-value`}>Adjusted value</label>
+                <input type="number" id={`insurer-${index}-value`} name={`insurer-${index}-value`} min="0" max="10000000" step="1" inputmode="decimal" aria-describedby={`insurer-${index}-value-hint`} />
+                <p class="hint" id={`insurer-${index}-value-hint`}>U.S. dollars from the report.</p>
+              </div>
+              <div class="field">
+                <label for={`insurer-${index}-year`}>Model year</label>
+                <input type="number" id={`insurer-${index}-year`} name={`insurer-${index}-year`} min="1886" max="2027" step="1" inputmode="numeric" />
+              </div>
+              <div class="field">
+                <label for={`insurer-${index}-mileage`}>Mileage</label>
+                <input type="number" id={`insurer-${index}-mileage`} name={`insurer-${index}-mileage`} min="0" max="500000" step="1" inputmode="numeric" />
+              </div>
+              <div class="field">
+                <label for={`insurer-${index}-distance`}>Distance from you</label>
+                <input type="number" id={`insurer-${index}-distance`} name={`insurer-${index}-distance`} min="0" max="5000" step="1" inputmode="numeric" aria-describedby={`insurer-${index}-distance-hint`} />
+                <p class="hint" id={`insurer-${index}-distance-hint`}>Miles. Used only as a review question.</p>
+              </div>
+            </div>
+            <details>
+              <summary>Comparable-quality details</summary>
+              <div class="form-grid compact-grid">
+                <div class="field">
+                  <label for={`insurer-${index}-trimMatch`}>Exact trim/options match?</label>
+                  <select id={`insurer-${index}-trimMatch`} name={`insurer-${index}-trimMatch`}>
+                    <option value="unknown">Not sure</option><option value="yes">Yes</option><option value="no">No</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for={`insurer-${index}-configurationMatch`}>Engine/drivetrain/body match?</label>
+                  <select id={`insurer-${index}-configurationMatch`} name={`insurer-${index}-configurationMatch`}>
+                    <option value="unknown">Not sure</option><option value="yes">Yes</option><option value="no">No</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for={`insurer-${index}-listingStatus`}>Listing status</label>
+                  <select id={`insurer-${index}-listingStatus`} name={`insurer-${index}-listingStatus`}>
+                    <option value="unknown">Not sure</option><option value="active">Active</option><option value="sold">Sold</option><option value="expired">Expired</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for={`insurer-${index}-listingDate`}>Listing / date checked</label>
+                  <input type="date" id={`insurer-${index}-listingDate`} name={`insurer-${index}-listingDate`} />
+                </div>
+                <div class="field">
+                  <label for={`insurer-${index}-sellerType`}>Seller type</label>
+                  <select id={`insurer-${index}-sellerType`} name={`insurer-${index}-sellerType`}>
+                    <option value="unknown">Not sure</option><option value="dealer">Dealer</option><option value="private">Private party</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for={`insurer-${index}-conditionMatch`}>Condition compared with yours</label>
+                  <select id={`insurer-${index}-conditionMatch`} name={`insurer-${index}-conditionMatch`}>
+                    <option value="unknown">Not sure</option><option value="similar">Similar</option><option value="better">Better</option><option value="worse">Worse</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for={`insurer-${index}-adjustmentsShown`}>Itemized adjustments shown?</label>
+                  <select id={`insurer-${index}-adjustmentsShown`} name={`insurer-${index}-adjustmentsShown`}>
+                    <option value="unknown">Not sure</option><option value="yes">Yes</option><option value="no">No</option>
+                  </select>
+                </div>
+              </div>
+            </details>
+          </fieldset>
+        ))}
+
+        <h3 class="section-heading">4. Your comparables</h3>
+        <p class="section-note">
+          Add up to six listings you found. Capture the date and seller type so you can preserve the
+          evidence, not just the asking price.
+        </p>
+        {ownerRows.map((index) => (
+          <fieldset class="comp-card" data-comp-card={`owner-${index}`}>
+            <legend>Your comp {index}</legend>
+            <div class="form-grid compact-grid">
+              <div class="field">
+                <label for={`owner-${index}-value`}>Asking price</label>
+                <input type="number" id={`owner-${index}-value`} name={`owner-${index}-value`} min="0" max="10000000" step="1" inputmode="decimal" aria-describedby={`owner-${index}-value-hint`} />
+                <p class="hint" id={`owner-${index}-value-hint`}>U.S. dollars. Asking price is not assumed to equal sale price.</p>
+              </div>
+              <div class="field">
+                <label for={`owner-${index}-year`}>Model year</label>
+                <input type="number" id={`owner-${index}-year`} name={`owner-${index}-year`} min="1886" max="2027" step="1" inputmode="numeric" />
+              </div>
+              <div class="field">
+                <label for={`owner-${index}-mileage`}>Mileage</label>
+                <input type="number" id={`owner-${index}-mileage`} name={`owner-${index}-mileage`} min="0" max="500000" step="1" inputmode="numeric" />
+              </div>
+              <div class="field">
+                <label for={`owner-${index}-distance`}>Distance from you</label>
+                <input type="number" id={`owner-${index}-distance`} name={`owner-${index}-distance`} min="0" max="5000" step="1" inputmode="numeric" />
+              </div>
+            </div>
+            <details>
+              <summary>Comparable-quality details</summary>
+              <div class="form-grid compact-grid">
+                <div class="field">
+                  <label for={`owner-${index}-trimMatch`}>Exact trim/options match?</label>
+                  <select id={`owner-${index}-trimMatch`} name={`owner-${index}-trimMatch`}>
+                    <option value="unknown">Not sure</option><option value="yes">Yes</option><option value="no">No</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for={`owner-${index}-configurationMatch`}>Engine/drivetrain/body match?</label>
+                  <select id={`owner-${index}-configurationMatch`} name={`owner-${index}-configurationMatch`}>
+                    <option value="unknown">Not sure</option><option value="yes">Yes</option><option value="no">No</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for={`owner-${index}-listingStatus`}>Listing status</label>
+                  <select id={`owner-${index}-listingStatus`} name={`owner-${index}-listingStatus`}>
+                    <option value="unknown">Not sure</option><option value="active">Active</option><option value="sold">Sold</option><option value="expired">Expired</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for={`owner-${index}-listingDate`}>Listing / date checked</label>
+                  <input type="date" id={`owner-${index}-listingDate`} name={`owner-${index}-listingDate`} />
+                </div>
+                <div class="field">
+                  <label for={`owner-${index}-sellerType`}>Seller type</label>
+                  <select id={`owner-${index}-sellerType`} name={`owner-${index}-sellerType`}>
+                    <option value="unknown">Not sure</option><option value="dealer">Dealer</option><option value="private">Private party</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for={`owner-${index}-conditionMatch`}>Condition compared with yours</label>
+                  <select id={`owner-${index}-conditionMatch`} name={`owner-${index}-conditionMatch`}>
+                    <option value="unknown">Not sure</option><option value="similar">Similar</option><option value="better">Better</option><option value="worse">Worse</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for={`owner-${index}-adjustmentsShown`}>Price adjustment documented?</label>
+                  <select id={`owner-${index}-adjustmentsShown`} name={`owner-${index}-adjustmentsShown`}>
+                    <option value="unknown">Not sure</option><option value="yes">Yes</option><option value="no">No</option>
+                  </select>
+                </div>
+              </div>
+            </details>
+          </fieldset>
+        ))}
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Run My Audit</button>
+          <button type="button" class="btn-secondary" id="total-loss-start-over">Start over and delete my answers</button>
+        </div>
+      </form>
+
+      <section class="result-box" id="total-loss-result" hidden aria-labelledby="total-loss-result-heading">
+        <h2 id="total-loss-result-heading" tabindex="-1">Your Audit Results</h2>
+        <p class="range" id="total-loss-acv-result">—</p>
+
+        <h3>Possible report mismatches to verify</h3>
+        <div id="total-loss-mismatches"></div>
+
+        <h3>Price statistics</h3>
+        <div class="stats-grid">
+          <section>
+            <h4>Insurer comparables</h4>
+            <div id="total-loss-insurer-stats"></div>
+          </section>
+          <section>
+            <h4>Your comparables</h4>
+            <div id="total-loss-owner-stats"></div>
+          </section>
+        </div>
+
+        <h3>Internal-consistency questions</h3>
+        <div id="total-loss-consistency"></div>
+
+        <h3>Comparable-quality review</h3>
+        <p class="section-note">
+          These are verification questions, not a score or dollar adjustment. A different year,
+          mileage, seller type, or location can matter, but this tool does not pretend to know the
+          correct monetary weight.
+        </p>
+        <div id="total-loss-quality"></div>
+
+        <div class="methodology-note">
+          <p><strong>Methodology version {TOTAL_LOSS_AUDIT_CONFIG.version}</strong> — last reviewed {TOTAL_LOSS_AUDIT_CONFIG.reviewedDate}.</p>
+          {TOTAL_LOSS_AUDIT_CONFIG.sources.map((source) => <p>{source}</p>)}
+          <p><a href="/methodology/">Read the full calculator methodology →</a></p>
+        </div>
+        <div class="result-actions">
+          <button type="button" class="btn-secondary" id="total-loss-print">Print / Save as PDF</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Educational worksheet, not legal advice or an appraisal.</strong>
+      The tool organizes facts and arithmetic. It does not interpret a policy, determine market
+      value, or tell you what an insurer legally owes. See the <a href="/disclaimer/">full disclaimer</a>.
+    </div>
+
+    <section>
+      <h2>What the numbers can — and cannot — show</h2>
+      <p>
+        Mean, median, and range describe only the comparables you entered. A small or poorly matched
+        group can still be misleading, which is why one comp does not produce a group comparison
+        and two comps are labeled “limited.” Asking price, sale price, ACV, replacement cost, and
+        loan balance are different concepts; this worksheet does not silently treat them as equal.
+      </p>
+    </section>
+
+    <h2>More Calculators</h2>
+    <div class="related-tools">
+      <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown →</a>
+      <a href="/calculators/diminished-value-baseline/">Diminished Value Baseline →</a>
+      <a href="/calculators/claim-letter-builder/">Claim Letter Builder →</a>
+      <a href="/check-my-offer/">Check My Offer →</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import {
+    MISMATCH_FIELDS,
+    auditSummary,
+    evaluateMismatches,
+    formatUSD,
+    parseOptionalWholeNumber,
+    reviewComparableQuality,
+    toCents,
+    type ComparableVehicle,
+    type CompSource,
+    type ConditionMatch,
+    type ListingStatus,
+    type MatchStatus,
+    type PriceComp,
+    type ReportStatus,
+    type SellerType,
+  } from "@lib/calculators/total-loss-audit";
+
+  const form = document.getElementById("total-loss-form") as HTMLFormElement | null;
+  const result = document.getElementById("total-loss-result");
+  const resultHeading = document.getElementById("total-loss-result-heading");
+  const summary = document.getElementById("total-loss-error-summary");
+  const summaryList = document.getElementById("total-loss-error-summary-list");
+
+  if (form && result && resultHeading && summary && summaryList) {
+    const value = (name: string) =>
+      (form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null)?.value ?? "";
+
+    function clearErrors() {
+      form!.querySelectorAll<HTMLElement>(".field-error").forEach((wrapper) => wrapper.classList.remove("field-error"));
+      form!.querySelectorAll<HTMLElement>(".field-error-message").forEach((message) => message.remove());
+      form!.querySelectorAll<HTMLElement>("[aria-invalid='true']").forEach((field) => {
+        field.setAttribute("aria-invalid", "false");
+        const describedBy = (field.getAttribute("aria-describedby") ?? "")
+          .split(/\s+/)
+          .filter((id) => id && !id.endsWith("-error"));
+        if (describedBy.length) field.setAttribute("aria-describedby", describedBy.join(" "));
+        else field.removeAttribute("aria-describedby");
+      });
+    }
+
+    function markError(fieldId: string, message: string) {
+      const field = document.getElementById(fieldId);
+      const wrapper = field?.closest(".field");
+      if (!field || !wrapper) return;
+      wrapper.classList.add("field-error");
+      field.setAttribute("aria-invalid", "true");
+      const errorId = `${fieldId}-error`;
+      const error = document.createElement("p");
+      error.id = errorId;
+      error.className = "field-error-message";
+      error.textContent = `Error: ${message}`;
+      wrapper.appendChild(error);
+      const describedBy = new Set((field.getAttribute("aria-describedby") ?? "").split(/\s+/).filter(Boolean));
+      describedBy.add(errorId);
+      field.setAttribute("aria-describedby", [...describedBy].join(" "));
+    }
+
+    type FormError = { fieldId: string; message: string };
+
+    function readComps(
+      prefix: "insurer" | "owner",
+      count: number,
+      source: CompSource,
+      errors: FormError[],
+    ): { prices: PriceComp[]; quality: ComparableVehicle[] } {
+      const prices: PriceComp[] = [];
+      const quality: ComparableVehicle[] = [];
+
+      for (let index = 1; index <= count; index += 1) {
+        const base = `${prefix}-${index}`;
+        const priceRaw = value(`${base}-value`);
+        const numericFields = ["year", "mileage", "distance"];
+        const hasAny =
+          priceRaw !== "" ||
+          numericFields.some((name) => value(`${base}-${name}`) !== "") ||
+          value(`${base}-listingDate`) !== "" ||
+          ["trimMatch", "configurationMatch", "listingStatus", "sellerType", "conditionMatch", "adjustmentsShown"]
+            .some((name) => value(`${base}-${name}`) !== "unknown");
+
+        if (!hasAny) continue;
+        if (priceRaw === "") {
+          errors.push({ fieldId: `${base}-value`, message: `Enter a price for ${source === "insurer" ? "insurer" : "your"} comp ${index}, or clear the rest of that comp.` });
+          continue;
+        }
+
+        const price = toCents(priceRaw, { label: `${source === "insurer" ? "Insurer" : "Your"} comp ${index} price` });
+        if (price.error) errors.push({ fieldId: `${base}-value`, message: price.error });
+
+        const year = parseOptionalWholeNumber(value(`${base}-year`), { label: `Comp ${index} year`, max: 2027 });
+        const mileage = parseOptionalWholeNumber(value(`${base}-mileage`), { label: `Comp ${index} mileage`, max: 500000 });
+        const distance = parseOptionalWholeNumber(value(`${base}-distance`), { label: `Comp ${index} distance`, max: 5000 });
+        if (year.error) errors.push({ fieldId: `${base}-year`, message: year.error });
+        if (mileage.error) errors.push({ fieldId: `${base}-mileage`, message: mileage.error });
+        if (distance.error) errors.push({ fieldId: `${base}-distance`, message: distance.error });
+
+        prices.push({ valueCents: price.value });
+        quality.push({
+          id: `${source === "insurer" ? "Insurer" : "Your"} comp ${index}`,
+          source,
+          year: year.value,
+          mileage: mileage.value,
+          distanceMiles: distance.value,
+          trimMatch: value(`${base}-trimMatch`) as MatchStatus,
+          configurationMatch: value(`${base}-configurationMatch`) as MatchStatus,
+          listingStatus: value(`${base}-listingStatus`) as ListingStatus,
+          listingDate: value(`${base}-listingDate`),
+          sellerType: value(`${base}-sellerType`) as SellerType,
+          conditionMatch: value(`${base}-conditionMatch`) as ConditionMatch,
+          adjustmentsShown: value(`${base}-adjustmentsShown`) as MatchStatus,
+        });
+      }
+      return { prices, quality };
+    }
+
+    function renderStats(container: HTMLElement | null, stats: ReturnType<typeof auditSummary>["insurerStats"]) {
+      if (!container) return;
+      container.replaceChildren();
+      if (!stats) {
+        const p = document.createElement("p");
+        p.textContent = "No priced comparables entered.";
+        container.appendChild(p);
+        return;
+      }
+      if (!stats.canCompareGroup) {
+        const p = document.createElement("p");
+        p.className = "warning-note";
+        p.textContent = "One comp entered. Add at least one more before treating it as a group or comparing its range with the ACV.";
+        container.appendChild(p);
+        return;
+      }
+      const rows = [
+        ["Comps counted", String(stats.count)],
+        ["Mean", formatUSD(stats.meanCents)],
+        ["Median", formatUSD(stats.medianCents)],
+        ["Range", `${formatUSD(stats.minCents)} – ${formatUSD(stats.maxCents)}`],
+      ];
+      const breakdown = document.createElement("div");
+      breakdown.className = "breakdown";
+      rows.forEach(([labelText, numberText]) => {
+        const row = document.createElement("div");
+        row.className = "breakdown-row";
+        const label = document.createElement("span");
+        label.textContent = labelText;
+        const number = document.createElement("span");
+        number.textContent = numberText;
+        row.append(label, number);
+        breakdown.appendChild(row);
+      });
+      const confidence = document.createElement("p");
+      confidence.className = "confidence-label";
+      confidence.textContent =
+        stats.confidence === "limited"
+          ? "Limited sample: only two priced comparables."
+          : "Three or more priced comparables provide more context, but match quality still matters.";
+      container.append(breakdown, confidence);
+      if (stats.outlierIndexes.length) {
+        const note = document.createElement("p");
+        note.className = "warning-note";
+        note.textContent = `${stats.outlierIndexes.length} possible outlier(s): more than 20% from this group's median. This is a review heuristic, not an exclusion rule.`;
+        container.appendChild(note);
+      }
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      clearErrors();
+      const errors: FormError[] = [];
+
+      if (value("acv") === "") errors.push({ fieldId: "acv", message: "Insurer's stated ACV is required." });
+      const acv = toCents(value("acv"), { label: "Insurer's stated ACV" });
+      if (acv.error) errors.push({ fieldId: "acv", message: acv.error });
+
+      if (value("subjectYear") === "") errors.push({ fieldId: "subjectYear", message: "Your vehicle's model year is required for the quality review." });
+      if (value("subjectMileage") === "") errors.push({ fieldId: "subjectMileage", message: "Your vehicle's mileage is required for the quality review." });
+      const subjectYear = parseOptionalWholeNumber(value("subjectYear"), { label: "Your vehicle's year", max: 2027 });
+      const subjectMileage = parseOptionalWholeNumber(value("subjectMileage"), { label: "Your vehicle's mileage", max: 500000 });
+      if (subjectYear.error) errors.push({ fieldId: "subjectYear", message: subjectYear.error });
+      if (subjectMileage.error) errors.push({ fieldId: "subjectMileage", message: subjectMileage.error });
+
+      const insurer = readComps("insurer", 4, "insurer", errors);
+      const owner = readComps("owner", 6, "owner", errors);
+
+      if (errors.length) {
+        summaryList.replaceChildren();
+        errors.forEach((error) => {
+          markError(error.fieldId, error.message);
+          const item = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `#${error.fieldId}`;
+          link.textContent = error.message;
+          link.addEventListener("click", (clickEvent) => {
+            clickEvent.preventDefault();
+            document.getElementById(error.fieldId)?.focus();
+          });
+          item.appendChild(link);
+          summaryList.appendChild(item);
+        });
+        summary.hidden = false;
+        summary.focus();
+        result.hidden = true;
+        return;
+      }
+
+      summary.hidden = true;
+      const statuses: Partial<Record<string, ReportStatus>> = {};
+      MISMATCH_FIELDS.forEach((field) => {
+        statuses[field.key] = value(`status_${field.key}`) as ReportStatus;
+      });
+      const mismatches = evaluateMismatches(statuses);
+      const audit = auditSummary({
+        acvCents: acv.value,
+        insurerComps: insurer.prices,
+        userComps: owner.prices,
+      });
+      const quality = reviewComparableQuality(
+        {
+          year: subjectYear.value,
+          mileage: subjectMileage.value,
+          trim: value("subjectTrim"),
+          configuration: value("subjectConfiguration"),
+        },
+        [...insurer.quality, ...owner.quality],
+      );
+
+      const acvResult = document.getElementById("total-loss-acv-result");
+      if (acvResult) acvResult.textContent = `Insurer's stated ACV: ${formatUSD(audit.acvCents)}`;
+
+      const mismatchBox = document.getElementById("total-loss-mismatches");
+      if (mismatchBox) {
+        mismatchBox.replaceChildren();
+        if (!mismatches.length) {
+          const p = document.createElement("p");
+          p.className = "success-note";
+          p.textContent = "No checklist items flagged — you marked every report field as correct.";
+          mismatchBox.appendChild(p);
+        } else {
+          const list = document.createElement("ul");
+          list.className = "flag-list";
+          mismatches.forEach((mismatch) => {
+            const item = document.createElement("li");
+            const strong = document.createElement("strong");
+            strong.textContent = `${mismatch.label}. `;
+            item.append(strong, document.createTextNode(mismatch.note));
+            list.appendChild(item);
+          });
+          mismatchBox.appendChild(list);
+        }
+      }
+
+      renderStats(document.getElementById("total-loss-insurer-stats"), audit.insurerStats);
+      renderStats(document.getElementById("total-loss-owner-stats"), audit.userStats);
+
+      const consistency = document.getElementById("total-loss-consistency");
+      if (consistency) {
+        consistency.replaceChildren();
+        const notes = [audit.acvVsInsurerFlag, audit.acvVsUserNote].filter((note): note is string => Boolean(note));
+        if (!notes.length) {
+          const p = document.createElement("p");
+          p.textContent = "No group-level consistency question was generated. This does not mean every comp is a good match; review quality below.";
+          consistency.appendChild(p);
+        } else {
+          notes.forEach((noteText) => {
+            const p = document.createElement("p");
+            p.className = "warning-note";
+            p.textContent = noteText;
+            consistency.appendChild(p);
+          });
+        }
+      }
+
+      const qualityBox = document.getElementById("total-loss-quality");
+      if (qualityBox) {
+        qualityBox.replaceChildren();
+        if (!quality.length) {
+          const p = document.createElement("p");
+          p.textContent = "No comparables entered, so there is no quality review yet.";
+          qualityBox.appendChild(p);
+        } else {
+          quality.forEach((review) => {
+            const section = document.createElement("section");
+            section.className = "quality-review";
+            const heading = document.createElement("h4");
+            heading.textContent = review.compId;
+            const list = document.createElement("ul");
+            list.className = "quality-list";
+            review.questions.forEach((question) => {
+              const item = document.createElement("li");
+              item.textContent = question.text;
+              list.appendChild(item);
+            });
+            section.append(heading, list);
+            qualityBox.appendChild(section);
+          });
+        }
+      }
+
+      result.hidden = false;
+      resultHeading.focus();
+    });
+
+    document.getElementById("total-loss-start-over")?.addEventListener("click", () => {
+      form.reset();
+      clearErrors();
+      summary.hidden = true;
+      result.hidden = true;
+      (document.getElementById("acv") as HTMLInputElement | null)?.focus();
+    });
+    document.getElementById("total-loss-print")?.addEventListener("click", () => window.print());
+  }
+</script>
+
+<style>
+  .report-checks {
+    display: grid;
+    gap: 12px;
+  }
+
+  .report-check {
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    display: grid;
+    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) minmax(160px, 240px);
+    padding-bottom: 12px;
+  }
+
+  .report-check label { margin: 0; }
+
+  @media (max-width: 600px) {
+    .report-check { grid-template-columns: 1fr; }
+  }
+
+  .compact-grid { margin-top: 8px; }
+
+  .stats-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    .stats-grid { grid-template-columns: 1fr; }
+  }
+
+  .quality-review {
+    border-top: 1px solid var(--color-border);
+    padding-top: 8px;
+  }
+
+  .quality-review h4 { margin-bottom: 4px; }
+</style>

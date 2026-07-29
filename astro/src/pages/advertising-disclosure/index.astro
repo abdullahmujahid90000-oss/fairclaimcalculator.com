@@ -1,0 +1,57 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Advertising Disclosure | FairClaimCalculator";
+const description =
+  "FairClaimCalculator currently carries no advertising, affiliate links, or paid placements. This page explains the current status and what will change if that ever does.";
+const path = "/advertising-disclosure/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Advertising Disclosure", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Advertising Disclosure</p>
+    <h1 class="page-title">Advertising Disclosure</h1>
+
+    <div class="success-note">
+      <strong>Current status: no advertising runs on this site.</strong>
+      There are no ad networks, no ad tags, no affiliate links, and no paid placements anywhere on
+      FairClaimCalculator today.
+    </div>
+
+    <div class="calc-card">
+      <h2>What this site does not do</h2>
+      <ul>
+        <li>It does not accept payment from any insurance company, law firm, appraisal company, or vendor to influence a calculator's arithmetic or a guide's content.</li>
+        <li>It does not use affiliate links or lead-generation forms that sell your information.</li>
+        <li>It does not require an account, email address, or login to use any calculator.</li>
+      </ul>
+
+      <h2 class="section-heading">If that changes</h2>
+      <p>
+        The site is built with a route-level ad-eligibility system already in place, kept fully
+        disabled by default. If contextual advertising (such as Google AdSense) is ever added:
+      </p>
+      <ul>
+        <li>Ads will never be placed on calculators' quiz, form, print, or result-in-progress views, on legal/trust pages, or on any incomplete or error page.</li>
+        <li>Ads will be clearly labeled and visually distinct from calculator controls, navigation, and results.</li>
+        <li>This page and the site's <a href="/privacy/">privacy policy</a> will be updated before any ad request is made — not after.</li>
+        <li>A consent mechanism will be in place for regions that require it before any non-essential tracking occurs.</li>
+      </ul>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Questions about this disclosure?</strong>
+      Use the <a href="/contact/">contact page</a>.
+    </div>
+  </div>
+</BaseLayout>

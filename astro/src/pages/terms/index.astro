@@ -1,0 +1,79 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Terms of Service | FairClaimCalculator";
+const description =
+  "The terms that govern use of FairClaimCalculator's free educational calculators and guides.";
+const path = "/terms/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Terms of Service", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Terms of Service</p>
+    <h1 class="page-title">Terms of Service</h1>
+    <p class="lead">Last reviewed: 2026-07-29.</p>
+
+    <div class="calc-card">
+      <h2>Acceptance</h2>
+      <p>By using this site, you agree to these terms. If you do not agree, do not use the site.</p>
+
+      <h2 class="section-heading">What the site provides</h2>
+      <p>
+        Free educational calculators and guides that help organize facts, comparables, and
+        arithmetic related to U.S. auto total-loss and diminished-value insurance claims. See the
+        <a href="/methodology/">methodology page</a> for exactly what each calculator computes.
+      </p>
+
+      <h2 class="section-heading">No professional relationship</h2>
+      <p>
+        Using this site does not create an attorney-client relationship, an insurance-adjusting
+        relationship, an appraisal relationship, or any other professional relationship. The site is
+        not a law firm, insurer, public adjuster, or appraisal company. See the full
+        <a href="/disclaimer/">disclaimer</a>.
+      </p>
+
+      <h2 class="section-heading">No warranty</h2>
+      <p>
+        The site and its calculators are provided "as is," without warranty of any kind, express or
+        implied, including warranties of accuracy, fitness for a particular purpose, or
+        merchantability. Calculator results depend entirely on the figures you enter; verify them
+        independently before relying on them.
+      </p>
+
+      <h2 class="section-heading">Limitation of liability</h2>
+      <p>
+        To the fullest extent permitted by law, this site and its publisher are not liable for any
+        loss or damage arising from use of, or reliance on, the site, its calculators, or its guides.
+      </p>
+
+      <h2 class="section-heading">Acceptable use</h2>
+      <ul>
+        <li>Do not use automated tools to scrape or overload the site in a way that disrupts service for others.</li>
+        <li>Do not misrepresent calculator output as an official appraisal, legal opinion, or insurer determination.</li>
+        <li>Do not attempt to interfere with the site's security or normal operation.</li>
+      </ul>
+
+      <h2 class="section-heading">Intellectual property</h2>
+      <p>
+        The site's text, design, and calculator code are the property of their respective owners.
+        You may use calculator output for your own personal claim-related purposes.
+      </p>
+
+      <h2 class="section-heading">Changes</h2>
+      <p>These terms may be updated from time to time; continued use after an update means you accept the revised terms.</p>
+
+      <h2 class="section-heading">Contact</h2>
+      <p>Questions about these terms can be sent through the <a href="/contact/">contact page</a>.</p>
+    </div>
+  </div>
+</BaseLayout>

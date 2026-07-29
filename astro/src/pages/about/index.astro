@@ -1,0 +1,77 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "About FairClaimCalculator | Who Runs This Site";
+const description =
+  "FairClaimCalculator is an independent educational site publishing free, transparent auto-claim calculators. Learn who runs it and what it is not.";
+const path = "/about/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "About", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / About</p>
+    <h1 class="page-title">About FairClaimCalculator</h1>
+    <p class="lead">
+      FairClaimCalculator is an independent, free educational website. It helps U.S. vehicle owners
+      check the facts, comparables, and arithmetic behind a total-loss or diminished-value auto
+      insurance claim — nothing more.
+    </p>
+
+    <div class="calc-card">
+      <h2>What this site is</h2>
+      <p>
+        Four calculators that run entirely in your browser, plus guides that explain how insurers
+        typically value vehicles and how diminished value is commonly calculated. Every calculator
+        shows its full arithmetic and states what it cannot determine. Every legal or factual claim
+        in the guides is meant to cite a primary source next to the claim; see the
+        <a href="/sources/">source register</a> and <a href="/editorial-policy/">editorial policy</a>.
+      </p>
+
+      <h2 class="section-heading">What this site is not</h2>
+      <ul>
+        <li>Not a law firm, public adjuster, appraisal company, or insurance company.</li>
+        <li>Not a source of legal advice, and no attorney-client relationship is formed by using it.</li>
+        <li>Not a guarantee of any settlement amount, outcome, or "maximum" recovery.</li>
+        <li>Not a lead-generation funnel — there is no login, email gate, or data resale.</li>
+      </ul>
+
+      <h2 class="section-heading">Who runs it</h2>
+      <p>
+        FairClaimCalculator is published and edited by David Bennett, an independent web publisher.
+        He is not an attorney, insurance adjuster, or licensed vehicle appraiser. Content is
+        researched from public primary sources — state insurance-department materials, statutes and
+        regulations, court and settlement documents, and official policy language — and is reviewed
+        for accuracy on an ongoing basis. Case-specific decisions should always be verified with a
+        licensed attorney or a qualified independent appraiser in your state.
+      </p>
+      <p class="section-note">
+        This page intentionally does not list professional credentials, licenses, or a headshot,
+        because none are currently verified for publication. It will be updated only once specific,
+        verifiable details are available.
+      </p>
+
+      <h2 class="section-heading">How the site is funded</h2>
+      <p>
+        The site currently carries no advertising and earns no revenue. See the
+        <a href="/advertising-disclosure/">advertising disclosure</a> for the current status and
+        what will change if that ever does.
+      </p>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Educational tool, not legal advice.</strong>
+      See the <a href="/disclaimer/">full disclaimer</a> and <a href="/methodology/">methodology</a>
+      for what the calculators can and cannot tell you.
+    </div>
+  </div>
+</BaseLayout>

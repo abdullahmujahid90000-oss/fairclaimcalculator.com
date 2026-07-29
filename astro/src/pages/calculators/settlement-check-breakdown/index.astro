@@ -223,9 +223,9 @@ const structuredData = [
       if (salvageGroup) salvageGroup.hidden = !retainingSalvage;
     }
 
-    form.elements.namedItem("claimType")?.addEventListener("change", syncVisibility);
-    form.elements.namedItem("hasLoan")?.addEventListener("change", syncVisibility);
-    form.elements.namedItem("retainingSalvage")?.addEventListener("change", syncVisibility);
+    (form.elements.namedItem("claimType") as HTMLSelectElement | null)?.addEventListener("change", syncVisibility);
+    (form.elements.namedItem("hasLoan") as HTMLSelectElement | null)?.addEventListener("change", syncVisibility);
+    (form.elements.namedItem("retainingSalvage") as HTMLSelectElement | null)?.addEventListener("change", syncVisibility);
     syncVisibility();
 
     function fieldValue(name: string): string {

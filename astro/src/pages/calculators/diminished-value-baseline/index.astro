@@ -1,0 +1,557 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ErrorSummary from "@components/ErrorSummary.astro";
+import { DV_CONFIG } from "@lib/calculators/diminished-value-baseline";
+
+const title = "Diminished Value Baseline & Market Evidence Worksheet | FairClaimCalculator";
+const description =
+  "Calculate a transparent 17c-style diminished-value baseline and compare it with separate clean-history and accident-history market evidence. Never averaged.";
+const path = "/calculators/diminished-value-baseline/";
+const compRows = Array.from({ length: 4 }, (_, index) => index + 1);
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Calculators", item: "https://www.fairclaimcalculator.com/calculators/" },
+      { "@type": "ListItem", position: 3, name: "Diminished Value Baseline", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/calculators/">Calculators</a> / Diminished Value Baseline</p>
+    <h1 class="page-title">Compare a 17c-Style Baseline with Market Evidence</h1>
+    <p class="lead">
+      See every step of a commonly published insurer-style formula, then build a separate worksheet
+      from clean-history and accident-history listings. The two outputs are never averaged into a
+      made-up “answer.”
+    </p>
+    <ul class="trust-badges">
+      <li><span aria-hidden="true">🔒</span> No account or email</li>
+      <li><span aria-hidden="true">🧮</span> Every multiplier is shown</li>
+      <li><span aria-hidden="true">↔</span> Formula and market evidence stay separate</li>
+    </ul>
+
+    <div class="disclaimer-box formula-warning">
+      <strong>The 17c-style result is not your vehicle's legally correct diminished value.</strong>
+      It is a comparison reference associated with a historic Georgia class-settlement formula.
+      Georgia's insurance regulator later stated that no formula was approved as determinative.
+      State law, policy terms, claim relationship, and evidence can change what applies.
+    </div>
+
+    <div class="calc-card">
+      <h2>Build Your Worksheet</h2>
+      <ErrorSummary id="dv-error-summary" />
+
+      <form id="dv-form" novalidate>
+        <h3 class="section-heading">1. Baseline inputs</h3>
+        <div class="form-grid">
+          <div class="field">
+            <label for="preAccidentValue">Pre-accident vehicle value</label>
+            <input type="number" id="preAccidentValue" name="preAccidentValue" min="1" max="5000000" step="1" inputmode="decimal" required aria-describedby="preAccidentValue-hint" />
+            <p class="hint" id="preAccidentValue-hint">U.S. dollars. Example: 22000. Use a source you can identify.</p>
+          </div>
+          <div class="field">
+            <label for="valueSource">Source of that value</label>
+            <input type="text" id="valueSource" name="valueSource" maxlength="160" aria-describedby="valueSource-hint" />
+            <p class="hint" id="valueSource-hint">Optional. Example: pre-loss appraisal dated June 10, 2026.</p>
+          </div>
+          <div class="field">
+            <label for="mileage">Mileage at the time of loss</label>
+            <input type="number" id="mileage" name="mileage" min="0" max="400000" step="1" inputmode="numeric" required aria-describedby="mileage-hint" />
+            <p class="hint" id="mileage-hint">Whole miles. The formula uses fixed mileage bands shown in the result.</p>
+          </div>
+          <div class="field">
+            <label for="damageCategory">Damage category used for this baseline</label>
+            <select id="damageCategory" name="damageCategory" required aria-describedby="damageCategory-hint">
+              <option value="">Select a category</option>
+              {DV_CONFIG.damageMultipliers.map((option) => (
+                <option value={option.key}>{option.label} — multiplier {option.value.toFixed(2)}</option>
+              ))}
+            </select>
+            <p class="hint" id="damageCategory-hint">Choose the closest disclosed category; this is not a professional damage classification.</p>
+          </div>
+        </div>
+
+        <h3 class="section-heading">2. Claim context</h3>
+        <p class="section-note">These facts do not change the formula. They are preserved in your worksheet so its limits stay visible.</p>
+        <div class="form-grid">
+          <div class="field">
+            <label for="claimRelationship">Claim relationship</label>
+            <select id="claimRelationship" name="claimRelationship">
+              <option value="">Not entered</option>
+              <option value="My own insurer (first-party)">My own insurer (first-party)</option>
+              <option value="Another driver's insurer (third-party)">Another driver's insurer (third-party)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="claimState">State connected with the claim</label>
+            <input type="text" id="claimState" name="claimState" maxlength="40" aria-describedby="claimState-hint" />
+            <p class="hint" id="claimState-hint">Optional. The tool does not apply state law automatically.</p>
+          </div>
+          <div class="field">
+            <label for="structural">Structural or frame damage confirmed?</label>
+            <select id="structural" name="structural">
+              <option value="">Not entered</option><option value="Yes">Yes</option><option value="No">No</option><option value="Not sure">Not sure</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="airbags">Airbags deployed?</label>
+            <select id="airbags" name="airbags">
+              <option value="">Not entered</option><option value="Yes">Yes</option><option value="No">No</option><option value="Not sure">Not sure</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="repairsComplete">Repairs complete?</label>
+            <select id="repairsComplete" name="repairsComplete">
+              <option value="">Not entered</option><option value="Yes">Yes</option><option value="No">No</option><option value="Not sure">Not sure</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="panelCount">Panels repaired or replaced</label>
+            <input type="number" id="panelCount" name="panelCount" min="0" max="30" step="1" inputmode="numeric" />
+          </div>
+        </div>
+
+        <h3 class="section-heading">3. Clean-history comparable listings</h3>
+        <p class="section-note">
+          Add up to four similar listings with no disclosed accident history. Two priced listings
+          are required before the worksheet calculates a median gap; three or more provide more context.
+        </p>
+        {compRows.map((index) => (
+          <fieldset class="comp-card">
+            <legend>Clean-history comp {index}</legend>
+            <div class="form-grid compact-grid">
+              <div class="field">
+                <label for={`clean-${index}-price`}>Asking price</label>
+                <input type="number" id={`clean-${index}-price`} name={`clean-${index}-price`} min="0" max="5000000" step="1" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for={`clean-${index}-year`}>Year / trim</label>
+                <input type="text" id={`clean-${index}-year`} name={`clean-${index}-year`} maxlength="100" placeholder="e.g. 2020 EX-L" />
+              </div>
+              <div class="field">
+                <label for={`clean-${index}-mileage`}>Mileage</label>
+                <input type="number" id={`clean-${index}-mileage`} name={`clean-${index}-mileage`} min="0" max="500000" step="1" inputmode="numeric" />
+              </div>
+              <div class="field">
+                <label for={`clean-${index}-date`}>Date checked</label>
+                <input type="date" id={`clean-${index}-date`} name={`clean-${index}-date`} />
+              </div>
+              <div class="field field-wide">
+                <label for={`clean-${index}-source`}>Source / listing reference</label>
+                <input type="text" id={`clean-${index}-source`} name={`clean-${index}-source`} maxlength="300" placeholder="Dealer, marketplace, stock number, or URL" />
+              </div>
+            </div>
+          </fieldset>
+        ))}
+
+        <h3 class="section-heading">4. Accident-history comparable listings</h3>
+        <p class="section-note">Add similar listings whose accident history is disclosed. Keep screenshots because listings can change or disappear.</p>
+        {compRows.map((index) => (
+          <fieldset class="comp-card">
+            <legend>Accident-history comp {index}</legend>
+            <div class="form-grid compact-grid">
+              <div class="field">
+                <label for={`accident-${index}-price`}>Asking price</label>
+                <input type="number" id={`accident-${index}-price`} name={`accident-${index}-price`} min="0" max="5000000" step="1" inputmode="decimal" />
+              </div>
+              <div class="field">
+                <label for={`accident-${index}-year`}>Year / trim</label>
+                <input type="text" id={`accident-${index}-year`} name={`accident-${index}-year`} maxlength="100" placeholder="e.g. 2020 EX-L" />
+              </div>
+              <div class="field">
+                <label for={`accident-${index}-mileage`}>Mileage</label>
+                <input type="number" id={`accident-${index}-mileage`} name={`accident-${index}-mileage`} min="0" max="500000" step="1" inputmode="numeric" />
+              </div>
+              <div class="field">
+                <label for={`accident-${index}-date`}>Date checked</label>
+                <input type="date" id={`accident-${index}-date`} name={`accident-${index}-date`} />
+              </div>
+              <div class="field field-wide">
+                <label for={`accident-${index}-source`}>Source / listing reference</label>
+                <input type="text" id={`accident-${index}-source`} name={`accident-${index}-source`} maxlength="300" placeholder="Dealer, marketplace, stock number, or URL" />
+              </div>
+            </div>
+          </fieldset>
+        ))}
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Build My Worksheet</button>
+          <button type="button" class="btn-secondary" id="dv-start-over">Start over and delete my answers</button>
+        </div>
+      </form>
+
+      <section class="result-box" id="dv-result" hidden aria-labelledby="dv-result-heading">
+        <h2 id="dv-result-heading" tabindex="-1">Your Diminished-Value Worksheet</h2>
+
+        <h3>Output A — 17c-style comparison baseline</h3>
+        <p class="section-note">Formula result only. It is not blended with the market evidence below.</p>
+        <p class="range" id="dv-baseline-total">—</p>
+        <div class="breakdown" id="dv-baseline-breakdown"></div>
+
+        <h3>Output B — market evidence</h3>
+        <div class="market-grid">
+          <section>
+            <h4>Clean-history listings</h4>
+            <div id="dv-clean-stats"></div>
+          </section>
+          <section>
+            <h4>Accident-history listings</h4>
+            <div id="dv-accident-stats"></div>
+          </section>
+        </div>
+        <div id="dv-market-gap"></div>
+
+        <h3>Evidence details you entered</h3>
+        <div id="dv-evidence-details"></div>
+
+        <h3>Claim context</h3>
+        <div id="dv-context"></div>
+
+        <div class="methodology-note">
+          <p><strong>Methodology version {DV_CONFIG.version}</strong> — last reviewed {DV_CONFIG.reviewedDate}.</p>
+          {DV_CONFIG.sources.map((source) => <p>{source}</p>)}
+          <p><a href="/methodology/">Read the full calculator methodology →</a></p>
+        </div>
+        <div class="result-actions">
+          <button type="button" class="btn-secondary" id="dv-print">Print / Save as PDF</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Educational worksheet, not legal advice or an appraisal.</strong>
+      This tool does not decide whether diminished value is recoverable, whether a formula applies,
+      or what amount is owed. Verify claim-specific questions with a qualified professional in your state.
+    </div>
+
+    <h2>More Calculators</h2>
+    <div class="related-tools">
+      <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit →</a>
+      <a href="/calculators/claim-letter-builder/">Claim Letter Builder →</a>
+      <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown →</a>
+      <a href="/check-my-offer/">Check My Offer →</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import {
+    DVValidationError,
+    calculate17cBaseline,
+    evaluateMarketEvidence,
+    formatUSD,
+    toCents,
+    type MarketComp,
+    type MarketStats,
+  } from "@lib/calculators/diminished-value-baseline";
+
+  const form = document.getElementById("dv-form") as HTMLFormElement | null;
+  const result = document.getElementById("dv-result");
+  const resultHeading = document.getElementById("dv-result-heading");
+  const errorSummary = document.getElementById("dv-error-summary");
+  const errorList = document.getElementById("dv-error-summary-list");
+
+  if (form && result && resultHeading && errorSummary && errorList) {
+    const value = (name: string) =>
+      (form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null)?.value ?? "";
+    type FormError = { fieldId: string; message: string };
+    type EvidenceRow = { label: string; price: string; year: string; mileage: string; date: string; source: string };
+
+    function clearErrors() {
+      form!.querySelectorAll(".field-error").forEach((item) => item.classList.remove("field-error"));
+      form!.querySelectorAll(".field-error-message").forEach((item) => item.remove());
+      form!.querySelectorAll<HTMLElement>("[aria-invalid='true']").forEach((field) => field.setAttribute("aria-invalid", "false"));
+    }
+
+    function markError(fieldId: string, message: string) {
+      const field = document.getElementById(fieldId);
+      const wrapper = field?.closest(".field");
+      if (!field || !wrapper) return;
+      wrapper.classList.add("field-error");
+      field.setAttribute("aria-invalid", "true");
+      const note = document.createElement("p");
+      note.className = "field-error-message";
+      note.textContent = `Error: ${message}`;
+      wrapper.appendChild(note);
+    }
+
+    function readMarketGroup(prefix: "clean" | "accident", errors: FormError[]) {
+      const comps: MarketComp[] = [];
+      const evidence: EvidenceRow[] = [];
+      for (let index = 1; index <= 4; index += 1) {
+        const price = value(`${prefix}-${index}-price`);
+        const year = value(`${prefix}-${index}-year`);
+        const mileage = value(`${prefix}-${index}-mileage`);
+        const date = value(`${prefix}-${index}-date`);
+        const source = value(`${prefix}-${index}-source`);
+        const hasAny = [price, year, mileage, date, source].some(Boolean);
+        if (!hasAny) continue;
+        if (!price) {
+          errors.push({
+            fieldId: `${prefix}-${index}-price`,
+            message: `Enter a price for ${prefix === "clean" ? "clean-history" : "accident-history"} comp ${index}, or clear that comp.`,
+          });
+          continue;
+        }
+        try {
+          const cents = toCents(price, `Comp ${index} price`);
+          if (cents === null || cents === 0) throw new Error(`Comp ${index} price must be greater than zero.`);
+          comps.push({ price });
+        } catch (error) {
+          errors.push({ fieldId: `${prefix}-${index}-price`, message: (error as Error).message });
+        }
+        if (mileage && (!Number.isInteger(Number(mileage)) || Number(mileage) < 0 || Number(mileage) > 500000)) {
+          errors.push({ fieldId: `${prefix}-${index}-mileage`, message: `Comp ${index} mileage must be a whole number from 0 to 500,000.` });
+        }
+        evidence.push({
+          label: `${prefix === "clean" ? "Clean-history" : "Accident-history"} comp ${index}`,
+          price,
+          year,
+          mileage,
+          date,
+          source,
+        });
+      }
+      return { comps, evidence };
+    }
+
+    function renderStats(container: HTMLElement | null, stats: MarketStats | null) {
+      if (!container) return;
+      container.replaceChildren();
+      if (!stats) {
+        const p = document.createElement("p");
+        p.textContent = "No priced listings entered.";
+        container.appendChild(p);
+        return;
+      }
+      const breakdown = document.createElement("div");
+      breakdown.className = "breakdown";
+      [
+        ["Listings counted", String(stats.count)],
+        ["Median", formatUSD(stats.medianCents)],
+        ["Mean", formatUSD(stats.meanCents)],
+        ["Range", `${formatUSD(stats.minCents)} – ${formatUSD(stats.maxCents)}`],
+      ].forEach(([labelText, numberText]) => {
+        const row = document.createElement("div");
+        row.className = "breakdown-row";
+        const label = document.createElement("span");
+        label.textContent = labelText;
+        const number = document.createElement("span");
+        number.textContent = numberText;
+        row.append(label, number);
+        breakdown.appendChild(row);
+      });
+      const confidence = document.createElement("p");
+      confidence.className = "confidence-label";
+      confidence.textContent =
+        stats.confidence === "single-comp"
+          ? "Single listing only — not enough for a group comparison."
+          : stats.confidence === "limited"
+            ? "Limited sample: two listings."
+            : "Three or more listings provide more context; match quality still matters.";
+      container.append(breakdown, confidence);
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      clearErrors();
+      const errors: FormError[] = [];
+      let baseline: ReturnType<typeof calculate17cBaseline> | null = null;
+
+      try {
+        baseline = calculate17cBaseline({
+          preAccidentValue: value("preAccidentValue"),
+          mileage: value("mileage"),
+          damageCategory: value("damageCategory"),
+        });
+      } catch (error) {
+        if (error instanceof DVValidationError) {
+          errors.push({ fieldId: error.field, message: error.message });
+        } else {
+          errors.push({ fieldId: "preAccidentValue", message: "Check the baseline inputs and try again." });
+        }
+      }
+
+      const clean = readMarketGroup("clean", errors);
+      const accident = readMarketGroup("accident", errors);
+
+      if (errors.length || !baseline) {
+        errorList.replaceChildren();
+        errors.forEach((error) => {
+          markError(error.fieldId, error.message);
+          const item = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `#${error.fieldId}`;
+          link.textContent = error.message;
+          link.addEventListener("click", (clickEvent) => {
+            clickEvent.preventDefault();
+            document.getElementById(error.fieldId)?.focus();
+          });
+          item.appendChild(link);
+          errorList.appendChild(item);
+        });
+        errorSummary.hidden = false;
+        errorSummary.focus();
+        result.hidden = true;
+        return;
+      }
+
+      errorSummary.hidden = true;
+      const market = evaluateMarketEvidence(clean.comps, accident.comps);
+      const baselineTotal = document.getElementById("dv-baseline-total");
+      if (baselineTotal) baselineTotal.textContent = `17c-style baseline: ${formatUSD(baseline.resultCents)}`;
+      const breakdown = document.getElementById("dv-baseline-breakdown");
+      if (breakdown) {
+        breakdown.replaceChildren();
+        const valueSource = value("valueSource");
+        [
+          [`Pre-accident value${valueSource ? ` (${valueSource})` : ""}`, formatUSD(baseline.preAccidentValueCents)],
+          ["10% base cap", `${formatUSD(baseline.preAccidentValueCents)} × 0.10 = ${formatUSD(baseline.baseCapCents)}`],
+          [`Damage: ${baseline.damageLabel}`, `${formatUSD(baseline.baseCapCents)} × ${baseline.damageMultiplier.toFixed(2)} = ${formatUSD(baseline.afterDamageCents)}`],
+          [`Mileage: ${baseline.mileageLabel}`, `${formatUSD(baseline.afterDamageCents)} × ${baseline.mileageMultiplier.toFixed(2)} = ${formatUSD(baseline.resultCents)}`],
+        ].forEach(([labelText, amountText], index) => {
+          const row = document.createElement("div");
+          row.className = `breakdown-row${index === 3 ? " breakdown-row-subtotal" : ""}`;
+          const label = document.createElement("span");
+          label.textContent = labelText;
+          const amount = document.createElement("span");
+          amount.textContent = amountText;
+          row.append(label, amount);
+          breakdown.appendChild(row);
+        });
+      }
+
+      renderStats(document.getElementById("dv-clean-stats"), market.cleanStats);
+      renderStats(document.getElementById("dv-accident-stats"), market.accidentStats);
+      const gap = document.getElementById("dv-market-gap");
+      if (gap) {
+        gap.replaceChildren();
+        const note = document.createElement("p");
+        note.className = market.hasEnoughEvidence ? "notice" : "warning-note";
+        note.textContent =
+          market.hasEnoughEvidence && market.gapCents !== null
+            ? `Median evidence gap: ${formatUSD(market.gapCents)} (clean-history median minus accident-history median). This is not averaged with the formula and is not a legal value conclusion.`
+            : "A market-evidence gap requires at least two priced listings in each group. Add more evidence before comparing the medians.";
+        gap.appendChild(note);
+      }
+
+      const evidenceBox = document.getElementById("dv-evidence-details");
+      if (evidenceBox) {
+        evidenceBox.replaceChildren();
+        const rows = [...clean.evidence, ...accident.evidence];
+        if (!rows.length) {
+          const p = document.createElement("p");
+          p.textContent = "No listing evidence entered.";
+          evidenceBox.appendChild(p);
+        } else {
+          rows.forEach((evidence) => {
+            const item = document.createElement("section");
+            item.className = "evidence-item";
+            const heading = document.createElement("h4");
+            heading.textContent = `${evidence.label}: ${formatUSD(Math.round(Number(evidence.price) * 100))}`;
+            const details = document.createElement("p");
+            const parts = [
+              evidence.year ? `Vehicle: ${evidence.year}` : "Year/trim not entered",
+              evidence.mileage ? `Mileage: ${Number(evidence.mileage).toLocaleString("en-US")}` : "Mileage not entered",
+              evidence.date ? `Date checked: ${evidence.date}` : "Date not entered",
+              evidence.source ? `Source: ${evidence.source}` : "Source not entered",
+            ];
+            details.textContent = parts.join(" · ");
+            item.append(heading, details);
+            evidenceBox.appendChild(item);
+          });
+        }
+      }
+
+      const context = document.getElementById("dv-context");
+      if (context) {
+        context.replaceChildren();
+        const pairs = [
+          ["Claim relationship", value("claimRelationship")],
+          ["State", value("claimState")],
+          ["Structural/frame damage", value("structural")],
+          ["Airbags deployed", value("airbags")],
+          ["Repairs complete", value("repairsComplete")],
+          ["Panels repaired/replaced", value("panelCount")],
+        ].filter(([, itemValue]) => itemValue);
+        if (!pairs.length) {
+          const p = document.createElement("p");
+          p.textContent = "No optional claim-context fields entered.";
+          context.appendChild(p);
+        } else {
+          const list = document.createElement("dl");
+          list.className = "context-list";
+          pairs.forEach(([termText, descriptionText]) => {
+            const term = document.createElement("dt");
+            term.textContent = termText;
+            const description = document.createElement("dd");
+            description.textContent = descriptionText;
+            list.append(term, description);
+          });
+          context.appendChild(list);
+        }
+      }
+
+      result.hidden = false;
+      resultHeading.focus();
+    });
+
+    document.getElementById("dv-start-over")?.addEventListener("click", () => {
+      form.reset();
+      clearErrors();
+      errorSummary.hidden = true;
+      result.hidden = true;
+      (document.getElementById("preAccidentValue") as HTMLInputElement | null)?.focus();
+    });
+    document.getElementById("dv-print")?.addEventListener("click", () => window.print());
+  }
+</script>
+
+<style>
+  .formula-warning { margin-top: 20px; }
+  .compact-grid { margin-top: 8px; }
+
+  .market-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    .market-grid { grid-template-columns: 1fr; }
+  }
+
+  .evidence-item {
+    border-top: 1px solid var(--color-border);
+    padding: 8px 0;
+  }
+
+  .evidence-item h4,
+  .evidence-item p { margin: 4px 0; }
+
+  .evidence-item p {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+
+  .context-list {
+    display: grid;
+    grid-template-columns: minmax(150px, 1fr) 2fr;
+    margin: 0;
+  }
+
+  .context-list dt,
+  .context-list dd {
+    border-bottom: 1px dashed var(--color-border);
+    margin: 0;
+    padding: 6px 0;
+  }
+
+  .context-list dt { font-weight: 650; }
+</style>
