@@ -21,6 +21,7 @@ in §9 below, using the same "next"/"continue" trigger-word convention.
 | R4 | **Hosting: GitHub Pages**, confirmed by the user. Deployment uses a GitHub Actions workflow (build Astro → upload Pages artifact → deploy), which runs on GitHub's own infrastructure once a commit reaches `main` — this works regardless of whether the push comes from this sandbox (which still cannot push directly) or the user's external sync process. | User's explicit answer, 2026-07-22. Decouples "can this sandbox push" from "does the site deploy." |
 | R5 | The existing plain-HTML root site (`index.html`, `about.html`, `js/*.js`, etc.) **stays live and untouched** during migration. The new Astro project builds in a new `astro/` subdirectory with its own toolchain. Nothing is deleted or overwritten until the Astro build has verified parity and the user explicitly approves cutover. | Risk containment — a multi-week rebuild must not leave the live site broken or half-migrated at any commit. |
 | R6 | Canonical origin: `https://www.fairclaimcalculator.com/` (www, per brief). `astro.config.mjs` and the `CNAME` file are set accordingly. | Explicit brief requirement. |
+| R9 | **Redirect and retired-content stubs are generated as plain static files written directly into `public/` by `scripts/generate-legacy-stubs.mjs`, not as Astro page components.** Tested directly: with `trailingSlash: "always"` + `build.format: "directory"`, a page file named e.g. `about.html.astro` still gets forced into `/about.html/index.html`, not a literal `/about.html`. Since several legacy URLs are flat `.html` files or need a `.html` extension nested under `calculators/`/`articles/` (paths that don't exist as route prefixes in the new site), writing directly to `public/` — copied verbatim by Astro, no routing rules applied — is the only reliable way to hit those exact byte-for-byte old paths. The manifest (`scripts/legacy-paths.mjs`) is the single source of truth; the generated files themselves are gitignored (`astro/.gitignore`) and regenerated fresh by an npm `prebuild` hook before every `npm run build`, locally and in CI, so there is no risk of a stale committed copy drifting from the manifest. | Discovered and implemented during Phase 3, this session. |
 | R7 | **`@astrojs/sitemap` is pinned to `3.2.1` exactly** (not the `^` range latest, `3.7.3`). The latest 3.x published version is built/tested against Astro 6 internals and crashes (`Cannot read properties of undefined (reading 'reduce')`) against this project's Astro `4.16.x`. `3.2.1`'s own devDependency pins `astro@4.16.4`, matching this project. Re-check compatibility before ever bumping this package. | Discovered and fixed during Phase 2 verification, this session. |
 | R8 | **Global nav/footer must only link routes that exist and are complete — enforced as a standing rule, not a one-time cleanup.** Phase-2-era work had already wired the header nav and footer to 14 trust/guide routes that didn't exist yet (`/about/`, `/methodology/`, `/guides/*`, etc.), which is a direct violation of the "never add a route to nav/sitemap until complete" rule. Fixed this session by trimming nav/footer to real routes only, then building the Phase 4 trust pages so most of those links could be honestly restored. The homepage's "Guides" section and the header's Guides submenu are intentionally left out until Phase 5 guide hubs actually exist — do not restore them speculatively. | Found and fixed during Phase 2 verification, this session. |
 
@@ -75,7 +76,9 @@ in §9 below, using the same "next"/"continue" trigger-word convention.
         total-loss-audit.ts
         diminished-value-baseline.ts
         claim-letter-builder.ts
-      redirects.ts             manifest of old-URL → new-URL/status, drives generated redirect-stub pages
+    (redirect/retired-URL manifest lives in scripts/legacy-paths.mjs, not
+     here — see R9 for why it's a prebuild-time public/ generator, not an
+     Astro page/lib module)
     pages/
       index.astro
       check-my-offer/index.astro
@@ -122,15 +125,19 @@ a half-broken intermediate state, and R5 stays true throughout the migration.
 | `/about/ /methodology/ /editorial-policy/ /sources/ /corrections/ /advertising-disclosure/ /privacy/ /terms/ /disclaimer/ /accessibility/ /contact/` | Trust framework | Phase 4 — built this session |
 | `/404` | Custom 404 | Phase 1 — built this session |
 
-### Old plain-HTML site → new Astro site (redirect manifest, `src/lib/redirects.ts`)
+### Old plain-HTML site → new Astro site (redirect manifest, `astro/scripts/legacy-paths.mjs`)
 
-Every mapping below becomes a small static stub page at the **old** path:
-`<meta http-equiv="refresh" content="0; url=NEW">` + `<link rel="canonical" href="NEW">`
-+ a plain-text fallback link. GitHub Pages has no server-side redirect
-config, so this meta-refresh + canonical pattern is the standard static-host
-equivalent of a 301 — it is a genuine one-hop redirect from the browser's and
-a crawler's perspective, just not an HTTP-layer 301. Documented here as a
-deliberate, host-constrained tradeoff rather than a gap.
+**Built and verified this session (Phase 3).** Every mapping below is a real
+generated static stub page at the **old** path (`scripts/generate-legacy-stubs.mjs`,
+run as an npm `prebuild` step — see R9): `<meta http-equiv="refresh" content="0; url=NEW">`
++ `<link rel="canonical" href="NEW">` + a plain-text fallback link. GitHub
+Pages has no server-side redirect config, so this meta-refresh + canonical
+pattern is the standard static-host equivalent of a 301 — it is a genuine
+one-hop redirect from the browser's and a crawler's perspective, just not an
+HTTP-layer 301. Documented here as a deliberate, host-constrained tradeoff
+rather than a gap. Confirmed via a real build that every stub lands at the
+exact byte-for-byte old path and none leak into the sitemap (public/ files
+aren't Astro routes, so the sitemap integration never sees them).
 
 | Old URL (current live plain-HTML) | New URL | Status | Rationale |
 |---|---|---|---|
@@ -146,34 +153,30 @@ deliberate, host-constrained tradeoff rather than a gap.
 | `/terms-of-service.html` | `/terms/` | Redirect stub | Clean-URL convention |
 | `/404.html` | `/404` | N/A (host-served 404) | Astro/GH Pages 404 handling |
 
-### Retired personal-injury `/calculators/*.html` URLs (deleted 2026-07-19, pre-dating this plan)
+### Retired personal-injury URLs (deleted 2026-07-18/07-19, pre-dating this plan)
 
-These were already removed from the live site during the original pivot
-(see `BUILD-LOG.md` D8) — the actual filenames are no longer in the repo to
-inspect directly, so this table is reconstructed from `BUILD-LOG.md`'s record
-of what existed (4 calculators under a `calculators/` folder: general
-personal-injury, car-accident, slip-and-fall, and workers-comp settlement
-calculators) plus the confirmation that the domain had **zero Google index
-footprint** at the time of deletion (`PHASE-0-RESEARCH.md` §7.3).
+**Verified this session against `git log --diff-filter=D --name-only --all`**
+— these are the exact real historical filenames (the earlier draft of this
+table was reconstructed from `BUILD-LOG.md`'s prose description and got two
+things wrong: it guessed a nonexistent `general-injury-settlement-calculator.html`
+and missed the entire `/articles/` section, 17 pages). `PHASE-0-RESEARCH.md`
+§7.3 confirms the whole domain had **zero Google index footprint** as of
+2026-07-19 (after these deletions), so there is no ranking equity to preserve.
 
-| Old URL (reconstructed) | Status | Destination | Rationale |
+| Old URL (verified) | Status | Destination | Rationale |
 |---|---|---|---|
-| `/calculators/car-accident-settlement-calculator.html` (name approximate) | **410 Gone** | none | Off-topic content (bodily-injury, out of scope per master prompt §1.4). No live indexed equity to preserve (verified zero index footprint before deletion). A 301 to an auto-claim tool would misdirect users who searched for injury-settlement content into an unrelated tool — a bad-faith redirect. 410 is the honest signal. |
-| `/calculators/slip-and-fall-settlement-calculator.html` (approximate) | **410 Gone** | none | Same as above. |
-| `/calculators/workers-comp-settlement-calculator.html` (approximate) | **410 Gone** | none | Same as above. |
-| `/calculators/general-injury-settlement-calculator.html` (approximate) | **410 Gone** | none | Same as above. |
+| `/calculators/car-accident-settlement-calculator.html` | **410-equivalent** (200 + noindex stub) | none | Off-topic content (bodily-injury, out of scope). Zero index footprint confirmed. A redirect to an auto-property tool would misdirect injury searchers — a bad-faith redirect. Honest "retired" stub instead. |
+| `/calculators/dog-bite-settlement-calculator.html` | **410-equivalent** | none | Same as above. |
+| `/calculators/slip-and-fall-settlement-calculator.html` | **410-equivalent** | none | Same as above. |
+| `/calculators/workers-comp-settlement-calculator.html` | **410-equivalent** | none | Same as above. |
+| `/articles/index.html` + 16 individual `/articles/*.html` pages (average-settlement-amounts-by-injury-type, comparative-negligence-by-state, dog-bite-laws-by-state, how-insurance-adjusters-evaluate-claims, how-long-does-a-settlement-take, how-the-multiplier-method-works, how-to-calculate-lost-wages-after-an-accident, personal-injury-demand-letter, personal-injury-statute-of-limitations-by-state, should-you-accept-the-first-settlement-offer, slip-and-fall-liability-commercial-vs-residential, structured-settlement-vs-lump-sum, taxes-on-personal-injury-settlement, what-is-pain-and-suffering, what-to-do-after-a-car-accident, why-insurance-companies-deny-claims, workers-comp-vs-personal-injury-lawsuit) | **410-equivalent** | none | Same as above — an entire personal-injury content section, out of scope for a vehicle-property-claims-only site. |
 
-Because these files no longer exist in the working tree (deleted before this
-plan), GitHub Pages will already return its default 404 for them today, not a
-true 410 — static hosts can't easily distinguish "never existed" from "gone
-on purpose" without a dedicated stub. Phase 3 will add thin stub pages at
-these exact paths that return real content with a `<meta name="robots"
-content="noindex">` and a clear "this content has been retired" message
-linking to the four live tools, which is the closest static-host equivalent
-of an honest 410 response. Exact historical filenames should be confirmed
-against `git log --diff-filter=D` before Phase 3, since this table's paths
-are reconstructed from memory of BUILD-LOG.md, not re-verified against the
-deletion commit yet.
+Phase 3 (this session) generated real stub pages at every path above:
+`scripts/generate-legacy-stubs.mjs` writes a 200-response, `noindex,follow`
+page with a "this content has been retired" explanation and links to the
+four live tools, directly into `public/` at the exact legacy path (see R9).
+This is the closest static-host equivalent of an honest 410 response —
+GitHub Pages cannot itself return a true 410 status for a static file.
 
 ---
 
@@ -327,11 +330,16 @@ and the user confirms the site is substantively complete:
       Also added the `@astrojs/sitemap` integration (pinned per R7) — the
       generated `sitemap-0.xml` now lists exactly the 18 real, complete
       pages, confirmed by inspecting the build output directly.
-- [ ] **P3.** Redirect-stub generation for the old plain-HTML URLs (§3
-      table) + retired-content stub pages for the 4 historical PI URLs.
-      Still blocked on confirming exact historical filenames via
-      `git log --diff-filter=D` (§10.3) before generating stubs at
-      reconstructed-from-memory paths.
+- [x] **P3.** Redirect-stub generation for the old plain-HTML URLs (§3
+      table) + retired-content stub pages for the real historical PI URLs
+      (4 calculators + 17 `/articles/` pages — verified via
+      `git log --diff-filter=D`, not reconstructed from memory; see §3 and
+      §10.3). Implemented as a `prebuild`-generated `public/` file set
+      (R9), not Astro page components — confirmed necessary by testing
+      Astro's own routing against these exact legacy paths first. Verified
+      via a real build: all 30 stub files (9 redirects + 21 retired) land
+      at their exact old paths in `dist/`, none appear in the sitemap, and
+      the site's own 18 real pages are unaffected.
 - [ ] **P5.** First source-backed content cluster — 15 guides across the 3
       guide sections (§7). The homepage's guide-card section and the
       header's Guides submenu are removed (not commented-out-but-linked)
@@ -351,6 +359,10 @@ and the user confirms the site is substantively complete:
 1. GitHub Pages source setting → Actions (manual toggle, §1.1).
 2. Real bio/credential specifics for David Bennett, if the trust pages
    should say more than the current minimal line (§0 R3, §1.3).
-3. Exact historical filenames of the 4 retired PI calculator URLs, to
-   verify against `git log --diff-filter=D` before Phase 3 builds accurate
-   stub pages rather than reconstructed-from-memory paths (§3).
+3. ~~Exact historical filenames of the retired PI URLs~~ — **resolved this
+   session**: verified via `git log --diff-filter=D --all` and used to
+   build the real Phase 3 retired-content stubs (§3, R9).
+4. A real contact-address mailbox. `/contact/` currently publishes
+   `contact@fairclaimcalculator.com` as a reasonable default (not the
+   owner's personal address) — confirm this inbox actually exists/forwards
+   somewhere, or supply a different address to use instead.

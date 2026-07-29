@@ -370,3 +370,19 @@ this section is just "what happened, when."
     links (checked by diffing every `href="/.../"` in `src/` against the
     set of routes actually built).
   - Files: see the commit this entry accompanies for the exact list.
+- **2026-07-29 — Phase 3 (redirect + retired-content stubs).** Verified the
+  exact historical filenames of the retired personal-injury content via
+  `git log --diff-filter=D --name-only --all` (4 calculators + 17
+  `/articles/` pages — the earlier reconstructed-from-memory table in
+  `ASTRO-REBUILD-PLAN.md` had two mistakes: a nonexistent filename guess,
+  and it missed the entire `/articles/` section). Discovered that Astro's
+  own page routing (`trailingSlash: "always"` + `build.format: "directory"`)
+  cannot produce a literal flat `.html` file at these legacy paths — tested
+  directly. Built `astro/scripts/legacy-paths.mjs` (manifest) and
+  `astro/scripts/generate-legacy-stubs.mjs` (writes real static stub files
+  straight into `public/`, wired in as an npm `prebuild` step) instead.
+  Verified via a real build: all 9 redirect stubs (meta-refresh + canonical)
+  and 21 retired-content stubs (noindex + "this content has been retired"
+  message linking to the 4 live tools) land at their exact old byte-for-byte
+  paths in `dist/`, none leak into the sitemap, and the site's 18 real pages
+  are unaffected. See ASTRO-REBUILD-PLAN.md R9 for the full account.
