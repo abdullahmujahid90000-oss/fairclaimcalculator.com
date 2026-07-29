@@ -1,0 +1,43 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Page Not Found | FairClaimCalculator";
+const description = "The page you're looking for doesn't exist. Find our auto claim audit tools and guides from the links below.";
+---
+<BaseLayout title={title} description={description} path="/404/" noindex={true}>
+  <div class="container not-found">
+    <p class="code" aria-hidden="true">404</p>
+    <h1>We couldn't find that page</h1>
+    <p class="lead">The page may have moved or been retired. Here are the tools people usually come here for:</p>
+
+    <div class="tool-links">
+      <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown →</a>
+      <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit →</a>
+      <a href="/calculators/diminished-value-baseline/">Diminished Value Baseline →</a>
+      <a href="/calculators/claim-letter-builder/">Claim Letter &amp; Evidence Packet Builder →</a>
+    </div>
+
+    <p><a href="/">Back to Home →</a> · <a href="/contact/">Think this is a broken link? Let us know →</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found { text-align: center; padding: 50px 0; }
+  .code { font-size: 3.2rem; font-weight: 700; color: var(--color-primary); margin: 0; }
+  h1 { margin-top: 6px; }
+  .lead { color: var(--color-text-muted); max-width: 520px; margin: 10px auto 26px; }
+  .tool-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; max-width: 640px; margin: 0 auto 26px; text-align: left; }
+  @media (max-width: 560px) { .tool-links { grid-template-columns: 1fr; } }
+  .tool-links a {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+    min-height: var(--touch-target-min);
+  }
+  .tool-links a:hover { border-color: var(--color-primary); color: var(--color-primary); }
+</style>

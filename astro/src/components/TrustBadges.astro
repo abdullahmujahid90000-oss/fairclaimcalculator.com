@@ -1,0 +1,21 @@
+---
+interface Badge { text: string; }
+interface Props { badges: Badge[]; }
+const { badges } = Astro.props;
+---
+<ul class="trust-badges">
+  {badges.map((b) => <li>{b.text}</li>)}
+</ul>
+
+<style>
+  .trust-badges {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+</style>

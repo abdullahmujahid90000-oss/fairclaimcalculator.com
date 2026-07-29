@@ -1,0 +1,66 @@
+---
+import SkipLink from "@components/SkipLink.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path only, e.g. "/calculators/settlement-check-breakdown/" — used to build canonical + OG URLs. */
+  path: string;
+  /** Raw JSON-LD objects (already stringified or plain objects) to emit as <script type="application/ld+json"> blocks. Only pass schema whose facts are fully supported by the visible page content. */
+  structuredData?: object[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  path,
+  structuredData = [],
+  noindex = false,
+} = Astro.props;
+
+const siteOrigin = "https://www.fairclaimcalculator.com";
+const canonicalUrl = new URL(path, siteOrigin).toString();
+const ogImage = new URL("/images/og-default.png", siteOrigin).toString();
+---
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  {noindex && <meta name="robots" content="noindex,follow" />}
+  <link rel="canonical" href={canonicalUrl} />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <meta property="og:site_name" content="FairClaimCalculator" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalUrl} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  {structuredData.map((obj) => (
+    <script type="application/ld+json" set:html={JSON.stringify(obj)} />
+  ))}
+</head>
+<body>
+  <SkipLink />
+  <Header />
+  <main id="main-content" tabindex="-1">
+    <slot />
+  </main>
+  <Footer />
+</body>
+</html>

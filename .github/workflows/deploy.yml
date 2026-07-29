@@ -1,0 +1,66 @@
+name: Build and deploy Astro site to GitHub Pages
+
+# Runs on GitHub's own infrastructure whenever a commit reaches main —
+# regardless of how that commit got there (this sandbox cannot push
+# directly; an external sync process does). See ASTRO-REBUILD-PLAN.md R4.
+#
+# One-time manual step required (cannot be done from a commit):
+# Repo Settings -> Pages -> Build and deployment -> Source -> "GitHub Actions".
+# Until that's flipped, GitHub Pages keeps serving from whatever it serves
+# today and this workflow runs harmlessly without going live.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: astro
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: astro/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: astro/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

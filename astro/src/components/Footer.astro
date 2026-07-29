@@ -1,0 +1,63 @@
+---
+// Persistent footer. Includes a "Privacy choices" link per the brief even
+// though no ad/CMP integration exists yet — it currently routes to the
+// Privacy Policy's own choices section, which honestly describes today's
+// reality (no ads, no personalization) rather than implying a working CMP
+// control that doesn't exist. Update this link's target, not just its
+// label, once a real CMP is wired in.
+---
+<footer class="site-footer">
+  <div class="container">
+    <nav aria-label="Footer" class="footer-links">
+      <a href="/about/">About</a>
+      <a href="/methodology/">Methodology</a>
+      <a href="/editorial-policy/">Editorial Policy</a>
+      <a href="/sources/">Sources</a>
+      <a href="/corrections/">Corrections</a>
+      <a href="/advertising-disclosure/">Advertising Disclosure</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/terms/">Terms of Service</a>
+      <a href="/disclaimer/">Legal Disclaimer</a>
+      <a href="/accessibility/">Accessibility</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy/#choices">Privacy choices</a>
+    </nav>
+    <p class="footer-note">
+      &copy; {new Date().getFullYear()} FairClaimCalculator.com. This website
+      provides free educational tools only and is not a law firm, insurer,
+      public adjuster, or appraisal company. No attorney-client relationship
+      is formed by using this site.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg-soft);
+    padding: 30px 0;
+    margin-top: 40px;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 6px 16px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .footer-links a {
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    padding: 6px 2px;
+    min-height: var(--touch-target-min);
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .footer-links a:hover { color: var(--color-primary); }
+
+  .footer-note { margin: 0; max-width: 640px; }
+</style>

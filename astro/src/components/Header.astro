@@ -1,0 +1,155 @@
+---
+// Shared site header/nav. Uses a native <details>/<summary> disclosure for
+// the compact mobile menu — keyboard-operable and screen-reader-friendly
+// with zero custom JavaScript (Enter/Space toggles native <summary>).
+// At desktop widths, CSS forces the list open and hides the toggle.
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">FairClaim<span>Calculator</span></a>
+    <nav aria-label="Primary" class="main-nav">
+      <details class="nav-disclosure">
+        <summary class="nav-toggle">
+          Menu
+          <span aria-hidden="true" class="nav-toggle-icon">☰</span>
+        </summary>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/check-my-offer/">Check My Offer</a></li>
+          <li><a href="/calculators/">Calculators</a></li>
+          <li>
+            <details class="nav-subdisclosure">
+              <summary>Guides</summary>
+              <ul>
+                <li><a href="/guides/total-loss/">Total Loss</a></li>
+                <li><a href="/guides/diminished-value/">Diminished Value</a></li>
+                <li><a href="/guides/claim-process/">Claim Process</a></li>
+              </ul>
+            </details>
+          </li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    padding: 14px 0;
+    background: var(--color-bg);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .logo span { color: var(--color-text); font-weight: 500; }
+
+  .nav-disclosure summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    min-height: var(--touch-target-min);
+  }
+
+  .nav-disclosure summary::-webkit-details-marker { display: none; }
+
+  .nav-disclosure[open] summary { background: var(--color-bg-soft); }
+
+  .nav-disclosure > ul {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    position: absolute;
+    right: 20px;
+    background: var(--color-bg);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    z-index: 20;
+  }
+
+  .nav-disclosure a {
+    display: block;
+    padding: 10px 12px;
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 6px;
+    min-height: var(--touch-target-min);
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-disclosure a:hover { color: var(--color-primary); background: var(--color-bg-soft); }
+
+  .nav-subdisclosure summary {
+    padding: 10px 12px;
+    font-weight: 500;
+    min-height: var(--touch-target-min);
+  }
+
+  .nav-subdisclosure > ul {
+    list-style: none;
+    padding-left: 12px;
+    margin: 4px 0 0;
+  }
+
+  /* Desktop: force the menu open and hide the toggle summary, since there's
+     room to show every link inline. */
+  @media (min-width: 720px) {
+    .nav-toggle-icon, .nav-disclosure > summary { display: none; }
+
+    .nav-disclosure > ul {
+      position: static;
+      flex-direction: row;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      background: transparent;
+    }
+
+    .nav-subdisclosure {
+      position: relative;
+    }
+
+    .nav-subdisclosure summary {
+      list-style: none;
+    }
+    .nav-subdisclosure summary::-webkit-details-marker { display: none; }
+
+    .nav-subdisclosure > ul {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      min-width: 180px;
+    }
+  }
+</style>

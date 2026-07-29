@@ -1,0 +1,271 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ScenarioCard from "@components/ScenarioCard.astro";
+import CalculatorCard from "@components/CalculatorCard.astro";
+
+const title = "Check Your Auto Claim Offer — Facts, Comparables & Math Shown | FairClaimCalculator";
+const description =
+  "Check the facts, comparables, and arithmetic behind your auto claim offer — privately, with every calculation shown. Free, no login, four live calculators.";
+const path = "/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "FairClaimCalculator",
+    url: "https://www.fairclaimcalculator.com/",
+    description: "Free educational tools for auditing U.S. auto diminished-value and total-loss insurance claim offers.",
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <section class="hero container">
+    <h1>Check the facts, comparables, and arithmetic behind your auto claim offer</h1>
+    <p class="lead">
+      Free tools that help you audit a total-loss or diminished-value offer — privately, in your
+      browser, with every calculation shown. No login, no email gate, no guesses.
+    </p>
+    <div class="hero-ctas">
+      <a href="/check-my-offer/" class="btn-primary">Check My Offer</a>
+      <a href="/calculators/" class="btn-secondary">Browse Calculators</a>
+    </div>
+  </section>
+
+  <section class="container">
+    <h2 class="visually-hidden">Choose your situation</h2>
+    <div class="scenario-grid">
+      <ScenarioCard heading="My Vehicle Was Declared a Total Loss" href="/check-my-offer/?path=total-loss">
+        Check the facts in the insurer's valuation report, compare comparables, and see exactly how
+        the settlement check math works.
+      </ScenarioCard>
+      <ScenarioCard heading="My Repaired Vehicle May Have Diminished Value" href="/check-my-offer/?path=diminished-value">
+        See a transparent 17c-style baseline next to real market evidence — shown separately, never
+        averaged into one number.
+      </ScenarioCard>
+    </div>
+  </section>
+
+  <section class="container steps-section">
+    <h2>How it works</h2>
+    <ol class="steps-list">
+      <li>
+        <span class="step-num" aria-hidden="true">1</span>
+        <div>
+          <h3>Tell us what happened</h3>
+          <p>Repaired or totaled, and whether you already have a written offer or valuation report.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step-num" aria-hidden="true">2</span>
+        <div>
+          <h3>Enter what you know</h3>
+          <p>Your numbers stay in your browser. Nothing you type is sent to a server.</p>
+        </div>
+      </li>
+      <li>
+        <span class="step-num" aria-hidden="true">3</span>
+        <div>
+          <h3>See the full arithmetic</h3>
+          <p>Every calculation is shown step by step — never a single number with hidden math.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="container">
+    <h2>Four Free Calculators</h2>
+    <div class="calculator-grid">
+      <CalculatorCard name="Settlement Check Breakdown" href="/calculators/settlement-check-breakdown/" status="live">
+        See exactly how ACV, deductible, loan payoff, GAP, and salvage add up to your check.
+      </CalculatorCard>
+      <CalculatorCard name="Total-Loss Offer Audit" href="/calculators/total-loss-offer-audit/" status="coming-soon">
+        Check valuation-report facts and compare comparables — mean, median, range, and a
+        transparent comp-quality review.
+      </CalculatorCard>
+      <CalculatorCard name="Diminished Value Baseline" href="/calculators/diminished-value-baseline/" status="coming-soon">
+        A disclosed 17c-style baseline shown next to a separate market-evidence worksheet.
+      </CalculatorCard>
+      <CalculatorCard name="Claim Letter & Evidence Packet Builder" href="/calculators/claim-letter-builder/" status="coming-soon">
+        Turn your audit into an editable, factual letter, plus an evidence checklist.
+      </CalculatorCard>
+    </div>
+  </section>
+
+  <section class="container trust-section">
+    <h2>Why trust this site</h2>
+    <div class="trust-grid">
+      <div>
+        <h3>Transparent math</h3>
+        <p>Every calculator shows its full substituted arithmetic — no single number with hidden weights.</p>
+      </div>
+      <div>
+        <h3>Local processing</h3>
+        <p>Your entries are processed in your browser. Nothing you type in a calculator is sent to a server.</p>
+      </div>
+      <div>
+        <h3>Primary sources</h3>
+        <p>Legal and formula claims are cited next to the claim, not left as unsupported statements.</p>
+      </div>
+      <div>
+        <h3>Honest limitations</h3>
+        <p>This site organizes facts and arithmetic. It never tells you what you're legally owed or guarantees an outcome.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container guides-section">
+    <h2>Guides</h2>
+    <p class="section-intro">
+      Source-backed guides on how insurers value vehicles, how to read a valuation report, and how
+      diminished value works — each one cites its sources and says plainly what it can't tell you.
+    </p>
+    <div class="guides-grid">
+      <a href="/guides/total-loss/" class="guide-card">
+        <h3>Total Loss</h3>
+        <p>How insurers value a totaled vehicle, reading a CCC/Mitchell/Audatex report, finding comparables, and disputing a valuation factually.</p>
+      </a>
+      <a href="/guides/diminished-value/" class="guide-card">
+        <h3>Diminished Value</h3>
+        <p>What diminished value means, the 17c formula's real history and limitations, and how to build market evidence.</p>
+      </a>
+      <a href="/guides/claim-process/" class="guide-card">
+        <h3>Claim Process</h3>
+        <p>First-party vs. third-party claims, when an appraisal or attorney may help, and a full evidence checklist.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="container author-section">
+    <h2>Who runs this site</h2>
+    <div class="author-card">
+      <div class="avatar" aria-hidden="true">DB</div>
+      <div>
+        <h3>David Bennett — Founder &amp; Editor</h3>
+        <p>
+          Independent web publisher, not an attorney, insurer, or appraiser. Content on this site is
+          researched from public primary sources and reviewed for accuracy on an ongoing basis.
+          Always verify anything case-specific with a licensed attorney or qualified appraiser in
+          your state. See the full <a href="/about/">About page</a> and <a href="/editorial-policy/">Editorial Policy</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="disclaimer-box">
+      <strong>Educational tool, not legal advice.</strong>
+      FairClaimCalculator helps you organize facts, evidence, and arithmetic. It does not tell you
+      what you are legally owed, determine fault, or replace a licensed attorney, independent
+      appraiser, or your insurer's own review process. See our <a href="/disclaimer/">full disclaimer</a>.
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero { padding: 48px 0 32px; }
+  .hero h1 { font-size: 2rem; margin: 0 0 12px; color: var(--color-primary-dark); max-width: 760px; }
+  .hero .lead { font-size: 1.1rem; color: var(--color-text-muted); max-width: 620px; margin: 0 0 24px; }
+
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-primary);
+    color: #fff;
+    padding: 13px 26px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    min-height: var(--touch-target-min);
+  }
+  .btn-primary:hover { background: var(--color-primary-dark); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    padding: 13px 26px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    min-height: var(--touch-target-min);
+  }
+  .btn-secondary:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  .scenario-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 10px 0 40px; }
+  @media (max-width: 640px) { .scenario-grid { grid-template-columns: 1fr; } }
+
+  .steps-section { margin-bottom: 40px; }
+  .steps-list { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 720px) { .steps-list { grid-template-columns: 1fr; } }
+  .steps-list li { display: flex; gap: 14px; align-items: flex-start; }
+  .step-num {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+  }
+  .steps-list h3 { margin: 0 0 4px; font-size: 1.02rem; }
+  .steps-list p { margin: 0; font-size: 0.9rem; color: var(--color-text-muted); }
+
+  .calculator-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 20px 0 40px; }
+  @media (max-width: 640px) { .calculator-grid { grid-template-columns: 1fr; } }
+
+  .trust-section { margin-bottom: 40px; }
+  .trust-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 16px; }
+  @media (max-width: 640px) { .trust-grid { grid-template-columns: 1fr; } }
+  .trust-grid h3 { margin: 0 0 6px; font-size: 1rem; color: var(--color-primary-dark); }
+  .trust-grid p { margin: 0; font-size: 0.92rem; color: var(--color-text-muted); }
+
+  .guides-section { margin-bottom: 40px; }
+  .section-intro { color: var(--color-text-muted); max-width: 640px; margin: 8px 0 18px; }
+  .guides-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 720px) { .guides-grid { grid-template-columns: 1fr; } }
+  .guide-card {
+    display: block;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 18px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .guide-card:hover, .guide-card:focus-visible { border-color: var(--color-primary); }
+  .guide-card h3 { margin: 0 0 6px; font-size: 1.02rem; color: var(--color-primary-dark); }
+  .guide-card p { margin: 0; font-size: 0.88rem; color: var(--color-text-muted); }
+
+  .author-section { margin-bottom: 20px; }
+  .author-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--color-bg-soft);
+    border-radius: var(--radius);
+    padding: 18px;
+    border: 1px solid var(--color-border);
+  }
+  .author-card .avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--color-primary); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; flex-shrink: 0;
+  }
+  .author-card h3 { margin: 0 0 4px; }
+  .author-card p { margin: 0; font-size: 0.9rem; color: var(--color-text-muted); }
+
+  .disclaimer-box {
+    background: var(--color-warning-bg);
+    border: 1px solid var(--color-warning-border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-size: 0.88rem;
+    color: #6b4a1e;
+    margin: 26px 0 50px;
+  }
+  .disclaimer-box strong { display: block; margin-bottom: 4px; }
+</style>

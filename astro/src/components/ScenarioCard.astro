@@ -1,0 +1,32 @@
+---
+interface Props {
+  heading: string;
+  href: string;
+}
+const { heading, href } = Astro.props;
+---
+<a href={href} class="scenario-card">
+  <h2>{heading}</h2>
+  <p><slot /></p>
+  <span class="scenario-card-cta" aria-hidden="true">Get started →</span>
+</a>
+
+<style>
+  .scenario-card {
+    display: block;
+    background: var(--color-bg-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 22px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .scenario-card:hover, .scenario-card:focus-visible {
+    border-color: var(--color-primary);
+  }
+
+  .scenario-card h2 { margin-top: 0; font-size: 1.15rem; color: var(--color-primary-dark); }
+  .scenario-card p { margin: 0 0 12px; color: var(--color-text-muted); font-size: 0.95rem; }
+  .scenario-card-cta { font-weight: 600; color: var(--color-accent); font-size: 0.9rem; }
+</style>

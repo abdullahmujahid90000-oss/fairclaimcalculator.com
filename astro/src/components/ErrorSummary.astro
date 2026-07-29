@@ -1,0 +1,15 @@
+---
+// Shared focusable error-summary region. Calculator page scripts populate
+// the <ul> and toggle [hidden] + move focus here on invalid submit —
+// see ASTRO-REBUILD-PLAN.md §6. Using role="alert" so assistive tech
+// announces it as soon as it becomes visible, in addition to the explicit
+// focus move (belt-and-suspenders, since aria-live/role=alert support for
+// large content swaps is inconsistent across some screen-reader/browser
+// pairs).
+interface Props { id?: string; }
+const { id = "error-summary" } = Astro.props;
+---
+<div id={id} class="error-summary" role="alert" tabindex="-1" hidden>
+  <h2>Please fix the following before continuing</h2>
+  <ul id={`${id}-list`}></ul>
+</div>
