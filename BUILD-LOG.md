@@ -1,3 +1,11 @@
+> **2026-07-22 update:** a full Astro/TypeScript rebuild of this site is now
+> underway, superseding the plain-HTML architecture this file describes.
+> See `ASTRO-REBUILD-PLAN.md` for the current plan, decision log, and
+> execution queue — read that file first for any new session on the v2
+> rebuild. This file remains accurate for the plain-HTML site, which stays
+> live and untouched until the Astro rebuild reaches parity and cutover is
+> explicitly approved (ASTRO-REBUILD-PLAN.md R5/Phase 8).
+
 # BUILD-LOG.md — FairClaimCalculator.com Pivot
 
 Internal reference only — not part of the live site, not linked from navigation,
