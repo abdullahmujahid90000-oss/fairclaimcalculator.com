@@ -1,0 +1,120 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "First-Party Diminished Value by State | FairClaimCalculator";
+const description =
+  "Which states let you claim diminished value from your own insurer, which only allow it against an at-fault driver, and where courts have ruled against it.";
+const path = "/guides/diminished-value/state-laws-first-party-diminished-value-claims/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Does Your State Allow a First-Party Diminished Value Claim?"
+  cluster={{ name: "Diminished Value", href: "/guides/diminished-value/" }}
+  publishedDate="2026-08-01"
+  reviewedDate="2026-08-01"
+  summary="Whether you can claim diminished value from your own insurer (first-party) is far less settled than claiming it from an at-fault driver's insurer (third-party). Courts and regulators have reached different, sometimes opposite, conclusions state by state."
+  sources={[
+    'Academic literature review: Wells-Dietel, B., Erkan-Barlow, A., &amp; Walkowiak, W., "Automobile Diminished Value Claims," <em>Journal of Insurance Regulation</em>, National Association of Insurance Commissioners (NAIC), 2023 — the primary source for the state-by-state case summaries below.',
+    '<em>State Farm Mut. Auto. Ins. Co. v. Mabry</em>, 274 Ga. 498 (2001) — Georgia Supreme Court holding that first-party coverage includes diminished value; traces its roots to <em>U.S. Fidelity &amp; Guar. Co. v. Corbett</em>, 35 Ga. App. 606 (1926).',
+    '<em>Siegle v. Progressive Consumers Ins. Co.</em>, 819 So. 2d 732 (Fla. 2002) — Florida Supreme Court held standard policy language does not require paying first-party diminished value once repairs are complete.',
+    '<em>American Manufacturers Mutual Insurance Co. v. Schaefer</em>, 124 S.W.3d 154 (Tex. 2003), and Texas Department of Insurance Commissioner\'s Bulletin B-0027-00 (2000) — Texas insurer obligation limited to actual cash value or repair/replacement; no first-party diminished-value requirement.',
+    '<em>Ray v. Farmers Ins. Exchange</em>, 200 Cal. App. 3d 1411 (Cal. Ct. App. 1988) — California appellate court declined to read a first-party diminished-value obligation into standard collision-coverage language.',
+    '<em>Delledonne v. State Farm Mutual Ins. Co.</em>, 621 A.2d 350 (Del. Super. Ct. 1992), later effectively superseded by <em>O\'Brien v. Progressive Northern Ins. Co.</em>, No. 58, 2001 (Del. 2001) — Delaware\'s position shifted from a claimant-favorable ambiguous ruling to no first-party obligation.',
+    'N.C. Gen. Stat. § 20-279.21(d)(1) — North Carolina statute providing a mandatory independent-appraisal dispute process specifically for diminished-value disagreements exceeding $2,000 or 25% of fair market value.',
+    'Matthiesen, Wickert &amp; Lehrer, S.C., "Diminution in Value Cases in All 50 States" (2022 survey), as cited in the NAIC journal article above — the reference commonly used for tracking which states have addressed third-party diminished-value recovery.',
+  ]}
+  relatedLinks={[
+    { label: "What Is Diminished Value?", href: "/guides/diminished-value/what-is-diminished-value/" },
+    { label: "First-Party vs. Third-Party Claims", href: "/guides/claim-process/first-party-vs-third-party-auto-claims/" },
+    { label: "The 17c Formula's Real History, Calculation, and Limits", href: "/guides/diminished-value/the-17c-formula-history-calculation-and-limits/" },
+    { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+  ]}
+>
+  <h2>First-party vs. third-party — why this distinction decides everything</h2>
+  <p>
+    A <strong>first-party</strong> diminished-value claim is one you file against your own insurer,
+    usually under your collision or uninsured/underinsured-motorist coverage. It's governed by the
+    wording of your own policy contract. A <strong>third-party</strong> claim is one you file against
+    an at-fault driver's liability insurer — that's governed by general tort law, not your policy's
+    wording, which is why it's recognized far more consistently across states. See
+    <a href="/guides/claim-process/first-party-vs-third-party-auto-claims/">First-Party vs.
+    Third-Party Claims</a> for the full general explanation. This guide focuses specifically on
+    where each type stands on diminished value.
+  </p>
+
+  <h2>The one state with a clear first-party rule: Georgia</h2>
+  <p>
+    Georgia is the state most often cited as having settled this question for first-party claims.
+    In <em>State Farm Mut. Auto. Ins. Co. v. Mabry</em> (2001), the Georgia Supreme Court held that an
+    insurer's first-party payment obligation includes the vehicle's diminished value, not just the
+    cost of repairs — building on a line of Georgia case law going back to 1926. That ruling is also
+    the origin of the "17c" calculation approach discussed in
+    <a href="/guides/diminished-value/the-17c-formula-history-calculation-and-limits/">a separate
+    guide</a>. According to the peer-reviewed 2023 NAIC journal survey cited below, Georgia remains
+    "the only state with a clear legal direction that first-party auto claimants are entitled to
+    recover the diminished value losses from their automobile insurers."
+  </p>
+
+  <h2>States where courts have ruled against a first-party obligation</h2>
+  <p>
+    In several other states, courts examining the same standard policy language reached the opposite
+    conclusion — that the contract's "repair, replace, or pay actual cash value" wording does not
+    obligate an insurer to also pay diminished value on a first-party claim:
+  </p>
+  <table>
+    <thead>
+      <tr><th>State</th><th>Case / source</th><th>Outcome</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Florida</td><td><em>Siegle v. Progressive Consumers Ins. Co.</em> (Fla. 2002)</td><td>No first-party DV obligation once repairs are complete.</td></tr>
+      <tr><td>Texas</td><td><em>Am. Mfrs. Mut. Ins. Co. v. Schaefer</em> (Tex. 2003); TDI Bulletin B-0027-00</td><td>Insurer obligation limited to ACV or repair/replace; no DV requirement.</td></tr>
+      <tr><td>California</td><td><em>Ray v. Farmers Ins. Exchange</em> (Cal. Ct. App. 1988)</td><td>Court declined to read a DV obligation into standard collision wording.</td></tr>
+      <tr><td>Delaware</td><td><em>Delledonne</em> (1992) → <em>O'Brien v. Progressive Northern</em> (Del. 2001)</td><td>Position shifted from ambiguous to no first-party obligation.</td></tr>
+      <tr><td>Maine</td><td>Maine Supreme Judicial Court, reported 2002</td><td>Held "repair" is unambiguous and does not include diminished value.</td></tr>
+    </tbody>
+  </table>
+  <div class="limits-note">
+    <strong>This is not a complete 50-state list.</strong> Many states haven't squarely addressed
+    first-party auto diminished value in a reported court decision at all — silence in a state isn't
+    the same as a favorable or unfavorable rule. Insurance is also regulated at the state level and
+    rules can change; always confirm current status with your state insurance department or a
+    licensed attorney before relying on any of the above for a specific claim.
+  </div>
+
+  <h2>Third-party claims are recognized far more widely</h2>
+  <p>
+    Because a third-party claim arises from general tort principles (the idea that a wrongdoer owes
+    compensation for the full value lost, codified in the Restatement of Torts § 928) rather than
+    your own policy's wording, it doesn't depend on Georgia-style first-party litigation. The 2022
+    Matthiesen, Wickert &amp; Lehrer 50-state survey — cited in the NAIC journal article — lists
+    Arizona, Colorado, Florida, Georgia, Illinois, Indiana, Iowa, Louisiana, Maryland, New Mexico,
+    New York, Oregon, South Carolina, and Virginia among states with documented third-party
+    diminished-value recovery. That list reflects documented case law as of that 2022 survey, not a
+    guarantee for every claim in every one of those states today — but it illustrates the same
+    pattern seen throughout this research: third-party recovery is the norm insurers plan around,
+    first-party recovery is the exception.
+  </p>
+
+  <h2>A different approach: North Carolina's statutory appraisal process</h2>
+  <p>
+    Rather than leaving diminished-value disputes to case law, North Carolina built a resolution
+    process directly into its motor vehicle statutes. Under N.C. Gen. Stat. § 20-279.21(d)(1), if the
+    insured and insurer disagree on diminished value by more than $2,000 or 25% of the vehicle's fair
+    market value, each side selects and pays for an independent appraiser; if those two still
+    disagree, a third appraiser renders a final, binding decision. It's a useful example of how a
+    state can address the same underlying disagreement — how much is diminished value actually worth
+    — through a defined process rather than court precedent.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you your specific state's current legal position if it isn't listed above — most
+    states fall into that gap, having neither a Georgia-style ruling for claimants nor a
+    Florida/Texas-style ruling against them, simply because the exact question hasn't reached their
+    courts in a reported decision. It also cannot tell you how a specific insurer will actually handle
+    your specific claim, which can differ from the strict legal minimum. For anything case-specific,
+    confirm with your state insurance department or a licensed attorney in your state.
+  </p>
+</GuideLayout>

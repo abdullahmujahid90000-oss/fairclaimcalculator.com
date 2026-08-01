@@ -452,3 +452,34 @@ this section is just "what happened, when."
   table, most of which still said Phase 5 "hasn't started" — it shipped
   two conversations ago. Verified: `astro check` (0 errors), `vitest run`
   (74/74), `npm run build` (38 pages).
+- **2026-08-01 — Live-site audit; found the custom domain wasn't actually
+  connected.** Ran a full audit of the deployed build (bundle sizes,
+  robots/sitemap, typecheck, live fetches of both the github.io URL and
+  `www.fairclaimcalculator.com`). The github.io deployment was fully
+  correct; `www.fairclaimcalculator.com` was still serving the old
+  intermediate site — traced to the Pages "Custom domain" field never
+  having been filled in, even though `astro/public/CNAME` (and thus
+  `dist/CNAME`) already contained the right value. Owner then added
+  `www.fairclaimcalculator.com` in Pages settings; DNS check is in
+  progress as of this entry — not yet confirmed live on the real domain.
+- **2026-08-01 — New guide: state-by-state first-party diminished-value
+  recognition.** Added
+  `/guides/diminished-value/state-laws-first-party-diminished-value-claims/`
+  — the guide library is now 16 guides (5 in the Diminished Value
+  cluster). Researched via the NAIC's peer-reviewed 2023 *Journal of
+  Insurance Regulation* survey plus primary case law (Mabry v. State Farm,
+  Siegle v. Progressive, Schaefer, Ray v. Farmers, Delledonne/O'Brien) and
+  N.C. Gen. Stat. § 20-279.21(d)(1). Explains that Georgia is the only
+  state with a clear first-party DV rule, documents several states with
+  rulings against it, and separately covers the much-more-common
+  third-party recognition. Cross-linked from `what-is-diminished-value`,
+  `the-17c-formula...`, and `first-party-vs-third-party-auto-claims`
+  (all three already flagged this exact gap in their own "what this guide
+  cannot tell you" sections). Updated guide counts on `/guides/`,
+  `/guides/diminished-value/`, and the homepage from 15→16 / 4→5. Logged
+  in `SOURCE-REGISTER.md` §6 entry 16. This is the first of a five-guide
+  batch (state total-loss thresholds, GAP/loan payoff, rental
+  reimbursement, responding to a lowball offer — remaining four still to
+  come). Verified: `astro check` (0 errors), `vitest run` (74/74),
+  `npm run build` (39 pages), 0 broken links, 0 title/description length
+  issues.

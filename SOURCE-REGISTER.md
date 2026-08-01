@@ -107,7 +107,7 @@ invented legal citations, threats, deadlines, or "bad faith" accusations.
 
 ---
 
-## 6. Phase 5 Guide Library (15 guides, `/guides/`)
+## 6. Guide Library (16 guides, `/guides/`)
 
 Each guide below cites its sources inline next to the claim (rendered via
 its own `sources: string[]` prop in `GuideLayout.astro`) and states plainly,
@@ -177,6 +177,32 @@ state-specific rules with their own state insurance department.
 12. **Building Diminished-Value Market Evidence** — methodology note
     describing the clean-history vs. accident-history comparison technique;
     not tied to an external legal source.
+16. **Does Your State Allow a First-Party Diminished Value Claim?** (added
+    2026-08-01) —
+    (a) Wells-Dietel, B., Erkan-Barlow, A., &amp; Walkowiak, W., "Automobile
+    Diminished Value Claims," *Journal of Insurance Regulation*, National
+    Association of Insurance Commissioners (NAIC), 2023 — *primary/academic*,
+    the main source for the state-by-state case summaries; (b) *State Farm
+    Mut. Auto. Ins. Co. v. Mabry*, 274 Ga. 498 (2001), and *U.S. Fidelity &amp;
+    Guar. Co. v. Corbett*, 35 Ga. App. 606 (1926) — *primary litigation*;
+    (c) *Siegle v. Progressive Consumers Ins. Co.*, 819 So. 2d 732 (Fla.
+    2002) — *primary litigation*; (d) *American Manufacturers Mutual Ins.
+    Co. v. Schaefer*, 124 S.W.3d 154 (Tex. 2003), and Texas Dept. of
+    Insurance Commissioner's Bulletin B-0027-00 (2000) — *primary*; (e) *Ray
+    v. Farmers Ins. Exchange*, 200 Cal. App. 3d 1411 (Cal. Ct. App. 1988) —
+    *primary litigation*; (f) *Delledonne v. State Farm Mutual Ins. Co.*,
+    621 A.2d 350 (Del. Super. Ct. 1992), and *O'Brien v. Progressive
+    Northern Ins. Co.*, No. 58, 2001 (Del. 2001) — *primary litigation*;
+    (g) N.C. Gen. Stat. § 20-279.21(d)(1) — *primary statute*; (h)
+    Matthiesen, Wickert &amp; Lehrer, S.C., "Diminution in Value Cases in All
+    50 States" (2022 survey, as cited in source (a)) — *secondary*, used
+    only for the documented third-party-recognition state list, explicitly
+    framed as not a complete or current-as-of-today 50-state survey.
+    **What is deliberately NOT claimed:** that any state not listed has a
+    settled rule either way; that any of the above rulings remain
+    unchanged today (case law and regulations can shift); that this
+    substitutes for confirming current status with a state insurance
+    department or licensed attorney.
 
 ### Claim Process cluster (`/guides/claim-process/`)
 
@@ -197,8 +223,8 @@ state-specific rules with their own state insurance department.
 
 ## 7. What is NOT yet in this register
 
-Phase 5 (the 15-guide library above) is complete and logged. Nothing
-currently published on the site is missing from this register. Any future
-guide, calculator, or claim added after this point must have its sources
-logged here — and reflected on the public `/sources/` page — before
-publication, never after.
+The 16-guide library above is complete and logged as of 2026-08-01.
+Nothing currently published on the site is missing from this register. Any
+future guide, calculator, or claim added after this point must have its
+sources logged here — and reflected on the public `/sources/` page —
+before publication, never after.

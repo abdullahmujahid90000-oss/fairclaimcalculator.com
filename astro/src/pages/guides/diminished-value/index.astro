@@ -3,7 +3,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 const title = "Diminished Value Guides | FairClaimCalculator";
 const description =
-  "Source-backed guides on what diminished value means, the 17c formula's real history and limits, and how to build real market evidence.";
+  "Source-backed guides on what diminished value means, the 17c formula, state-by-state claim rules, and how to build real market evidence.";
 const path = "/guides/diminished-value/";
 
 const structuredData = [
@@ -23,6 +23,7 @@ const guides = [
   { title: "Inherent vs. Repair-Related Diminished Value", href: "/guides/diminished-value/inherent-vs-repair-related-diminished-value/", desc: "Value lost from the accident itself vs. from how the repair was done." },
   { title: "The 17c Formula's Real History, Calculation, and Limits", href: "/guides/diminished-value/the-17c-formula-history-calculation-and-limits/", desc: "Where the formula actually comes from, and why it's not a legal standard." },
   { title: "Building Diminished-Value Market Evidence", href: "/guides/diminished-value/building-diminished-value-market-evidence/", desc: "How to compare clean-history and accident-history listings." },
+  { title: "Does Your State Allow a First-Party Diminished Value Claim?", href: "/guides/diminished-value/state-laws-first-party-diminished-value-claims/", desc: "Where courts have ruled for and against first-party DV, and how third-party claims differ." },
 ];
 ---
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
@@ -30,8 +31,9 @@ const guides = [
     <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/guides/">Guides</a> / Diminished Value</p>
     <h1 class="page-title">Diminished Value Guides</h1>
     <p class="lead">
-      Four guides on what diminished value means, the 17c formula's real origin and limits, and how
-      to build market evidence — each cites its sources and says plainly what it can't tell you.
+      Five guides on what diminished value means, the 17c formula's real origin and limits, which
+      states recognize first-party claims, and how to build market evidence — each cites its sources
+      and says plainly what it can't tell you.
     </p>
     <div class="guide-hub-grid">
       {guides.map((g) => (
