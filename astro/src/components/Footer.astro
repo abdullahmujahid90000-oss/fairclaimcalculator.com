@@ -3,11 +3,12 @@
 //
 // IMPORTANT: only link routes that exist and are finished (no route may be
 // added to nav/footer/sitemap before it is complete — ASTRO-REBUILD-PLAN.md).
-// The "Privacy choices" link currently points at the Privacy Policy's own
-// #choices section, which honestly describes today's reality (no ads, no
-// tracking, nothing to opt out of yet) rather than a working CMP control
-// that doesn't exist. Update the link's target, not just its label, once a
-// real CMP is wired in.
+// "Privacy choices" is a real working control (added 2026-08-01 alongside
+// Google Analytics): it's a <button>, not a link, with
+// data-open-cookie-prefs — CookieConsent.astro listens for clicks on any
+// element with that attribute (event delegation) and reopens the real
+// consent banner. No ad network is involved, so this only governs the
+// analytics_storage consent signal today.
 ---
 <footer class="site-footer">
   <div class="container">
@@ -24,7 +25,7 @@
       <a href="/disclaimer/">Legal Disclaimer</a>
       <a href="/accessibility/">Accessibility</a>
       <a href="/contact/">Contact</a>
-      <a href="/privacy/#choices">Privacy choices</a>
+      <button type="button" class="footer-link-button" data-open-cookie-prefs>Privacy choices</button>
     </nav>
     <p class="footer-note">
       &copy; {new Date().getFullYear()} FairClaimCalculator.com. This website
@@ -62,6 +63,21 @@
   }
 
   .footer-links a:hover { color: var(--color-primary); }
+
+  .footer-link-button {
+    font: inherit;
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    padding: 6px 2px;
+    min-height: var(--touch-target-min);
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .footer-link-button:hover { color: var(--color-primary); }
 
   .footer-note { margin: 0; max-width: 640px; }
 </style>

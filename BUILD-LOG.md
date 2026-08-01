@@ -427,3 +427,28 @@ this section is just "what happened, when."
   `contact@fairclaimcalculator.com` default) is the real, checked mailbox.
   Updated `/contact/` to publish it. This closes one of the remaining
   owner-only items on the AdSense activation gate.
+- **2026-08-01 — Google Analytics 4 added, real consent-gated (not fake).**
+  Owner supplied a GA4 measurement ID (`G-Y0W2ZWVGLZ`). Added
+  `astro/src/lib/analytics/config.ts` (on/off switch + ID, mirrors the
+  `ads/config.ts` pattern) and `astro/src/components/CookieConsent.astro`.
+  Deliberately stricter than Google's own Consent Mode minimum: the
+  `gtag.js` script tag is never injected into the page at all — no request
+  to `googletagmanager.com` happens — until a visitor affirmatively
+  accepts (this visit or a remembered prior choice via `localStorage`).
+  Consent Mode v2 defaults (all four signals denied) are still declared
+  immediately, so the signal is correct the instant the script does load
+  for a returning accepted visitor. Wired into every page via
+  `BaseLayout.astro`. `Footer.astro`'s "Privacy choices" is now a real
+  `<button>` (was a link to a static anchor with nothing behind it) that
+  reopens the actual banner from anywhere on the site via a
+  `data-open-cookie-prefs` attribute and event delegation; `/privacy/#choices`
+  has the same control inline. Rewrote `/privacy/`'s "what this site
+  collects," "cookies," and "your privacy choices" sections to describe
+  exactly what now runs — no more "nothing to consent to yet." Updated
+  `ADSENSE-READINESS.md` §5 and its top status line to match; this is
+  analytics, not advertising, so it doesn't change AdSense eligibility
+  either way, but the doc must never silently drift from what the code
+  does. Also took the opportunity to refresh the stale §1 activation-gate
+  table, most of which still said Phase 5 "hasn't started" — it shipped
+  two conversations ago. Verified: `astro check` (0 errors), `vitest run`
+  (74/74), `npm run build` (38 pages).

@@ -1,0 +1,160 @@
+---
+// Real cookie-consent banner + Google Consent Mode v2 wiring for Google
+// Analytics. Stricter than Google's own minimum: the gtag.js script tag
+// itself is never injected — no request to googletagmanager.com happens
+// at all — until the visitor has actually accepted (this run or a prior
+// one), not merely "denied by default but loaded anyway." See
+// astro/src/lib/analytics/config.ts for the on/off switch and measurement
+// ID, and /privacy/ for the plain-language explanation shown to visitors.
+//
+// The footer's "Privacy choices" control and this page's own /privacy/#choices
+// section both reopen this same banner via a `data-open-cookie-prefs`
+// attribute — event delegation below means any element with that attribute,
+// anywhere in the DOM, works without this component needing to know about it.
+import { ANALYTICS_ENABLED, GA_MEASUREMENT_ID } from "@lib/analytics/config";
+---
+{ANALYTICS_ENABLED && (
+  <div id="cookie-consent-banner" class="cookie-banner" role="region" aria-label="Cookie preferences" tabindex="-1" hidden>
+    <p>
+      We use Google Analytics to see how many people visit and which pages are useful — never what
+      you type into a calculator. It only runs if you accept. See the <a href="/privacy/">privacy policy</a>.
+    </p>
+    <div class="cookie-banner-actions">
+      <button type="button" id="cookie-reject-btn" class="btn-secondary">Reject</button>
+      <button type="button" id="cookie-accept-btn" class="btn-primary">Accept</button>
+    </div>
+  </div>
+  <script define:vars={{ gaId: GA_MEASUREMENT_ID }} is:inline>
+    (function () {
+      var STORAGE_KEY = "fcc-analytics-consent";
+      var banner = document.getElementById("cookie-consent-banner");
+      var acceptBtn = document.getElementById("cookie-accept-btn");
+      var rejectBtn = document.getElementById("cookie-reject-btn");
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      window.gtag = window.gtag || gtag;
+
+      // Consent Mode v2 defaults: everything denied until a visitor
+      // affirmatively grants it. Declared even though we also withhold the
+      // gtag.js script itself, so the signal is correct the instant it does load.
+      gtag("consent", "default", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "denied",
+      });
+
+      function loadGaScript() {
+        if (document.getElementById("ga-gtag-script")) return;
+        var s = document.createElement("script");
+        s.id = "ga-gtag-script";
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=" + gaId;
+        document.head.appendChild(s);
+        gtag("js", new Date());
+        gtag("config", gaId);
+      }
+
+      function hideBanner() { if (banner) banner.hidden = true; }
+      function showBanner() { if (banner) banner.hidden = false; }
+
+      function grant() {
+        gtag("consent", "update", { analytics_storage: "granted" });
+        loadGaScript();
+        try { localStorage.setItem(STORAGE_KEY, "granted"); } catch (e) {}
+        hideBanner();
+      }
+
+      function deny() {
+        gtag("consent", "update", { analytics_storage: "denied" });
+        try { localStorage.setItem(STORAGE_KEY, "denied"); } catch (e) {}
+        hideBanner();
+      }
+
+      var stored = null;
+      try { stored = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+
+      if (stored === "granted") {
+        gtag("consent", "update", { analytics_storage: "granted" });
+        loadGaScript();
+      } else if (stored !== "denied") {
+        showBanner();
+      }
+
+      if (acceptBtn) acceptBtn.addEventListener("click", grant);
+      if (rejectBtn) rejectBtn.addEventListener("click", deny);
+
+      // Reopen from the footer link or the /privacy/#choices page control.
+      document.addEventListener("click", function (e) {
+        var target = e.target && e.target.closest ? e.target.closest("[data-open-cookie-prefs]") : null;
+        if (target) {
+          e.preventDefault();
+          showBanner();
+          if (banner) banner.focus();
+        }
+      });
+    })();
+  </script>
+)}
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    padding: 16px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .cookie-banner p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: var(--color-text);
+    max-width: 640px;
+  }
+
+  .cookie-banner-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .cookie-banner-actions button {
+    min-height: var(--touch-target-min);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  #cookie-accept-btn {
+    background: var(--color-primary);
+    color: #fff;
+    border: 1px solid var(--color-primary);
+  }
+  #cookie-accept-btn:hover { background: var(--color-primary-dark); }
+
+  #cookie-reject-btn {
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+  }
+  #cookie-reject-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  @media (max-width: 560px) {
+    .cookie-banner { flex-direction: column; align-items: stretch; }
+    .cookie-banner-actions { justify-content: stretch; }
+    .cookie-banner-actions button { flex: 1; }
+  }
+</style>

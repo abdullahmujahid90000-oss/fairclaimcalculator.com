@@ -2,6 +2,7 @@
 import SkipLink from "@components/SkipLink.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
+import CookieConsent from "@components/CookieConsent.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -62,5 +63,6 @@ const ogImage = new URL("/images/og-default.png", siteOrigin).toString();
     <slot />
   </main>
   <Footer />
+  <CookieConsent />
 </body>
 </html>
