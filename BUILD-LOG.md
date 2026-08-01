@@ -422,3 +422,8 @@ this section is just "what happened, when."
   local browser/AT automation tooling not connected in this session. Do
   not report Phase 6 as fully done on the strength of the automated pass
   alone.
+- **2026-08-01 — Owner confirmed the real contact inbox.** Owner confirmed
+  `info@fairclaimcalculator.com` (not the placeholder
+  `contact@fairclaimcalculator.com` default) is the real, checked mailbox.
+  Updated `/contact/` to publish it. This closes one of the remaining
+  owner-only items on the AdSense activation gate.

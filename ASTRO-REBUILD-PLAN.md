@@ -375,7 +375,7 @@ and the user confirms the site is substantively complete:
 3. ~~Exact historical filenames of the retired PI URLs~~ — **resolved this
    session**: verified via `git log --diff-filter=D --all` and used to
    build the real Phase 3 retired-content stubs (§3, R9).
-4. A real contact-address mailbox. `/contact/` currently publishes
-   `contact@fairclaimcalculator.com` as a reasonable default (not the
-   owner's personal address) — confirm this inbox actually exists/forwards
-   somewhere, or supply a different address to use instead.
+4. ~~A real contact-address mailbox.~~ **Resolved 2026-08-01** — the owner
+   confirmed `info@fairclaimcalculator.com` is the real, checked inbox.
+   `/contact/` now publishes that address (updated from the placeholder
+   `contact@fairclaimcalculator.com` default).
