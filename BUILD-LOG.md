@@ -483,3 +483,42 @@ this section is just "what happened, when."
   come). Verified: `astro check` (0 errors), `vitest run` (74/74),
   `npm run build` (39 pages), 0 broken links, 0 title/description length
   issues.
+- **2026-08-01 — Remaining four guides of the batch, completed.** Owner
+  asked to keep building AdSense-ready, in-demand pages one by one; this
+  closes out the five-guide batch proposed earlier in the day. Guide
+  library is now **20 guides** (10 Total Loss, 5 Diminished Value, 5 Claim
+  Process). Each guide researched with real primary/authoritative sources
+  before writing (never invented), cross-linked into at least one existing
+  guide that had already flagged the same gap, added to `SOURCE-REGISTER.md`
+  §6, and guide counts updated on `/guides/`, its cluster hub, and the
+  homepage. In order:
+  - `/guides/total-loss/state-total-loss-threshold-laws/` — the two
+    calculation methods (simple percentage vs. Total Loss Formula) plus a
+    full 50-state + DC comparison table, sourced from a dated,
+    editorially-reviewed Policygenius table (named licensed-insurance-expert
+    author) and the NH DOI valuation-methods page already used elsewhere.
+  - `/guides/total-loss/gap-insurance-loan-lease-after-total-loss/` — what
+    GAP insurance is actually for, common exclusions, and the federal right
+    to cancel/get a refund, sourced from the CFPB's own consumer page on GAP
+    plus California's AB 2311/SB 1311 as one concrete state-regulation
+    example.
+  - `/guides/claim-process/rental-car-loss-of-use-reimbursement/` — the two
+    separate paths (your own optional rental-reimbursement coverage vs. a
+    third-party loss-of-use claim), sourced from a real Nevada-filed
+    rental-reimbursement policy endorsement and the Texas Office of Public
+    Insurance Counsel's framing of loss-of-use as part of property-damage
+    liability.
+  - `/guides/claim-process/how-to-respond-to-a-lowball-offer/` — the
+    general rebuttal process covering both total-loss and diminished-value
+    offers, tying the site's own calculators and guides together, plus a
+    state-DOI-complaint escalation step via the NAIC Unfair Claims
+    Settlement Practices Act (reusing the citation already established for
+    the first-party-vs-third-party guide). Deliberately cross-linked both
+    directions with the existing total-loss-specific dispute guide rather
+    than left as a near-duplicate, per `ADSENSE-READINESS.md` §4's
+    no-near-duplicate rule.
+  Each guide verified individually before committing: `astro check`
+  (0 errors), `vitest run` (74/74), `npm run build`, 0 title/description
+  length issues; a full internal-link check after the final guide showed
+  0 broken links across 197 checked hrefs. `ADSENSE-READINESS.md` §1 guide
+  count refreshed to 20 (5 added 2026-08-01).
