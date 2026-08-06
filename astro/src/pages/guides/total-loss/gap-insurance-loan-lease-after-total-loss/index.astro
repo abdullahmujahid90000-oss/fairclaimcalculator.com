@@ -1,0 +1,110 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "GAP Insurance After a Total Loss | FairClaimCalculator";
+const description =
+  "What GAP insurance actually covers and doesn't after your car is totaled, plus your federal right to cancel it and get a refund before you ever need it.";
+const path = "/guides/total-loss/gap-insurance-loan-lease-after-total-loss/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="What Happens to Your Loan or Lease After a Total Loss (GAP Insurance Explained)"
+  cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
+  publishedDate="2026-08-01"
+  reviewedDate="2026-08-01"
+  summary="Your insurer's total-loss payout is based on your car's actual cash value (ACV) — not what you still owe on your loan or lease. If you owe more than the ACV payout, GAP insurance is the product meant to cover that specific difference, and it comes with real limits worth understanding before you need it."
+  sources={[
+    'Consumer Financial Protection Bureau (CFPB), <a href="https://www.consumerfinance.gov/ask-cfpb/what-is-guaranteed-asset-protection-gap-insurance-en-797/" target="_blank" rel="noopener">"What is Guaranteed Asset Protection (GAP) insurance?"</a>, last reviewed March 8, 2024 — primary federal consumer-protection source for what GAP is, that it is optional, and cancellation/refund rights.',
+    'California Assembly Bill 2311 and Senate Bill 1311 (effective January 1, 2023), as summarized in Ballard Spahr\'s <a href="https://www.consumerfinancemonitor.com/2022/10/27/new-california-laws-place-limits-on-gap-insurance/" target="_blank" rel="noopener">Consumer Finance Monitor</a> — a real example of one state\'s specific GAP regulations (mandatory disclosures, pro-rata refund rights, a ban on financing GAP for servicemembers). Cited as an illustrative example, not a claim that every state regulates GAP the same way.',
+  ]}
+  relatedLinks={[
+    { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+    { label: "ACV vs. Replacement Cost vs. Loan Payoff vs. Asking Price", href: "/guides/total-loss/acv-vs-replacement-cost-loan-payoff-asking-price/" },
+    { label: "How Insurers Value a Total-Loss Vehicle", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
+  ]}
+>
+  <h2>Why a total loss can leave you owing money</h2>
+  <p>
+    Your insurer's total-loss payout is built around actual cash value (ACV) — what your car was
+    worth right before the loss. Your loan or lease balance is a completely different number, based
+    on your financing terms, down payment, and how much of the loan you've paid off. If your ACV
+    payout (after any deductible) is less than what you owe, you're "upside down" or have negative
+    equity — and unless something else covers that difference, you can end up still owing your
+    lender money for a car you no longer have.
+  </p>
+
+  <h2>What GAP insurance is actually for</h2>
+  <p>
+    Per the Consumer Financial Protection Bureau, GAP ("Guaranteed Asset Protection") is an optional
+    add-on product intended to cover exactly that difference — the gap between your loan or lease
+    balance and what your standard auto insurance pays out if your car is stolen or totaled. It is
+    not part of your regular auto insurance policy; it's a separate product, often sold by the
+    dealer at financing and rolled into the loan amount (which, the CFPB notes, increases the total
+    interest you pay over the life of the loan).
+  </p>
+
+  <h2>What GAP typically does <em>not</em> cover</h2>
+  <p>
+    GAP is narrower than people often expect. Depending on the specific policy or waiver, it commonly
+    excludes:
+  </p>
+  <ul>
+    <li>Past-due payments or late fees on your loan before the loss.</li>
+    <li>Extended warranties, credit insurance, or other add-on products rolled into the same loan.</li>
+    <li>Your auto insurance deductible — some GAP products cover it, many don't; check yours.</li>
+    <li>
+      Negative equity that was already rolled over from a previous loan or trade-in into this
+      loan, in some policies.
+    </li>
+    <li>Any amount above the policy's own coverage cap or loan-to-value limit, if it has one.</li>
+  </ul>
+  <div class="limits-note">
+    <strong>This is a general pattern, not your policy's actual terms.</strong> GAP products vary by
+    provider, and lease agreements sometimes build similar (but not identical) protection directly
+    into the lease itself rather than as a separate optional product. The only way to know what's
+    actually covered is to read your specific GAP certificate or lease agreement — this guide
+    describes what to look for, not what your document says.
+  </div>
+
+  <h2>You can't be required to buy it, and you can cancel it</h2>
+  <p>
+    The CFPB is explicit on two points that matter regardless of your state: GAP is optional — you
+    cannot be required to buy it to qualify for financing — and you have the right to cancel most
+    optional add-on products like GAP at any time. If you sell, refinance, or pay off your loan
+    early, you may be entitled to a refund of the unused portion of what you paid for it; check with
+    your lender, the GAP provider, or the dealer if you don't have your paperwork. That said, once a
+    GAP benefit has actually been paid out on a total-loss claim, there is nothing left to refund —
+    the product has done its job.
+  </p>
+
+  <h2>State rules vary — California as one real example</h2>
+  <p>
+    How GAP is sold and regulated is also a matter of state law, and it can change. As one concrete
+    example, California's AB 2311 and SB 1311 (effective January 1, 2023) added specific consumer
+    protections: a required plain-language notice stating GAP cannot be mandatory, a right to a
+    pro-rata refund of unearned charges spelled out in the contract, and — through interaction with
+    federal servicemember-lending rules — an effective ban on financing GAP into a car loan for
+    servicemembers in California. Other states regulate GAP differently or not at all in the same
+    way. Confirm your own state's specific rules with your state insurance department if this
+    matters to your situation.
+  </p>
+
+  <h2>What this means for your claim</h2>
+  <p>
+    If you're currently working through a total-loss settlement, the
+    <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown calculator</a>
+    keeps any GAP amount as a separate, clearly labeled scenario — never blended into your core ACV
+    math — because a GAP payout depends on your specific certificate's terms and exclusions, not on
+    a formula this site can calculate for you.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you whether you have GAP coverage, what your specific certificate covers or
+    excludes, or whether your state has additional protections beyond the California example above.
+    For that, read your GAP paperwork or lease agreement directly, or ask your lender or insurance
+    agent for a copy if you don't have it.
+  </p>
+</GuideLayout>

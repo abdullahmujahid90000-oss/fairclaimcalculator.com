@@ -26,7 +26,7 @@ document never silently drifts from what the code actually does.**
 | ✅ | At least 4 functioning, tested calculators live (74 Vitest tests passing). |
 | ✅ | Finished homepage and `/calculators/` directory. |
 | ✅ | Complete trust/legal framework (11 pages: About, Methodology, Editorial Policy, Sources, Corrections, Advertising Disclosure, Privacy, Terms, Disclaimer, Accessibility, Contact). |
-| ✅ | Meaningful, source-backed guide library (17 guides across 3 clusters — 15 published 2026-07-29, 2 added 2026-08-01). Sources logged in `SOURCE-REGISTER.md` and reflected on `/sources/`. |
+| ✅ | Meaningful, source-backed guide library (18 guides across 3 clusters — 15 published 2026-07-29, 3 added 2026-08-01). Sources logged in `SOURCE-REGISTER.md` and reflected on `/sources/`. |
 | ✅ | No placeholder/broken pages, no broken internal links, across the entire 38-page site — verified with a script comparing every `href` in source against real built routes, re-run after every content change including the Phase 5 guide additions. |
 | ⚠️ | Mobile/accessibility checks. Automated pass done and re-verified against the full 38-page build: every page has one `<h1>`, a `<main>` landmark, working skip link, `lang` attribute; every color pair in use passes WCAG AA contrast; all labels/ARIA references resolve. **Still outstanding:** the actual manual keyboard-only and screen-reader walkthrough at 320/390/768/1024/1440px, which needs a live URL — planned for immediately after cutover. |
 | ⚠️ | Indexing files validated. Sitemap confirmed to list exactly the 37 real indexable pages and nothing else; `robots.txt` correct. Not yet validated against a live deployment or Search Console — that requires cutover first. |

@@ -107,7 +107,7 @@ invented legal citations, threats, deadlines, or "bad faith" accusations.
 
 ---
 
-## 6. Guide Library (17 guides, `/guides/`)
+## 6. Guide Library (18 guides, `/guides/`)
 
 Each guide below cites its sources inline next to the claim (rendered via
 its own `sources: string[]` prop in `GuideLayout.astro`) and states plainly,
@@ -172,6 +172,19 @@ state-specific rules with their own state insurance department.
     one secondary compiled review, dated, subject to change); that any
     state's number is guaranteed accurate for a specific claim today —
     readers are told to confirm with their state insurance department.
+18. **What Happens to Your Loan or Lease After a Total Loss (GAP Insurance
+    Explained)** (added 2026-08-01) —
+    (a) Consumer Financial Protection Bureau, "What is Guaranteed Asset
+    Protection (GAP) insurance?", last reviewed March 8, 2024 — *primary*,
+    federal source for what GAP is, that it's optional, and cancellation/
+    refund rights; (b) California AB 2311 and SB 1311 (effective Jan. 1,
+    2023), as summarized by Ballard Spahr's Consumer Finance Monitor —
+    *secondary summary of primary legislation*, used as one illustrative
+    state example, explicitly not framed as universal. **What is
+    deliberately NOT claimed:** that any specific GAP certificate covers or
+    excludes any particular item (varies by provider/contract); that every
+    state regulates GAP the way California does; that lease-embedded GAP-
+    style protection works identically to standalone GAP insurance.
 
 ### Diminished Value cluster (`/guides/diminished-value/`)
 
@@ -236,7 +249,7 @@ state-specific rules with their own state insurance department.
 
 ## 7. What is NOT yet in this register
 
-The 17-guide library above is complete and logged as of 2026-08-01.
+The 18-guide library above is complete and logged as of 2026-08-01.
 Nothing currently published on the site is missing from this register. Any
 future guide, calculator, or claim added after this point must have its
 sources logged here — and reflected on the public `/sources/` page —
