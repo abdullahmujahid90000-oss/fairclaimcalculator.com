@@ -3,7 +3,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 const title = "Claim Process Guides | FairClaimCalculator";
 const description =
-  "Source-backed guides on first-party vs. third-party auto claims, when an appraisal or attorney may help, and a full evidence checklist.";
+  "Source-backed guides on first-party vs. third-party auto claims, rental/loss-of-use reimbursement, outside help, and a full evidence checklist.";
 const path = "/guides/claim-process/";
 
 const structuredData = [
@@ -20,6 +20,7 @@ const structuredData = [
 
 const guides = [
   { title: "First-Party vs. Third-Party Auto Claims", href: "/guides/claim-process/first-party-vs-third-party-auto-claims/", desc: "Why the type of claim changes your rights and process." },
+  { title: "Rental Car & Loss-of-Use Reimbursement", href: "/guides/claim-process/rental-car-loss-of-use-reimbursement/", desc: "Your own coverage vs. a claim against the at-fault driver's insurer." },
   { title: "When to Consider an Independent Appraisal or Attorney", href: "/guides/claim-process/when-to-consider-an-independent-appraisal-or-attorney/", desc: "Signs a factual letter alone may not be enough." },
   { title: "Auto Claim Evidence Checklist", href: "/guides/claim-process/auto-claim-evidence-checklist/", desc: "A general checklist for total-loss and diminished-value claims." },
 ];
@@ -29,8 +30,9 @@ const guides = [
     <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/guides/">Guides</a> / Claim Process</p>
     <h1 class="page-title">Claim Process Guides</h1>
     <p class="lead">
-      Three guides on how the U.S. auto claims process works — first-party vs. third-party claims,
-      when outside help may be worth it, and a full evidence checklist.
+      Four guides on how the U.S. auto claims process works — first-party vs. third-party claims,
+      rental/loss-of-use reimbursement, when outside help may be worth it, and a full evidence
+      checklist.
     </p>
     <div class="guide-hub-grid">
       {guides.map((g) => (

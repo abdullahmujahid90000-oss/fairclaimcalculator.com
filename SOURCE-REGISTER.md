@@ -107,7 +107,7 @@ invented legal citations, threats, deadlines, or "bad faith" accusations.
 
 ---
 
-## 6. Guide Library (18 guides, `/guides/`)
+## 6. Guide Library (19 guides, `/guides/`)
 
 Each guide below cites its sources inline next to the claim (rendered via
 its own `sources: string[]` prop in `GuideLayout.astro`) and states plainly,
@@ -244,12 +244,24 @@ state-specific rules with their own state insurance department.
 15. **Auto Claim Evidence Checklist** — practical checklist compiled for
     this site, expanding on the Claim Letter Builder's own evidence
     checklist; not a citation to an external standard.
+19. **Rental Car & Loss-of-Use Reimbursement** (added 2026-08-01) —
+    (a) Nevada Division of Insurance, filed policy endorsement Form A-431
+    (05-11), "Rental Reimbursement Endorsement" — *primary*, a real
+    publicly filed example of first-party rental-reimbursement wording
+    (24-hour trigger, total-loss cutoff at 72 hours after settlement
+    offer); (b) Texas Office of Public Insurance Counsel (OPIC), Auto
+    Insurance resources — *primary*, a state consumer-advocate agency's
+    framing of loss-of-use as part of property-damage liability coverage.
+    **What is deliberately NOT claimed:** that the Nevada-filed endorsement
+    applies to any policy other than the one it was filed for; that every
+    state's minimum liability law works the way Texas's does; that
+    "reasonable" rental period/cost has one fixed definition nationwide.
 
 ---
 
 ## 7. What is NOT yet in this register
 
-The 18-guide library above is complete and logged as of 2026-08-01.
+The 19-guide library above is complete and logged as of 2026-08-01.
 Nothing currently published on the site is missing from this register. Any
 future guide, calculator, or claim added after this point must have its
 sources logged here — and reflected on the public `/sources/` page —

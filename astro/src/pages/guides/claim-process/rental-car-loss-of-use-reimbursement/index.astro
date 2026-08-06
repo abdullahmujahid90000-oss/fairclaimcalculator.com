@@ -1,0 +1,105 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "Rental Car & Loss-of-Use Reimbursement | FairClaimCalculator";
+const description =
+  "Two different paths to a rental car after an accident: your own optional coverage, or a loss-of-use claim against the at-fault driver's insurer.";
+const path = "/guides/claim-process/rental-car-loss-of-use-reimbursement/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Rental Car & Loss-of-Use Reimbursement After an Accident"
+  cluster={{ name: "Claim Process", href: "/guides/claim-process/" }}
+  publishedDate="2026-08-01"
+  reviewedDate="2026-08-01"
+  summary="Getting a rental car covered after an accident runs through one of two completely different mechanisms — your own optional rental reimbursement coverage, or a loss-of-use claim against the at-fault driver's insurer — and they work nothing alike."
+  sources={[
+    'Nevada Division of Insurance, filed policy endorsement <a href="https://doi.nv.gov/uploadedFiles/doinvgov/_public-documents/Consumers/A-431-05-11.pdf" target="_blank" rel="noopener">Form A-431 (05-11), "Rental Reimbursement Endorsement"</a> — a real, publicly filed example of exactly how one insurer\'s first-party rental-reimbursement coverage is worded (waiting period, daily-limit structure, and when reimbursement ends). Cited as one concrete real-world example, not a claim that every insurer\'s endorsement reads the same way.',
+    'Texas Office of Public Insurance Counsel (OPIC) — a Texas state agency dedicated to representing insurance consumers — <a href="https://www.opic.texas.gov/auto-insurance/" target="_blank" rel="noopener">Auto Insurance resources</a>, describing that Texas\'s minimum property-damage liability requirement is the mechanism through which an at-fault driver\'s insurer covers "loss of use" damages, including reasonable rental costs. Cited as one state\'s framing of the underlying concept, not a claim that every state\'s minimum liability law works identically.',
+  ]}
+  relatedLinks={[
+    { label: "First-Party vs. Third-Party Claims", href: "/guides/claim-process/first-party-vs-third-party-auto-claims/" },
+    { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+    { label: "Auto Claim Evidence Checklist", href: "/guides/claim-process/auto-claim-evidence-checklist/" },
+  ]}
+>
+  <h2>Two different paths, not one benefit</h2>
+  <p>
+    "Who pays for my rental car" depends entirely on which of two different mechanisms applies to
+    your situation — and they follow genuinely different rules. See
+    <a href="/guides/claim-process/first-party-vs-third-party-auto-claims/">First-Party vs.
+    Third-Party Claims</a> for the general distinction; here's how it plays out specifically for a
+    rental car or loss of use.
+  </p>
+
+  <h2>Path 1: Your own rental reimbursement coverage (first-party)</h2>
+  <p>
+    Rental reimbursement is an optional coverage you add to your own policy, with its own premium.
+    It only pays if you actually rent a car, and it's built around specific limits: a daily cap, a
+    total per-claim cap, and rules about when coverage starts and stops. As one real, publicly filed
+    example, a Nevada-filed endorsement (Form A-431) works like this:
+  </p>
+  <ul>
+    <li>Coverage only applies once your car has been out of use for more than 24 consecutive hours (48 hours for a stolen vehicle).</li>
+    <li>Reimbursement is capped at the daily/total limits shown in your own policy's declarations page.</li>
+    <li>
+      Reimbursement ends at the <em>earliest</em> of: your car being returned, repaired, or
+      replaced — or, if it's deemed a total loss, 72 hours after the insurer pays the claim or
+      makes its initial settlement offer, whichever comes first.
+    </li>
+    <li>No separate deductible applies to this specific coverage.</li>
+  </ul>
+  <div class="limits-note">
+    <strong>This is one real example, not your policy.</strong> Insurers word their own
+    rental-reimbursement endorsements differently — different waiting periods, different daily/total
+    caps, different total-loss cutoffs. Check your own policy's declarations page and endorsement
+    language for your actual numbers.
+  </div>
+
+  <h2>Path 2: A loss-of-use claim against the at-fault driver's insurer (third-party)</h2>
+  <p>
+    If someone else caused the accident, you can instead seek a rental car (or its cash value) as
+    part of a property-damage liability claim against their insurer — this doesn't touch your own
+    policy or its rental-reimbursement limits at all. As the Texas Office of Public Insurance
+    Counsel frames it, once the at-fault driver's insurer accepts liability, "loss of use" damages —
+    including reasonable rental costs — fall under the same property-damage liability coverage that
+    pays for your repair. The standard applied is generally <em>reasonableness</em>: a comparable
+    vehicle, for a reasonable repair period — not a blank check for any rental you choose.
+  </p>
+  <p class="state-note">
+    <strong>What varies by state:</strong> minimum liability insurance requirements (and therefore
+    what's guaranteed to be available to cover loss of use) differ by state. Texas requires a
+    minimum property-damage liability limit as one example; your own state's minimum and its
+    practical effect on a loss-of-use claim may differ — check your state insurance department's
+    consumer resources.
+  </p>
+
+  <h2>If your car turns out to be a total loss</h2>
+  <p>
+    Reimbursement — under either path — is generally tied to a repair period, not an open-ended
+    timeline. Once a vehicle is declared a total loss, most rental coverage (first-party or
+    third-party) winds down within a short, defined window after the settlement offer is made, as
+    shown in the Nevada example above (72 hours). If your total-loss settlement itself is taking
+    longer than it should, that's a separate issue — see
+    <a href="/guides/total-loss/how-to-dispute-a-total-loss-valuation/">How to Dispute a Total-Loss
+    Valuation</a> for the factual dispute process, and keep your rental receipts as part of your
+    evidence in the meantime.
+  </p>
+
+  <h2>Practical steps</h2>
+  <ul>
+    <li>Before renting, ask your own insurer (if using first-party coverage) for your exact daily and total caps in writing.</li>
+    <li>If claiming loss of use from an at-fault driver's insurer, get their acceptance of liability in writing before committing to rental costs, where possible.</li>
+    <li>Keep every rental receipt and the return/repair-completion date — both matter for either type of claim.</li>
+    <li>Rent a comparable vehicle, not an upgrade — "like kind and quality" is the standard adjusters apply.</li>
+  </ul>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you your own policy's actual rental-reimbursement limits, your state's specific
+    minimum liability requirements, or what counts as a "reasonable" rental period for your specific
+    repair — those depend on your policy, your state, and the facts of your claim.
+  </p>
+</GuideLayout>
