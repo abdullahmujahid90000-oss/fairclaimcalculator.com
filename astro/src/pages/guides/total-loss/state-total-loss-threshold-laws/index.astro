@@ -1,0 +1,137 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "State Total-Loss Threshold Laws | FairClaimCalculator";
+const description =
+  "Every U.S. state sets its own total-loss threshold — a fixed percentage or a formula — deciding when an insurer must total your car instead of repairing it.";
+const path = "/guides/total-loss/state-total-loss-threshold-laws/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="State Total-Loss Threshold Laws Explained"
+  cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
+  publishedDate="2026-08-01"
+  reviewedDate="2026-08-01"
+  summary="Whether your damaged car gets repaired or declared a total loss can depend on which state you're in as much as how bad the damage is. States use one of two different methods, and the exact number varies from 60% to 100% of your car's value."
+  sources={[
+    'Brennan, R., "Total Loss Threshold by State," Policygenius, updated July 2026 — the primary source for the state-by-state table below. Policygenius publishes its editorial standards and reviews this table periodically; state laws and administrative rules can change between reviews, so treat the table as a starting point, not a final legal citation, and confirm your own state\'s current rule with your state insurance department.',
+    'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a> — a real example of a state regulator publishing its own accepted methodology, referenced here and in the companion guide below.',
+  ]}
+  relatedLinks={[
+    { label: "How Insurers Value a Total-Loss Vehicle", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
+    { label: "How to Dispute a Total-Loss Valuation", href: "/guides/total-loss/how-to-dispute-a-total-loss-valuation/" },
+    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
+  ]}
+>
+  <h2>Two different methods, one decision</h2>
+  <p>
+    Every state requires insurers to total a car once repair costs cross a certain point relative to
+    its value — but states don't agree on how to measure that point. There are two approaches in use
+    across the U.S.:
+  </p>
+  <ul>
+    <li>
+      <strong>Simple percentage threshold.</strong> If repair cost reaches a fixed percentage of the
+      vehicle's actual cash value (ACV), it's a total loss. Example: a $10,000 car in a 75%-threshold
+      state becomes a total loss once repairs reach $7,500 — regardless of salvage value.
+    </li>
+    <li>
+      <strong>Total Loss Formula (TLF).</strong> A car is a total loss once <em>repair cost + expected
+      salvage value</em> meets or exceeds ACV. Using the same $10,000 car with $7,500 in damage and an
+      estimated $1,000 salvage value: $7,500 + $1,000 = $8,500, which is still under $10,000 — so this
+      same damage would <em>not</em> be a total loss under TLF, even though it would be under a
+      75%-only rule.
+    </li>
+  </ul>
+  <div class="limits-note">
+    <strong>Same damage, different outcome.</strong> This is exactly why the same accident can total a
+    car in one state and not in the one next door — it isn't just about how bad the damage looks, it's
+    about which formula your state uses and what percentage or salvage figure gets plugged in.
+  </div>
+
+  <h2>Total-loss threshold by state</h2>
+  <p>
+    The table below reflects a July 2026 compiled review by Policygenius, a licensed insurance
+    broker that publishes and periodically updates state-by-state insurance comparisons. It is a
+    secondary compilation, not a citation to each state's statute directly — always verify your
+    state's current rule with your state insurance department before relying on a specific number.
+  </p>
+  <table>
+    <thead><tr><th>State</th><th>Threshold</th></tr></thead>
+    <tbody>
+      <tr><td>Alabama</td><td>75%</td></tr>
+      <tr><td>Alaska</td><td>Total Loss Formula</td></tr>
+      <tr><td>Arizona</td><td>Total Loss Formula</td></tr>
+      <tr><td>Arkansas</td><td>70%</td></tr>
+      <tr><td>California</td><td>Total Loss Formula</td></tr>
+      <tr><td>Colorado</td><td>100%</td></tr>
+      <tr><td>Connecticut</td><td>Total Loss Formula</td></tr>
+      <tr><td>Delaware</td><td>Total Loss Formula</td></tr>
+      <tr><td>Florida</td><td>80%</td></tr>
+      <tr><td>Georgia</td><td>Total Loss Formula</td></tr>
+      <tr><td>Hawaii</td><td>Total Loss Formula</td></tr>
+      <tr><td>Idaho</td><td>Total Loss Formula</td></tr>
+      <tr><td>Illinois</td><td>Total Loss Formula</td></tr>
+      <tr><td>Indiana</td><td>70%</td></tr>
+      <tr><td>Iowa</td><td>70%</td></tr>
+      <tr><td>Kansas</td><td>75%</td></tr>
+      <tr><td>Kentucky</td><td>75%</td></tr>
+      <tr><td>Louisiana</td><td>75%</td></tr>
+      <tr><td>Maine</td><td>Total Loss Formula</td></tr>
+      <tr><td>Maryland</td><td>75%</td></tr>
+      <tr><td>Massachusetts</td><td>Total Loss Formula</td></tr>
+      <tr><td>Michigan</td><td>75%</td></tr>
+      <tr><td>Minnesota</td><td>70%</td></tr>
+      <tr><td>Mississippi</td><td>Total Loss Formula</td></tr>
+      <tr><td>Missouri</td><td>80%</td></tr>
+      <tr><td>Montana</td><td>Total Loss Formula</td></tr>
+      <tr><td>Nebraska</td><td>75%</td></tr>
+      <tr><td>Nevada</td><td>65%</td></tr>
+      <tr><td>New Hampshire</td><td>75%</td></tr>
+      <tr><td>New Jersey</td><td>Total Loss Formula</td></tr>
+      <tr><td>New Mexico</td><td>Total Loss Formula</td></tr>
+      <tr><td>New York</td><td>75%</td></tr>
+      <tr><td>North Carolina</td><td>75%</td></tr>
+      <tr><td>North Dakota</td><td>75%</td></tr>
+      <tr><td>Ohio</td><td>Total Loss Formula</td></tr>
+      <tr><td>Oklahoma</td><td>60%</td></tr>
+      <tr><td>Oregon</td><td>80%</td></tr>
+      <tr><td>Pennsylvania</td><td>Total Loss Formula</td></tr>
+      <tr><td>Rhode Island</td><td>Total Loss Formula</td></tr>
+      <tr><td>South Carolina</td><td>75%</td></tr>
+      <tr><td>South Dakota</td><td>Total Loss Formula</td></tr>
+      <tr><td>Tennessee</td><td>75%</td></tr>
+      <tr><td>Texas</td><td>100%</td></tr>
+      <tr><td>Utah</td><td>Total Loss Formula</td></tr>
+      <tr><td>Vermont</td><td>Total Loss Formula</td></tr>
+      <tr><td>Virginia</td><td>75%</td></tr>
+      <tr><td>Washington</td><td>Total Loss Formula</td></tr>
+      <tr><td>Washington, D.C.</td><td>75%</td></tr>
+      <tr><td>West Virginia</td><td>75%</td></tr>
+      <tr><td>Wisconsin</td><td>70%</td></tr>
+      <tr><td>Wyoming</td><td>75%</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Why some states set the bar lower than 100%</h2>
+  <p>
+    A threshold below 100% isn't only about repair economics — it's also a safety rule. A car can
+    have hidden structural or safety-system damage (bent frame, damaged sensors, compromised airbags)
+    that isn't fully visible in a repair estimate. States with lower thresholds, like Oklahoma at 60%,
+    are more likely to keep a heavily damaged car off the road as a total loss rather than repaired
+    and returned to service, compared to a state like Texas at 100%.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you your state's threshold with legal certainty — insurance regulations change,
+    and this table reflects one compiled secondary review as of mid-2026, not a direct reading of
+    every state's current statute or administrative code. It also cannot tell you what your specific
+    vehicle's ACV or salvage value actually is; for that, see
+    <a href="/guides/total-loss/how-insurers-value-a-total-loss-vehicle/">How Insurers Value a
+    Total-Loss Vehicle</a> and run your own numbers through the
+    <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit calculator</a>.
+  </p>
+</GuideLayout>

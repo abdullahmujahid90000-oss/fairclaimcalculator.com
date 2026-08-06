@@ -107,7 +107,7 @@ invented legal citations, threats, deadlines, or "bad faith" accusations.
 
 ---
 
-## 6. Guide Library (16 guides, `/guides/`)
+## 6. Guide Library (17 guides, `/guides/`)
 
 Each guide below cites its sources inline next to the claim (rendered via
 its own `sources: string[]` prop in `GuideLayout.astro`) and states plainly,
@@ -159,6 +159,19 @@ state-specific rules with their own state insurance department.
    of the appraisal-clause process (independent appraisers per side, neutral
    umpire if they disagree); a common policy provision whose exact wording
    varies by insurer/state — not tied to one external citation.
+17. **State Total-Loss Threshold Laws Explained** (added 2026-08-01) —
+    (a) Brennan, R., "Total Loss Threshold by State," Policygenius, updated
+    July 2026 — *secondary*, a dated, editorially-reviewed 50-state + DC
+    comparison table by a named, credentialed author (licensed insurance
+    expert); this is the primary source for the state-by-state table on the
+    page; (b) New Hampshire Insurance Department, List of Accepted
+    Valuation Methods for Total Loss — *primary*, same citation as register
+    entry #1 (How Insurers Value a Total-Loss Vehicle). **What is
+    deliberately NOT claimed:** that the table reflects each state's
+    current statute verified directly against primary legal text (it is
+    one secondary compiled review, dated, subject to change); that any
+    state's number is guaranteed accurate for a specific claim today —
+    readers are told to confirm with their state insurance department.
 
 ### Diminished Value cluster (`/guides/diminished-value/`)
 
@@ -223,7 +236,7 @@ state-specific rules with their own state insurance department.
 
 ## 7. What is NOT yet in this register
 
-The 16-guide library above is complete and logged as of 2026-08-01.
+The 17-guide library above is complete and logged as of 2026-08-01.
 Nothing currently published on the site is missing from this register. Any
 future guide, calculator, or claim added after this point must have its
 sources logged here — and reflected on the public `/sources/` page —
