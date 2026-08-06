@@ -1,0 +1,123 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "Responding to a Lowball Offer | FairClaimCalculator";
+const description =
+  "A step-by-step process for responding to a total-loss or diminished-value offer that seems too low — factually, in writing, with real evidence.";
+const path = "/guides/claim-process/how-to-respond-to-a-lowball-offer/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="How to Respond to a Lowball Total-Loss or Diminished-Value Offer"
+  cluster={{ name: "Claim Process", href: "/guides/claim-process/" }}
+  publishedDate="2026-08-01"
+  reviewedDate="2026-08-01"
+  summary="An offer that feels low isn't automatically wrong — and it isn't automatically right. The strongest response is never 'this is too low,' it's a specific, evidence-based rebuttal the adjuster can actually act on."
+  sources={[
+    'National Association of Insurance Commissioners (NAIC), <a href="https://content.naic.org/sites/default/files/model-law-900.pdf" target="_blank" rel="noopener">Unfair Claims Settlement Practices Act (Model Act #900)</a> — same citation as the First-Party vs. Third-Party Claims guide; a model law most states have adopted some version of, setting baseline good-faith claims-handling standards and underpinning the state-insurance-department complaint process described below.',
+    "The step-by-step process itself is a methodology note describing how this site's own tools fit together — not a citation to an external authority.",
+  ]}
+  relatedLinks={[
+    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
+    { label: "Claim Letter & Evidence Packet Builder", href: "/calculators/claim-letter-builder/" },
+    { label: "How to Dispute a Total-Loss Valuation", href: "/guides/total-loss/how-to-dispute-a-total-loss-valuation/" },
+  ]}
+>
+  <h2>First, figure out which situation you're actually in</h2>
+  <p>
+    An offer that feels low usually falls into one of two very different situations, and the right
+    response depends on which one you're in:
+  </p>
+  <ul>
+    <li>
+      <strong>The number is confusing, not necessarily wrong.</strong> ACV, replacement cost, loan
+      payoff, and what you originally paid are four different numbers — see
+      <a href="/guides/total-loss/acv-vs-replacement-cost-loan-payoff-asking-price/">ACV vs.
+      Replacement Cost vs. Loan Payoff vs. Asking Price</a>. Sometimes the offer is a defensible ACV
+      figure that simply doesn't match a different number you had in mind.
+    </li>
+    <li>
+      <strong>The valuation itself is likely understated.</strong> Most commonly this traces to weak
+      or mismatched comparables, an incorrect trim/mileage/condition entry, or an unexplained
+      adjustment — see <a href="/guides/total-loss/common-valuation-report-errors/">Common Valuation
+      Report Errors to Check For</a>.
+    </li>
+  </ul>
+
+  <h2>A factual response process, step by step</h2>
+  <ol>
+    <li>
+      <strong>Get the full written report.</strong> Ask your adjuster, in writing, for the complete
+      valuation report (or CCC/Mitchell/Audatex-style report) including every comparable vehicle
+      used and each adjustment applied — not just the final number.
+    </li>
+    <li>
+      <strong>Audit it against real facts.</strong> Run the insurer's stated comparables and your
+      own through the <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit
+      calculator</a> to see the mean, median, range, and a comp-quality review side by side —
+      concretely, not just by feel.
+    </li>
+    <li>
+      <strong>Build your own comparable evidence.</strong> If the insurer's comps look thin or
+      mismatched, find your own — see
+      <a href="/guides/total-loss/finding-your-own-comparable-vehicles/">Finding Your Own Comparable
+      Vehicles</a> for a total-loss offer, or
+      <a href="/guides/diminished-value/building-diminished-value-market-evidence/">Building
+      Diminished-Value Market Evidence</a> if the offer in question is a diminished-value claim
+      instead.
+    </li>
+    <li>
+      <strong>Put your counter-offer in writing, with specifics.</strong> Use the
+      <a href="/calculators/claim-letter-builder/">Claim Letter &amp; Evidence Packet Builder</a> to
+      turn your audit into a factual letter — naming the exact comparable(s) in question, the exact
+      discrepancy, and what you found instead. A specific rebuttal is something an adjuster can
+      actually act on; a general complaint usually isn't.
+    </li>
+    <li>
+      <strong>Know your escalation path if it doesn't move.</strong> Most policies include an
+      appraisal clause for exactly this disagreement. For a total-loss valuation specifically, see
+      <a href="/guides/total-loss/how-to-dispute-a-total-loss-valuation/">How to Dispute a
+      Total-Loss Valuation</a> for the fuller step-by-step; either way,
+      <a href="/guides/claim-process/when-to-consider-an-independent-appraisal-or-attorney/">When to
+      Consider an Independent Appraisal or Attorney</a> covers what comes next if a written
+      rebuttal alone doesn't resolve it.
+    </li>
+  </ol>
+  <p>
+    This guide is the general version of that process, covering both total-loss and
+    diminished-value offers and the escalation path when a written rebuttal alone doesn't work —
+    the total-loss-specific guide above goes into more procedural detail for that one claim type.
+  </p>
+
+  <div class="example-box">
+    <p>
+      <strong>Weak vs. strong rebuttal.</strong> Weak: "Your offer is too low, I want more money."
+      Strong: "Comp #2 in your report is a base-trim vehicle with 30,000 more miles than mine, and
+      comp #3 is listed 45 miles outside the report's own stated search radius. Here are three
+      comparable vehicles matching my trim, mileage, and location within that radius, averaging
+      $1,850 higher than your stated ACV." The second version gives the adjuster something concrete
+      to respond to.
+    </p>
+  </div>
+
+  <h2>If the insurer isn't responding in good faith</h2>
+  <p>
+    Most states have adopted some version of the NAIC's Unfair Claims Settlement Practices Act,
+    which sets baseline expectations for how insurers handle claims — including responding to
+    factual disputes in a timely, reasonable way. If you believe your insurer isn't meeting your
+    state's specific standard, your state insurance department's consumer complaint process is the
+    next step; exactly what qualifies and how to file varies by state, so check your own state
+    insurance department's website.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you whether your specific counter-offer will succeed, what a reasonable insurer
+    "should" ultimately pay, or how long your state's specific dispute process takes. It also
+    doesn't replace a licensed attorney or independent appraiser for a claim that's become
+    genuinely contested — see the independent appraisal/attorney guide above for signs it may be
+    time for outside help.
+  </p>
+</GuideLayout>

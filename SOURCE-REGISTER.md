@@ -107,7 +107,7 @@ invented legal citations, threats, deadlines, or "bad faith" accusations.
 
 ---
 
-## 6. Guide Library (19 guides, `/guides/`)
+## 6. Guide Library (20 guides, `/guides/`)
 
 Each guide below cites its sources inline next to the claim (rendered via
 its own `sources: string[]` prop in `GuideLayout.astro`) and states plainly,
@@ -256,12 +256,25 @@ state-specific rules with their own state insurance department.
     applies to any policy other than the one it was filed for; that every
     state's minimum liability law works the way Texas's does; that
     "reasonable" rental period/cost has one fixed definition nationwide.
+20. **How to Respond to a Lowball Total-Loss or Diminished-Value Offer**
+    (added 2026-08-01) — National Association of Insurance Commissioners
+    (NAIC), Unfair Claims Settlement Practices Act (Model Act #900) —
+    *primary*, same citation as register entry #13, cited here to support
+    the state-insurance-department-complaint escalation step. The
+    step-by-step process itself is a methodology note describing how this
+    site's own tools/guides fit together, not an external citation.
+    **What is deliberately NOT claimed:** that a specific rebuttal will
+    succeed; that every state's complaint process works identically. Note:
+    this guide deliberately overlaps in structure with guide #8 (How to
+    Dispute a Total-Loss Valuation Factually) — it's the general version
+    covering both total-loss and diminished-value offers, cross-linked
+    both directions, not an independent duplicate.
 
 ---
 
 ## 7. What is NOT yet in this register
 
-The 19-guide library above is complete and logged as of 2026-08-01.
+The 20-guide library above is complete and logged as of 2026-08-01.
 Nothing currently published on the site is missing from this register. Any
 future guide, calculator, or claim added after this point must have its
 sources logged here — and reflected on the public `/sources/` page —
