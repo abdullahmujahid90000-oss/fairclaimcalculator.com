@@ -5,6 +5,7 @@ import { TOTAL_LOSS_AUDIT_CONFIG } from "@lib/calculators/total-loss-audit";
 import { DV_CONFIG } from "@lib/calculators/diminished-value-baseline";
 import { LETTER_BUILDER_CONFIG } from "@lib/calculators/claim-letter-builder";
 import { LOSS_OF_USE_CONFIG } from "@lib/calculators/loss-of-use";
+import { SALVAGE_VALUE_CONFIG } from "@lib/calculators/salvage-value";
 
 const title = "Source Register | FairClaimCalculator";
 const description =
@@ -27,6 +28,7 @@ const groups = [
   { name: "Total-Loss Offer Audit", href: "/calculators/total-loss-offer-audit/", sources: TOTAL_LOSS_AUDIT_CONFIG.sources },
   { name: "Diminished Value Baseline", href: "/calculators/diminished-value-baseline/", sources: DV_CONFIG.sources },
   { name: "Rental / Loss-of-Use Reimbursement", href: "/calculators/loss-of-use-reimbursement/", sources: LOSS_OF_USE_CONFIG.sources },
+  { name: "Salvage / Owner-Retained Value", href: "/calculators/salvage-value/", sources: SALVAGE_VALUE_CONFIG.sources },
   { name: "Claim Letter & Evidence Packet Builder", href: "/calculators/claim-letter-builder/", sources: LETTER_BUILDER_CONFIG.sources },
 ];
 ---
@@ -41,7 +43,7 @@ const groups = [
     </p>
 
     <div class="notice">
-      This page covers the five calculators' formula and methodology sources below. The 20-guide
+      This page covers the six calculators' formula and methodology sources below. The 20-guide
       library's sources are cited inline on each guide's own page (in its "Sources" section) rather
       than duplicated here — see the summary and links in the Guides section further down.
     </div>

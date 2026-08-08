@@ -612,7 +612,33 @@ this section is just "what happened, when."
   - Full verification: `npm run typecheck` (0 errors), `npx vitest run`
     (102/102 across 5 files), `npm run build` (45 pages),
     title/description lengths OK (76 pages, one 67-char title trimmed),
-    0 broken internal links (1668 hrefs checked). Built
+    0 broken internal links (1668 hrefs checked).
+- **2026-08-08 — 6th calculator: Salvage / Owner-Retained Value.** Built
+  per the uploaded fix-prompts spec (item 6): new
+  `src/lib/calculators/salvage-value.ts` (pure, tested module — net cash
+  if retained vs. surrendered, and a separate comparison of the
+  insurer's salvage deduction against real salvage-title sale prices
+  the user enters, using the same descriptive-statistics +20%-outlier
+  pattern already established in the Total-Loss Offer Audit calculator;
+  never averaged with the insurer's figure, matching the site's
+  "never average, always show separately" principle). New
+  `astro/tests/salvage-value.test.ts` (16 tests, including a check
+  against the exact worked example already published in the
+  owner-retained-salvage guide: ACV $16,000, salvage deduction $3,200
+  → net if retained $12,800). New page at `/calculators/salvage-value/`
+  with a `state` field that's explicitly informational only (never used
+  in the math, consistent with how `claimState` works on the DV Baseline
+  calculator) — matching fix-prompts' instruction not to state salvage
+  branding rules as fact.
+  - Linked directly from the Settlement Check Breakdown form's salvage
+    field (per fix-prompts' explicit instruction), plus all other
+    calculators' "More Calculators" blocks, `/calculators/`, the
+    homepage, the Check My Offer router (new "salvage" goal + route),
+    the owner-retained-salvage guide's `relatedLinks`, and `/sources/`.
+  - Full verification: `npm run typecheck` (0 errors), `npx vitest run`
+    (118/118 across 6 files), `npm run build` (46 pages),
+    title/description lengths OK (77 pages, one 63-char title trimmed),
+    0 broken internal links (1715 hrefs checked). Built
   `/glossary/` per the uploaded fix-prompts' content-hub spec (item 4.3):
   a standalone reference pulling together the 15 terms already defined
   inline across the 4 calculators and their source guides (ACV,

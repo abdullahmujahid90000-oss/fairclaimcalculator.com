@@ -4,7 +4,7 @@ import CalculatorCard from "@components/CalculatorCard.astro";
 
 const title = "Free U.S. Auto Claim Calculators | FairClaimCalculator";
 const description =
-  "Five free, private calculators for U.S. drivers — total-loss offers, settlement checks, diminished value, rental reimbursement, and claim letters. No login.";
+  "Six free, private calculators for U.S. drivers — total-loss offers, settlement checks, diminished value, rental reimbursement, salvage value, and claim letters.";
 const path = "/calculators/";
 
 const structuredData = [
@@ -21,7 +21,7 @@ const structuredData = [
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
   <div class="container">
     <p class="breadcrumb-text"><a href="/">Home</a> / Calculators</p>
-    <h1 class="page-title">Five Free Auto Claim Calculators</h1>
+    <h1 class="page-title">Six Free Auto Claim Calculators</h1>
     <p class="lead">
       Built for the U.S. auto claims process — all 50 states. Choose the job you need to do. Every
       tool runs in your browser, shows its arithmetic or template rules, and states what it cannot
@@ -41,6 +41,10 @@ const structuredData = [
         <CalculatorCard name="Settlement Check Breakdown" href="/calculators/settlement-check-breakdown/">
           Trace stated ACV, fees, deductible, loan payoff, salvage, prior payments, and a possible
           GAP shortfall through to the check.
+        </CalculatorCard>
+        <CalculatorCard name="Salvage / Owner-Retained Value" href="/calculators/salvage-value/">
+          Compare the net-cash math of keeping vs. surrendering your vehicle, and the insurer's
+          salvage deduction against your own market evidence.
         </CalculatorCard>
       </div>
     </section>

@@ -79,6 +79,10 @@ const structuredData = [
               <span><strong>Check a rental car or loss-of-use reimbursement offer</strong><small>Compare the daily rate, any policy caps, and what you actually spent.</small></span>
             </label>
             <label class="choice-card">
+              <input type="radio" name="goal" value="salvage" />
+              <span><strong>Decide whether to keep my totaled vehicle</strong><small>Compare the net cash of keeping vs. surrendering it.</small></span>
+            </label>
+            <label class="choice-card">
               <input type="radio" name="goal" value="unsure" />
               <span><strong>I don't know yet</strong><small>Choose the broadest useful starting point for my situation.</small></span>
             </label>
@@ -103,7 +107,7 @@ const structuredData = [
     <section class="privacy-note">
       <h2>Your answers are not saved</h2>
       <p>
-        This router and all five calculators run locally in your browser. The site does not receive
+        This router and all six calculators run locally in your browser. The site does not receive
         the radio choices or calculator entries you make.
       </p>
     </section>
@@ -113,7 +117,7 @@ const structuredData = [
       The recommendation does not decide coverage, fault, recoverability, value, or legal rights.
     </div>
 
-    <p class="browse-link"><a href="/calculators/">Prefer to choose yourself? Browse all five calculators →</a></p>
+    <p class="browse-link"><a href="/calculators/">Prefer to choose yourself? Browse all six calculators →</a></p>
   </div>
 </BaseLayout>
 
@@ -152,6 +156,11 @@ const structuredData = [
       title: "Rental / Loss-of-Use Reimbursement",
       description: "Enter the daily rate you were offered, any policy caps, and what you actually spent to check the arithmetic and see whether a total cap would run out early.",
       href: "/calculators/loss-of-use-reimbursement/",
+    },
+    salvage: {
+      title: "Salvage / Owner-Retained Value",
+      description: "Enter the insurer's ACV, salvage deduction, and any comparable salvage sale prices you've found to see the net-cash math of keeping vs. surrendering your vehicle.",
+      href: "/calculators/salvage-value/",
     },
   } as const;
 
@@ -201,7 +210,7 @@ const structuredData = [
 
       errorSummary.hidden = true;
       let routeKey: keyof typeof routes;
-      if (goal === "audit" || goal === "check" || goal === "dv" || goal === "letter" || goal === "rental") {
+      if (goal === "audit" || goal === "check" || goal === "dv" || goal === "letter" || goal === "rental" || goal === "salvage") {
         routeKey = goal;
       } else if (situation === "repaired") {
         routeKey = "dv";

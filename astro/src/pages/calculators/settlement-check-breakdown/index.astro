@@ -149,7 +149,11 @@ const structuredData = [
           <div class="field" data-field-group="salvage" hidden>
             <label for="salvageDeduction">Salvage deduction insurer applied</label>
             <input type="number" id="salvageDeduction" name="salvageDeduction" min="0" step="1" inputmode="decimal" aria-describedby="salvageDeduction-hint" />
-            <p id="salvageDeduction-hint" class="hint">U.S. dollars. Example: 2000.</p>
+            <p id="salvageDeduction-hint" class="hint">
+              U.S. dollars. Example: 2000. Deciding whether to keep the vehicle? The
+              <a href="/calculators/salvage-value/">Salvage / Owner-Retained Value calculator</a>
+              compares this deduction against real salvage sale prices you've found.
+            </p>
           </div>
 
           <div class="field">
@@ -214,6 +218,7 @@ const structuredData = [
       <a href="/calculators/diminished-value-baseline/">Diminished Value Baseline →</a>
       <a href="/calculators/claim-letter-builder/">Claim Letter Builder →</a>
       <a href="/calculators/loss-of-use-reimbursement/">Rental / Loss-of-Use Reimbursement →</a>
+      <a href="/calculators/salvage-value/">Salvage / Owner-Retained Value →</a>
     </div>
   </div>
 </BaseLayout>
