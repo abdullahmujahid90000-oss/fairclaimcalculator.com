@@ -582,7 +582,37 @@ this section is just "what happened, when."
     Flagged this, plus the About-page bio expansion (would require real,
     non-fabricated details from the owner), as owner-only items rather
     than acting on them unilaterally.
-- **2026-08-08 — Standalone Claim Terms Glossary page.** Built
+- **2026-08-08 — 5th calculator: Rental / Loss-of-Use Reimbursement.**
+  Built per the uploaded fix-prompts spec (item 5): new
+  `src/lib/calculators/loss-of-use.ts` (pure, tested module — daily rate
+  offered × days without vehicle, capped by an optional total/per-claim
+  cap; an optional daily-cap mismatch check; a gap comparison against
+  actual rental cost; a low-rate flag using the same 20%
+  possible-outlier threshold already established in the Total-Loss
+  Offer Audit calculator, for internal consistency) and
+  `astro/tests/loss-of-use.test.ts` (28 tests: normal, boundary, empty,
+  invalid, negative, extreme). New page at
+  `/calculators/loss-of-use-reimbursement/`, following the same
+  form/result/FAQ/methodology pattern as the other 4 calculators, with
+  its own 5 genuine FAQs and GA4 `calculator_completed` event
+  (`calculator: loss_of_use`).
+  - Cross-linked from: `/calculators/` (new "While you're without a
+    vehicle" section), the homepage's calculator grid, all 4 other
+    calculators' "More Calculators" blocks, the Check My Offer router
+    (new "rental" goal option + route), the rental-car guide's
+    `relatedLinks`, and `/sources/`.
+  - While updating counts, found and fixed **stale content that
+    predated this session's work**: `/sources/index.astro` still said
+    "four calculators" and "15-guide library (8/4/3)" — left over from
+    before the earlier 5-guide batch (which brought the library to
+    20 guides across 10/5/5) was ever reflected there. Corrected to the
+    real counts. Also fixed "four calculators" on `/about/` and
+    `/check-my-offer/` (two places) for the same reason, and updated
+    `ADSENSE-READINESS.md` §1's calculator/test-count line.
+  - Full verification: `npm run typecheck` (0 errors), `npx vitest run`
+    (102/102 across 5 files), `npm run build` (45 pages),
+    title/description lengths OK (76 pages, one 67-char title trimmed),
+    0 broken internal links (1668 hrefs checked). Built
   `/glossary/` per the uploaded fix-prompts' content-hub spec (item 4.3):
   a standalone reference pulling together the 15 terms already defined
   inline across the 4 calculators and their source guides (ACV,

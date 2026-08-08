@@ -4,7 +4,7 @@ import ErrorSummary from "@components/ErrorSummary.astro";
 
 const title = "Which Auto Claim Tool Should I Use? | FairClaimCalculator";
 const description =
-  "Answer two simple questions to find the right free tool for a total-loss offer, settlement check, diminished-value estimate, or factual claim letter.";
+  "Answer two questions to find the right free tool for a total-loss offer, settlement check, diminished value, rental reimbursement, or claim letter.";
 const path = "/check-my-offer/";
 
 const structuredData = [
@@ -75,6 +75,10 @@ const structuredData = [
               <span><strong>Draft a factual letter and evidence checklist</strong><small>Create an editable local draft; nothing is sent.</small></span>
             </label>
             <label class="choice-card">
+              <input type="radio" name="goal" value="rental" />
+              <span><strong>Check a rental car or loss-of-use reimbursement offer</strong><small>Compare the daily rate, any policy caps, and what you actually spent.</small></span>
+            </label>
+            <label class="choice-card">
               <input type="radio" name="goal" value="unsure" />
               <span><strong>I don't know yet</strong><small>Choose the broadest useful starting point for my situation.</small></span>
             </label>
@@ -99,7 +103,7 @@ const structuredData = [
     <section class="privacy-note">
       <h2>Your answers are not saved</h2>
       <p>
-        This router and all four calculators run locally in your browser. The site does not receive
+        This router and all five calculators run locally in your browser. The site does not receive
         the radio choices or calculator entries you make.
       </p>
     </section>
@@ -109,7 +113,7 @@ const structuredData = [
       The recommendation does not decide coverage, fault, recoverability, value, or legal rights.
     </div>
 
-    <p class="browse-link"><a href="/calculators/">Prefer to choose yourself? Browse all four calculators →</a></p>
+    <p class="browse-link"><a href="/calculators/">Prefer to choose yourself? Browse all five calculators →</a></p>
   </div>
 </BaseLayout>
 
@@ -143,6 +147,11 @@ const structuredData = [
       title: "Claim Letter & Evidence Packet Builder",
       description: "Choose one narrow factual request, add what you know, and generate an editable plain-text draft plus a general evidence checklist.",
       href: "/calculators/claim-letter-builder/",
+    },
+    rental: {
+      title: "Rental / Loss-of-Use Reimbursement",
+      description: "Enter the daily rate you were offered, any policy caps, and what you actually spent to check the arithmetic and see whether a total cap would run out early.",
+      href: "/calculators/loss-of-use-reimbursement/",
     },
   } as const;
 
@@ -192,7 +201,7 @@ const structuredData = [
 
       errorSummary.hidden = true;
       let routeKey: keyof typeof routes;
-      if (goal === "audit" || goal === "check" || goal === "dv" || goal === "letter") {
+      if (goal === "audit" || goal === "check" || goal === "dv" || goal === "letter" || goal === "rental") {
         routeKey = goal;
       } else if (situation === "repaired") {
         routeKey = "dv";

@@ -4,6 +4,7 @@ import { SETTLEMENT_BREAKDOWN_CONFIG } from "@lib/calculators/settlement-breakdo
 import { TOTAL_LOSS_AUDIT_CONFIG } from "@lib/calculators/total-loss-audit";
 import { DV_CONFIG } from "@lib/calculators/diminished-value-baseline";
 import { LETTER_BUILDER_CONFIG } from "@lib/calculators/claim-letter-builder";
+import { LOSS_OF_USE_CONFIG } from "@lib/calculators/loss-of-use";
 
 const title = "Source Register | FairClaimCalculator";
 const description =
@@ -25,6 +26,7 @@ const groups = [
   { name: "Settlement Check Breakdown", href: "/calculators/settlement-check-breakdown/", sources: SETTLEMENT_BREAKDOWN_CONFIG.sources },
   { name: "Total-Loss Offer Audit", href: "/calculators/total-loss-offer-audit/", sources: TOTAL_LOSS_AUDIT_CONFIG.sources },
   { name: "Diminished Value Baseline", href: "/calculators/diminished-value-baseline/", sources: DV_CONFIG.sources },
+  { name: "Rental / Loss-of-Use Reimbursement", href: "/calculators/loss-of-use-reimbursement/", sources: LOSS_OF_USE_CONFIG.sources },
   { name: "Claim Letter & Evidence Packet Builder", href: "/calculators/claim-letter-builder/", sources: LETTER_BUILDER_CONFIG.sources },
 ];
 ---
@@ -39,7 +41,7 @@ const groups = [
     </p>
 
     <div class="notice">
-      This page covers the four calculators' formula and methodology sources below. The 15-guide
+      This page covers the five calculators' formula and methodology sources below. The 20-guide
       library's sources are cited inline on each guide's own page (in its "Sources" section) rather
       than duplicated here — see the summary and links in the Guides section further down.
     </div>
@@ -57,7 +59,7 @@ const groups = [
     <div class="calc-card">
       <h2>Guides</h2>
       <p>
-        Each of the 15 guides in the <a href="/guides/">guide library</a> cites its own sources
+        Each of the 20 guides in the <a href="/guides/">guide library</a> cites its own sources
         inline, next to the claim, in a Sources section at the bottom of the page. Sources include
         primary government and regulatory records (e.g., the NAIC's Unfair Claims Settlement
         Practices Act, the Texas Comptroller's insurance-settlement-transfer rules, the New York
@@ -66,9 +68,9 @@ const groups = [
         notes, each labeled for what it is.
       </p>
       <ul class="quality-list">
-        <li><a href="/guides/total-loss/">Total Loss guides (8)</a></li>
-        <li><a href="/guides/diminished-value/">Diminished Value guides (4)</a></li>
-        <li><a href="/guides/claim-process/">Claim Process guides (3)</a></li>
+        <li><a href="/guides/total-loss/">Total Loss guides (10)</a></li>
+        <li><a href="/guides/diminished-value/">Diminished Value guides (5)</a></li>
+        <li><a href="/guides/claim-process/">Claim Process guides (5)</a></li>
       </ul>
     </div>
 

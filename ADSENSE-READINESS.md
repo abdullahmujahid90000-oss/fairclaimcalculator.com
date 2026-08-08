@@ -23,7 +23,7 @@ document never silently drifts from what the code actually does.**
 
 | Done? | Requirement |
 |---|---|
-| ✅ | At least 4 functioning, tested calculators live (74 Vitest tests passing). |
+| ✅ | At least 4 functioning, tested calculators live (102 Vitest tests passing — 5 calculators as of 2026-08-08: the original 4 plus Rental / Loss-of-Use Reimbursement). |
 | ✅ | Finished homepage and `/calculators/` directory. |
 | ✅ | Complete trust/legal framework (11 pages: About, Methodology, Editorial Policy, Sources, Corrections, Advertising Disclosure, Privacy, Terms, Disclaimer, Accessibility, Contact). |
 | ✅ | Meaningful, source-backed guide library (20 guides across 3 clusters — 15 published 2026-07-29, 5 added 2026-08-01). Sources logged in `SOURCE-REGISTER.md` and reflected on `/sources/`. |

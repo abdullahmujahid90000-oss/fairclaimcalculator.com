@@ -4,7 +4,7 @@ import CalculatorCard from "@components/CalculatorCard.astro";
 
 const title = "Free U.S. Auto Claim Calculators | FairClaimCalculator";
 const description =
-  "Four free, private calculators for U.S. drivers — total-loss offers, settlement checks, diminished value, and factual claim letters. Transparent math, no login.";
+  "Five free, private calculators for U.S. drivers — total-loss offers, settlement checks, diminished value, rental reimbursement, and claim letters. No login.";
 const path = "/calculators/";
 
 const structuredData = [
@@ -21,7 +21,7 @@ const structuredData = [
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
   <div class="container">
     <p class="breadcrumb-text"><a href="/">Home</a> / Calculators</p>
-    <h1 class="page-title">Four Free Auto Claim Calculators</h1>
+    <h1 class="page-title">Five Free Auto Claim Calculators</h1>
     <p class="lead">
       Built for the U.S. auto claims process — all 50 states. Choose the job you need to do. Every
       tool runs in your browser, shows its arithmetic or template rules, and states what it cannot
@@ -51,6 +51,16 @@ const structuredData = [
         <CalculatorCard name="Diminished Value Baseline" href="/calculators/diminished-value-baseline/">
           See a transparent 17c-style comparison baseline next to separate clean-history and
           accident-history market evidence.
+        </CalculatorCard>
+      </div>
+    </section>
+
+    <section aria-labelledby="rental-heading">
+      <h2 id="rental-heading">While you're without a vehicle</h2>
+      <div class="calculator-grid">
+        <CalculatorCard name="Rental / Loss-of-Use Reimbursement" href="/calculators/loss-of-use-reimbursement/">
+          Check the arithmetic on a rental offer — daily rate, any policy caps, and a comparison
+          against what you actually spent.
         </CalculatorCard>
       </div>
     </section>
@@ -95,6 +105,7 @@ const structuredData = [
   }
 
   #repaired-heading + .calculator-grid,
+  #rental-heading + .calculator-grid,
   #followup-heading + .calculator-grid {
     grid-template-columns: minmax(0, 1fr);
     max-width: 600px;
