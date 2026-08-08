@@ -111,7 +111,7 @@ invented legal citations, threats, deadlines, or "bad faith" accusations.
 
 ---
 
-## 6. Guide Library (22 guides, `/guides/`)
+## 6. Guide Library (23 guides, `/guides/`)
 
 Each guide below cites its sources inline next to the claim (rendered via
 its own `sources: string[]` prop in `GuideLayout.astro`) and states plainly,
@@ -312,6 +312,15 @@ state-specific rules with their own state insurance department.
     NAIC's own directory instead); that filing a complaint will result in
     any particular outcome; that every state's DOI complaint process is
     identical.
+22. **Diminished Value vs. Total Loss: Which Claim Do I Have?** (added
+    2026-08-08) — general routing/synthesis note cross-linking this site's
+    own existing tools and guides based on one factual distinction
+    (repaired vs. total loss); not tied to an external citation. Fills the
+    uploaded fix-prompts document's item 4.4 ("a short decision-guide
+    article that routes users to the right tool based on whether their
+    vehicle was repaired or declared a total loss"), which had been covered
+    functionally by the interactive `/check-my-offer/` router but not yet
+    as a standalone article.
 
 ---
 

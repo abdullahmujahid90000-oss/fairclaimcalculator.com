@@ -743,3 +743,37 @@ records. Built the lower-risk, still-genuinely-useful version instead.
   `npm run build` (49 pages), title/description lengths OK after one trim
   (new guide's title and description both shortened), 0 broken internal
   links (53 pages, 1818 hrefs, 53 routes, 106 assets checked).
+
+## 2026-08-08 — Diminished Value vs. Total Loss decision guide (fix-prompts item 4.4, re-audit finding)
+
+Re-read the uploaded fix-prompts document in full against the completed
+build to confirm nothing was missed. Found one genuine gap: item 4.4 asked
+for "a short decision-guide article that routes users to the right tool
+based on whether their vehicle was repaired or declared a total loss." The
+interactive `/check-my-offer/` router covers this functionally, but no
+standalone article existed — items 4.1 (state DV eligibility), 4.2 (reading
+a valuation report), and 4.3 (glossary) were already done under different
+titles.
+
+- **New guide:** `/guides/claim-process/diminished-value-vs-total-loss-which-claim/`
+  — a short, source-free (internal routing note only, logged as
+  SOURCE-REGISTER.md entry #22) article: the one fact that decides which
+  path applies (repaired vs. totaled), a quick self-check table linking to
+  all 5 relevant calculators plus the router, and the handful of edge cases
+  where both can seem to apply (multiple accidents, undecided claims,
+  disputing the repair-vs-total-loss decision itself). Claim Process
+  cluster is now 7 guides; site-wide guide library is now 23.
+- **Cross-linked:** `/guides/claim-process/`, `/guides/`, homepage, and
+  `/sources/` (counts + descriptions); added to the `relatedLinks` of "What
+  Is Diminished Value?" and "How Insurers Value a Total-Loss Vehicle";
+  added a second "read it instead" link on `/check-my-offer/` alongside the
+  existing "browse all calculators" link.
+- **Full verification:** `npm run typecheck` (0 errors, 91 files),
+  `npx vitest run` (118/118, unchanged), `npm run build` (50 pages), title/
+  description lengths OK after one title trim, 0 broken internal links
+  (54 pages, 1869 hrefs, 54 routes, 107 assets checked).
+
+This closes out every numbered item in the uploaded fix-prompts document
+(1 through 8). Remaining open items are all owner-only or live-site-only:
+a real AdSense publisher ID, the About page bio, the manual accessibility
+walkthrough (needs a live URL), and the go-live/cutover sequence itself.

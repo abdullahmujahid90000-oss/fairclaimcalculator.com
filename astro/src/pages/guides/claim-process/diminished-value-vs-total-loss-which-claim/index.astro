@@ -1,0 +1,123 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "Diminished Value vs. Total Loss | FairClaimCalculator";
+const description =
+  "A short decision guide: whether your vehicle was repaired or declared a total loss determines which claim and which of this site's tools applies to you.";
+const path = "/guides/claim-process/diminished-value-vs-total-loss-which-claim/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Diminished Value vs. Total Loss: Which Claim Do I Have?"
+  cluster={{ name: "Claim Process", href: "/guides/claim-process/" }}
+  publishedDate="2026-08-08"
+  reviewedDate="2026-08-08"
+  summary="One fact decides which path applies to you: was your vehicle repaired, or was it declared a total loss? This short guide routes you to the right tools and guides based on that single fact, and explains the handful of situations where both can apply."
+  sources={[
+    "General routing note: this guide organizes and cross-links this site's own existing tools and guides based on one factual distinction (repaired vs. total loss); it is not a citation to an external regulation or authority. See each linked calculator or guide for its own sourcing.",
+  ]}
+  relatedLinks={[
+    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
+    { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+    { label: "What Is Diminished Value?", href: "/guides/diminished-value/what-is-diminished-value/" },
+    { label: "How Insurers Value a Total-Loss Vehicle", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
+    { label: "Check My Offer — answer two questions", href: "/check-my-offer/" },
+  ]}
+>
+  <h2>The one fact that decides it</h2>
+  <p>
+    Every tool and guide on this site sorts into one of two paths, and the split comes down to a
+    single fact about your vehicle: was it repaired, or was it declared a total loss?
+  </p>
+  <ul>
+    <li>
+      <strong>Repaired → possible diminished value.</strong> If your insurer or the at-fault
+      driver's insurer paid to fix your vehicle, it may now be worth less on the market than an
+      equivalent vehicle with no accident history — even with a flawless repair. That gap is
+      diminished value. See <a href="/guides/diminished-value/what-is-diminished-value/">What Is
+      Diminished Value?</a>
+    </li>
+    <li>
+      <strong>Declared a total loss → total-loss valuation and settlement.</strong> If the insurer
+      decided repair cost (plus, in some states, a statutory percentage threshold) makes fixing the
+      vehicle uneconomical, it's declared a total loss instead of repaired, and you're offered a
+      cash settlement based on the vehicle's pre-loss value rather than a repair. See
+      <a href="/guides/total-loss/how-insurers-value-a-total-loss-vehicle/">How Insurers Value a
+      Total-Loss Vehicle</a>.
+    </li>
+  </ul>
+  <div class="limits-note">
+    <strong>These are mutually exclusive for the same damage event.</strong> A single vehicle,
+    for a single accident, is either repaired or totaled — never both. The confusion usually comes
+    from timing (see below), not from both applying at once.
+  </div>
+
+  <h2>Quick self-check</h2>
+  <table>
+    <thead><tr><th>If this is true for you…</th><th>…start here</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>The insurer repaired (or is repairing) the vehicle, and you want to check whether it's now worth less</td>
+        <td><a href="/calculators/diminished-value-baseline/">Diminished Value Baseline calculator</a></td>
+      </tr>
+      <tr>
+        <td>Same as above, but the vehicle is leased rather than owned</td>
+        <td><a href="/calculators/leased-vehicle-diminished-value/">Leased Vehicle Diminished Value calculator</a></td>
+      </tr>
+      <tr>
+        <td>The insurer sent you a total-loss valuation report and a cash offer</td>
+        <td><a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit calculator</a></td>
+      </tr>
+      <tr>
+        <td>You have a total-loss settlement check and want to see how the deductions add up</td>
+        <td><a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown calculator</a></td>
+      </tr>
+      <tr>
+        <td>You're deciding whether to keep your totaled vehicle instead of surrendering it</td>
+        <td><a href="/calculators/salvage-value/">Salvage / Owner-Retained Value calculator</a></td>
+      </tr>
+      <tr>
+        <td>You're still not sure</td>
+        <td><a href="/check-my-offer/">Check My Offer — answer two questions</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Where the two paths can seem to overlap</h2>
+  <p>
+    A few situations make it feel like both apply, even though only one actually does for a given
+    vehicle and accident:
+  </p>
+  <ul>
+    <li>
+      <strong>Multiple accidents on the same vehicle.</strong> A vehicle repaired after an earlier
+      accident, then totaled in a later one, genuinely has both a past diminished-value question
+      (from the first accident) and a current total-loss question (from the second) — they're just
+      two separate claims, potentially years apart.
+    </li>
+    <li>
+      <strong>You're not sure yet which the insurer will decide.</strong> Early in a claim, before
+      the insurer has chosen repair or total loss, neither tool has enough information yet. Once
+      you have either a repair estimate or a total-loss valuation report in hand, the self-check
+      table above applies.
+    </li>
+    <li>
+      <strong>You disagree with the insurer's repair-vs-total-loss decision itself.</strong> That's
+      a different question from either tool on this site — it's about the threshold decision, not
+      the value calculation downstream of it. See
+      <a href="/guides/total-loss/state-total-loss-threshold-laws/">State Total-Loss Threshold
+      Laws</a> for how that threshold decision is typically made.
+    </li>
+  </ul>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you which path your specific claim is on — that depends on your insurer's actual
+    repair-or-total-loss decision, which this site has no way to know in advance. It also cannot
+    tell you whether diminished value is recoverable in your state or what your total-loss offer
+    should be; those are handled by the calculators and guides linked above, each with its own
+    sources and limitations stated separately.
+  </p>
+</GuideLayout>
