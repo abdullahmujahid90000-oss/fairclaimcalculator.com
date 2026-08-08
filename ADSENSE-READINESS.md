@@ -23,11 +23,11 @@ document never silently drifts from what the code actually does.**
 
 | Done? | Requirement |
 |---|---|
-| ✅ | At least 4 functioning, tested calculators live (118 Vitest tests passing — 6 calculators as of 2026-08-08: the original 4 plus Rental / Loss-of-Use Reimbursement and Salvage / Owner-Retained Value). |
+| ✅ | At least 4 functioning, tested calculators live (118 Vitest tests passing — 7 calculators as of 2026-08-08: the original 4 plus Rental / Loss-of-Use Reimbursement, Salvage / Owner-Retained Value, and Leased Vehicle Diminished Value, which reuses the tested Diminished Value Baseline module rather than adding new test surface). |
 | ✅ | Finished homepage and `/calculators/` directory. |
 | ✅ | Complete trust/legal framework (11 pages: About, Methodology, Editorial Policy, Sources, Corrections, Advertising Disclosure, Privacy, Terms, Disclaimer, Accessibility, Contact). |
-| ✅ | Meaningful, source-backed guide library (20 guides across 3 clusters — 15 published 2026-07-29, 5 added 2026-08-01). Sources logged in `SOURCE-REGISTER.md` and reflected on `/sources/`. |
-| ✅ | No placeholder/broken pages, no broken internal links, across the entire 38-page site — verified with a script comparing every `href` in source against real built routes, re-run after every content change including the Phase 5 guide additions. |
+| ✅ | Meaningful, source-backed guide library (21 guides across 3 clusters — 15 published 2026-07-29, 5 added 2026-08-01, 1 added 2026-08-08). Sources logged in `SOURCE-REGISTER.md` and reflected on `/sources/`. |
+| ✅ | No placeholder/broken pages, no broken internal links, across the growing site — verified with a script comparing every `href` in source against real built routes, re-run after every content change including this session's Rental, Salvage, and Leased-Vehicle DV additions (48 pages as of 2026-08-08). |
 | ⚠️ | Mobile/accessibility checks. Automated pass done and re-verified against the full 38-page build: every page has one `<h1>`, a `<main>` landmark, working skip link, `lang` attribute; every color pair in use passes WCAG AA contrast; all labels/ARIA references resolve. **Still outstanding:** the actual manual keyboard-only and screen-reader walkthrough at 320/390/768/1024/1440px, which needs a live URL — planned for immediately after cutover. |
 | ⚠️ | Indexing files validated. Sitemap confirmed to list exactly the 37 real indexable pages and nothing else; `robots.txt` correct. Not yet validated against a live deployment or Search Console — that requires cutover first. |
 | ⚠️ | Real identity shown honestly. `/about/` deliberately stays minimal (real name, no unverified credentials/headshot) per the owner's own instruction — this is *compliant* with "honest," but if fuller bio specifics ever become available, add them; don't treat the current minimal state as something to fix by inventing detail. |

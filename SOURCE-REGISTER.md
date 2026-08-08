@@ -34,7 +34,11 @@ settlement — not a national or state legal standard.
 - **How it's used on the site:** `DV_CONFIG.sources` in
   `diminished-value-baseline.ts`; surfaced verbatim on `/methodology/`,
   `/sources/`, and `/disclaimer/`, and referenced inline in the calculator's
-  own results page next to the baseline output.
+  own results page next to the baseline output. As of 2026-08-08, also
+  reused verbatim by `/calculators/leased-vehicle-diminished-value/`, which
+  imports the same `calculate17cBaseline`/`evaluateMarketEvidence` functions
+  rather than duplicating the calculation logic — see register entry #17
+  for that page's additional lease-specific sources.
 - **What is deliberately NOT claimed:** that any specific state requires or
   endorses this formula; that the formula produces "diminished value" as a
   matter of law; that the 10%/damage/mileage multiplier values are anything
@@ -107,7 +111,7 @@ invented legal citations, threats, deadlines, or "bad faith" accusations.
 
 ---
 
-## 6. Guide Library (20 guides, `/guides/`)
+## 6. Guide Library (21 guides, `/guides/`)
 
 Each guide below cites its sources inline next to the claim (rendered via
 its own `sources: string[]` prop in `GuideLayout.astro`) and states plainly,
@@ -229,6 +233,26 @@ state-specific rules with their own state insurance department.
     unchanged today (case law and regulations can shift); that this
     substitutes for confirming current status with a state insurance
     department or licensed attorney.
+17. **Diminished Value on a Leased Vehicle** (added 2026-08-08) —
+    (a) New York State Department of Financial Services, Office of General
+    Counsel, [OGC Opinion No. 11-02-01: "Adjusting the Total Loss of a New,
+    Leased Vehicle & Payment to Insured or Loss Payee"](https://www.dfs.ny.gov/insurance/ogco2011/rg110201.htm)
+    (February 7, 2011) — *primary regulator opinion letter*, fetched and
+    verified directly; cited specifically for its conclusion that whether an
+    insurer's loss payment goes to the lessee (named insured) or the
+    leasing company (loss payee) "is dependent upon the full terms and
+    conditions of the policy," not a fixed default; (b) North Carolina
+    General Statutes § 25-2A-219, [Article 2A (Leases), "Risk of Loss"](https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_25/Article_2A.html)
+    — *primary statute*, fetched and verified directly (exact text: "Except
+    in the case of a finance lease, risk of loss is retained by the lessor
+    and does not pass to the lessee"); cited as one state's codification of
+    the UCC leasing-article risk-of-loss framework, not a claim that every
+    state's statute reads identically.
+    **What is deliberately NOT claimed:** that either source establishes a
+    universal rule on who may file a diminished-value claim on a leased
+    vehicle; that every state's leasing statute or insurance-department
+    guidance reads the same as these two examples; that this substitutes
+    for reading the reader's own lease contract, policy, and state law.
 
 ### Claim Process cluster (`/guides/claim-process/`)
 

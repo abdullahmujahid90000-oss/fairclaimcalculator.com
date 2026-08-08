@@ -4,7 +4,7 @@ import CalculatorCard from "@components/CalculatorCard.astro";
 
 const title = "Free U.S. Auto Claim Calculators | FairClaimCalculator";
 const description =
-  "Six free, private calculators for U.S. drivers — total-loss offers, settlement checks, diminished value, rental reimbursement, salvage value, and claim letters.";
+  "Seven free, private calculators for U.S. drivers — total-loss offers, settlement checks, diminished value, leased vehicles, rental, salvage, and claim letters.";
 const path = "/calculators/";
 
 const structuredData = [
@@ -21,7 +21,7 @@ const structuredData = [
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
   <div class="container">
     <p class="breadcrumb-text"><a href="/">Home</a> / Calculators</p>
-    <h1 class="page-title">Six Free Auto Claim Calculators</h1>
+    <h1 class="page-title">Seven Free Auto Claim Calculators</h1>
     <p class="lead">
       Built for the U.S. auto claims process — all 50 states. Choose the job you need to do. Every
       tool runs in your browser, shows its arithmetic or template rules, and states what it cannot
@@ -55,6 +55,10 @@ const structuredData = [
         <CalculatorCard name="Diminished Value Baseline" href="/calculators/diminished-value-baseline/">
           See a transparent 17c-style comparison baseline next to separate clean-history and
           accident-history market evidence.
+        </CalculatorCard>
+        <CalculatorCard name="Leased Vehicle Diminished Value" href="/calculators/leased-vehicle-diminished-value/">
+          The same baseline-vs-market-evidence calculator, with a lessee-vs-lessor explainer for
+          drivers on a lease.
         </CalculatorCard>
       </div>
     </section>

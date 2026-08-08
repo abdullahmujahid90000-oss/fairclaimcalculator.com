@@ -5,42 +5,37 @@ import FaqSection from "@components/FaqSection.astro";
 import { DV_CONFIG } from "@lib/calculators/diminished-value-baseline";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Diminished Value Baseline Calculator | FairClaimCalculator";
+const title = "Leased Vehicle Diminished Value | FairClaimCalculator";
 const description =
-  "Calculate a transparent 17c-style diminished-value baseline and compare it with separate clean-history and accident-history market evidence. Never averaged.";
-const path = "/calculators/diminished-value-baseline/";
-const compRows = Array.from({ length: 4 }, (_, index) => index + 1);
+  "Diminished value on a leased vehicle: who typically holds the claim, plus the same 17c-baseline-vs-market-evidence calculator, adapted for lease context.";
+const path = "/calculators/leased-vehicle-diminished-value/";
+const compRows = [1, 2, 3];
 
 const faqs: FaqItem[] = [
   {
-    question: "What is the 17c formula?",
+    question: "If I'm leasing, can I file a diminished-value claim myself?",
     answer:
-      "It's a commonly published diminished-value calculation (a base value cap, a damage-severity multiplier, and a mileage multiplier) that traces back to a 2001–2002 Georgia class-action settlement — not a national or state legal standard. See the full history and limits in the 17c Formula guide.",
+      "It depends on your specific lease terms, your insurance policy's named insured and loss payee, and your state's law — property-damage claims generally follow the vehicle's legal owner, which on a lease is the leasing company. See Diminished Value on a Leased Vehicle for what's documented, and check your own lease contract before filing anything.",
   },
   {
-    question: "Is the baseline this tool shows the amount I'm legally owed?",
+    question: "Does the math work differently for a leased vehicle?",
     answer:
-      "No. This calculator does not decide whether diminished value is recoverable in your state, whether any formula applies to your claim, or what amount an insurer legally owes you. It shows a transparent, disclosed calculation next to separate market evidence so you can compare both — verify claim-specific questions with a qualified professional in your state.",
+      "No. The 17c-style baseline and market-evidence comparison below use the same vehicle facts — pre-accident value, mileage, and damage severity — regardless of who holds title. What differs on a lease is who typically has standing to pursue the claim, not the arithmetic.",
   },
   {
-    question: "Does my state allow a diminished-value claim?",
+    question: "What if my lease makes me responsible for loss in value?",
     answer:
-      "It depends on whether you're filing against your own insurer (first-party) or an at-fault driver's insurer (third-party) — the rules differ significantly and vary by state. See Does Your State Allow a First-Party Diminished Value Claim? for what's documented.",
+      "Some lease contracts hold the lessee financially responsible for a documented drop in value at lease-end, which can give you a real stake in the outcome even though the leasing company holds title. Read your lease's provisions on damage and loss in value, and consider contacting your leasing company in writing before proceeding.",
   },
   {
-    question: "Why does this tool show two separate numbers instead of one final answer?",
+    question: "Should I use this tool or the regular Diminished Value Baseline calculator?",
     answer:
-      "The 17c-style baseline and real market evidence measure different things and can disagree significantly. Averaging them would produce a number that represents neither, so this tool always shows both side by side and never blends them.",
+      "Either produces the same calculation — this version exists specifically to surface the lessee-vs-lessor explainer above the form. If you've already confirmed who holds the claim, the Diminished Value Baseline calculator works identically.",
   },
   {
     question: "Is anything I type sent to a server?",
     answer:
       "No. This calculator runs entirely in your browser using client-side JavaScript. Your entries are never transmitted to or stored on any server operated by this site.",
-  },
-  {
-    question: "I'm leasing my vehicle — does this calculator still apply to me?",
-    answer:
-      "The arithmetic is identical, but who typically holds a diminished-value claim on a leased vehicle depends on your lease terms and who's named on your policy, since the leasing company — not the driver — usually holds title. See the Leased Vehicle Diminished Value calculator, which adds a lessee-vs-lessor explainer before the same worksheet.",
   },
 ];
 
@@ -51,7 +46,7 @@ const structuredData = [
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
       { "@type": "ListItem", position: 2, name: "Calculators", item: "https://www.fairclaimcalculator.com/calculators/" },
-      { "@type": "ListItem", position: 3, name: "Diminished Value Baseline", item: `https://www.fairclaimcalculator.com${path}` },
+      { "@type": "ListItem", position: 3, name: "Leased Vehicle Diminished Value", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
   buildFaqSchema(faqs),
@@ -59,48 +54,66 @@ const structuredData = [
 ---
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
   <div class="container">
-    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/calculators/">Calculators</a> / Diminished Value Baseline</p>
-    <h1 class="page-title">Compare a 17c-Style Baseline with Market Evidence</h1>
+    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/calculators/">Calculators</a> / Leased Vehicle Diminished Value</p>
+    <h1 class="page-title">Diminished Value on a Leased Vehicle</h1>
     <p class="lead">
-      See every step of a commonly published insurer-style formula, then build a separate worksheet
-      from clean-history and accident-history listings. The two outputs are never averaged into a
-      made-up “answer.”
+      The math is the same 17c-style baseline compared with separate market evidence used across
+      this site. What's different for a leased vehicle is who typically holds the claim — read this
+      first, then use the calculator below if it applies to your situation.
     </p>
+
+    <section class="calc-card" aria-labelledby="lessee-lessor-heading">
+      <h2 id="lessee-lessor-heading">Who Can File: Lessee vs. Lessor</h2>
+      <p>
+        Property-damage claims generally follow the vehicle's legal owner — on a lease, that's the
+        leasing company (the lessor), not the driver (the lessee). A 2011 New York State Department
+        of Financial Services opinion on leased-vehicle total losses confirms this isn't a fixed
+        rule either way: whether an insurer's payment goes to the lessee (named insured) or the
+        leasing company (loss payee) "is dependent upon the full terms and conditions of the
+        policy." The same logic — that your paperwork controls where the money goes, not just who's
+        driving — carries over to a diminished-value claim.
+      </p>
+      <p>
+        Separately, most states' commercial leasing statutes address who bears the financial risk
+        for loss or damage to leased goods during the lease term. As one real example, North
+        Carolina's enactment of the Uniform Commercial Code's leasing article states that "except in
+        the case of a finance lease, risk of loss is retained by the lessor and does not pass to the
+        lessee." That's general commercial-law framework, not an insurance-claim rule by itself, and
+        state statutes vary — but it's why the lessee/lessor question isn't just paperwork trivia.
+      </p>
+      <div class="limits-note">
+        <strong>Check your own lease before assuming either way.</strong> Whether you, your leasing
+        company, or both can pursue diminished value depends on your lease agreement's exact terms,
+        your policy's named insured and loss payee, and your state's law. See
+        <a href="/guides/diminished-value/leased-vehicle-diminished-value/">Diminished Value on a
+        Leased Vehicle</a> for the full explanation and sources.
+      </div>
+    </section>
+
     <ul class="trust-badges">
       <li><span aria-hidden="true">🔒</span> No account or email</li>
       <li><span aria-hidden="true">🧮</span> Every multiplier is shown</li>
       <li><span aria-hidden="true">↔</span> Formula and market evidence stay separate</li>
     </ul>
 
-    <p class="section-note">
-      Leasing your vehicle instead of owning it? The
-      <a href="/calculators/leased-vehicle-diminished-value/">Leased Vehicle Diminished Value calculator</a>
-      runs the same worksheet with a lessee-vs-lessor explainer added first.
-    </p>
-
     <div class="disclaimer-box formula-warning">
       <strong>The 17c-style result is not your vehicle's legally correct diminished value.</strong>
       It is a comparison reference associated with a historic Georgia class-settlement formula.
       Georgia's insurance regulator later stated that no formula was approved as determinative.
-      State law, policy terms, claim relationship, and evidence can change what applies.
+      State law, policy terms, lease terms, and evidence can change what applies.
     </div>
 
     <div class="calc-card">
       <h2>Build Your Worksheet</h2>
-      <ErrorSummary id="dv-error-summary" />
+      <ErrorSummary id="ldv-error-summary" />
 
-      <form id="dv-form" novalidate>
+      <form id="ldv-form" novalidate>
         <h3 class="section-heading">1. Baseline inputs</h3>
         <div class="form-grid">
           <div class="field">
             <label for="preAccidentValue">Pre-accident vehicle value</label>
             <input type="number" id="preAccidentValue" name="preAccidentValue" min="1" max="5000000" step="1" inputmode="decimal" required aria-describedby="preAccidentValue-hint" />
             <p class="hint" id="preAccidentValue-hint">U.S. dollars. Example: 22000. Use a source you can identify.</p>
-          </div>
-          <div class="field">
-            <label for="valueSource">Source of that value</label>
-            <input type="text" id="valueSource" name="valueSource" maxlength="160" aria-describedby="valueSource-hint" />
-            <p class="hint" id="valueSource-hint">Optional. Example: pre-loss appraisal dated June 10, 2026.</p>
           </div>
           <div class="field">
             <label for="mileage">Mileage at the time of loss</label>
@@ -119,15 +132,19 @@ const structuredData = [
           </div>
         </div>
 
-        <h3 class="section-heading">2. Claim context</h3>
+        <h3 class="section-heading">2. Lease context</h3>
         <p class="section-note">These facts do not change the formula. They are preserved in your worksheet so its limits stay visible.</p>
         <div class="form-grid">
           <div class="field">
-            <label for="claimRelationship">Claim relationship</label>
-            <select id="claimRelationship" name="claimRelationship">
-              <option value="">Not entered</option>
-              <option value="My own insurer (first-party)">My own insurer (first-party)</option>
-              <option value="Another driver's insurer (third-party)">Another driver's insurer (third-party)</option>
+            <label for="leaseResponsibility">Does your lease make you responsible for loss in value?</label>
+            <select id="leaseResponsibility" name="leaseResponsibility">
+              <option value="">Not entered</option><option value="Yes">Yes</option><option value="No">No</option><option value="Not sure">Not sure</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="purchaseOption">Do you plan to buy the vehicle at lease-end?</label>
+            <select id="purchaseOption" name="purchaseOption">
+              <option value="">Not entered</option><option value="Yes">Yes</option><option value="No">No</option><option value="Not sure">Not sure</option>
             </select>
           </div>
           <div class="field">
@@ -135,34 +152,12 @@ const structuredData = [
             <input type="text" id="claimState" name="claimState" maxlength="40" aria-describedby="claimState-hint" />
             <p class="hint" id="claimState-hint">Optional. The tool does not apply state law automatically.</p>
           </div>
-          <div class="field">
-            <label for="structural">Structural or frame damage confirmed?</label>
-            <select id="structural" name="structural">
-              <option value="">Not entered</option><option value="Yes">Yes</option><option value="No">No</option><option value="Not sure">Not sure</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="airbags">Airbags deployed?</label>
-            <select id="airbags" name="airbags">
-              <option value="">Not entered</option><option value="Yes">Yes</option><option value="No">No</option><option value="Not sure">Not sure</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="repairsComplete">Repairs complete?</label>
-            <select id="repairsComplete" name="repairsComplete">
-              <option value="">Not entered</option><option value="Yes">Yes</option><option value="No">No</option><option value="Not sure">Not sure</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="panelCount">Panels repaired or replaced</label>
-            <input type="number" id="panelCount" name="panelCount" min="0" max="30" step="1" inputmode="numeric" />
-          </div>
         </div>
 
         <h3 class="section-heading">3. Clean-history comparable listings</h3>
         <p class="section-note">
-          Add up to four similar listings with no disclosed accident history. Two priced listings
-          are required before the worksheet calculates a median gap; three or more provide more context.
+          Add up to three similar listings with no disclosed accident history. Two priced listings
+          are required before the worksheet calculates a median gap.
         </p>
         {compRows.map((index) => (
           <fieldset class="comp-card">
@@ -179,10 +174,6 @@ const structuredData = [
               <div class="field">
                 <label for={`clean-${index}-mileage`}>Mileage</label>
                 <input type="number" id={`clean-${index}-mileage`} name={`clean-${index}-mileage`} min="0" max="500000" step="1" inputmode="numeric" />
-              </div>
-              <div class="field">
-                <label for={`clean-${index}-date`}>Date checked</label>
-                <input type="date" id={`clean-${index}-date`} name={`clean-${index}-date`} />
               </div>
               <div class="field field-wide">
                 <label for={`clean-${index}-source`}>Source / listing reference</label>
@@ -210,10 +201,6 @@ const structuredData = [
                 <label for={`accident-${index}-mileage`}>Mileage</label>
                 <input type="number" id={`accident-${index}-mileage`} name={`accident-${index}-mileage`} min="0" max="500000" step="1" inputmode="numeric" />
               </div>
-              <div class="field">
-                <label for={`accident-${index}-date`}>Date checked</label>
-                <input type="date" id={`accident-${index}-date`} name={`accident-${index}-date`} />
-              </div>
               <div class="field field-wide">
                 <label for={`accident-${index}-source`}>Source / listing reference</label>
                 <input type="text" id={`accident-${index}-source`} name={`accident-${index}-source`} maxlength="300" placeholder="Dealer, marketplace, stock number, or URL" />
@@ -224,36 +211,33 @@ const structuredData = [
 
         <div class="form-actions">
           <button type="submit" class="btn-primary">Build My Worksheet</button>
-          <button type="button" class="btn-secondary" id="dv-start-over">Start over and delete my answers</button>
+          <button type="button" class="btn-secondary" id="ldv-start-over">Start over and delete my answers</button>
         </div>
       </form>
 
-      <section class="result-box" id="dv-result" hidden aria-labelledby="dv-result-heading">
-        <h2 id="dv-result-heading" tabindex="-1">Your Diminished-Value Worksheet</h2>
+      <section class="result-box" id="ldv-result" hidden aria-labelledby="ldv-result-heading">
+        <h2 id="ldv-result-heading" tabindex="-1">Your Diminished-Value Worksheet</h2>
 
         <h3>Output A — 17c-style comparison baseline</h3>
         <p class="section-note">Formula result only. It is not blended with the market evidence below.</p>
-        <p class="range" id="dv-baseline-total">—</p>
-        <div class="breakdown" id="dv-baseline-breakdown"></div>
+        <p class="range" id="ldv-baseline-total">—</p>
+        <div class="breakdown" id="ldv-baseline-breakdown"></div>
 
         <h3>Output B — market evidence</h3>
         <div class="market-grid">
           <section>
             <h4>Clean-history listings</h4>
-            <div id="dv-clean-stats"></div>
+            <div id="ldv-clean-stats"></div>
           </section>
           <section>
             <h4>Accident-history listings</h4>
-            <div id="dv-accident-stats"></div>
+            <div id="ldv-accident-stats"></div>
           </section>
         </div>
-        <div id="dv-market-gap"></div>
+        <div id="ldv-market-gap"></div>
 
-        <h3>Evidence details you entered</h3>
-        <div id="dv-evidence-details"></div>
-
-        <h3>Claim context</h3>
-        <div id="dv-context"></div>
+        <h3>Lease context</h3>
+        <div id="ldv-context"></div>
 
         <div class="methodology-note">
           <p><strong>Methodology version {DV_CONFIG.version}</strong> — last reviewed {DV_CONFIG.reviewedDate}.</p>
@@ -261,28 +245,26 @@ const structuredData = [
           <p><a href="/methodology/">Read the full calculator methodology →</a></p>
         </div>
         <div class="result-actions">
-          <button type="button" class="btn-secondary" id="dv-print">Print / Save as PDF</button>
+          <button type="button" class="btn-secondary" id="ldv-print">Print / Save as PDF</button>
         </div>
       </section>
     </div>
 
     <div class="disclaimer-box">
       <strong>Educational worksheet, not legal advice or an appraisal.</strong>
-      This tool does not decide whether diminished value is recoverable, whether a formula applies,
-      or what amount is owed. Verify claim-specific questions with a qualified professional in your state.
+      This tool does not decide who holds a diminished-value claim on a leased vehicle, whether a
+      formula applies, or what amount is owed. Verify claim-specific questions with your leasing
+      company and a qualified professional in your state.
     </div>
 
     <FaqSection faqs={faqs} />
 
     <h2>More Calculators</h2>
     <div class="related-tools">
-      <a href="/calculators/leased-vehicle-diminished-value/">Leased Vehicle Diminished Value →</a>
+      <a href="/calculators/diminished-value-baseline/">Diminished Value Baseline →</a>
       <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit →</a>
-      <a href="/calculators/claim-letter-builder/">Claim Letter Builder →</a>
       <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown →</a>
-      <a href="/calculators/loss-of-use-reimbursement/">Rental / Loss-of-Use Reimbursement →</a>
-      <a href="/calculators/salvage-value/">Salvage / Owner-Retained Value →</a>
-      <a href="/check-my-offer/">Check My Offer →</a>
+      <a href="/calculators/claim-letter-builder/">Claim Letter Builder →</a>
     </div>
   </div>
 </BaseLayout>
@@ -299,17 +281,17 @@ const structuredData = [
   } from "@lib/calculators/diminished-value-baseline";
   import { trackCalculatorCompleted } from "@lib/analytics/events";
 
-  const form = document.getElementById("dv-form") as HTMLFormElement | null;
-  const result = document.getElementById("dv-result");
-  const resultHeading = document.getElementById("dv-result-heading");
-  const errorSummary = document.getElementById("dv-error-summary");
-  const errorList = document.getElementById("dv-error-summary-list");
+  const form = document.getElementById("ldv-form") as HTMLFormElement | null;
+  const result = document.getElementById("ldv-result");
+  const resultHeading = document.getElementById("ldv-result-heading");
+  const errorSummary = document.getElementById("ldv-error-summary");
+  const errorList = document.getElementById("ldv-error-summary-list");
 
   if (form && result && resultHeading && errorSummary && errorList) {
     const value = (name: string) =>
       (form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null)?.value ?? "";
     type FormError = { fieldId: string; message: string };
-    type EvidenceRow = { label: string; price: string; year: string; mileage: string; date: string; source: string };
+    type EvidenceRow = { label: string; price: string; year: string; mileage: string; source: string };
 
     function clearErrors() {
       form!.querySelectorAll(".field-error").forEach((item) => item.classList.remove("field-error"));
@@ -332,13 +314,12 @@ const structuredData = [
     function readMarketGroup(prefix: "clean" | "accident", errors: FormError[]) {
       const comps: MarketComp[] = [];
       const evidence: EvidenceRow[] = [];
-      for (let index = 1; index <= 4; index += 1) {
+      for (let index = 1; index <= 3; index += 1) {
         const price = value(`${prefix}-${index}-price`);
         const year = value(`${prefix}-${index}-year`);
         const mileage = value(`${prefix}-${index}-mileage`);
-        const date = value(`${prefix}-${index}-date`);
         const source = value(`${prefix}-${index}-source`);
-        const hasAny = [price, year, mileage, date, source].some(Boolean);
+        const hasAny = [price, year, mileage, source].some(Boolean);
         if (!hasAny) continue;
         if (!price) {
           errors.push({
@@ -362,7 +343,6 @@ const structuredData = [
           price,
           year,
           mileage,
-          date,
           source,
         });
       }
@@ -402,7 +382,7 @@ const structuredData = [
           ? "Single listing only — not enough for a group comparison."
           : stats.confidence === "limited"
             ? "Limited sample: two listings."
-            : "Three or more listings provide more context; match quality still matters.";
+            : "Three listings provide more context; match quality still matters.";
       container.append(breakdown, confidence);
     }
 
@@ -452,14 +432,13 @@ const structuredData = [
 
       errorSummary.hidden = true;
       const market = evaluateMarketEvidence(clean.comps, accident.comps);
-      const baselineTotal = document.getElementById("dv-baseline-total");
+      const baselineTotal = document.getElementById("ldv-baseline-total");
       if (baselineTotal) baselineTotal.textContent = `17c-style baseline: ${formatUSD(baseline.resultCents)}`;
-      const breakdown = document.getElementById("dv-baseline-breakdown");
+      const breakdown = document.getElementById("ldv-baseline-breakdown");
       if (breakdown) {
         breakdown.replaceChildren();
-        const valueSource = value("valueSource");
         [
-          [`Pre-accident value${valueSource ? ` (${valueSource})` : ""}`, formatUSD(baseline.preAccidentValueCents)],
+          ["Pre-accident value", formatUSD(baseline.preAccidentValueCents)],
           ["10% base cap", `${formatUSD(baseline.preAccidentValueCents)} × 0.10 = ${formatUSD(baseline.baseCapCents)}`],
           [`Damage: ${baseline.damageLabel}`, `${formatUSD(baseline.baseCapCents)} × ${baseline.damageMultiplier.toFixed(2)} = ${formatUSD(baseline.afterDamageCents)}`],
           [`Mileage: ${baseline.mileageLabel}`, `${formatUSD(baseline.afterDamageCents)} × ${baseline.mileageMultiplier.toFixed(2)} = ${formatUSD(baseline.resultCents)}`],
@@ -475,9 +454,9 @@ const structuredData = [
         });
       }
 
-      renderStats(document.getElementById("dv-clean-stats"), market.cleanStats);
-      renderStats(document.getElementById("dv-accident-stats"), market.accidentStats);
-      const gap = document.getElementById("dv-market-gap");
+      renderStats(document.getElementById("ldv-clean-stats"), market.cleanStats);
+      renderStats(document.getElementById("ldv-accident-stats"), market.accidentStats);
+      const gap = document.getElementById("ldv-market-gap");
       if (gap) {
         gap.replaceChildren();
         const note = document.createElement("p");
@@ -489,48 +468,17 @@ const structuredData = [
         gap.appendChild(note);
       }
 
-      const evidenceBox = document.getElementById("dv-evidence-details");
-      if (evidenceBox) {
-        evidenceBox.replaceChildren();
-        const rows = [...clean.evidence, ...accident.evidence];
-        if (!rows.length) {
-          const p = document.createElement("p");
-          p.textContent = "No listing evidence entered.";
-          evidenceBox.appendChild(p);
-        } else {
-          rows.forEach((evidence) => {
-            const item = document.createElement("section");
-            item.className = "evidence-item";
-            const heading = document.createElement("h4");
-            heading.textContent = `${evidence.label}: ${formatUSD(Math.round(Number(evidence.price) * 100))}`;
-            const details = document.createElement("p");
-            const parts = [
-              evidence.year ? `Vehicle: ${evidence.year}` : "Year/trim not entered",
-              evidence.mileage ? `Mileage: ${Number(evidence.mileage).toLocaleString("en-US")}` : "Mileage not entered",
-              evidence.date ? `Date checked: ${evidence.date}` : "Date not entered",
-              evidence.source ? `Source: ${evidence.source}` : "Source not entered",
-            ];
-            details.textContent = parts.join(" · ");
-            item.append(heading, details);
-            evidenceBox.appendChild(item);
-          });
-        }
-      }
-
-      const context = document.getElementById("dv-context");
+      const context = document.getElementById("ldv-context");
       if (context) {
         context.replaceChildren();
         const pairs = [
-          ["Claim relationship", value("claimRelationship")],
+          ["Lease makes you responsible for loss in value", value("leaseResponsibility")],
+          ["Planning to buy at lease-end", value("purchaseOption")],
           ["State", value("claimState")],
-          ["Structural/frame damage", value("structural")],
-          ["Airbags deployed", value("airbags")],
-          ["Repairs complete", value("repairsComplete")],
-          ["Panels repaired/replaced", value("panelCount")],
         ].filter(([, itemValue]) => itemValue);
         if (!pairs.length) {
           const p = document.createElement("p");
-          p.textContent = "No optional claim-context fields entered.";
+          p.textContent = "No optional lease-context fields entered.";
           context.appendChild(p);
         } else {
           const list = document.createElement("dl");
@@ -546,61 +494,173 @@ const structuredData = [
         }
       }
 
-      trackCalculatorCompleted("diminished_value");
+      trackCalculatorCompleted("leased_diminished_value");
       result.hidden = false;
       resultHeading.focus();
     });
 
-    document.getElementById("dv-start-over")?.addEventListener("click", () => {
+    document.getElementById("ldv-start-over")?.addEventListener("click", () => {
       form.reset();
       clearErrors();
       errorSummary.hidden = true;
       result.hidden = true;
       (document.getElementById("preAccidentValue") as HTMLInputElement | null)?.focus();
     });
-    document.getElementById("dv-print")?.addEventListener("click", () => window.print());
+    document.getElementById("ldv-print")?.addEventListener("click", () => window.print());
   }
 </script>
 
 <style>
+  .breadcrumb-text { font-size: 0.85rem; color: var(--color-text-muted); margin: 20px 0 8px; }
+  .breadcrumb-text a { color: inherit; }
+
+  .page-title { font-size: 1.8rem; margin: 0 0 10px; color: var(--color-primary-dark); }
+  .lead { color: var(--color-text-muted); font-size: 1.05rem; max-width: 640px; margin: 0 0 6px; }
+
+  .trust-badges { padding: 0; margin: 14px 0 30px; list-style: none; display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.85rem; color: var(--color-text-muted); }
+
+  .calc-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 26px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    margin-bottom: 34px;
+  }
+
+  .calc-card h2 { margin-top: 0; font-size: 1.3rem; }
+  .section-heading { margin: 26px 0 4px; font-size: 1.05rem; }
+  .section-note { color: var(--color-text-muted); font-size: 0.88rem; margin: 0 0 12px; }
+
   .formula-warning { margin-top: 20px; }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin: 18px 0;
+  }
+
+  @media (min-width: 640px) {
+    .form-grid { grid-template-columns: 1fr 1fr; }
+  }
+
   .compact-grid { margin-top: 8px; }
+  .field-wide { grid-column: 1 / -1; }
+
+  .field label { display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 6px; }
+  .field .hint { font-weight: 400; color: var(--color-text-muted); font-size: 0.8rem; margin: 4px 0 0; }
+
+  .field input, .field select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    min-height: var(--touch-target-min);
+  }
+
+  .comp-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin: 14px 0 0;
+  }
+  .comp-card legend { font-weight: 700; padding: 0 6px; }
+
+  .form-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    padding: 13px 24px;
+    border-radius: 7px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--color-primary-dark); }
+
+  .btn-secondary {
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    padding: 13px 24px;
+    border-radius: 7px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  .result-box { margin-top: 26px; padding: 20px; border-radius: var(--radius); background: var(--color-bg-soft); border: 1px solid var(--color-border); }
+
+  .range { font-size: 1.4rem; font-weight: 700; color: var(--color-primary-dark); margin: 10px 0; }
+
+  .breakdown-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--color-border); font-size: 0.95rem; }
+  .breakdown-row-subtotal { font-weight: 700; border-bottom: 2px solid var(--color-border); }
 
   .market-grid {
     display: grid;
     gap: 18px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  @media (max-width: 640px) { .market-grid { grid-template-columns: 1fr; } }
 
-  @media (max-width: 640px) {
-    .market-grid { grid-template-columns: 1fr; }
+  .confidence-label { font-size: 0.85rem; color: var(--color-text-muted); margin: 10px 0 0; }
+  .warning-note { margin-top: 10px; padding: 10px 12px; background: var(--color-warning-bg); border: 1px solid var(--color-warning-border); border-radius: 8px; color: #92400e; font-weight: 600; font-size: 0.9rem; }
+  .notice { margin-top: 10px; padding: 10px 12px; background: #eff6ff; border: 1px solid #93c5fd; border-radius: 8px; color: #1e3a8a; font-size: 0.9rem; }
+
+  .limits-note {
+    background: var(--color-warning-bg);
+    border: 1px solid var(--color-warning-border);
+    border-radius: 8px;
+    color: #7c4a12;
+    margin: 16px 0 0;
+    padding: 12px 14px;
   }
 
-  .evidence-item {
-    border-top: 1px solid var(--color-border);
-    padding: 8px 0;
+  .context-list { display: grid; gap: 6px; margin: 0; }
+  .context-list dt { font-weight: 600; font-size: 0.88rem; }
+  .context-list dd { margin: 0 0 8px; color: var(--color-text-muted); }
+
+  .methodology-note { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--color-border); font-size: 0.82rem; color: var(--color-text-muted); }
+  .methodology-note p { margin: 0 0 6px; }
+
+  .result-actions { margin-top: 16px; }
+
+  .disclaimer-box {
+    background: var(--color-warning-bg);
+    border: 1px solid var(--color-warning-border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-size: 0.88rem;
+    color: #6b4a1e;
+    margin: 26px 0;
   }
+  .disclaimer-box strong { display: block; margin-bottom: 4px; }
 
-  .evidence-item h4,
-  .evidence-item p { margin: 4px 0; }
-
-  .evidence-item p {
-    color: var(--color-text-muted);
-    font-size: 0.85rem;
+  .related-tools { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 20px 0 50px; }
+  @media (max-width: 560px) { .related-tools { grid-template-columns: 1fr; } }
+  .related-tools a {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-height: var(--touch-target-min);
   }
+  .related-tools a:hover { border-color: var(--color-primary); color: var(--color-primary); }
 
-  .context-list {
-    display: grid;
-    grid-template-columns: minmax(150px, 1fr) 2fr;
-    margin: 0;
+  @media print {
+    .site-header, .site-footer, .form-actions, .result-actions, #ldv-form, .related-tools, .skip-link {
+      display: none !important;
+    }
   }
-
-  .context-list dt,
-  .context-list dd {
-    border-bottom: 1px dashed var(--color-border);
-    margin: 0;
-    padding: 6px 0;
-  }
-
-  .context-list dt { font-weight: 650; }
 </style>

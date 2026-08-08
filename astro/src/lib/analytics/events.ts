@@ -29,7 +29,13 @@ export function trackEvent(eventName: string, params?: EventParams): void {
 
 /** Fired when a calculator finishes computing and renders its results. */
 export function trackCalculatorCompleted(
-  calculator: "diminished_value" | "total_loss" | "settlement_breakdown" | "loss_of_use" | "salvage_value",
+  calculator:
+    | "diminished_value"
+    | "total_loss"
+    | "settlement_breakdown"
+    | "loss_of_use"
+    | "salvage_value"
+    | "leased_diminished_value",
 ): void {
   trackEvent("calculator_completed", { calculator });
 }

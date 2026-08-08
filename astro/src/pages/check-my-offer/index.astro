@@ -4,7 +4,7 @@ import ErrorSummary from "@components/ErrorSummary.astro";
 
 const title = "Which Auto Claim Tool Should I Use? | FairClaimCalculator";
 const description =
-  "Answer two questions to find the right free tool for a total-loss offer, settlement check, diminished value, rental reimbursement, or claim letter.";
+  "Answer two questions to find the right free tool: total-loss offer, settlement check, owned or leased diminished value, rental reimbursement, or claim letter.";
 const path = "/check-my-offer/";
 
 const structuredData = [
@@ -71,6 +71,10 @@ const structuredData = [
               <span><strong>Compare a diminished-value baseline with market evidence</strong><small>Keep the formula result and listing evidence separate.</small></span>
             </label>
             <label class="choice-card">
+              <input type="radio" name="goal" value="leased-dv" />
+              <span><strong>Same, but my vehicle is leased</strong><small>Same worksheet, plus who typically holds the claim on a lease.</small></span>
+            </label>
+            <label class="choice-card">
               <input type="radio" name="goal" value="letter" />
               <span><strong>Draft a factual letter and evidence checklist</strong><small>Create an editable local draft; nothing is sent.</small></span>
             </label>
@@ -107,7 +111,7 @@ const structuredData = [
     <section class="privacy-note">
       <h2>Your answers are not saved</h2>
       <p>
-        This router and all six calculators run locally in your browser. The site does not receive
+        This router and all seven calculators run locally in your browser. The site does not receive
         the radio choices or calculator entries you make.
       </p>
     </section>
@@ -117,7 +121,7 @@ const structuredData = [
       The recommendation does not decide coverage, fault, recoverability, value, or legal rights.
     </div>
 
-    <p class="browse-link"><a href="/calculators/">Prefer to choose yourself? Browse all six calculators →</a></p>
+    <p class="browse-link"><a href="/calculators/">Prefer to choose yourself? Browse all seven calculators →</a></p>
   </div>
 </BaseLayout>
 
@@ -146,6 +150,11 @@ const structuredData = [
       title: "Diminished Value Baseline",
       description: "Calculate a disclosed 17c-style comparison baseline and build a separate clean-history versus accident-history market-evidence worksheet.",
       href: "/calculators/diminished-value-baseline/",
+    },
+    "leased-dv": {
+      title: "Leased Vehicle Diminished Value",
+      description: "The same baseline-vs-market-evidence worksheet, with an explainer first on who typically holds a diminished-value claim when a leasing company holds title.",
+      href: "/calculators/leased-vehicle-diminished-value/",
     },
     letter: {
       title: "Claim Letter & Evidence Packet Builder",
@@ -210,7 +219,7 @@ const structuredData = [
 
       errorSummary.hidden = true;
       let routeKey: keyof typeof routes;
-      if (goal === "audit" || goal === "check" || goal === "dv" || goal === "letter" || goal === "rental" || goal === "salvage") {
+      if (goal === "audit" || goal === "check" || goal === "dv" || goal === "leased-dv" || goal === "letter" || goal === "rental" || goal === "salvage") {
         routeKey = goal;
       } else if (situation === "repaired") {
         routeKey = "dv";

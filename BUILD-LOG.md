@@ -653,3 +653,58 @@ this section is just "what happened, when."
   `Footer.astro`. Verified: typecheck 0 errors, vitest 74/74, build 44
   pages, title/description lengths OK (75 pages, one 166-char
   description trimmed to fit), 0 broken links (1625 hrefs checked).
+
+## 2026-08-08 — Leased-Vehicle Diminished Value guide + calculator (fix-prompts item 7)
+
+Built the guide+calculator variant requested in the uploaded fix-prompts
+document (item 7): a leased vehicle's title sits with the leasing company,
+not the driver, which changes who typically holds a diminished-value claim.
+
+- **Research first, per the site's no-fabrication rule.** Ran several
+  `WebSearch` queries on lessee-vs-lessor DV claim standing; rejected ~8
+  secondary/marketing sources (law-firm blogs, DV-claim-service sites) as
+  insufficient. Fetched and verified two real primary sources directly via
+  `web_fetch`: (1) New York State DFS, Office of General Counsel, OGC
+  Opinion No. 11-02-01 (Feb 7, 2011) — confirms a leased-vehicle loss
+  payment's destination (lessee vs. leasing company) "is dependent upon the
+  full terms and conditions of the policy," not a fixed rule; (2) North
+  Carolina General Statutes § 25-2A-219 (UCC Article 2A, "Risk of Loss") —
+  fetched the full Article 2A statute page (106,937 chars, saved to a temp
+  file) and grepped out the exact text: "Except in the case of a finance
+  lease, risk of loss is retained by the lessor and does not pass to the
+  lessee." Both sources logged as SOURCE-REGISTER.md entry #17, cited as one
+  regulator opinion and one state's statute — not a universal rule.
+- **New guide:** `/guides/diminished-value/leased-vehicle-diminished-value/`
+  — explains why lessor-vs-lessee matters, what varies by lease (policy
+  named-insured/loss-payee, lease terms on loss in value, purchase option,
+  whether the leasing company pursues claims), and practical steps. States
+  plainly what it cannot determine (needs the reader's own lease and state
+  law). Diminished Value guide cluster is now 6 guides; site-wide guide
+  library is now 21.
+- **New calculator:** `/calculators/leased-vehicle-diminished-value/` —
+  deliberately does NOT duplicate the calculation logic. Imports
+  `calculate17cBaseline`, `evaluateMarketEvidence`, `formatUSD`, `DV_CONFIG`,
+  `DVValidationError`, and `toCents` directly from the existing, tested
+  `diminished-value-baseline.ts` module (no new lib file, no new Vitest
+  file — same 16 tests still cover this page's math). Leads with a "Who Can
+  File: Lessee vs. Lessor" explainer citing both sources above, then the
+  same baseline-vs-market-evidence worksheet (3 comps per group instead of
+  4, plus 3 lease-context fields: lease responsibility for loss in value,
+  purchase-option intent, state). Added a 6th value (`leased_diminished_value`)
+  to the `trackCalculatorCompleted` GA4 event union in `events.ts`.
+- **Bidirectional link required by fix-prompts item 7:** added to the DV
+  Baseline calculator page as a body note right under the trust badges, a
+  new FAQ entry, and the first entry in its "More Calculators" block.
+- **Cross-linked everywhere else:** `/calculators/` (7th card, "Seven Free
+  Auto Claim Calculators"), homepage ("Seven Free Calculators"), all other
+  5 calculators' "More Calculators" blocks, Check My Offer router (new
+  "Same, but my vehicle is leased" goal option + `leased-dv` route),
+  `/sources/` (new source group + updated guide-cluster count), `/about/`
+  ("Seven calculators"), `/guides/diminished-value/` and `/guides/` (guide
+  counts and descriptions).
+- **Full verification:** `npm run typecheck` (0 errors, 89 files),
+  `npx vitest run` (118/118 across 6 files — unchanged, since the new
+  calculator reuses tested code), `npm run build` (48 pages), title/
+  description lengths OK after two trims (leased-DV calculator meta
+  description, Check My Offer meta description), 0 broken internal links
+  (52 pages, 52 routes, 105 asset files checked).
