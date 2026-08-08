@@ -1,0 +1,234 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+
+const title = "Claim Terms Glossary | FairClaimCalculator";
+const description =
+  "Plain-language definitions of ACV, GAP, salvage title, lienholder, 17c baseline, and other auto-claim terms used across this site's tools and guides.";
+const path = "/glossary/";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Glossary", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    name: "FairClaimCalculator Claim Terms Glossary",
+    url: `https://www.fairclaimcalculator.com${path}`,
+  },
+];
+
+interface Term {
+  term: string;
+  definition: string;
+  links: { label: string; href: string }[];
+}
+
+const terms: Term[] = [
+  {
+    term: "ACV (Actual Cash Value)",
+    definition:
+      "The insurer's base value estimate for your vehicle before any deductions or additions — deductible, tax/fees, loan payoff, or salvage deduction. It is a starting figure, not the final check amount.",
+    links: [
+      { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+      { label: "ACV vs. Replacement Cost vs. Loan Payoff vs. Asking Price", href: "/guides/total-loss/acv-vs-replacement-cost-loan-payoff-asking-price/" },
+    ],
+  },
+  {
+    term: "Comparable (comp)",
+    definition:
+      "A vehicle used to estimate market value by comparison — either from the insurer's valuation report or one you found yourself. Comps are compared on year, mileage, trim, condition, distance, and listing status; asking price is never assumed to equal sale price.",
+    links: [
+      { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
+      { label: "Finding Your Own Comparable Vehicles", href: "/guides/total-loss/finding-your-own-comparable-vehicles/" },
+    ],
+  },
+  {
+    term: "Deductible",
+    definition:
+      "The amount subtracted from your ACV on a first-party claim (filed against your own insurer). It generally does not apply to third-party claims (filed against another driver's insurer), since you're not collecting under your own policy.",
+    links: [
+      { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+      { label: "First-Party vs. Third-Party Auto Claims", href: "/guides/claim-process/first-party-vs-third-party-auto-claims/" },
+    ],
+  },
+  {
+    term: "Diminished value (DV)",
+    definition:
+      "The gap between a vehicle's pre-accident value and its value after being damaged and repaired — even a fully, properly repaired vehicle can be worth less on paper once it carries an accident history. Whether it's recoverable, and from whom, varies by state and by claim type.",
+    links: [
+      { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+      { label: "What Is Diminished Value?", href: "/guides/diminished-value/what-is-diminished-value/" },
+    ],
+  },
+  {
+    term: "First-party vs. third-party claim",
+    definition:
+      "A first-party claim is filed against your own insurer under your own policy. A third-party claim is filed against another driver's insurer for damage they caused. The two follow different rules — deductibles, diminished-value eligibility, and available protections can all differ depending on which one applies.",
+    links: [
+      { label: "First-Party vs. Third-Party Auto Claims", href: "/guides/claim-process/first-party-vs-third-party-auto-claims/" },
+      { label: "Does Your State Allow a First-Party Diminished Value Claim?", href: "/guides/diminished-value/state-laws-first-party-diminished-value-claims/" },
+    ],
+  },
+  {
+    term: "GAP coverage / GAP shortfall",
+    definition:
+      "GAP (Guaranteed Asset Protection) insurance is an optional product, sold separately from your regular auto policy, that can cover the difference between what you owe on a loan or lease and a lower total-loss payout. A GAP shortfall is that gap amount — it is not automatically paid; it depends on your specific GAP certificate's terms and exclusions.",
+    links: [
+      { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+      { label: "What Happens to Your Loan or Lease After a Total Loss (GAP Insurance Explained)", href: "/guides/total-loss/gap-insurance-loan-lease-after-total-loss/" },
+    ],
+  },
+  {
+    term: "Lienholder",
+    definition:
+      "The lender that holds a loan or lease on your vehicle. In a total-loss settlement, the lienholder is generally paid first out of the gross settlement, up to the loan or lease payoff amount, before any remaining money goes to you.",
+    links: [{ label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" }],
+  },
+  {
+    term: "Loss of use / rental reimbursement",
+    definition:
+      "Compensation — often a daily rate up to a policy cap — for the time your vehicle is unusable while being repaired or while a total-loss claim is processed. What counts as a \"reasonable\" rental period or rate is not fixed nationwide and depends on your specific policy language.",
+    links: [{ label: "Rental Car & Loss-of-Use Reimbursement After an Accident", href: "/guides/claim-process/rental-car-loss-of-use-reimbursement/" }],
+  },
+  {
+    term: "Market evidence",
+    definition:
+      "Real, user-entered comparable listings (separated into clean-history and accident-history groups) used to build descriptive statistics — mean, median, and range. This site never averages market evidence with a formula baseline like the 17c calculation; the two are shown side by side because they measure different things.",
+    links: [{ label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" }],
+  },
+  {
+    term: "Outlier (possible outlier)",
+    definition:
+      "A comparable more than 20% away from its group's median price, flagged for you to double-check. This is a disclosed review heuristic, not a legal or professional appraisal standard, and not a rule for excluding a comp — a real vehicle can legitimately fall outside that range.",
+    links: [{ label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" }],
+  },
+  {
+    term: "Owner-retained salvage",
+    definition:
+      "When you keep your totaled vehicle instead of surrendering it to the insurer, the insurer deducts an estimated salvage value (what the wreck itself is worth, e.g., to a salvage buyer or for parts) from your ACV before paying you, since it isn't taking possession of and reselling the vehicle.",
+    links: [
+      { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+      { label: "Owner-Retained Total Loss & Salvage Titles", href: "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/" },
+    ],
+  },
+  {
+    term: "Percentage-threshold total-loss law",
+    definition:
+      "A state rule that declares a vehicle a total loss once repair cost reaches a fixed percentage of its ACV (for example, 70% or 75%, depending on the state). This is one of two common state approaches; the other is the Total Loss Formula.",
+    links: [{ label: "State Total-Loss Threshold Laws Explained", href: "/guides/total-loss/state-total-loss-threshold-laws/" }],
+  },
+  {
+    term: "Salvage title / rebuilt title",
+    definition:
+      "A permanently branded vehicle title issued after a car is declared a total loss and the owner retains or repairs it. It is a lasting record on the vehicle's title history — branding criteria vary by state and should be confirmed with your state DMV.",
+    links: [{ label: "Owner-Retained Total Loss & Salvage Titles", href: "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/" }],
+  },
+  {
+    term: "Total Loss Formula (TLF)",
+    definition:
+      "A state rule that declares a vehicle a total loss once repair cost plus expected salvage value reaches or exceeds the vehicle's ACV. The same damage can be a total loss under TLF in one state but not a total loss under a simple percentage-threshold state.",
+    links: [{ label: "State Total-Loss Threshold Laws Explained", href: "/guides/total-loss/state-total-loss-threshold-laws/" }],
+  },
+  {
+    term: "17c formula / 17c baseline",
+    definition:
+      "A commonly published diminished-value calculation — pre-accident value × a base-value cap × a damage-severity multiplier × a mileage multiplier — that traces back to a 2001–2002 Georgia class-action settlement. It is not a national or state legal standard, and this site never treats it as the final word on what diminished value is owed.",
+    links: [
+      { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+      { label: "The 17c Formula: History, Calculation, and Limits", href: "/guides/diminished-value/the-17c-formula-history-calculation-and-limits/" },
+    ],
+  },
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / Glossary</p>
+    <h1 class="page-title">Claim Terms Glossary</h1>
+    <p class="lead">
+      Plain-language definitions of the terms used across this site's calculators and guides — each
+      one links back to where it's used in context. This is a reference page, not legal advice.
+    </p>
+
+    <div class="calc-card">
+      <dl class="glossary-list">
+        {terms.map((item) => (
+          <div class="glossary-item" id={item.term.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")}>
+            <dt>{item.term}</dt>
+            <dd>
+              <p>{item.definition}</p>
+              <p class="glossary-links">
+                {item.links.map((link, index) => (
+                  <>
+                    {index > 0 && " · "}
+                    <a href={link.href}>{link.label} →</a>
+                  </>
+                ))}
+              </p>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Educational reference, not legal advice.</strong>
+      These definitions describe how each term is used on this site. They are not legal definitions,
+      and specific rules — especially total-loss thresholds and salvage-title branding — vary by
+      state. See the <a href="/disclaimer/">full disclaimer</a> and <a href="/sources/">source register</a>.
+    </div>
+
+    <h2>More Resources</h2>
+    <div class="related-tools">
+      <a href="/guides/">Browse All Guides →</a>
+      <a href="/calculators/">Browse All Calculators →</a>
+      <a href="/methodology/">Calculator Methodology →</a>
+      <a href="/check-my-offer/">Check My Offer →</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .glossary-list { margin: 0; }
+
+  .glossary-item {
+    border-bottom: 1px solid var(--color-border);
+    padding: 18px 0;
+  }
+  .glossary-item:first-child { padding-top: 0; }
+  .glossary-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .glossary-item dt {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--color-primary-dark);
+    margin: 0 0 8px;
+    scroll-margin-top: 90px;
+  }
+
+  .glossary-item dd { margin: 0; }
+  .glossary-item dd p { margin: 0 0 8px; }
+
+  .glossary-links { font-size: 0.88rem; }
+
+  .related-tools { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 20px 0 50px; }
+  @media (max-width: 560px) { .related-tools { grid-template-columns: 1fr; } }
+  .related-tools a {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-height: var(--touch-target-min);
+  }
+  .related-tools a:hover { border-color: var(--color-primary); color: var(--color-primary); }
+</style>

@@ -582,3 +582,18 @@ this section is just "what happened, when."
     Flagged this, plus the About-page bio expansion (would require real,
     non-fabricated details from the owner), as owner-only items rather
     than acting on them unilaterally.
+- **2026-08-08 — Standalone Claim Terms Glossary page.** Built
+  `/glossary/` per the uploaded fix-prompts' content-hub spec (item 4.3):
+  a standalone reference pulling together the 15 terms already defined
+  inline across the 4 calculators and their source guides (ACV,
+  comparable, deductible, diminished value, first-party/third-party, GAP
+  coverage/shortfall, lienholder, loss of use, market evidence, outlier,
+  owner-retained salvage, percentage-threshold law, salvage/rebuilt
+  title, Total Loss Formula, 17c formula). Every definition is a
+  restatement of what's already published elsewhere on the site — no new
+  claims invented — and each term links back to the calculator or guide
+  where it's used in context. Added `BreadcrumbList` + `DefinedTermSet`
+  JSON-LD. Linked from both `Header.astro` (primary nav) and
+  `Footer.astro`. Verified: typecheck 0 errors, vitest 74/74, build 44
+  pages, title/description lengths OK (75 pages, one 166-char
+  description trimmed to fit), 0 broken links (1625 hrefs checked).
