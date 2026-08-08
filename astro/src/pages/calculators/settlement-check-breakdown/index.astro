@@ -1,12 +1,42 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
+import FaqSection from "@components/FaqSection.astro";
 import { SETTLEMENT_BREAKDOWN_CONFIG } from "@lib/calculators/settlement-breakdown";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
 const title = "Total-Loss Settlement Check Breakdown | FairClaimCalculator";
 const description =
   "See exactly how a total-loss offer turns into your check — ACV, deductible, loan payoff, GAP, and salvage, laid out step by step. Free, math shown in full.";
 const path = "/calculators/settlement-check-breakdown/";
+
+const faqs: FaqItem[] = [
+  {
+    question: "Does this tool tell me whether my settlement offer is fair?",
+    answer:
+      "No. It organizes arithmetic — it does not determine what you are legally owed, evaluate your policy, or guarantee any GAP payout. See the full disclaimer for what this tool cannot do.",
+  },
+  {
+    question: "Why is the deductible field hidden for some claims?",
+    answer:
+      "A deductible generally only applies to first-party claims, where you're collecting from your own insurer. Select \"Another driver's insurer (third-party)\" and that field stays hidden, since it typically doesn't apply.",
+  },
+  {
+    question: "What does the tool do with GAP coverage?",
+    answer:
+      "If you have a loan or lease and select that you have GAP coverage, the breakdown includes a plain-language note about how a GAP shortfall scenario typically works — it does not calculate or guarantee an actual GAP payout, which is determined by your GAP provider.",
+  },
+  {
+    question: "What if the insurer's stated check amount doesn't match this breakdown?",
+    answer:
+      "Entering the insurer's stated check amount is optional. If you enter it, the tool compares it against the line-by-line breakdown you built and flags whether the two match — a starting point for questions, not a verdict on which number is correct.",
+  },
+  {
+    question: "Is anything I type sent to a server?",
+    answer:
+      "No. Every number you enter stays in your browser and is never transmitted to or stored on any server operated by this site.",
+  },
+];
 
 const structuredData = [
   {
@@ -18,6 +48,7 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Settlement Check Breakdown", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  buildFaqSchema(faqs),
 ];
 ---
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
@@ -175,6 +206,8 @@ const structuredData = [
       your policy, or guarantee any GAP payout. See our <a href="/disclaimer/">full disclaimer</a>.
     </div>
 
+    <FaqSection faqs={faqs} />
+
     <h2>More Calculators</h2>
     <div class="related-tools">
       <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit →</a>
@@ -193,6 +226,7 @@ const structuredData = [
     formatSignedUSD,
     type ClaimType,
   } from "@lib/calculators/settlement-breakdown";
+  import { trackCalculatorCompleted } from "@lib/analytics/events";
 
   const form = document.getElementById("settlement-form") as HTMLFormElement | null;
   const resultBox = document.getElementById("settlement-result");
@@ -363,6 +397,7 @@ const structuredData = [
         }
       }
 
+      trackCalculatorCompleted("settlement_breakdown");
       resultBox.hidden = false;
       // Move focus to the result heading so the outcome is announced to
       // screen-reader users and keyboard users land somewhere meaningful —

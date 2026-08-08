@@ -1,16 +1,46 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
+import FaqSection from "@components/FaqSection.astro";
 import {
   EVIDENCE_CHECKLIST,
   LETTER_BUILDER_CONFIG,
   LETTER_MODES,
 } from "@lib/calculators/claim-letter-builder";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
 const title = "Claim Letter & Evidence Packet Builder | FairClaimCalculator";
 const description =
   "Generate an editable, factual auto-claim letter and evidence checklist in your browser. No threats, fake deadlines, account, or email required.";
 const path = "/calculators/claim-letter-builder/";
+
+const faqs: FaqItem[] = [
+  {
+    question: "Does this tool send the letter for me?",
+    answer:
+      "No. It only generates an editable plain-text draft. You choose how and when to send it, and nothing here creates a legal filing, provides legal advice, or guarantees a response.",
+  },
+  {
+    question: "Why does my draft have bracketed placeholders like [Your Name]?",
+    answer:
+      "Any field you leave blank stays as an obvious bracketed placeholder instead of being guessed or filled in automatically. This tool never invents names, dates, claim numbers, or other details on your behalf.",
+  },
+  {
+    question: "Can I get a template for filing a state insurance-department complaint?",
+    answer:
+      "Not yet. A state complaint template isn't offered until that specific state's current workflow and sources have been verified — this site doesn't publish placeholder legal content.",
+  },
+  {
+    question: "Why don't the templates mention bad faith or legal deadlines?",
+    answer:
+      "The drafts deliberately contain no threats, fake deadlines, or unsupported \"bad faith\" accusations. Every request is a narrow, factual ask you can defend if someone asks what you meant.",
+  },
+  {
+    question: "Is anything I type sent to a server?",
+    answer:
+      "No. Your letter fields and the generated draft stay in your browser. Evidence-checklist checkboxes reset when you reload the page and are never transmitted or stored anywhere.",
+  },
+];
 
 const structuredData = [
   {
@@ -22,6 +52,7 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Claim Letter Builder", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  buildFaqSchema(faqs),
 ];
 ---
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
@@ -173,6 +204,8 @@ const structuredData = [
       </p>
     </section>
 
+    <FaqSection faqs={faqs} />
+
     <h2>More Calculators</h2>
     <div class="related-tools">
       <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit →</a>
@@ -191,6 +224,7 @@ const structuredData = [
     type LetterFields,
     type LetterMode,
   } from "@lib/calculators/claim-letter-builder";
+  import { trackLetterCopied, trackLetterGenerated, trackLetterPrinted } from "@lib/analytics/events";
 
   const form = document.getElementById("claim-letter-form") as HTMLFormElement | null;
   const result = document.getElementById("claim-letter-result");
@@ -252,6 +286,7 @@ const structuredData = [
       errorSummary.hidden = true;
       result.hidden = false;
       resultHeading.focus();
+      trackLetterGenerated(mode);
     });
 
     document.getElementById("letter-start-over")?.addEventListener("click", () => {
@@ -286,9 +321,13 @@ const structuredData = [
           ? "Letter copied to your clipboard."
           : "Automatic copy was blocked. Select the letter text and copy it manually.";
       }
+      if (copied) trackLetterCopied(modeSelect.value);
     });
 
-    document.getElementById("print-letter")?.addEventListener("click", () => window.print());
+    document.getElementById("print-letter")?.addEventListener("click", () => {
+      trackLetterPrinted(modeSelect.value);
+      window.print();
+    });
   }
 </script>
 

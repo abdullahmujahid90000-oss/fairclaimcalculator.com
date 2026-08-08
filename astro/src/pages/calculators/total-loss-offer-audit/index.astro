@@ -1,10 +1,12 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
+import FaqSection from "@components/FaqSection.astro";
 import {
   MISMATCH_FIELDS,
   TOTAL_LOSS_AUDIT_CONFIG,
 } from "@lib/calculators/total-loss-audit";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
 const title = "Total-Loss Offer Audit | FairClaimCalculator";
 const description =
@@ -12,6 +14,34 @@ const description =
 const path = "/calculators/total-loss-offer-audit/";
 const insurerRows = Array.from({ length: 4 }, (_, index) => index + 1);
 const ownerRows = Array.from({ length: 6 }, (_, index) => index + 1);
+
+const faqs: FaqItem[] = [
+  {
+    question: "Does this tool tell me what my vehicle is actually worth?",
+    answer:
+      "No. This worksheet organizes the facts and arithmetic you enter — it does not interpret your policy, determine market value, or tell you what an insurer legally owes. See the full disclaimer for what this tool cannot do.",
+  },
+  {
+    question: "What does it mean if a comp is flagged as a possible outlier?",
+    answer:
+      "A comp more than 20% from that group's median is flagged for review. This is a heuristic to help you double-check a comp, not a rule for excluding it — a real vehicle can legitimately fall outside that range.",
+  },
+  {
+    question: "How many comparables do I need before the tool compares them as a group?",
+    answer:
+      "At least two priced comps are required before a range or group comparison is shown. Two comps are labeled a limited sample; three or more give more context, though match quality (year, mileage, trim, condition, location) still matters more than count.",
+  },
+  {
+    question: "What if I mark a report field as \"not sure\" or \"not shown\"?",
+    answer:
+      "It becomes a verification question in your results, not an accusation. The goal is to identify what to double-check in your written valuation report — never to assume the insurer made an error.",
+  },
+  {
+    question: "Is anything I type sent to a server?",
+    answer:
+      "No. Every entry — the insurer's ACV, your comps, and your quality-review answers — stays in your browser. Nothing is transmitted to or stored on any server operated by this site.",
+  },
+];
 
 const structuredData = [
   {
@@ -23,6 +53,7 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Total-Loss Offer Audit", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  buildFaqSchema(faqs),
 ];
 
 const statusOptions = [
@@ -309,6 +340,8 @@ const statusOptions = [
       value, or tell you what an insurer legally owes. See the <a href="/disclaimer/">full disclaimer</a>.
     </div>
 
+    <FaqSection faqs={faqs} />
+
     <section>
       <h2>What the numbers can — and cannot — show</h2>
       <p>
@@ -347,6 +380,7 @@ const statusOptions = [
     type ReportStatus,
     type SellerType,
   } from "@lib/calculators/total-loss-audit";
+  import { trackCalculatorCompleted } from "@lib/analytics/events";
 
   const form = document.getElementById("total-loss-form") as HTMLFormElement | null;
   const result = document.getElementById("total-loss-result");
@@ -627,6 +661,7 @@ const statusOptions = [
         }
       }
 
+      trackCalculatorCompleted("total_loss");
       result.hidden = false;
       resultHeading.focus();
     });

@@ -1,13 +1,43 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
+import FaqSection from "@components/FaqSection.astro";
 import { DV_CONFIG } from "@lib/calculators/diminished-value-baseline";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
 const title = "Diminished Value Baseline Calculator | FairClaimCalculator";
 const description =
   "Calculate a transparent 17c-style diminished-value baseline and compare it with separate clean-history and accident-history market evidence. Never averaged.";
 const path = "/calculators/diminished-value-baseline/";
 const compRows = Array.from({ length: 4 }, (_, index) => index + 1);
+
+const faqs: FaqItem[] = [
+  {
+    question: "What is the 17c formula?",
+    answer:
+      "It's a commonly published diminished-value calculation (a base value cap, a damage-severity multiplier, and a mileage multiplier) that traces back to a 2001–2002 Georgia class-action settlement — not a national or state legal standard. See the full history and limits in the 17c Formula guide.",
+  },
+  {
+    question: "Is the baseline this tool shows the amount I'm legally owed?",
+    answer:
+      "No. This calculator does not decide whether diminished value is recoverable in your state, whether any formula applies to your claim, or what amount an insurer legally owes you. It shows a transparent, disclosed calculation next to separate market evidence so you can compare both — verify claim-specific questions with a qualified professional in your state.",
+  },
+  {
+    question: "Does my state allow a diminished-value claim?",
+    answer:
+      "It depends on whether you're filing against your own insurer (first-party) or an at-fault driver's insurer (third-party) — the rules differ significantly and vary by state. See Does Your State Allow a First-Party Diminished Value Claim? for what's documented.",
+  },
+  {
+    question: "Why does this tool show two separate numbers instead of one final answer?",
+    answer:
+      "The 17c-style baseline and real market evidence measure different things and can disagree significantly. Averaging them would produce a number that represents neither, so this tool always shows both side by side and never blends them.",
+  },
+  {
+    question: "Is anything I type sent to a server?",
+    answer:
+      "No. This calculator runs entirely in your browser using client-side JavaScript. Your entries are never transmitted to or stored on any server operated by this site.",
+  },
+];
 
 const structuredData = [
   {
@@ -19,6 +49,7 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Diminished Value Baseline", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  buildFaqSchema(faqs),
 ];
 ---
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
@@ -230,6 +261,8 @@ const structuredData = [
       or what amount is owed. Verify claim-specific questions with a qualified professional in your state.
     </div>
 
+    <FaqSection faqs={faqs} />
+
     <h2>More Calculators</h2>
     <div class="related-tools">
       <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit →</a>
@@ -250,6 +283,7 @@ const structuredData = [
     type MarketComp,
     type MarketStats,
   } from "@lib/calculators/diminished-value-baseline";
+  import { trackCalculatorCompleted } from "@lib/analytics/events";
 
   const form = document.getElementById("dv-form") as HTMLFormElement | null;
   const result = document.getElementById("dv-result");
@@ -498,6 +532,7 @@ const structuredData = [
         }
       }
 
+      trackCalculatorCompleted("diminished_value");
       result.hidden = false;
       resultHeading.focus();
     });

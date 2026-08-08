@@ -522,3 +522,63 @@ this section is just "what happened, when."
   length issues; a full internal-link check after the final guide showed
   0 broken links across 197 checked hrefs. `ADSENSE-READINESS.md` §1 guide
   count refreshed to 20 (5 added 2026-08-01).
+- **2026-08-08 — Verification session; found the real blocker.** Owner
+  asked (via Cowork, connected to this repo folder directly) to fix
+  whatever's needed for AdSense readiness. Audited the full repo, not just
+  the live domain, and found why the live site still looked like the thin
+  4-tool plain-HTML version despite everything logged above: **GitHub
+  Pages "Source" has never been switched to "GitHub Actions"**
+  (`ASTRO-REBUILD-PLAN.md` §1, manual step #1, was still open) — so
+  `www.fairclaimcalculator.com` has never actually served the Astro
+  rebuild. This is a repo Settings toggle, not something a commit or this
+  sandbox can flip. Re-verified the build clean from scratch this session:
+  `npm run typecheck` (0 errors, 72 files), `npm run test` (74/74),
+  `npm run build` (all pages generated; one harmless `EPERM` on a dist
+  cleanup step — a sandbox file-permission artifact from the mounted
+  folder, not a code defect, output unaffected). Spot-checked
+  `src/lib/ads/config.ts` and confirmed `ADSENSE_ENABLED` is still
+  hard-`false` with an empty `ELIGIBLE_ROUTES` set — untouched. Did **not**
+  create `ads.txt`, flip `ADSENSE_ENABLED`, add bio/credential specifics,
+  or add any new state-specific page — all correctly remain gated per this
+  file's hard rules and `ADSENSE-READINESS.md`. Told the owner the Pages
+  source toggle + a DNS confirmation are the two blocking manual steps
+  before Phase 7 (SEO/Search-Console validation) and the Phase 6 manual
+  accessibility walkthrough can proceed — both require a live URL this
+  sandbox doesn't have.
+- **2026-08-08 — FAQ schema + GA4 conversion events on all 4 calculators.**
+  Owner uploaded a third-party site audit and a matching set of fix
+  prompts; cross-checked both against the actual Astro codebase (not the
+  old live site the audit describes — confirmed several "immediate fixes"
+  it lists, like the homepage contradiction and BreadcrumbList schema, are
+  already resolved by this rebuild). Two real gaps addressed this pass:
+  - Added `src/lib/seo/faq-schema.ts` (`buildFaqSchema()`) and
+    `src/components/FaqSection.astro` (accessible `<details>/<summary>`
+    rendering) — both consume the exact same `FaqItem[]` array per page,
+    by design, so visible FAQ text and FAQPage JSON-LD can never drift
+    apart, per Google's structured-data requirement that they match.
+  - Wrote 5 genuine FAQs per calculator (20 total), grounded strictly in
+    facts already established on each page or elsewhere on the site (no
+    new claims invented) — Diminished Value Baseline, Total-Loss Offer
+    Audit, Settlement Check Breakdown, Claim Letter Builder.
+  - Added `src/lib/analytics/events.ts` (`trackEvent`, plus typed
+    `trackCalculatorCompleted`, `trackLetterGenerated`,
+    `trackLetterCopied`, `trackLetterPrinted` helpers) and wired GA4
+    custom events into all 4 calculators' client-side success paths,
+    matching the exact event/parameter names requested: `calculator_completed`
+    (`calculator: diminished_value | total_loss | settlement_breakdown`),
+    `letter_generated`, `letter_copied`, `letter_printed` (all with a
+    `letter_type` parameter). Safe to fire unconditionally per
+    `CookieConsent.astro`'s existing gtag-stub/queuing behavior — no
+    consent-check branching needed at each call site.
+  - Full verification before commit: `npm run typecheck` (0 errors, 148
+    pre-existing hints), `npx vitest run` (74/74), `npm run build` (43
+    pages), a title/description length check with HTML-entity decoding
+    (74 pages, all ≤60/≤160 chars), and an internal-link check (1481
+    hrefs across 74 pages, 0 broken).
+  - Deliberately did **not** follow the uploaded fix-prompts' ads.txt
+    instruction to add a placeholder ID with a TODO comment — that
+    contradicts this project's own standing rule (no ad-network
+    references of any kind until a real AdSense publisher ID exists).
+    Flagged this, plus the About-page bio expansion (would require real,
+    non-fabricated details from the owner), as owner-only items rather
+    than acting on them unilaterally.
