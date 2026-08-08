@@ -111,7 +111,7 @@ invented legal citations, threats, deadlines, or "bad faith" accusations.
 
 ---
 
-## 6. Guide Library (21 guides, `/guides/`)
+## 6. Guide Library (22 guides, `/guides/`)
 
 Each guide below cites its sources inline next to the claim (rendered via
 its own `sources: string[]` prop in `GuideLayout.astro`) and states plainly,
@@ -293,6 +293,25 @@ state-specific rules with their own state insurance department.
     Dispute a Total-Loss Valuation Factually) — it's the general version
     covering both total-loss and diminished-value offers, cross-linked
     both directions, not an independent duplicate.
+21. **Filing a Complaint with Your State Insurance Department** (added
+    2026-08-08) —
+    (a) National Association of Insurance Commissioners (NAIC),
+    ["Need Help with Insurance? Insurance Departments Are Your Trusted Source"](https://content.naic.org/article/need-help-insurance-insurance-departments-are-your-trusted-source)
+    (Sept. 15, 2025) — *primary*, fetched and verified directly, describes
+    what a state DOI can and cannot do; (b) NAIC,
+    ["How to File a Complaint and Research Complaints Against Insurance Carriers"](https://content.naic.org/article/how-file-complaint-and-research-complaints-against-insurance-carriers)
+    (Sept. 1, 2022) — *primary*, fetched and verified directly, the general
+    complaint-filing steps and the NAIC's own complaint-index research tool;
+    (c) NAIC, [Insurance Departments contact directory](https://content.naic.org/state-insurance-departments)
+    — *primary*, the NAIC's own live, maintained state-by-state DOI contact
+    tool, linked directly rather than hand-copied into a 50-state table on
+    this site (a table that would go stale between reviews and could not be
+    continuously re-verified).
+    **What is deliberately NOT claimed:** that this site maintains or
+    verifies the individual state contact details itself (it links to the
+    NAIC's own directory instead); that filing a complaint will result in
+    any particular outcome; that every state's DOI complaint process is
+    identical.
 
 ---
 

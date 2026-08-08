@@ -708,3 +708,38 @@ not the driver, which changes who typically holds a diminished-value claim.
   description lengths OK after two trims (leased-DV calculator meta
   description, Check My Offer meta description), 0 broken internal links
   (52 pages, 52 routes, 105 asset files checked).
+
+## 2026-08-08 — State insurance-department complaint guide (fix-prompts item 8 / task #42)
+
+The uploaded fix-prompts document asked for a state regulator/DMV complaint
+directory. A hand-maintained 50-state table of phone numbers and URLs was
+flagged as high accuracy-risk: that kind of list goes stale between reviews
+and this site has no way to continuously re-verify 50+ individual contact
+records. Built the lower-risk, still-genuinely-useful version instead.
+
+- **Research:** verified two real, dated NAIC consumer-education articles by
+  fetching them directly — "Need Help with Insurance? Insurance Departments
+  Are Your Trusted Source" (Sept. 15, 2025) and "How to File a Complaint and
+  Research Complaints Against Insurance Carriers" (Sept. 1, 2022) — plus
+  confirmed the NAIC's own live state-locator tool at
+  `content.naic.org/state-insurance-departments` is real and current via
+  search and fetch. Logged as SOURCE-REGISTER.md entry #21.
+- **New guide:** `/guides/claim-process/filing-a-complaint-with-your-state-insurance-department/`
+  — explains what a state Department of Insurance can and can't do (per
+  NAIC's own framing), what to gather before filing, how to research a
+  company's complaint history, and links directly to the NAIC's official
+  directory rather than publishing a static 50-state list. States plainly
+  that this site doesn't operate that directory. Claim Process cluster is
+  now 6 guides; site-wide guide library is now 22.
+- **Cross-linked:** `/guides/claim-process/` and `/guides/` (counts +
+  descriptions), homepage, `/sources/` (count), the "When to Consider an
+  Independent Appraisal or Attorney" and "How to Respond to a Lowball
+  Offer" guides' `relatedLinks`, and — most directly — resolved a FAQ on
+  the Claim Letter Builder calculator that previously said "Not yet" to
+  "Can I get a template for filing a state insurance-department complaint?"
+  by pointing it at this new guide.
+- **Full verification:** `npm run typecheck` (0 errors, 90 files),
+  `npx vitest run` (118/118, unchanged — no new calculator logic),
+  `npm run build` (49 pages), title/description lengths OK after one trim
+  (new guide's title and description both shortened), 0 broken internal
+  links (53 pages, 1818 hrefs, 53 routes, 106 assets checked).

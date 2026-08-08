@@ -1,0 +1,106 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+
+const title = "Filing a State Insurance Complaint | FairClaimCalculator";
+const description =
+  "How to file a free complaint with your state's Department of Insurance over a delayed or denied auto claim, and where to find its real, current contact info.";
+const path = "/guides/claim-process/filing-a-complaint-with-your-state-insurance-department/";
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Filing a Complaint with Your State Insurance Department"
+  cluster={{ name: "Claim Process", href: "/guides/claim-process/" }}
+  publishedDate="2026-08-08"
+  reviewedDate="2026-08-08"
+  summary="Every U.S. state, D.C., and the five U.S. territories has a free, public Department of Insurance that can investigate a delayed, denied, or unfairly handled claim — this guide explains what it can and can't do, and links directly to the National Association of Insurance Commissioners' official, currently maintained state-by-state contact directory rather than a hand-typed list that would go stale."
+  sources={[
+    'National Association of Insurance Commissioners (NAIC), <a href="https://content.naic.org/article/need-help-insurance-insurance-departments-are-your-trusted-source" target="_blank" rel="noopener">"Need Help with Insurance? Insurance Departments Are Your Trusted Source"</a> (Sept. 15, 2025) — a real, dated consumer-education article explaining what a state Department of Insurance (DOI) does and does not do. Fetched and verified directly.',
+    'National Association of Insurance Commissioners (NAIC), <a href="https://content.naic.org/article/how-file-complaint-and-research-complaints-against-insurance-carriers" target="_blank" rel="noopener">"How to File a Complaint and Research Complaints Against Insurance Carriers"</a> (Sept. 1, 2022) — a real, dated NAIC consumer article describing the general complaint-filing steps and the NAIC\'s complaint-index research tool. Fetched and verified directly.',
+    'National Association of Insurance Commissioners (NAIC), <a href="https://content.naic.org/state-insurance-departments" target="_blank" rel="noopener">Insurance Departments contact directory</a> — the NAIC\'s own live, maintained tool for finding a specific state or territory\'s Department of Insurance contact information. This site links to it directly instead of publishing a hand-copied 50-state phone/URL list, since that kind of list goes stale and this site cannot re-verify it continuously.',
+  ]}
+  relatedLinks={[
+    { label: "Claim Letter & Evidence Packet Builder", href: "/calculators/claim-letter-builder/" },
+    { label: "How to Respond to a Lowball Offer", href: "/guides/claim-process/how-to-respond-to-a-lowball-offer/" },
+    { label: "When to Consider an Independent Appraisal or Attorney", href: "/guides/claim-process/when-to-consider-an-independent-appraisal-or-attorney/" },
+    { label: "Auto Claim Evidence Checklist", href: "/guides/claim-process/auto-claim-evidence-checklist/" },
+  ]}
+>
+  <h2>What a state insurance department is</h2>
+  <p>
+    Every U.S. state, the District of Columbia, and the five U.S. territories has a Department of
+    Insurance (DOI) — sometimes called an Insurance Division, Insurance Administration, or Office
+    of the Insurance Commissioner instead. It is a free public regulator, not a private company, and
+    it exists specifically to answer consumer questions, investigate complaints, and enforce
+    insurance law within that state or territory.
+  </p>
+
+  <h2>What it can help with</h2>
+  <p>
+    Per the NAIC's own consumer guidance, a DOI can help when you think your claim may be wrongly
+    delayed, denied, or underpaid; think a company or agent treated you unfairly or you suspect
+    fraud; have general questions about coverage, billing, cancellations, or non-renewals; need to
+    check whether a company or agent is licensed; or need help after a natural disaster. If an
+    insurer breaks the rules, the DOI can take enforcement action.
+  </p>
+
+  <h2>What it does not do</h2>
+  <p>
+    The same NAIC guidance is explicit about the limits: a DOI does not set insurance prices (it
+    reviews or approves rates as required by state law), does not act as your personal legal counsel
+    in court, and cannot force a company to sell you a policy. It can investigate unfair practices and
+    explain your options — it is not a substitute for a licensed attorney if your situation needs one.
+    See <a href="/guides/claim-process/when-to-consider-an-independent-appraisal-or-attorney/">When to
+    Consider an Independent Appraisal or Attorney</a> for that separate decision.
+  </p>
+
+  <h2>How to find your state's DOI and file a complaint</h2>
+  <p>
+    Rather than publishing a 50-state list of phone numbers and mailing addresses on this page — a
+    list that would inevitably go stale between reviews — this guide links directly to the source
+    that insurance regulators themselves maintain: the NAIC's
+    <a href="https://content.naic.org/state-insurance-departments" target="_blank" rel="noopener">Insurance Departments contact directory</a>.
+    Select your state or territory there for that department's current phone number, complaint form,
+    and website.
+  </p>
+  <div class="limits-note">
+    <strong>This site does not operate that directory.</strong> It is a tool run by the National
+    Association of Insurance Commissioners, the standard-setting organization governed by the chief
+    insurance regulators of the 50 states, D.C., and five U.S. territories — not by
+    FairClaimCalculator. Verify you're on <code>content.naic.org</code> before entering any
+    information.
+  </div>
+
+  <h2>What to gather before you file</h2>
+  <p>Per NAIC's own guidance on filing a complaint, before you contact your DOI:</p>
+  <ul>
+    <li>Be ready to complete a paper or online form with your name, address, type of insurance, and the reason for the complaint.</li>
+    <li>Gather supporting documents and photographs, including email correspondence and a log of phone calls with your agent or company.</li>
+    <li>Write a detailed, factual account of what happened and the reason for your complaint.</li>
+  </ul>
+  <p>
+    The <a href="/calculators/claim-letter-builder/">Claim Letter &amp; Evidence Packet Builder</a>
+    and the <a href="/guides/claim-process/auto-claim-evidence-checklist/">Auto Claim Evidence
+    Checklist</a> can help you organize this material before you file.
+  </p>
+
+  <h2>Researching a company's complaint history</h2>
+  <p>
+    The NAIC also compiles closed, confirmed complaint data reported by state insurance departments,
+    searchable by state, company, and insurance type for the past three years, through its Consumer
+    Insurance Search tool. Per NAIC's own guidance, a complaint index should never be the only factor
+    in a decision — compare complaints alongside a company's financial condition and how long it has
+    been in business, since fluctuations in market-wide premiums or complaints can move a single
+    company's index even without a change in that company's own behavior.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It cannot tell you whether your specific complaint will succeed, how long your state's DOI will
+    take to respond, or what enforcement action, if any, it will take. Complaint processes, contact
+    information, and response times vary by state and change over time — always use the current
+    contact details from the NAIC directory linked above rather than any cached or older version of
+    this page.
+  </p>
+</GuideLayout>
