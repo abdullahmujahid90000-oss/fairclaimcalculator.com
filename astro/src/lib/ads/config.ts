@@ -28,9 +28,49 @@ export const ADSENSE_ENABLED = false;
  * below — `isAdEligible` enforces that ordering (deny-list wins).
  */
 const ELIGIBLE_ROUTES: ReadonlySet<string> = new Set([
-  // Intentionally empty. Add real paths here only after ADSENSE-READINESS.md's
-  // per-page checklist has actually been run against that page, with a
-  // dated comment, e.g.: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/", // checklist passed 2026-XX-XX
+  // Per-page checklist (ADSENSE-READINESS.md §4) run 2026-08-08 against all
+  // 23 published guides: each has substantial original content (361–1,146
+  // words of real prose/tables, not padding), is not templated or mass-
+  // generated, carries a genuine reviewedDate, and has every factual claim
+  // logged in SOURCE-REGISTER.md and reflected on /sources/. All 23 passed.
+  // This only pre-populates the allow-list for whenever ads are eventually
+  // enabled — ADSENSE_ENABLED stays false regardless (see top of file), and
+  // NEVER_ELIGIBLE_PATTERNS still wins over anything listed here.
+
+  // Total Loss cluster (10)
+  "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/", // checklist passed 2026-08-08
+  "/guides/total-loss/reading-your-total-loss-valuation-report/", // checklist passed 2026-08-08
+  "/guides/total-loss/finding-your-own-comparable-vehicles/", // checklist passed 2026-08-08
+  "/guides/total-loss/common-valuation-report-errors/", // checklist passed 2026-08-08
+  "/guides/total-loss/how-to-dispute-a-total-loss-valuation/", // checklist passed 2026-08-08
+  "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/", // checklist passed 2026-08-08
+  "/guides/total-loss/sales-tax-title-fees-on-a-total-loss/", // checklist passed 2026-08-08
+  "/guides/total-loss/acv-vs-replacement-cost-loan-payoff-asking-price/", // checklist passed 2026-08-08
+  "/guides/total-loss/state-total-loss-threshold-laws/", // checklist passed 2026-08-08
+  "/guides/total-loss/gap-insurance-loan-lease-after-total-loss/", // checklist passed 2026-08-08
+
+  // Diminished Value cluster (6)
+  "/guides/diminished-value/what-is-diminished-value/", // checklist passed 2026-08-08
+  "/guides/diminished-value/inherent-vs-repair-related-diminished-value/", // checklist passed 2026-08-08
+  "/guides/diminished-value/the-17c-formula-history-calculation-and-limits/", // checklist passed 2026-08-08
+  "/guides/diminished-value/building-diminished-value-market-evidence/", // checklist passed 2026-08-08
+  "/guides/diminished-value/state-laws-first-party-diminished-value-claims/", // checklist passed 2026-08-08
+  "/guides/diminished-value/leased-vehicle-diminished-value/", // checklist passed 2026-08-08
+
+  // Claim Process cluster (7)
+  "/guides/claim-process/first-party-vs-third-party-auto-claims/", // checklist passed 2026-08-08
+  "/guides/claim-process/when-to-consider-an-independent-appraisal-or-attorney/", // checklist passed 2026-08-08
+  "/guides/claim-process/auto-claim-evidence-checklist/", // checklist passed 2026-08-08
+  "/guides/claim-process/rental-car-loss-of-use-reimbursement/", // checklist passed 2026-08-08
+  "/guides/claim-process/how-to-respond-to-a-lowball-offer/", // checklist passed 2026-08-08
+  "/guides/claim-process/filing-a-complaint-with-your-state-insurance-department/", // checklist passed 2026-08-08
+  "/guides/claim-process/diminished-value-vs-total-loss-which-claim/", // checklist passed 2026-08-08
+
+  // Note: the /glossary/ page and guide/calculator hub index pages
+  // (/guides/, /guides/total-loss/, etc.) were deliberately NOT added —
+  // they're navigational/reference pages, not the kind of long-form
+  // content this checklist is meant to certify. Re-assess separately if
+  // ads are ever enabled.
 ]);
 
 /**

@@ -777,3 +777,92 @@ This closes out every numbered item in the uploaded fix-prompts document
 (1 through 8). Remaining open items are all owner-only or live-site-only:
 a real AdSense publisher ID, the About page bio, the manual accessibility
 walkthrough (needs a live URL), and the go-live/cutover sequence itself.
+
+## 2026-08-08/09 — AdSense per-page checklist + real automated accessibility audit
+
+With every fix-prompts item closed, worked forward through the two
+remaining actionable items in `ADSENSE-READINESS.md` that don't require a
+live URL or owner-only info: the per-page content checklist (§4) and the
+mobile/accessibility check row.
+
+**AdSense per-page checklist (all 23 guides):** ran the documented
+checklist — substantial original content, not templated/mass-generated,
+genuine `reviewedDate`, every factual claim logged in `SOURCE-REGISTER.md`
+and reflected on `/sources/` — against all 23 published guides. All 23
+passed. Populated `astro/src/lib/ads/config.ts`'s `ELIGIBLE_ROUTES` allow-
+list with all 23 paths, each dated `// checklist passed 2026-08-08`, plus
+an explanatory header noting `/glossary/` and hub/index pages were
+deliberately excluded (navigational, not the long-form content this
+checklist certifies). **`ADSENSE_ENABLED` was verified unchanged (`false`)
+throughout** — this only pre-populates the allow-list for whenever ads are
+eventually enabled; the deny-list (`NEVER_ELIGIBLE_PATTERNS`) still wins
+over anything here regardless.
+
+**Automated accessibility audit — real upgrade, not just a re-run:** prior
+sessions' "automated pass" was a simple regex-style check (one `<h1>`,
+`<main>` present, skip link present, `lang` attribute present). This
+session replaced it with a genuine WCAG rule-engine scan using axe-core,
+run headlessly via `jsdom` (no live URL needed) against every built HTML
+page. New permanent tool: `astro/scripts/axe-check.mjs`, wired to
+`npm run audit:a11y`, with `axe-core` and `jsdom` added as real
+devDependencies (previously trialed with `--no-save`).
+
+Two integration bugs had to be fixed to get a trustworthy result: (1) axe-
+core must be loaded via `dom.window.eval()` inside the JSDOM window's own
+context — setting Node globals (`global.window = ...`) after the fact
+doesn't work; (2) a shared JSDOM instance with `innerHTML` swapped between
+pages produced 81/81 false-positive `html-has-lang` violations, because
+`innerHTML` assignment doesn't re-parse the `<html>` tag's own attributes —
+fixed by creating a fresh `JSDOM` instance per file. `resources: "usable"`
+(which fetches linked CSS/images over the network) was dropped since it's
+unneeded for axe's structural rules and was the reason a full scan
+initially timed out; without it, all 81 pages scan in ~18s.
+
+**Coverage gap discovered and fixed:** the file-walk originally matched
+only literal `index.html`, silently skipping the ~27 legacy redirect/
+retired-content stub pages under `public/` (e.g.
+`articles/what-is-pain-and-suffering.html`) that get copied verbatim into
+`dist/` at real, live, publicly-reachable URLs. These pages had never been
+checked by *any* verification script this entire project — not for
+accessibility, not for title/description length, not for broken links.
+Fixed the walk to match every `.html` file, bringing total coverage from
+54 pages to the real total of 81.
+
+Found and fixed 2 genuine issues via the corrected scan:
+1. An empty, unlabeled `<th></th>` header cell in the comparison table on
+   `/guides/claim-process/first-party-vs-third-party-auto-claims/` —
+   screen readers couldn't announce that column. Fixed with a
+   `.visually-hidden` span.
+2. All ~30 legacy stub pages had their body content sitting directly under
+   `<body>` with no landmark region wrapping it (axe: `region`,
+   moderate). Fixed at the generator-template level, not the generated
+   files — `astro/scripts/generate-legacy-stubs.mjs`'s `pageShell()`
+   function now wraps `${body}` in `<main>...</main>`, so the fix survives
+   every future `npm run build` (which regenerates these files from
+   scratch via the `prebuild` hook). Verified this survives a real rebuild.
+
+Final clean run: **0 violations across all 81 pages.** `color-contrast` is
+disabled in the script (jsdom doesn't do real layout) but was separately
+verified by hand against the site's small, fixed color palette. Updated
+`ADSENSE-READINESS.md`'s accessibility row to describe the real method and
+result — the manual keyboard-only/screen-reader walkthrough at
+320/390/768/1024/1440px remains the one genuinely outstanding piece, since
+it needs a live URL.
+
+Investigated one item flagged by the broken-link checker —
+`BROKEN ROUTE in dist/404.html: /404/` — and confirmed it's a false
+positive in the checker's own route model, not a site defect: `404.html`
+is a reserved filename served automatically by static hosts (GitHub Pages)
+for any unmatched path, so it legitimately has no matching `/404/`
+directory route the way ordinary content pages do under
+`trailingSlash: "always"`. The page's `<link rel="canonical">` self-
+reference is harmless standard practice, and the page already carries
+`noindex` — no code change needed.
+
+- **Full verification:** `npx vitest run` (118/118), `npm run typecheck`
+  (0 errors, 92 files), `npm run build` (50 pages), `npm run audit:a11y`
+  (81 pages, 0 violations), title/description lengths OK (81 files
+  checked, including stubs for the first time), 0 real broken internal
+  links (81 pages, 2081 hrefs including absolute-URL canonical/redirect
+  links, 81 routes, 107 assets checked; the one flagged item is the
+  `/404/` false positive above).

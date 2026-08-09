@@ -44,7 +44,9 @@ ${robots ? `<meta name="robots" content="${robots}" />\n` : ""}<style>
 </style>
 </head>
 <body>
+<main>
 ${body}
+</main>
 </body>
 </html>
 `;
