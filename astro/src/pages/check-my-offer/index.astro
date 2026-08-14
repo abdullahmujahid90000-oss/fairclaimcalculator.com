@@ -4,7 +4,7 @@ import ErrorSummary from "@components/ErrorSummary.astro";
 
 const title = "Which Auto Claim Tool Should I Use? | FairClaimCalculator";
 const description =
-  "Answer two questions to find the right free tool: total-loss offer, settlement check, owned or leased diminished value, rental reimbursement, or claim letter.";
+  "Answer two questions to find the right free tool among all ten calculators — total-loss, diminished value, GAP gap, tax/fees, rental, or claim letter.";
 const path = "/check-my-offer/";
 
 const structuredData = [
@@ -87,6 +87,18 @@ const structuredData = [
               <span><strong>Decide whether to keep my totaled vehicle</strong><small>Compare the net cash of keeping vs. surrendering it.</small></span>
             </label>
             <label class="choice-card">
+              <input type="radio" name="goal" value="threshold" />
+              <span><strong>Check whether my state's total-loss threshold is met</strong><small>Compare repair estimate and ACV against my state's actual rule.</small></span>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="goal" value="gap" />
+              <span><strong>See if there's a gap between my payoff and my settlement</strong><small>Compare what I owe against my ACV settlement.</small></span>
+            </label>
+            <label class="choice-card">
+              <input type="radio" name="goal" value="tax" />
+              <span><strong>Estimate tax/fees on a replacement vehicle</strong><small>Using my own known local sales tax rate.</small></span>
+            </label>
+            <label class="choice-card">
               <input type="radio" name="goal" value="unsure" />
               <span><strong>I don't know yet</strong><small>Choose the broadest useful starting point for my situation.</small></span>
             </label>
@@ -111,7 +123,7 @@ const structuredData = [
     <section class="privacy-note">
       <h2>Your answers are not saved</h2>
       <p>
-        This router and all seven calculators run locally in your browser. The site does not receive
+        This router and all ten calculators run locally in your browser. The site does not receive
         the radio choices or calculator entries you make.
       </p>
     </section>
@@ -121,7 +133,7 @@ const structuredData = [
       The recommendation does not decide coverage, fault, recoverability, value, or legal rights.
     </div>
 
-    <p class="browse-link"><a href="/calculators/">Prefer to choose yourself? Browse all seven calculators →</a></p>
+    <p class="browse-link"><a href="/calculators/">Prefer to choose yourself? Browse all ten calculators →</a></p>
     <p class="browse-link"><a href="/guides/claim-process/diminished-value-vs-total-loss-which-claim/">Prefer to read it instead of answering questions? Diminished Value vs. Total Loss: Which Claim Do I Have? →</a></p>
   </div>
 </BaseLayout>
@@ -172,6 +184,21 @@ const structuredData = [
       description: "Enter the insurer's ACV, salvage deduction, and any comparable salvage sale prices you've found to see the net-cash math of keeping vs. surrendering your vehicle.",
       href: "/calculators/salvage-value/",
     },
+    threshold: {
+      title: "Total-Loss Threshold Checker",
+      description: "Pick your state and enter your repair estimate and ACV to check them against your state's actual percentage rule or Total Loss Formula.",
+      href: "/calculators/total-loss-threshold-checker/",
+    },
+    gap: {
+      title: "Loan/Lease Payoff vs. ACV Gap",
+      description: "Enter your loan or lease payoff and your settlement amount to see the exact gap, plus common GAP-exclusion categories to check against your certificate.",
+      href: "/calculators/gap-shortfall/",
+    },
+    tax: {
+      title: "Sales Tax & Title Fee Estimator",
+      description: "Enter your replacement vehicle's price and your own known local tax rate to estimate the tax and title/registration cost.",
+      href: "/calculators/sales-tax-title-fee-estimator/",
+    },
   } as const;
 
   if (form && result && resultHeading && resultDescription && resultLink && errorSummary && errorList) {
@@ -220,7 +247,7 @@ const structuredData = [
 
       errorSummary.hidden = true;
       let routeKey: keyof typeof routes;
-      if (goal === "audit" || goal === "check" || goal === "dv" || goal === "leased-dv" || goal === "letter" || goal === "rental" || goal === "salvage") {
+      if (goal === "audit" || goal === "check" || goal === "dv" || goal === "leased-dv" || goal === "letter" || goal === "rental" || goal === "salvage" || goal === "threshold" || goal === "gap" || goal === "tax") {
         routeKey = goal;
       } else if (situation === "repaired") {
         routeKey = "dv";

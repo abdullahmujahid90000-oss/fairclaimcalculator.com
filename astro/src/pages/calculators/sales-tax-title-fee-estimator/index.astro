@@ -1,0 +1,374 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ErrorSummary from "@components/ErrorSummary.astro";
+import FaqSection from "@components/FaqSection.astro";
+import { SALES_TAX_TITLE_FEE_CONFIG } from "@lib/calculators/sales-tax-title-fee";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
+
+const title = "Sales Tax & Title Fee Estimator | FairClaimCalculator";
+const description =
+  "Estimate the sales tax and title/registration cost of replacing a totaled vehicle, using your own known tax rate — no assumed state rate table.";
+const path = "/calculators/sales-tax-title-fee-estimator/";
+
+const faqs: FaqItem[] = [
+  {
+    question: "Why do I have to enter my own tax rate instead of picking my state?",
+    answer:
+      "Because sales tax rates vary by state and often by county or city within a state, and they change over time. A built-in state-by-state table would go stale and could be confidently wrong for your specific purchase. Look up your combined state + local rate (your dealership's paperwork or your state Department of Revenue will have it) and enter it directly — the arithmetic from there is exact.",
+  },
+  {
+    question: "Does this tool tell me whether my insurer owes me this tax back?",
+    answer:
+      "No. Whether tax reimbursement is available, and how to request it, depends on your state and your insurer's process — see Sales Tax, Title, and Fees on a Total-Loss Settlement for the general pattern. This tool only estimates the dollar amount, not your entitlement to it.",
+  },
+  {
+    question: "What counts as a title/registration fee here?",
+    answer:
+      "Any flat state or county fee for titling and registering the replacement vehicle, separate from sales tax. It's optional — leave it blank if you only want the tax estimate.",
+  },
+  {
+    question: "Is anything I type sent to a server?",
+    answer:
+      "No. Every number you enter stays in your browser and is never transmitted to or stored on any server operated by this site.",
+  },
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "Calculators", item: "https://www.fairclaimcalculator.com/calculators/" },
+      { "@type": "ListItem", position: 3, name: "Sales Tax & Title Fee Estimator", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+  buildFaqSchema(faqs),
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/calculators/">Calculators</a> / Sales Tax & Title Fee Estimator</p>
+    <h1 class="page-title">Sales Tax & Title Fee Estimator</h1>
+    <p class="lead">
+      Enter your replacement vehicle's price and your own known sales tax rate to estimate the tax
+      and title/registration cost of replacing a totaled vehicle — useful before requesting
+      reimbursement from your insurer.
+    </p>
+    <ul class="trust-badges">
+      <li><span aria-hidden="true">🔒</span> Free — no login or email</li>
+      <li><span aria-hidden="true">🧮</span> Every step of the math is shown</li>
+      <li><span aria-hidden="true">💾</span> Nothing you enter is sent to a server</li>
+    </ul>
+
+    <div class="limits-note">
+      <strong>No built-in state tax-rate table, on purpose.</strong> Rates vary by state and often by
+      county or city, and change over time — a hard-coded table could confidently give you the wrong
+      number. Enter the rate you already know or have looked up. See
+      <a href="/guides/total-loss/sales-tax-title-fees-on-a-total-loss/">Sales Tax, Title, and Fees on
+      a Total-Loss Settlement</a> for how reimbursement typically works.
+    </div>
+
+    <div class="calc-card">
+      <h2>Estimate Your Tax & Fees</h2>
+      <ErrorSummary id="stf-error-summary" />
+
+      <form id="stf-form" novalidate>
+        <div class="form-grid">
+          <div class="field">
+            <label for="price">Replacement vehicle price</label>
+            <input type="number" id="price" name="price" min="0" step="1" inputmode="decimal" required aria-describedby="price-hint" />
+            <p class="hint" id="price-hint">U.S. dollars. Example: 19000.</p>
+          </div>
+
+          <div class="field">
+            <label for="rate">Your known sales tax rate</label>
+            <input type="number" id="rate" name="rate" min="0" max="20" step="0.01" inputmode="decimal" required aria-describedby="rate-hint" />
+            <p class="hint" id="rate-hint">As a percentage. Example: 7 or 7.25. Combined state + local, if applicable.</p>
+          </div>
+
+          <div class="field">
+            <label for="fees">Title & registration fees</label>
+            <input type="number" id="fees" name="fees" min="0" step="1" inputmode="decimal" aria-describedby="fees-hint" />
+            <p class="hint" id="fees-hint">Optional. U.S. dollars, flat amount.</p>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Estimate My Cost</button>
+          <button type="button" class="btn-secondary" id="stf-start-over">Start over and delete my answers</button>
+        </div>
+      </form>
+
+      <div class="result-box" id="stf-result" hidden>
+        <h2 id="stf-result-heading" tabindex="-1">Your Tax & Fee Estimate</h2>
+        <div class="breakdown" id="stf-breakdown"></div>
+
+        <div class="methodology-note">
+          <p><strong>Methodology version {SALES_TAX_TITLE_FEE_CONFIG.version}</strong> — last reviewed {SALES_TAX_TITLE_FEE_CONFIG.reviewedDate}.</p>
+          {SALES_TAX_TITLE_FEE_CONFIG.sources.map((source) => <p set:html={source} />)}
+          <p><a href="/methodology/">Read the full calculator methodology →</a></p>
+        </div>
+
+        <div class="result-actions">
+          <button type="button" id="stf-print" class="btn-secondary">Print / Save as PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer-box">
+      <strong>Educational tool, not tax or legal advice.</strong>
+      This calculator only multiplies the numbers you enter; it does not know your actual local tax
+      rate, does not determine your reimbursement entitlement, and is not a substitute for your state
+      Department of Revenue or DMV. See our <a href="/disclaimer/">full disclaimer</a>.
+    </div>
+
+    <FaqSection faqs={faqs} />
+
+    <h2>More Calculators</h2>
+    <div class="related-tools">
+      <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown →</a>
+      <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit →</a>
+      <a href="/calculators/gap-shortfall/">Loan/Lease Payoff vs. ACV Gap →</a>
+      <a href="/calculators/total-loss-threshold-checker/">Total-Loss Threshold Checker →</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import { calculateSalesTaxTitleFee, formatUSD, toCents, toRateDecimal } from "@lib/calculators/sales-tax-title-fee";
+  import { trackCalculatorCompleted } from "@lib/analytics/events";
+
+  const form = document.getElementById("stf-form") as HTMLFormElement | null;
+  const resultBox = document.getElementById("stf-result");
+  const errorSummary = document.getElementById("stf-error-summary");
+  const errorList = document.getElementById("stf-error-summary-list");
+  const resultHeading = document.getElementById("stf-result-heading");
+  const breakdownEl = document.getElementById("stf-breakdown");
+  const startOverBtn = document.getElementById("stf-start-over");
+  const printBtn = document.getElementById("stf-print");
+
+  if (form && resultBox && errorSummary && errorList && resultHeading && breakdownEl) {
+    function fieldValue(name: string): string {
+      const el = form!.elements.namedItem(name) as HTMLInputElement | null;
+      return el ? el.value : "";
+    }
+
+    function clearFieldErrorStates() {
+      form!.querySelectorAll(".field-error").forEach((el) => el.classList.remove("field-error"));
+      form!.querySelectorAll(".field-error-message").forEach((el) => el.remove());
+    }
+
+    function markFieldError(fieldId: string, message: string) {
+      const field = document.getElementById(fieldId);
+      const wrapper = field?.closest(".field");
+      if (!wrapper) return;
+      wrapper.classList.add("field-error");
+      const msg = document.createElement("p");
+      msg.className = "field-error-message";
+      msg.textContent = message;
+      wrapper.appendChild(msg);
+    }
+
+    function addRow(container: HTMLElement, labelText: string, numberText: string) {
+      const row = document.createElement("div");
+      row.className = "breakdown-row";
+      const label = document.createElement("span");
+      label.textContent = labelText;
+      const number = document.createElement("span");
+      number.textContent = numberText;
+      row.append(label, number);
+      container.appendChild(row);
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      clearFieldErrorStates();
+
+      const errors: { fieldId: string; message: string }[] = [];
+
+      if (fieldValue("price") === "") errors.push({ fieldId: "price", message: "Replacement vehicle price is required." });
+      const priceRes = toCents(fieldValue("price"), { label: "Replacement vehicle price" });
+      if (priceRes.error) errors.push({ fieldId: "price", message: priceRes.error });
+
+      if (fieldValue("rate") === "") errors.push({ fieldId: "rate", message: "Your known sales tax rate is required." });
+      const rateRes = toRateDecimal(fieldValue("rate"), { label: "Sales tax rate" });
+      if (rateRes.error) errors.push({ fieldId: "rate", message: rateRes.error });
+
+      const feesRes = toCents(fieldValue("fees"), { label: "Title & registration fees" });
+      if (feesRes.error) errors.push({ fieldId: "fees", message: feesRes.error });
+
+      if (errors.length) {
+        errorList.innerHTML = "";
+        errors.forEach((err) => {
+          markFieldError(err.fieldId, err.message);
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = `#${err.fieldId}`;
+          a.textContent = err.message;
+          a.addEventListener("click", (ev) => {
+            ev.preventDefault();
+            document.getElementById(err.fieldId)?.focus();
+          });
+          li.appendChild(a);
+          errorList.appendChild(li);
+        });
+        errorSummary.hidden = false;
+        errorSummary.focus();
+        resultBox.hidden = true;
+        return;
+      }
+
+      errorSummary.hidden = true;
+
+      const result = calculateSalesTaxTitleFee({
+        replacementVehiclePriceCents: priceRes.value,
+        taxRateDecimal: rateRes.value,
+        titleAndRegistrationFeeCents: feesRes.value,
+      });
+
+      breakdownEl.replaceChildren();
+      addRow(breakdownEl, "Replacement vehicle price", formatUSD(result.replacementVehiclePriceCents));
+      addRow(breakdownEl, `Sales tax (${(result.taxRateDecimal * 100).toFixed(2)}%)`, formatUSD(result.salesTaxCents));
+      addRow(breakdownEl, "Title & registration fees", formatUSD(result.titleAndRegistrationFeeCents));
+      addRow(breakdownEl, "Total tax & fees", formatUSD(result.totalTaxAndFeesCents));
+
+      trackCalculatorCompleted("sales_tax_title_fee");
+      resultBox.hidden = false;
+      resultHeading.focus();
+    });
+
+    startOverBtn?.addEventListener("click", () => {
+      form.reset();
+      clearFieldErrorStates();
+      errorSummary.hidden = true;
+      resultBox.hidden = true;
+      (document.getElementById("price") as HTMLInputElement | null)?.focus();
+    });
+
+    printBtn?.addEventListener("click", () => window.print());
+  }
+</script>
+
+<style>
+  .breadcrumb-text { font-size: 0.85rem; color: var(--color-text-muted); margin: 20px 0 8px; }
+  .breadcrumb-text a { color: inherit; }
+
+  .page-title { font-size: 1.8rem; margin: 0 0 10px; color: var(--color-primary-dark); }
+  .lead { color: var(--color-text-muted); font-size: 1.05rem; max-width: 640px; margin: 0 0 6px; }
+
+  .trust-badges { padding: 0; margin: 14px 0 20px; list-style: none; display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.85rem; color: var(--color-text-muted); }
+
+  .limits-note {
+    background: var(--color-bg-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    margin: 0 0 24px;
+  }
+  .limits-note strong { display: block; margin-bottom: 4px; }
+
+  .calc-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 26px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    margin-bottom: 34px;
+  }
+
+  .calc-card h2 { margin-top: 0; font-size: 1.3rem; }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin: 18px 0;
+  }
+
+  @media (min-width: 640px) {
+    .form-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .field label { display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 6px; }
+  .field .hint { font-weight: 400; color: var(--color-text-muted); font-size: 0.8rem; margin: 4px 0 0; }
+
+  .field input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    min-height: var(--touch-target-min);
+  }
+
+  .form-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    padding: 13px 24px;
+    border-radius: 7px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--color-primary-dark); }
+
+  .btn-secondary {
+    background: var(--color-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    padding: 13px 24px;
+    border-radius: 7px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  .result-box { margin-top: 26px; padding: 20px; border-radius: var(--radius); background: var(--color-bg-soft); border: 1px solid var(--color-border); }
+
+  .breakdown-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--color-border); font-size: 0.95rem; }
+
+  .methodology-note { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--color-border); font-size: 0.82rem; color: var(--color-text-muted); }
+  .methodology-note p { margin: 0 0 6px; }
+
+  .result-actions { margin-top: 16px; }
+
+  .disclaimer-box {
+    background: var(--color-warning-bg);
+    border: 1px solid var(--color-warning-border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-size: 0.88rem;
+    color: #6b4a1e;
+    margin: 26px 0;
+  }
+  .disclaimer-box strong { display: block; margin-bottom: 4px; }
+
+  .related-tools { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 20px 0 50px; }
+  @media (max-width: 560px) { .related-tools { grid-template-columns: 1fr; } }
+  .related-tools a {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-height: var(--touch-target-min);
+  }
+  .related-tools a:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  @media print {
+    .site-header, .site-footer, .form-actions, .result-actions, #stf-form, .related-tools, .skip-link {
+      display: none !important;
+    }
+  }
+</style>

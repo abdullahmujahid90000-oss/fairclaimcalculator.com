@@ -35,7 +35,10 @@ export function trackCalculatorCompleted(
     | "settlement_breakdown"
     | "loss_of_use"
     | "salvage_value"
-    | "leased_diminished_value",
+    | "leased_diminished_value"
+    | "total_loss_threshold"
+    | "gap_shortfall"
+    | "sales_tax_title_fee",
 ): void {
   trackEvent("calculator_completed", { calculator });
 }

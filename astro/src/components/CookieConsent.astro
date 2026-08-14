@@ -38,6 +38,19 @@ import { ANALYTICS_ENABLED, GA_MEASUREMENT_ID } from "@lib/analytics/config";
       // Consent Mode v2 defaults: everything denied until a visitor
       // affirmatively grants it. Declared even though we also withhold the
       // gtag.js script itself, so the signal is correct the instant it does load.
+      //
+      // ad_storage / ad_user_data / ad_personalization are declared here
+      // now, denied, even though no ad network is integrated yet — so the
+      // signal is already correct if/when one is added. IMPORTANT: this
+      // banner's own accept/reject buttons only ever grant or deny
+      // analytics_storage; they do not, and must not, grant the ad_*
+      // categories. Per ADSENSE-READINESS.md §5, a real, certified CMP
+      // (supporting IAB TCF v2.3 for EEA/UK/CH, plus a US-state opt-out
+      // mechanism) is required before any ad request can fire — a second
+      // button on this same banner would NOT satisfy that requirement,
+      // so don't add one here. When that CMP is actually integrated, it
+      // will call its own `gtag("consent", "update", {ad_storage: ...})`
+      // (or equivalent) independently of this file.
       gtag("consent", "default", {
         ad_storage: "denied",
         ad_user_data: "denied",

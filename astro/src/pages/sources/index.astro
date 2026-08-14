@@ -6,6 +6,9 @@ import { DV_CONFIG } from "@lib/calculators/diminished-value-baseline";
 import { LETTER_BUILDER_CONFIG } from "@lib/calculators/claim-letter-builder";
 import { LOSS_OF_USE_CONFIG } from "@lib/calculators/loss-of-use";
 import { SALVAGE_VALUE_CONFIG } from "@lib/calculators/salvage-value";
+import { TOTAL_LOSS_THRESHOLD_CONFIG } from "@lib/calculators/total-loss-threshold";
+import { GAP_SHORTFALL_CONFIG } from "@lib/calculators/gap-shortfall";
+import { SALES_TAX_TITLE_FEE_CONFIG } from "@lib/calculators/sales-tax-title-fee";
 
 const title = "Source Register | FairClaimCalculator";
 const description =
@@ -30,6 +33,9 @@ const groups = [
   { name: "Rental / Loss-of-Use Reimbursement", href: "/calculators/loss-of-use-reimbursement/", sources: LOSS_OF_USE_CONFIG.sources },
   { name: "Salvage / Owner-Retained Value", href: "/calculators/salvage-value/", sources: SALVAGE_VALUE_CONFIG.sources },
   { name: "Leased Vehicle Diminished Value", href: "/calculators/leased-vehicle-diminished-value/", sources: DV_CONFIG.sources },
+  { name: "Total-Loss Threshold Checker", href: "/calculators/total-loss-threshold-checker/", sources: TOTAL_LOSS_THRESHOLD_CONFIG.sources },
+  { name: "Loan/Lease Payoff vs. ACV Gap", href: "/calculators/gap-shortfall/", sources: GAP_SHORTFALL_CONFIG.sources },
+  { name: "Sales Tax & Title Fee Estimator", href: "/calculators/sales-tax-title-fee-estimator/", sources: SALES_TAX_TITLE_FEE_CONFIG.sources },
   { name: "Claim Letter & Evidence Packet Builder", href: "/calculators/claim-letter-builder/", sources: LETTER_BUILDER_CONFIG.sources },
 ];
 ---
@@ -44,7 +50,7 @@ const groups = [
     </p>
 
     <div class="notice">
-      This page covers the seven calculators' formula and methodology sources below. The 23-guide
+      This page covers the ten calculators' formula and methodology sources below. The 23-guide
       library's sources are cited inline on each guide's own page (in its "Sources" section) rather
       than duplicated here — see the summary and links in the Guides section further down.
     </div>

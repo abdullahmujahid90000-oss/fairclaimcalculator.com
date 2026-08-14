@@ -324,10 +324,80 @@ state-specific rules with their own state insurance department.
 
 ---
 
-## 7. What is NOT yet in this register
+## 7. Three new calculators (added 2026-08-14)
 
-The 20-guide library above is complete and logged as of 2026-08-01.
-Nothing currently published on the site is missing from this register. Any
-future guide, calculator, or claim added after this point must have its
-sources logged here — and reflected on the public `/sources/` page —
-before publication, never after.
+**8.1 Total-Loss Threshold Checker (`/calculators/total-loss-threshold-checker/`)**
+
+**Claim:** the same 51-entry state-by-state total-loss threshold table
+(percentage rule vs. Total Loss Formula) already published and sourced in
+the "State Total-Loss Threshold Laws Explained" guide (register entry #10
+in the Guide Library above) is reused verbatim as this calculator's lookup
+data — no new state data was researched for this tool.
+
+- **Primary/secondary sources:** identical to the guide's own — the
+  Policygenius state-threshold compilation (secondary, periodically
+  updated) and the New Hampshire Insurance Department's own published
+  valuation-methods list (primary, one real regulator example).
+- **How it's used:** `TOTAL_LOSS_THRESHOLD_CONFIG.sources` and
+  `STATE_THRESHOLDS` in `total-loss-threshold.ts`. The two data tables
+  (guide's static HTML table, calculator's `STATE_THRESHOLDS` array) are
+  kept manually in sync — see the code comment on `STATE_THRESHOLDS` — and
+  covered by 20 Vitest tests, including exact matches to the guide's own
+  worked examples (75%-threshold and TLF worked cases).
+- **What is deliberately NOT claimed:** that meeting the threshold means an
+  insurer legally must total the vehicle (many total voluntarily below the
+  threshold); that the table reflects any state's current statute with
+  legal certainty.
+
+**8.2 Loan/Lease Payoff vs. ACV Gap (`/calculators/gap-shortfall/`)**
+
+**Claim:** the tool computes only the raw arithmetic gap between a loan/
+lease payoff and a settlement amount — it does not calculate or claim to
+know whether GAP insurance would cover that gap.
+
+- **Primary source:** Consumer Financial Protection Bureau, "What is
+  Guaranteed Asset Protection (GAP) insurance?" (last reviewed March 8,
+  2024) — same source already cited in the "What Happens to Your Loan or
+  Lease After a Total Loss" guide (register entry #18).
+- **How it's used:** `GAP_SHORTFALL_CONFIG.sources` and
+  `GAP_SHORTFALL_CONFIG.commonExclusions` in `gap-shortfall.ts` — the
+  5-item common-exclusions checklist shown on the calculator page is the
+  identical list already published in the guide, kept as shared data so
+  the two never drift apart.
+- **What is deliberately NOT claimed:** that any specific GAP policy
+  covers or excludes the shortfall shown — the guide and calculator both
+  say explicitly that this depends on the user's own certificate, which
+  this site cannot see.
+
+**8.3 Sales Tax & Title Fee Estimator (`/calculators/sales-tax-title-fee-estimator/`)**
+
+**Claim:** the tool deliberately does not include a built-in state (or
+state+local) sales-tax-rate table; it multiplies a user-entered price by a
+user-entered rate, consistent with the existing site-wide policy (already
+stated in the "Sales Tax, Title, and Fees on a Total-Loss Settlement"
+guide and in `SETTLEMENT_BREAKDOWN_CONFIG`) of never assuming a tax rate
+on a user's behalf.
+
+- **Primary source:** Texas Comptroller, Motor Vehicle Tax Guide —
+  Insurance Settlement Transfers — same source already cited in the guide
+  (register entry #6), referenced here only as one real example of a state
+  publishing its own rule, not as a rate source.
+- **How it's used:** `SALES_TAX_TITLE_FEE_CONFIG.sources` in
+  `sales-tax-title-fee.ts`. The rate-input field rejects implausible
+  values (negative, or above 20%) as a sanity check, not a claim about any
+  real jurisdiction's actual rate ceiling.
+- **What is deliberately NOT claimed:** any specific state or local tax
+  rate; that the estimate reflects what a user's insurer actually owes or
+  will reimburse.
+
+All three: full arithmetic covered by Vitest (20 + 10 + 14 = 44 new tests,
+162 total site-wide), zero accessibility violations (axe-core, full
+84-page scan), cross-linked from their respective guides and calculators
+index, added to `/sources/`.
+
+## 8. What is NOT yet in this register
+
+Nothing currently published on the site is missing from this register as
+of 2026-08-14. Any future guide, calculator, or claim added after this
+point must have its sources logged here — and reflected on the public
+`/sources/` page — before publication, never after.

@@ -866,3 +866,90 @@ reference is harmless standard practice, and the page already carries
   links (81 pages, 2081 hrefs including absolute-URL canonical/redirect
   links, 81 routes, 107 assets checked; the one flagged item is the
   `/404/` false positive above).
+
+## 2026-08-14 — Three new calculators, full site status check, live-site discovery
+
+The owner asked for an SEO/AdSense status check before publishing anything
+further. Checked the actual live site directly rather than from memory:
+`www.fairclaimcalculator.com` is still serving the **old plain-HTML
+placeholder site** (root-level files, "tools launching over the coming
+weeks" copy, 4 tools) — none of this project's Astro rebuild has ever gone
+live. Confirmed `origin/main` is fully in sync with local `main`
+(`e4e7cd4`), so the earlier open question about unpushed commits is
+resolved — the rebuild is finished and pushed, just not cut over. The
+GitHub Actions deploy workflow (`.github/workflows/deploy.yml`) is ready
+and waiting on one manual step (Pages source → "GitHub Actions") that only
+the owner can do from GitHub's own settings UI.
+
+Given that status, the owner asked for two things: get everything
+AdSense-readiness-wise that's under this project's own control fully
+finished, and add the most useful additional calculator tools. Both
+addressed:
+
+**Three new calculators (8th, 9th, 10th):**
+
+1. **Total-Loss Threshold Checker** (`/calculators/total-loss-threshold-checker/`)
+   — turns the already-published, already-sourced state threshold table
+   (from the "State Total-Loss Threshold Laws Explained" guide) into an
+   interactive lookup. Handles both the simple-percentage-threshold states
+   and Total-Loss-Formula states correctly, including an optional
+   estimated-salvage-value field for TLF states. No new state data was
+   researched — the same 51-entry table is reused verbatim (kept in sync
+   with the guide's table by a code comment). 20 Vitest tests, including
+   exact matches to the guide's own worked examples.
+2. **Loan/Lease Payoff vs. ACV Gap** (`/calculators/gap-shortfall/`) —
+   deliberately NOT a rebuild of Settlement Check Breakdown. Computes only
+   the raw arithmetic gap between a loan/lease payoff and a settlement
+   amount, then surfaces the same 5-item common-GAP-exclusions checklist
+   already published in the GAP guide (shared as data between the two so
+   they can't drift). Explicitly never claims to calculate what GAP would
+   actually pay — the guide already established that depends on the
+   user's specific certificate, which this site can't know. 10 Vitest
+   tests.
+3. **Sales Tax & Title Fee Estimator** (`/calculators/sales-tax-title-fee-estimator/`)
+   — deliberately does NOT include a built-in state sales-tax-rate table.
+   The companion guide already explains why Settlement Check Breakdown
+   never assumes a state's tax rate (rates vary by state AND locality, and
+   change over time); this tool follows the same policy, asking for the
+   user's own known/looked-up rate rather than fabricating a 50-state
+   table that would eventually go stale or be wrong for a specific
+   locality. 14 Vitest tests, including a sanity check rejecting
+   implausible rates (>20%).
+
+All three: full lib module + Vitest tests written and passing *before* the
+page was built (not after), FAQ sections with FAQPage schema,
+BreadcrumbList schema, cross-linked from their source guides (each guide
+got a new inline link to its calculator), the calculators index, the
+homepage, `/check-my-offer/` (3 new routing options), `/sources/`, and
+reciprocal links added from Settlement Check Breakdown, Total-Loss Offer
+Audit, and Salvage Value's own "More Calculators" sections. Site-wide
+calculator count updated from "seven" to "ten" everywhere it was stated
+(About, calculators index, homepage, check-my-offer).
+
+**Consent/CMP:** rather than build a homemade "ad consent" toggle (which
+would not satisfy the real IAB TCF requirement `ADSENSE-READINESS.md` §5
+already calls for, and would misrepresent compliance that doesn't exist),
+added a precise code comment in `CookieConsent.astro` marking exactly
+where a real, future CMP integration plugs in, and clarifying that this
+banner's own buttons must never grant the `ad_*` consent categories
+themselves. Documented as a deliberate scope decision, not an oversight.
+
+**AdSense checklist:** confirmed the 3 new calculators don't need (and
+aren't eligible for) `ELIGIBLE_ROUTES` — they're tool pages, permanently
+denied under §3 same as every other calculator, so no new checklist work
+was needed there. `ADSENSE_ENABLED` verified unchanged (`false`).
+
+**Full verification:** `npx vitest run` (162/162, 44 new), `npm run
+typecheck` (0 errors, 101+ files), `npm run build` (53 Astro pages),
+`npm run audit:a11y` (84 pages, 0 violations), title/description lengths
+OK across all 84 pages after 2 trims, 0 real broken links (84 pages, 2298
+hrefs including asset references, 84 routes + 33 assets checked; the one
+flagged item is the same known `/404/` checker false positive as before).
+`SOURCE-REGISTER.md`, `ADSENSE-READINESS.md`, and `/sources/` updated with
+the 3 new calculators' sources and honest page/test counts throughout.
+
+Net result: every item in `ADSENSE-READINESS.md` §1 that doesn't require
+a live URL or the owner personally is now done. What's left is cutover
+itself, the two post-cutover manual reviews, a future CMP vendor decision,
+and the owner-only items (publisher ID, DNS/Pages settings) — all
+explicitly out of this session's reach by design, not oversight.
