@@ -395,7 +395,58 @@ All three: full arithmetic covered by Vitest (20 + 10 + 14 = 44 new tests,
 84-page scan), cross-linked from their respective guides and calculators
 index, added to `/sources/`.
 
-## 8. What is NOT yet in this register
+## 8. 51 state total-loss threshold pages (added 2026-08-16)
+
+**Claim:** each of the 51 pages under
+`/guides/total-loss/state-total-loss-threshold-laws/[state]/` states that
+state's total-loss rule (percentage or Total Loss Formula) and the exact
+percentage where applicable — no new state data was researched; every
+number is pulled directly from the same 51-entry `STATE_THRESHOLDS` table
+already sourced for register entries #10 (guide) and #8.1 (calculator).
+
+- **Primary/secondary sources:** identical to the parent guide and
+  calculator — the Policygenius state-threshold compilation (secondary)
+  and the New Hampshire Insurance Department's own published
+  valuation-methods list (primary, one real regulator example). Reused
+  verbatim on all 51 pages via the `sources` prop, not re-typed per page.
+- **How it's built:** one dynamic Astro route
+  (`src/pages/guides/total-loss/state-total-loss-threshold-laws/[state]/index.astro`)
+  with `getStaticPaths()` mapping over `STATE_THRESHOLDS` — not 51
+  hand-written files, but also not a single sentence with the state name
+  swapped in. The explanatory "what this means practically" paragraph
+  (`getPracticalMeaning()` in `src/lib/content/state-threshold-copy.ts`) is
+  branched by threshold **tier** (100%, 80%, 75%, 70%, 65%, 60%, or TLF) —
+  a real factual difference between states — so pages in the same tier
+  share applicable text and pages in different tiers get substantively
+  different text. The worked dollar example on every page
+  (`getWorkedExample()`, same file) is individually computed from that
+  state's own real percentage against a $10,000 illustrative ACV; TLF-state
+  pages reuse the exact worked TLF example already published in the parent
+  guide ($7,500 repair + $1,000 salvage vs. $10,000 ACV). This design
+  rationale is also logged in the code comment at the top of
+  `state-threshold-copy.ts`, since it's the direct answer to this project's
+  own "not mass-generated, not templated with only place-names swapped"
+  rule (`ADSENSE-READINESS.md` §4).
+- **What is deliberately NOT claimed:** legal certainty about any specific
+  state's current statute (same caveat as the parent guide, repeated on
+  every state page); that a page's worked $10,000-ACV example reflects the
+  user's own vehicle.
+- Cross-linked: the parent guide's table now links every state name to its
+  page; every state page links back to the parent guide, the Total-Loss
+  Threshold Checker calculator (via a `?state=` link that pre-selects that
+  state in the calculator's dropdown — a UX addition to the calculator
+  itself, not a new data source), and "How Insurers Value a Total-Loss
+  Vehicle." Covered by 12 new Vitest tests (6 for `slugifyState`/
+  `lookupStateBySlug`, 6 for the copy-generation helpers, matching the
+  existing `total-loss-threshold.test.ts` suite's style) — 174 tests
+  site-wide. Zero accessibility violations (axe-core, full 135-page scan,
+  which includes these 51 pages). Zero broken internal links (4,131 hrefs
+  checked across 108 routes). All 51 pages' titles and descriptions
+  verified programmatically against the built `dist/` output — worst case
+  is "Washington, D.C." at 59/60 title characters and 128/160 description
+  characters.
+
+## 9. What is NOT yet in this register
 
 Nothing currently published on the site is missing from this register as
 of 2026-08-14. Any future guide, calculator, or claim added after this

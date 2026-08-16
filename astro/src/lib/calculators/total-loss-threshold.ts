@@ -115,6 +115,26 @@ export function lookupState(state: string): StateThreshold | null {
   return STATE_THRESHOLDS.find((s) => s.state.toLowerCase() === state.trim().toLowerCase()) ?? null;
 }
 
+/**
+ * Deterministic URL slug for a state name, used to build one static page per
+ * state under /guides/total-loss/state-total-loss-threshold-laws/[slug]/.
+ * Kept in this file, next to STATE_THRESHOLDS, so the calculator's exact
+ * state names and the state pages' slugs can never drift out of sync.
+ * "Washington, D.C." -> "washington-dc".
+ */
+export function slugifyState(state: string): string {
+  return state
+    .toLowerCase()
+    .replace(/,/g, "")
+    .replace(/\./g, "")
+    .replace(/\s+/g, "-");
+}
+
+/** Reverse lookup: find a StateThreshold entry from its URL slug. */
+export function lookupStateBySlug(slug: string): StateThreshold | null {
+  return STATE_THRESHOLDS.find((s) => slugifyState(s.state) === slug) ?? null;
+}
+
 export class ThresholdValidationError extends Error {}
 
 export interface ThresholdInput {

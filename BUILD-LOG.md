@@ -953,3 +953,82 @@ a live URL or the owner personally is now done. What's left is cutover
 itself, the two post-cutover manual reviews, a future CMP vendor decision,
 and the owner-only items (publisher ID, DNS/Pages settings) — all
 explicitly out of this session's reach by design, not oversight.
+
+## 2026-08-16 — Live-site confirmation, full SEO audit, 51 state total-loss threshold pages
+
+**Live-site status confirmed.** DNS misconfiguration from the prior session
+(domain pointed at Vercel instead of GitHub Pages) is fully resolved —
+`https://www.fairclaimcalculator.com/` now serves the rebuilt Astro site
+over HTTPS, live-fetched and confirmed showing all 10 calculators (commit
+`3b7884a`, matching `origin/main` exactly, working tree clean). robots.txt
+and sitemap both confirmed served correctly from the live domain.
+
+**Technical + on-page SEO audit (site-wide):** every guide has exactly one
+real `<h1>` (rendered by `GuideLayout.astro` from a required `h1` prop —
+an initial grep-based check flagged 23 false positives because it only
+matched literal `<h1` in each page file, not layout-rendered headings;
+confirmed as a checker artifact, not a real issue, by reading the layout
+source). Zero `<img>` tags site-wide without `alt` (the site currently has
+no raster images at all, so this is moot rather than passing). Zero
+duplicate `<title>` or meta-description values across all 52 pre-existing
+page files. Zero orphan pages — an initial orphan check flagged 4 guides
+as unlinked, again a checker artifact (hub pages link guides via
+`href={g.href}` dynamic attributes, not literal `href="..."` strings the
+regex could see). WebSite JSON-LD present on the homepage; no sitewide
+Organization schema yet (minor, logged as a future nice-to-have, not
+required). Sitemap has no `<lastmod>` values (minor, `@astrojs/sitemap`
+default; not required for indexing). Conclusion: on-page/technical SEO
+fundamentals are in good shape; nothing broken was found.
+
+**51 new state total-loss threshold pages** — the headline addition this
+session, chosen (via `AskUserQuestion`, user selected it explicitly over 3
+alternatives) as the single highest-leverage scalable addition: turns the
+already-sourced, already-tested 51-entry `STATE_THRESHOLDS` table into an
+individual page per state, each targeting real high-intent, low-competition
+search queries like "is my car a total loss in Texas" that the site
+previously had no dedicated page for.
+
+- One dynamic Astro route (`getStaticPaths()` over `STATE_THRESHOLDS`),
+  not 51 hand-authored files — but explicitly NOT a mass-generated
+  find-and-replace template either. New file
+  `src/lib/content/state-threshold-copy.ts` branches the "what this means
+  practically" paragraph by threshold **tier** (100%, 80%, 75%, 70%, 65%,
+  60%, or TLF) — a real factual distinction between states — and computes
+  each page's worked dollar example individually from that state's own
+  real percentage. Design rationale documented in a code comment at the
+  top of that file and in `SOURCE-REGISTER.md` §8, directly answering this
+  project's own `ADSENSE-READINESS.md` §4 anti-templating rule.
+- Added `slugifyState()` / `lookupStateBySlug()` to
+  `total-loss-threshold.ts` (single source of truth, so the calculator's
+  exact state-name matching and the new pages' URL slugs can't drift
+  apart). "Washington, D.C." → `washington-dc`, correctly distinct from
+  "Washington" → `washington`.
+- Small calculator UX addition: the Total-Loss Threshold Checker now reads
+  an optional `?state=` query param on load and pre-selects that state in
+  the dropdown — every new state page links into the calculator this way.
+- Parent guide's 51-row table converted from hardcoded HTML to a
+  data-driven `STATE_THRESHOLDS.map()`, so every state name is now a link
+  to its own page (fixes what would otherwise have been a dead-end table).
+- Each state page: its own title/description (verified programmatically
+  against built `dist/` output, not just source — worst case "Washington,
+  D.C." at 59/60 title chars, 128/160 description chars), a 4-level
+  breadcrumb, FAQPage schema (3 real per-state Q&As), the same two sources
+  as the parent guide, and reciprocal links to the parent guide, the
+  calculator, and "How Insurers Value a Total-Loss Vehicle."
+
+**Full verification:** `npx vitest run` (174/174, 12 new — 6 for
+`slugifyState`/`lookupStateBySlug`, 6 for the copy-generation helpers),
+`npm run typecheck` (0 errors), `npm run build` (104 Astro-rendered pages,
+up from 53), `npm run audit:a11y` (135 total dist pages, 0 violations),
+0 broken internal links (4,131 hrefs checked across the built site).
+`SOURCE-REGISTER.md` §8 and `ADSENSE-READINESS.md` §1 updated with the new
+page/test/route counts.
+
+Net result: AdSense-controllable checklist unchanged in substance from
+2026-08-14 (still nothing left under this project's own control except the
+manual accessibility walkthrough, now unblocked since the site is
+confirmed live). The 51 new pages are a genuine scale-up of the site's
+useful surface area and search footprint, not an AdSense-readiness item
+per se — they're guide-cluster content pages, same permanently-eligible
+category as the other 23 guides once/if `ELIGIBLE_ROUTES` review ever
+extends to them individually.

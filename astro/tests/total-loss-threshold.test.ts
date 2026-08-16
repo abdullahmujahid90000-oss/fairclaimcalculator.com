@@ -6,6 +6,8 @@ import {
   checkTotalLossThreshold,
   ThresholdValidationError,
   STATE_THRESHOLDS,
+  slugifyState,
+  lookupStateBySlug,
 } from "../src/lib/calculators/total-loss-threshold";
 
 describe("toCents", () => {
@@ -123,6 +125,30 @@ describe("checkTotalLossThreshold — TLF states", () => {
     expect(result.meetsTLF).toBeNull();
     // repairPercentOfACV is still computed for reference, even though it isn't the legal test in a TLF state
     expect(result.repairPercentOfACV).toBeCloseTo(75, 5);
+  });
+});
+
+describe("slugifyState / lookupStateBySlug", () => {
+  it("normal: lowercases and hyphenates a simple two-word state", () => {
+    expect(slugifyState("New York")).toBe("new-york");
+  });
+  it("edge: strips commas and periods from Washington, D.C.", () => {
+    expect(slugifyState("Washington, D.C.")).toBe("washington-dc");
+  });
+  it("edge: Washington (state) and Washington, D.C. produce distinct slugs", () => {
+    expect(slugifyState("Washington")).not.toBe(slugifyState("Washington, D.C."));
+  });
+  it("produces 51 unique slugs across all STATE_THRESHOLDS entries (no state-page URL collisions)", () => {
+    const slugs = STATE_THRESHOLDS.map((s) => slugifyState(s.state));
+    expect(new Set(slugs).size).toBe(51);
+  });
+  it("lookupStateBySlug reverses slugifyState for every entry", () => {
+    for (const s of STATE_THRESHOLDS) {
+      expect(lookupStateBySlug(slugifyState(s.state))?.state).toBe(s.state);
+    }
+  });
+  it("invalid: unknown slug returns null", () => {
+    expect(lookupStateBySlug("not-a-real-state")).toBeNull();
   });
 });
 

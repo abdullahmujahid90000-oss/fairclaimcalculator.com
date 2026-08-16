@@ -173,6 +173,17 @@ const structuredData = [
   const printBtn = document.getElementById("tlt-print");
 
   if (form && resultBox && errorSummary && errorList && resultHeading && summaryEl && breakdownEl && noteEl) {
+    // Pre-select the state if the page was reached via a state-specific
+    // guide page's link (e.g. .../total-loss-threshold-checker/?state=Texas).
+    // Purely a convenience — the form still works identically without it.
+    const stateParam = new URLSearchParams(window.location.search).get("state");
+    if (stateParam) {
+      const stateSelect = document.getElementById("state") as HTMLSelectElement | null;
+      if (stateSelect && [...stateSelect.options].some((o) => o.value === stateParam)) {
+        stateSelect.value = stateParam;
+      }
+    }
+
     function fieldValue(name: string): string {
       const el = form!.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null;
       return el ? el.value : "";

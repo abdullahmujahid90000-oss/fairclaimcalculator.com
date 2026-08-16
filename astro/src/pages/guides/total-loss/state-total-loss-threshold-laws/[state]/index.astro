@@ -1,0 +1,134 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+import FaqSection from "@components/FaqSection.astro";
+import {
+  STATE_THRESHOLDS,
+  slugifyState,
+  type StateThreshold,
+} from "@lib/calculators/total-loss-threshold";
+import { getPracticalMeaning, getWorkedExample } from "@lib/content/state-threshold-copy";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
+
+export function getStaticPaths() {
+  return STATE_THRESHOLDS.map((entry) => ({
+    params: { state: slugifyState(entry.state) },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: StateThreshold };
+const slug = slugifyState(entry.state);
+const path = `/guides/total-loss/state-total-loss-threshold-laws/${slug}/`;
+
+const title = `${entry.state} Total-Loss Threshold | FairClaimCalculator`;
+const description =
+  entry.type === "percentage"
+    ? `${entry.state}: total-loss threshold is ${entry.thresholdPct}% of ACV. Worked example, source, and a link to check your own numbers.`
+    : `${entry.state} uses the Total Loss Formula, not a fixed percentage. Worked example, source, and a link to check your own numbers.`;
+
+const ruleText =
+  entry.type === "percentage"
+    ? `a ${entry.thresholdPct}% simple percentage threshold`
+    : `the Total Loss Formula (repair cost + estimated salvage value vs. ACV)`;
+
+const worked = getWorkedExample(entry);
+const meaning = getPracticalMeaning(entry);
+
+const calculatorHref = `/calculators/total-loss-threshold-checker/?state=${encodeURIComponent(entry.state)}`;
+
+const faqs: FaqItem[] = [
+  {
+    question: `What is the total-loss threshold in ${entry.state}?`,
+    answer:
+      entry.type === "percentage"
+        ? `${entry.state} uses a ${entry.thresholdPct}% simple percentage threshold: if estimated repair cost reaches ${entry.thresholdPct}% of the vehicle's actual cash value (ACV), state law treats it as a total loss.`
+        : `${entry.state} uses the Total Loss Formula: a vehicle is a total loss once estimated repair cost plus expected salvage value meets or exceeds its actual cash value (ACV) — there's no single fixed percentage.`,
+  },
+  {
+    question: `Does ${entry.state} use a percentage rule or the Total Loss Formula?`,
+    answer:
+      entry.type === "percentage"
+        ? `A percentage rule — specifically ${entry.thresholdPct}% of ACV. Some neighboring states use the Total Loss Formula instead, so the same repair estimate can produce a different result just across a state line.`
+        : `The Total Loss Formula, not a simple percentage. Some neighboring states use a fixed percentage instead, so the same repair estimate can produce a different result just across a state line.`,
+  },
+  {
+    question: "Is this the exact test my insurer will use?",
+    answer:
+      "It's the state-law minimum, compiled from a secondary source and one example state regulator's published methodology — not a live read of the current statute, and not necessarily identical to your insurer's own internal total-loss policy, which can be more (but not less) generous. Confirm the current rule with your state insurance department if it matters to your claim.",
+  },
+];
+
+const structuredData = [buildFaqSchema(faqs)];
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1={`${entry.state} Total-Loss Threshold Law`}
+  cluster={{
+    name: "State Total-Loss Threshold Laws",
+    href: "/guides/total-loss/state-total-loss-threshold-laws/",
+  }}
+  publishedDate="2026-08-16"
+  reviewedDate="2026-08-16"
+  summary={`${entry.state} uses ${ruleText} to decide when a damaged vehicle must be declared a total loss instead of repaired.`}
+  sources={[
+    'Brennan, R., "Total Loss Threshold by State," Policygenius, updated July 2026 — the same secondary compilation cited in the companion guide and calculator. Treat as a starting point, not a final legal citation; confirm your own state\'s current rule with your state insurance department.',
+    'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a> — a real example of a state regulator publishing its own accepted methodology.',
+  ]}
+  relatedLinks={[
+    { label: "Total-Loss Threshold Checker calculator", href: calculatorHref },
+    { label: "State Total-Loss Threshold Laws (all 50 states)", href: "/guides/total-loss/state-total-loss-threshold-laws/" },
+    { label: "How Insurers Value a Total-Loss Vehicle", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
+    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
+  ]}
+  structuredData={structuredData}
+>
+  <h2>The rule in {entry.state}</h2>
+  <p>
+    {entry.state} uses {ruleText} to decide when a damaged vehicle must be declared a total loss.
+    {entry.type === "percentage" ? (
+      <>Once estimated repair cost reaches {entry.thresholdPct}% of the vehicle's actual cash value
+      (ACV), state law treats it as a total loss — regardless of what the vehicle's salvage value
+      would be.</>
+    ) : (
+      <>Repair cost alone isn't the test — the state adds estimated salvage value to the repair
+      estimate, and compares that combined figure to ACV.</>
+    )}
+  </p>
+
+  <div class="example-box">
+    <p><strong>Worked example</strong> — a {worked.acvText} vehicle:</p>
+    {entry.type === "percentage" ? (
+      <p>
+        Repair estimate: {worked.repairText} ({entry.thresholdPct}% of {worked.acvText}).
+        {" "}{worked.verdictText}
+      </p>
+    ) : (
+      <p>{worked.verdictText}</p>
+    )}
+  </div>
+
+  <h2>What this means practically</h2>
+  <p>{meaning}</p>
+
+  <h2>Check your own numbers</h2>
+  <p>
+    The <a href={calculatorHref}>Total-Loss Threshold Checker</a> has {entry.state} pre-selected
+    from this link — enter your own repair estimate and ACV
+    {entry.type === "tlf" && <> (plus an estimated salvage value)</>} to see how they compare.
+  </p>
+
+  <h2>What this page can't tell you</h2>
+  <p>
+    It can't tell you {entry.state}'s threshold with legal certainty — this reflects one compiled
+    secondary review as of mid-2026, not a direct reading of the state's current statute or
+    administrative code, and state rules can change. It also can't tell you what your specific
+    vehicle's ACV or salvage value actually is; for that, see
+    <a href="/guides/total-loss/how-insurers-value-a-total-loss-vehicle/">How Insurers Value a
+    Total-Loss Vehicle</a> and run your own numbers through the
+    <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit calculator</a>.
+  </p>
+
+  <FaqSection faqs={faqs} />
+</GuideLayout>

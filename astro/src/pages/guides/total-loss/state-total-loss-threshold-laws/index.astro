@@ -1,5 +1,6 @@
 ---
 import GuideLayout from "@layouts/GuideLayout.astro";
+import { STATE_THRESHOLDS, slugifyState } from "@lib/calculators/total-loss-threshold";
 
 const title = "State Total-Loss Threshold Laws | FairClaimCalculator";
 const description =
@@ -58,61 +59,17 @@ const path = "/guides/total-loss/state-total-loss-threshold-laws/";
     broker that publishes and periodically updates state-by-state insurance comparisons. It is a
     secondary compilation, not a citation to each state's statute directly — always verify your
     state's current rule with your state insurance department before relying on a specific number.
+    Click any state for its own page with a worked example and a link straight into the checker.
   </p>
   <table>
     <thead><tr><th>State</th><th>Threshold</th></tr></thead>
     <tbody>
-      <tr><td>Alabama</td><td>75%</td></tr>
-      <tr><td>Alaska</td><td>Total Loss Formula</td></tr>
-      <tr><td>Arizona</td><td>Total Loss Formula</td></tr>
-      <tr><td>Arkansas</td><td>70%</td></tr>
-      <tr><td>California</td><td>Total Loss Formula</td></tr>
-      <tr><td>Colorado</td><td>100%</td></tr>
-      <tr><td>Connecticut</td><td>Total Loss Formula</td></tr>
-      <tr><td>Delaware</td><td>Total Loss Formula</td></tr>
-      <tr><td>Florida</td><td>80%</td></tr>
-      <tr><td>Georgia</td><td>Total Loss Formula</td></tr>
-      <tr><td>Hawaii</td><td>Total Loss Formula</td></tr>
-      <tr><td>Idaho</td><td>Total Loss Formula</td></tr>
-      <tr><td>Illinois</td><td>Total Loss Formula</td></tr>
-      <tr><td>Indiana</td><td>70%</td></tr>
-      <tr><td>Iowa</td><td>70%</td></tr>
-      <tr><td>Kansas</td><td>75%</td></tr>
-      <tr><td>Kentucky</td><td>75%</td></tr>
-      <tr><td>Louisiana</td><td>75%</td></tr>
-      <tr><td>Maine</td><td>Total Loss Formula</td></tr>
-      <tr><td>Maryland</td><td>75%</td></tr>
-      <tr><td>Massachusetts</td><td>Total Loss Formula</td></tr>
-      <tr><td>Michigan</td><td>75%</td></tr>
-      <tr><td>Minnesota</td><td>70%</td></tr>
-      <tr><td>Mississippi</td><td>Total Loss Formula</td></tr>
-      <tr><td>Missouri</td><td>80%</td></tr>
-      <tr><td>Montana</td><td>Total Loss Formula</td></tr>
-      <tr><td>Nebraska</td><td>75%</td></tr>
-      <tr><td>Nevada</td><td>65%</td></tr>
-      <tr><td>New Hampshire</td><td>75%</td></tr>
-      <tr><td>New Jersey</td><td>Total Loss Formula</td></tr>
-      <tr><td>New Mexico</td><td>Total Loss Formula</td></tr>
-      <tr><td>New York</td><td>75%</td></tr>
-      <tr><td>North Carolina</td><td>75%</td></tr>
-      <tr><td>North Dakota</td><td>75%</td></tr>
-      <tr><td>Ohio</td><td>Total Loss Formula</td></tr>
-      <tr><td>Oklahoma</td><td>60%</td></tr>
-      <tr><td>Oregon</td><td>80%</td></tr>
-      <tr><td>Pennsylvania</td><td>Total Loss Formula</td></tr>
-      <tr><td>Rhode Island</td><td>Total Loss Formula</td></tr>
-      <tr><td>South Carolina</td><td>75%</td></tr>
-      <tr><td>South Dakota</td><td>Total Loss Formula</td></tr>
-      <tr><td>Tennessee</td><td>75%</td></tr>
-      <tr><td>Texas</td><td>100%</td></tr>
-      <tr><td>Utah</td><td>Total Loss Formula</td></tr>
-      <tr><td>Vermont</td><td>Total Loss Formula</td></tr>
-      <tr><td>Virginia</td><td>75%</td></tr>
-      <tr><td>Washington</td><td>Total Loss Formula</td></tr>
-      <tr><td>Washington, D.C.</td><td>75%</td></tr>
-      <tr><td>West Virginia</td><td>75%</td></tr>
-      <tr><td>Wisconsin</td><td>70%</td></tr>
-      <tr><td>Wyoming</td><td>75%</td></tr>
+      {STATE_THRESHOLDS.map((s) => (
+        <tr>
+          <td><a href={`/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(s.state)}/`}>{s.state}</a></td>
+          <td>{s.type === "percentage" ? `${s.thresholdPct}%` : "Total Loss Formula"}</td>
+        </tr>
+      ))}
     </tbody>
   </table>
 
