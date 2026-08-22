@@ -48,6 +48,17 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Total-Loss Threshold Checker", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Check Your State's Total-Loss Threshold",
+    step: [
+      { "@type": "HowToStep", name: "State", text: "Select the state connected with the claim — the tool applies that state's own percentage threshold or Total Loss Formula." },
+      { "@type": "HowToStep", name: "ACV", text: "Enter the vehicle's actual cash value (ACV)." },
+      { "@type": "HowToStep", name: "Repair estimate", text: "Enter the repair estimate." },
+      { "@type": "HowToStep", name: "Salvage value (TLF states only)", text: "In Total Loss Formula states, also enter an estimated salvage value." },
+    ],
+  },
   buildFaqSchema(faqs),
 ];
 ---

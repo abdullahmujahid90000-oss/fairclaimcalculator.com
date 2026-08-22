@@ -54,6 +54,18 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Diminished Value Baseline", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Check a Diminished Value Baseline",
+    step: [
+      { "@type": "HowToStep", name: "Pre-accident value", text: "Enter the vehicle's pre-accident value and its source." },
+      { "@type": "HowToStep", name: "Mileage and damage category", text: "Enter mileage at the time of loss and the damage category used for this baseline." },
+      { "@type": "HowToStep", name: "Claim relationship and state", text: "Enter your claim relationship and the state connected with the claim." },
+      { "@type": "HowToStep", name: "Damage details", text: "Answer whether structural/frame damage or airbag deployment was confirmed, whether repairs are complete, and how many panels were repaired or replaced." },
+      { "@type": "HowToStep", name: "Market evidence", text: "Add comparable listings — both clean and post-accident-history vehicles — to build a separate market-evidence worksheet next to the 17c-style baseline." },
+    ],
+  },
   buildFaqSchema(faqs),
 ];
 ---

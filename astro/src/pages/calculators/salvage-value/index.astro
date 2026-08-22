@@ -49,6 +49,16 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Salvage / Owner-Retained Value", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Check a Salvage / Owner-Retained Value Deduction",
+    step: [
+      { "@type": "HowToStep", name: "ACV and salvage deduction", text: "Enter the insurer's stated ACV / base vehicle value and the salvage deduction the insurer proposed." },
+      { "@type": "HowToStep", name: "State", text: "Enter the state connected with the claim." },
+      { "@type": "HowToStep", name: "Comparables", text: "Add your own comparable vehicles to check the proposed salvage deduction against real market evidence." },
+    ],
+  },
   buildFaqSchema(faqs),
 ];
 ---

@@ -49,6 +49,17 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Leased Vehicle Diminished Value", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Check Diminished Value on a Leased Vehicle",
+    step: [
+      { "@type": "HowToStep", name: "Pre-accident value and damage", text: "Enter the vehicle's pre-accident value, mileage at the time of loss, and the damage category used for this baseline." },
+      { "@type": "HowToStep", name: "Lease terms", text: "Answer whether your lease makes you responsible for loss in value, and whether you plan to buy the vehicle at lease-end." },
+      { "@type": "HowToStep", name: "State", text: "Enter the state connected with the claim." },
+      { "@type": "HowToStep", name: "Market evidence", text: "Add comparable listings — clean and post-accident-history vehicles — next to the baseline." },
+    ],
+  },
   buildFaqSchema(faqs),
 ];
 ---

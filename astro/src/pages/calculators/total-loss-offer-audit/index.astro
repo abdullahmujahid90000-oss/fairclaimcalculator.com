@@ -53,6 +53,17 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Total-Loss Offer Audit", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Audit Your Total-Loss Offer",
+    step: [
+      { "@type": "HowToStep", name: "Claim type", text: "Select your claim type." },
+      { "@type": "HowToStep", name: "Insurer's stated ACV / base value", text: "Enter the insurer's stated ACV or base value, plus your vehicle's model year, mileage at the loss, trim/option package, and engine/drivetrain/body configuration." },
+      { "@type": "HowToStep", name: "Insurer's comparables", text: "Enter each comparable vehicle the insurer used: adjusted value, model year, mileage, distance from you, whether trim/options and engine/drivetrain/body match, and listing status/date." },
+      { "@type": "HowToStep", name: "Review the audit", text: "Review the comp-quality review and the full audit results — every step of the arithmetic is shown." },
+    ],
+  },
   buildFaqSchema(faqs),
 ];
 

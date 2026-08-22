@@ -52,6 +52,17 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Claim Letter Builder", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Build a Claim Letter & Evidence Packet",
+    step: [
+      { "@type": "HowToStep", name: "What you need to ask for", text: "Choose what you need to ask for — the letter mode this builder generates." },
+      { "@type": "HowToStep", name: "Your details", text: "Enter your name, the insurer name, adjuster/recipient name, claim number, vehicle description, date of loss, and letter date." },
+      { "@type": "HowToStep", name: "Mode-specific details", text: "Depending on the letter mode, enter the correction details, comparable vehicles you want considered, repair summary, or supported diminished-value basis." },
+      { "@type": "HowToStep", name: "Evidence checklist", text: "Review the evidence checklist generated alongside the letter." },
+    ],
+  },
   buildFaqSchema(faqs),
 ];
 ---

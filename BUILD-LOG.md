@@ -1078,3 +1078,84 @@ manual keyboard-only/screen-reader accessibility walkthrough at
 the four owner-only items in `ADSENSE-READINESS.md` §7 (real publisher ID,
 CMP vendor decision, and re-confirming the Pages/DNS settings that were
 already fixed 2026-08-16 are still correct).
+
+**Follow-up same session — playbook comparison against SaudiUtilityHub,
+`HowTo` schema on all 10 calculators.** Owner asked for every SEO change
+made on a separate project (SaudiUtilityHub, a different niche/site, same
+"tool site" category) to be checked against this repo and applied wherever
+genuinely missing. Went through this repo's actual `astro/src/pages/calculators/*`
+source (not the external live-site guess from earlier) against that
+project's playbook, item by item:
+
+- Title/meta length, robots meta, canonical, OG/Twitter tags, sitemap,
+  `hreflang` (not applicable — this site is single-market/English-only by
+  design, unlike the multi-lingual-expat site being compared against) —
+  already handled site-wide by `BaseLayout.astro`, unchanged from before.
+- `BreadcrumbList` + `FAQPage` schema — already present on **all 10**
+  calculator pages via `buildFaqSchema()` and the shared breadcrumb block,
+  verified by grep across every calculator source file, not assumed.
+- Internal linking, freshness (`reviewedDate`), sourcing — already
+  handled by existing conventions (`SOURCE-REGISTER.md`, per-page
+  `reviewedDate` props), no gap found.
+- Sitewide `Organization` schema — closed earlier this session (see above).
+- **`HowTo` schema — genuinely absent from all 10 calculators**, confirmed
+  by grep (zero matches for `HowTo` across `astro/src/pages/calculators/`
+  before this change). This was the one real, confirmed gap relative to
+  the comparison project, which had added `HowTo` to its own calculators
+  with steps matched field-by-field to real form labels rather than
+  written generically.
+
+Added `HowTo` JSON-LD to all 10 calculator pages (`total-loss-offer-audit`,
+`settlement-check-breakdown`, `salvage-value`, `total-loss-threshold-checker`,
+`gap-shortfall`, `sales-tax-title-fee-estimator`, `diminished-value-baseline`,
+`leased-vehicle-diminished-value`, `loss-of-use-reimbursement`,
+`claim-letter-builder`). Every step was written from that page's actual
+`<label for="...">` text, read directly from each file before writing the
+corresponding step — not generic filler — same discipline as the existing
+per-page checklist in `ADSENSE-READINESS.md` §4. Inserted into each page's
+existing `structuredData` array between the existing `BreadcrumbList` block
+and `buildFaqSchema(faqs)`; no other content on any page touched.
+
+**Deliberately not touched, and why:**
+- Sitemap `<lastmod>` values — still absent (`@astrojs/sitemap` default,
+  logged as minor/non-blocking on 2026-08-16). Wiring real per-page dates
+  into the sitemap would need either a `serialize()` callback fed by each
+  page's own `reviewedDate`/`publishedDate` props or a build-time file-mtime
+  read — a real but non-trivial change touching the sitemap integration
+  itself, not a one-line addition, and not verified against a real build
+  from this session (no local Node toolchain reachable here). Flagged as a
+  legitimate next step, not silently skipped.
+- Again, **not run through this repo's own `npm run typecheck` / `npm run
+  test` / `npm run build` gate from this session** — same reliance on
+  `deploy.yml`'s CI as the earlier change today. **Owner still needs to
+  `git add / commit / push`** before any of this reaches production.
+
+**Second follow-up same session — sitemap `lastmod`, live-site status
+correction.** Owner confirmed `https://www.sauditutilityhub.com` (the
+comparison project) loads fine in their own browser — this session's
+repeated DNS failures fetching it were this session's own tooling, not a
+real outage; noted here so a future reader doesn't act on that false
+alarm either, mirroring the `/sitemap.xml` false alarm logged above.
+
+Owner asked to close the sitemap `<lastmod>` gap properly rather than
+leave it flagged. Implemented in `astro.config.mjs`: a `serialize()`
+callback on the `@astrojs/sitemap` integration sets `lastmod` on every URL
+to the real latest-commit date, read via `git log -1 --format=%cI` at
+build time (falls back to the build-time date only if git is somehow
+unavailable, so a build can never fail because of this). This is one
+honest sitewide freshness date, not a fabricated per-page one — the
+sitemap integration's `serialize()` only receives the final built URL, not
+which source file produced it, so a reliable per-page URL→file→git-date
+mapping isn't something buildable here without real risk of a wrong match
+for the dynamic `[state]` route (51 URLs, one template file) or the
+retired-content stubs (static files, not Astro routes at all). Confirmed
+`git log -1` works correctly even under GitHub Actions' default shallow
+checkout (`fetch-depth: 1` still includes the single most recent commit),
+so no change to `deploy.yml` was needed.
+
+Not run through this repo's own build/test gate from this session, same
+caveat as everything else today — **owner still needs to `git add /
+commit / push`** this along with the `HowTo` and `Organization` schema
+changes above before any of it reaches production, and should specifically
+check the built `dist/sitemap-0.xml` after that CI run to confirm every
+`<lastmod>` populated correctly.

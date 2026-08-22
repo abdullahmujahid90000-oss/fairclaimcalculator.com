@@ -48,6 +48,17 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Rental / Loss-of-Use Reimbursement", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Check a Rental / Loss-of-Use Reimbursement Offer",
+    step: [
+      { "@type": "HowToStep", name: "Daily rate offered", text: "Enter the daily rate the insurer offered." },
+      { "@type": "HowToStep", name: "Days without your vehicle", text: "Enter the number of days you were without your vehicle." },
+      { "@type": "HowToStep", name: "Policy caps", text: "Enter any daily cap or total/per-claim cap your policy states." },
+      { "@type": "HowToStep", name: "What you actually spent", text: "Enter what you actually spent on a rental, if any, to compare against the offer." },
+    ],
+  },
   buildFaqSchema(faqs),
 ];
 ---

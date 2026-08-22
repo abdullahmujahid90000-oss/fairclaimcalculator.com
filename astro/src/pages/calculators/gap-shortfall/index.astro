@@ -48,6 +48,16 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Loan/Lease Payoff vs. ACV Gap", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Check Your Loan/Lease Payoff vs. ACV Gap",
+    step: [
+      { "@type": "HowToStep", name: "Payoff amount", text: "Enter your loan or lease payoff amount." },
+      { "@type": "HowToStep", name: "Settlement amount", text: "Enter your total-loss settlement amount." },
+      { "@type": "HowToStep", name: "Review the gap", text: "See the exact dollar gap between the two, plus common GAP-exclusion checkpoints to review." },
+    ],
+  },
   buildFaqSchema(faqs),
 ];
 ---

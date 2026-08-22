@@ -43,6 +43,16 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Sales Tax & Title Fee Estimator", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Estimate Sales Tax & Title Fees on a Replacement Vehicle",
+    step: [
+      { "@type": "HowToStep", name: "Replacement vehicle price", text: "Enter the replacement vehicle's price." },
+      { "@type": "HowToStep", name: "Your known sales tax rate", text: "Enter your own known or looked-up local sales tax rate — this tool doesn't assume a state's rate, since it varies by state and locality." },
+      { "@type": "HowToStep", name: "Title & registration fees", text: "Enter title and registration fees." },
+    ],
+  },
   buildFaqSchema(faqs),
 ];
 ---

@@ -48,6 +48,18 @@ const structuredData = [
       { "@type": "ListItem", position: 3, name: "Settlement Check Breakdown", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Break Down Your Total-Loss Settlement Check",
+    step: [
+      { "@type": "HowToStep", name: "ACV and claim type", text: "Enter the insurer's stated ACV / base vehicle value and select your claim type (first-party or third-party)." },
+      { "@type": "HowToStep", name: "Deductible and fees", text: "Enter your deductible (first-party claims only) and any sales tax or fees the insurer added on top." },
+      { "@type": "HowToStep", name: "Loan, lease, and GAP", text: "If you still owe money, enter the loan/lease payoff amount and whether you have GAP coverage." },
+      { "@type": "HowToStep", name: "Salvage and prior payment", text: "If you're keeping the wrecked vehicle, enter the insurer's salvage deduction, plus any prior partial payment already received." },
+      { "@type": "HowToStep", name: "Compare to the insurer's check", text: "Optionally enter what the insurer said your check would be, and the tool flags whether it matches the line-by-line breakdown." },
+    ],
+  },
   buildFaqSchema(faqs),
 ];
 ---
