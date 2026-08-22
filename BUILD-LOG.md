@@ -1032,3 +1032,49 @@ useful surface area and search footprint, not an AdSense-readiness item
 per se — they're guide-cluster content pages, same permanently-eligible
 category as the other 23 guides once/if `ELIGIBLE_ROUTES` review ever
 extends to them individually.
+
+## 2026-08-22 — External audit reconciliation, sitewide Organization schema
+
+Owner connected this repo (local `/Users/mac/Documents/GitHub/fairclaimcalculator.com`)
+after an earlier session had audited the live site from the outside only
+(no repo access) and flagged the sitemap as broken/85% incomplete. That
+external finding was a false alarm caused by the auditing tool fetching
+`/sitemap.xml` directly — an orphaned file left over from the pre-Astro
+plain-HTML root site, referenced by nothing (not even that same site's own
+`robots.txt`, which correctly points to `/sitemap-index.xml`). Re-fetched
+`robots.txt` and `/sitemap-index.xml` live and confirmed both are correct
+and match this repo's `astro/public/robots.txt` / `@astrojs/sitemap`
+output exactly — no actual sitemap defect exists. Root-cause note for
+whoever reads this next: the repo root still contains the pre-migration
+plain-HTML files (`index.html`, `sitemap.xml`, etc., last touched
+2026-07-19) which are not part of the Astro build or the `deploy.yml`
+pipeline and are never served — they're dead weight in the repo, not a
+live-site risk, but worth deleting in a future cleanup pass to stop this
+exact false alarm from recurring for the next person/tool that audits the
+domain without repo context.
+
+Reviewed `ADSENSE-READINESS.md` §1 and this file's own history end to end
+against the live site. Confirmed nothing has regressed since 2026-08-16:
+site still live, still serving the Astro build, `robots.txt` +
+`sitemap-index.xml` + `sitemap-0.xml` all correct.
+
+**Closed the one legitimately-open item from that checklist:** sitewide
+`Organization` JSON-LD ("minor, logged as a future nice-to-have, not
+required" per 2026-08-16). Added directly to `BaseLayout.astro` (not
+duplicated per-page) so every route gets it automatically — homepage's
+existing page-specific `WebSite` schema is unaffected and still renders
+alongside it. Not yet run through this repo's own `npm run typecheck` /
+`npm run test` / `npm run build` / `npm run audit:a11y` gate from this
+session (no local Node toolchain in this session's reach) — relying on
+`deploy.yml`'s CI gate to catch anything wrong before it deploys, same as
+this project's own existing safety net. **Owner (or whatever normally
+pushes this repo's commits) still needs to `git add / commit / push` this
+change** — this session cannot push directly, same constraint noted in
+`deploy.yml`'s header comment.
+
+**Confirmed still genuinely outstanding, unchanged from 2026-08-16:** the
+manual keyboard-only/screen-reader accessibility walkthrough at
+320/390/768/1024/1440px; Google Search Console submission (not yet done);
+the four owner-only items in `ADSENSE-READINESS.md` §7 (real publisher ID,
+CMP vendor decision, and re-confirming the Pages/DNS settings that were
+already fixed 2026-08-16 are still correct).

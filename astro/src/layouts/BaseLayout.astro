@@ -26,6 +26,19 @@ const {
 const siteOrigin = "https://www.fairclaimcalculator.com";
 const canonicalUrl = new URL(path, siteOrigin).toString();
 const ogImage = new URL("/images/og-default.png", siteOrigin).toString();
+
+// Sitewide Organization schema — emitted on every page via this shared
+// layout rather than duplicated into each page's own structuredData prop.
+// Logged as a legitimate (minor, non-blocking) gap in ADSENSE-READINESS.md
+// §1 / BUILD-LOG.md 2026-08-16 audit; this closes it.
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "FairClaimCalculator",
+  url: `${siteOrigin}/`,
+  description:
+    "Free educational tools for auditing U.S. auto diminished-value and total-loss insurance claim offers.",
+};
 ---
 <!DOCTYPE html>
 <html lang="en-US">
@@ -52,6 +65,7 @@ const ogImage = new URL("/images/og-default.png", siteOrigin).toString();
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImage} />
 
+  <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} is:inline />
   {structuredData.map((obj) => (
     <script type="application/ld+json" set:html={JSON.stringify(obj)} is:inline />
   ))}
