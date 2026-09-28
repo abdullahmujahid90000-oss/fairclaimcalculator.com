@@ -1159,3 +1159,22 @@ commit / push`** this along with the `HowTo` and `Organization` schema
 changes above before any of it reaches production, and should specifically
 check the built `dist/sitemap-0.xml` after that CI run to confirm every
 `<lastmod>` populated correctly.
+
+### 2026-09-28 — AdSense + SEO readiness push
+
+Owner asked to rebuild the site for AdSense approval and search traffic.
+- Ads: two-switch config (`astro/src/lib/ads/config.ts`), verification meta
+  tag, build-time `ads.txt` (`scripts/generate-ads-txt.mjs`), real `<AdSlot>`
+  units in guides and below calculator FAQs, region-aware Consent Mode
+  defaults. Verified with a dummy ID locally (tag, ads.txt, units on eligible
+  pages only), then reverted to empty.
+- Policy pages: privacy policy AdSense section, advertising disclosure and
+  About funding text rewritten; `astro/src/lib/site/author.ts` holds
+  owner-supplied bio/photo/profiles (still empty — owner action).
+- SEO: Article schema + author link on every guide, keyword-targeted
+  calculator/state/home titles, `dist/llms.txt` generated post-build.
+- State pages: bordering-state comparison table, national position, and a
+  computed cross-border example per state (+6 tests).
+- Removed legacy plain-HTML root site and `web-next/` (P8 cutover).
+- Verified: typecheck 0 errors, 180/180 tests, axe 0 violations on 135 pages,
+  0 broken of 4,474 internal links, 390px render check.

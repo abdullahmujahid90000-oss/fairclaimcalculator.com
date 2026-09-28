@@ -2,10 +2,11 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
 import FaqSection from "@components/FaqSection.astro";
+import AdSlot from "@components/AdSlot.astro";
 import { LOSS_OF_USE_CONFIG } from "@lib/calculators/loss-of-use";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Rental / Loss-of-Use Reimbursement | FairClaimCalculator";
+const title = "Loss of Use Calculator: Rental Car Reimbursement";
 const description =
   "Check whether a rental car or loss-of-use offer adds up — daily rate, policy caps, and a comparison against what you actually spent. Free, private.";
 const path = "/calculators/loss-of-use-reimbursement/";
@@ -152,6 +153,7 @@ const structuredData = [
     </div>
 
     <FaqSection faqs={faqs} />
+    <AdSlot path={path} slot="calculator-after-faq" />
 
     <h2>More Calculators</h2>
     <div class="related-tools">

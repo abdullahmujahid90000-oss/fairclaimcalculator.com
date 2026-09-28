@@ -1,3 +1,11 @@
+> **2026-09-28 update — P8 cutover done.** At the owner's request
+> ("rebuild this website"), the retired plain-HTML root site (`*.html`,
+> `css/`, `js/`, `images/`, legacy tool folders, root `sitemap.xml`/`robots.txt`)
+> and the unused `web-next/` scaffold were deleted. The live site has deployed
+> only from `astro/dist` since the Actions workflow was enabled; legacy URLs are
+> still served by the generated redirect stubs (R9). All removed files remain in
+> git history. AdSense work: see `ADSENSE-SUBMISSION-PLAYBOOK.md`.
+
 # ASTRO-REBUILD-PLAN.md — FairClaimCalculator.com v2 (Astro/TypeScript rebuild)
 
 Internal reference only — not part of the live site, not linked from navigation,

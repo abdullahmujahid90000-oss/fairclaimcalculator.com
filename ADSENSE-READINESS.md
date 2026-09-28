@@ -1,3 +1,14 @@
+> **2026-09-28 update — superseded in part.** The owner asked to get the
+> site ready for AdSense now. The ad system was rebuilt: see
+> `ADSENSE-SUBMISSION-PLAYBOOK.md` for the current step-by-step process and
+> `astro/src/lib/ads/config.ts` for the two switches (publisher ID →
+> verification tag + ads.txt; serving switch → ads). Calculators are now
+> ad-eligible below their FAQ (away from inputs/results). Ad consent now uses
+> Google's own certified CMP (AdSense → Privacy & messaging) instead of a
+> separately purchased TCF CMP. Privacy policy and advertising disclosure
+> were rewritten with AdSense's required wording. The rest of this file is
+> kept as history.
+
 # ADSENSE-READINESS.md — FairClaimCalculator.com v2
 
 Internal reference only — not part of the live site, not linked from

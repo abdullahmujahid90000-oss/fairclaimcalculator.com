@@ -6,7 +6,13 @@ import {
   slugifyState,
   type StateThreshold,
 } from "@lib/calculators/total-loss-threshold";
-import { getPracticalMeaning, getWorkedExample } from "@lib/content/state-threshold-copy";
+import {
+  getPracticalMeaning,
+  getWorkedExample,
+  getNeighborComparisons,
+  getNationalPosition,
+  getCrossBorderScenario,
+} from "@lib/content/state-threshold-copy";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
 export function getStaticPaths() {
@@ -20,7 +26,10 @@ const { entry } = Astro.props as { entry: StateThreshold };
 const slug = slugifyState(entry.state);
 const path = `/guides/total-loss/state-total-loss-threshold-laws/${slug}/`;
 
-const title = `${entry.state} Total-Loss Threshold | FairClaimCalculator`;
+const title =
+  entry.type === "percentage"
+    ? `${entry.state} Total Loss Threshold (${entry.thresholdPct}%): Is My Car Totaled?`
+    : `${entry.state} Total Loss Formula: When Is a Car Totaled?`;
 const description =
   entry.type === "percentage"
     ? `${entry.state}: total-loss threshold is ${entry.thresholdPct}% of ACV. Worked example, source, and a link to check your own numbers.`
@@ -33,6 +42,16 @@ const ruleText =
 
 const worked = getWorkedExample(entry);
 const meaning = getPracticalMeaning(entry);
+
+const neighbors = getNeighborComparisons(entry, STATE_THRESHOLDS);
+const position = getNationalPosition(entry, STATE_THRESHOLDS);
+const crossBorder = getCrossBorderScenario(entry, STATE_THRESHOLDS);
+const relationText: Record<string, string> = {
+  same: "Same rule",
+  lower: "Lower bar — cars total out sooner",
+  higher: "Higher bar — more cars get repaired",
+  "different-method": "Different method",
+};
 
 const calculatorHref = `/calculators/total-loss-threshold-checker/?state=${encodeURIComponent(entry.state)}`;
 
@@ -111,6 +130,69 @@ const structuredData = [buildFaqSchema(faqs)];
 
   <h2>What this means practically</h2>
   <p>{meaning}</p>
+
+  <h2>How {entry.state} compares nationally</h2>
+  {entry.type === "percentage" ? (
+    <p>
+      Of the {position.pctCount} jurisdictions that use a fixed percentage, {position.lower} set a
+      lower bar than {entry.state}'s {entry.thresholdPct}%, {position.same} {position.same === 1 ? "uses" : "use"} the same
+      {" "}{entry.thresholdPct}%, and {position.higher} set a higher one. Another {position.tlfCount}
+      {" "}use the Total Loss Formula instead of any percentage.
+    </p>
+  ) : (
+    <p>
+      {entry.state} is one of {position.tlfCount} jurisdictions that use the Total Loss Formula. The
+      other {position.pctCount} use a fixed percentage of ACV, ranging from 60% to 100%.
+    </p>
+  )}
+
+  {neighbors.length > 0 ? (
+    <>
+      <h2>{entry.state} vs. bordering states</h2>
+      <div>
+        <table>
+          <caption class="visually-hidden">Total-loss rules in states bordering {entry.state}</caption>
+          <thead>
+            <tr><th scope="col">State</th><th scope="col">Rule</th><th scope="col">Compared with {entry.state}</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">{entry.state}</th><td>{entry.type === "percentage" ? `${entry.thresholdPct}% of ACV` : "Total Loss Formula"}</td><td>—</td></tr>
+            {neighbors.map((n) => (
+              <tr>
+                <th scope="row"><a href={`/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(n.state)}/`}>{n.state}</a></th>
+                <td>{n.rule}</td>
+                <td>{relationText[n.relation]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {crossBorder ? (
+        <div class="example-box"><p><strong>Across the state line</strong> — {crossBorder}</p></div>
+      ) : (
+        <p>Every state bordering {entry.state} uses the same rule, so crossing the state line doesn't change the total-loss test.</p>
+      )}
+    </>
+  ) : (
+    <>
+      <h2>No bordering states</h2>
+      <p>
+        {entry.state} shares no land border with another state, so the cross-border mismatches that
+        affect drivers elsewhere rarely come up. The rule that applies is almost always {entry.state}'s own.
+      </p>
+    </>
+  )}
+
+  <h2>Who regulates total losses in {entry.state}</h2>
+  <p>
+    Total-loss rules are enforced by {entry.state === "Washington, D.C." ? "the District's" : `${entry.state}'s`} insurance
+    regulator. If you think your insurer applied the wrong threshold or undervalued your vehicle, you
+    can file a consumer complaint there. Find the department's contact details in the
+    <a href="https://content.naic.org/state-insurance-departments" target="_blank" rel="noopener">NAIC
+    directory of state insurance departments</a>, and see
+    <a href="/guides/claim-process/filing-a-complaint-with-your-state-insurance-department/">how to file a
+    complaint with your state insurance department</a>.
+  </p>
 
   <h2>Check your own numbers</h2>
   <p>

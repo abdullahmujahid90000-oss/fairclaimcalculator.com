@@ -2,10 +2,11 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
 import FaqSection from "@components/FaqSection.astro";
+import AdSlot from "@components/AdSlot.astro";
 import { TOTAL_LOSS_THRESHOLD_CONFIG, STATE_THRESHOLDS } from "@lib/calculators/total-loss-threshold";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Total-Loss Threshold Checker | FairClaimCalculator";
+const title = "Is My Car Totaled? Total Loss Calculator by State";
 const description =
   "Check your repair estimate and ACV against your state's actual total-loss threshold law — percentage rule or Total Loss Formula, side by side.";
 const path = "/calculators/total-loss-threshold-checker/";
@@ -152,6 +153,7 @@ const structuredData = [
     </div>
 
     <FaqSection faqs={faqs} />
+    <AdSlot path={path} slot="calculator-after-faq" />
 
     <h2>More Calculators</h2>
     <div class="related-tools">
