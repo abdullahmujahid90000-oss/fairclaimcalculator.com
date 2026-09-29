@@ -1,0 +1,13 @@
+# Retired Next.js scaffold (removed from the repo 2026-09-28). Local copies,
+# including their installed node_modules, must never be committed.
+web-next/
+
+# Dependencies and build output anywhere in the repo
+node_modules/
+.next/
+dist/
+.astro/
+
+# OS / editor junk
+.DS_Store
+*.log
