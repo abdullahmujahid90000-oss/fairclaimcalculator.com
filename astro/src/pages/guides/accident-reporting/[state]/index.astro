@@ -1,0 +1,179 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+import FaqSection from "@components/FaqSection.astro";
+import {
+  STATE_CRASH_REPORTING,
+  CRASH_REPORTING_CHECKED,
+  KIND_LABEL,
+  crashReportingSlug,
+  type StateCrashReporting,
+} from "@lib/content/state-crash-reporting";
+import { BORDERING_STATES } from "@lib/content/state-threshold-copy";
+import { slugifyState } from "@lib/calculators/total-loss-threshold";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
+
+export function getStaticPaths() {
+  return STATE_CRASH_REPORTING.map((entry) => ({
+    params: { state: crashReportingSlug(entry.state) },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: StateCrashReporting };
+const s = entry.state;
+const path = `/guides/accident-reporting/${crashReportingSlug(s)}/`;
+
+const mustFileOwn = entry.kind === "driver-report" || entry.kind === "driver-report-if-no-police";
+const deadlineShort = entry.deadline?.match(/\d+ (days|hours)/)?.[0];
+const title = mustFileOwn && deadlineShort
+  ? `${s} Car Accident Report: When to File (${deadlineShort})`
+  : `Do You Have to Report a Car Accident in ${s}?`;
+
+const description = `${s} car accident reporting rules: when a crash must be reported, who to tell, the deadline and official form${entry.formName ? ` (${entry.formName})` : ""}. Checked against official sources.`;
+
+const answerSentence: Record<string, string> = {
+  "driver-report": `Yes. In ${s} you must file your own written crash report when: ${entry.trigger.charAt(0).toLowerCase()}${entry.trigger.slice(1)}`,
+  "driver-report-if-no-police": `Sometimes. In ${s} you file your own report only when police don't: ${entry.trigger.charAt(0).toLowerCase()}${entry.trigger.slice(1)}`,
+  "police-notice": `You must notify police — there's no separate driver form. In ${s} that applies to: ${entry.trigger.charAt(0).toLowerCase()}${entry.trigger.slice(1)}`,
+  "no-driver-form": `No. ${entry.trigger}`,
+  "uninsured-only": `Only in one situation: ${entry.trigger.charAt(0).toLowerCase()}${entry.trigger.slice(1)}`,
+  optional: `Not required, but you can. ${s} lets you file an online report when police were not called.`,
+  "on-request": `Only if the state asks. ${entry.trigger}`,
+  unconfirmed: `Check with the state. ${entry.trigger}`,
+};
+
+const neighbors = (BORDERING_STATES[s] ?? [])
+  .map((n) => STATE_CRASH_REPORTING.find((e) => e.state === n))
+  .filter((e): e is StateCrashReporting => e !== undefined);
+
+const faqs: FaqItem[] = [
+  {
+    question: `Do I have to report a car accident in ${s}?`,
+    answer: answerSentence[entry.kind],
+  },
+  ...(entry.formName
+    ? [{ question: `What form do I use to report a crash in ${s}?`, answer: `${entry.formName}${entry.reportTo ? `, filed with ${entry.reportTo}` : ""}. Download it from the official source: ${entry.sourceLabel}.` }]
+    : []),
+  ...(entry.deadline
+    ? [{ question: `How long do I have to report a car accident in ${s}?`, answer: `${entry.deadline}${entry.reportTo ? ` — to ${entry.reportTo}` : ""}.` }]
+    : []),
+  {
+    question: "Does reporting the crash to the state start my insurance claim?",
+    answer:
+      "No. A police or state crash report and an insurance claim are separate. Notify your own insurer promptly as your policy requires, and file a claim with the at-fault driver's insurer if someone else caused the crash.",
+  },
+];
+
+const structuredData = [buildFaqSchema(faqs)];
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1={`${s} Car Accident Reporting Requirements`}
+  cluster={{ name: "Car Accident Reporting by State", href: "/guides/accident-reporting/" }}
+  publishedDate={CRASH_REPORTING_CHECKED}
+  reviewedDate={CRASH_REPORTING_CHECKED}
+  summary={answerSentence[entry.kind]}
+  sources={[
+    `<a href="${entry.sourceUrl}" target="_blank" rel="noopener">${entry.sourceLabel}</a> — official source, checked ${CRASH_REPORTING_CHECKED}.`,
+  ]}
+  relatedLinks={[
+    { label: "Car accident information worksheet (free PDF)", href: "/forms/accident-information-worksheet/" },
+    { label: `${s} total-loss threshold`, href: `/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(s)}/` },
+    { label: "Auto claim evidence checklist (free PDF)", href: "/forms/claim-evidence-checklist/" },
+    { label: "Accident reporting rules in all 50 states", href: "/guides/accident-reporting/" },
+  ]}
+  structuredData={structuredData}
+>
+  <div class="rule-card">
+    <p class="rule-kind">{KIND_LABEL[entry.kind]}</p>
+    <dl>
+      <dt>When</dt><dd>{entry.trigger}</dd>
+      {entry.reportTo && <><dt>Report to</dt><dd>{entry.reportTo}</dd></>}
+      {entry.deadline && <><dt>Deadline</dt><dd>{entry.deadline}</dd></>}
+      {entry.formName && <><dt>Form</dt><dd>{entry.formName}</dd></>}
+    </dl>
+    <p class="rule-link">
+      Official source: <a href={entry.sourceUrl} target="_blank" rel="noopener">{entry.sourceLabel}</a>
+    </p>
+  </div>
+
+  {entry.note && <p>{entry.note}</p>}
+
+  <h2>What to do after a car accident in {s}</h2>
+  <ol>
+    <li>Stop, check for injuries and call 911 if anyone is hurt. Move to safety if you can.</li>
+    <li>
+      {entry.kind === "police-notice" || entry.kind === "driver-report-if-no-police" || entry.kind === "unconfirmed"
+        ? <>Call police if the crash meets {s}'s rule above — {entry.deadline ? entry.deadline.toLowerCase() : "as soon as you can"}.</>
+        : <>Call police for any crash with injuries or significant damage. Ask for the report number.</>}
+    </li>
+    <li>Exchange names, contact, license, plate and insurance details with every driver involved. Use our <a href="/forms/accident-information-worksheet/">accident information worksheet</a>.</li>
+    <li>Photograph every vehicle, the plates, the damage and the scene, and get witnesses' names and numbers.</li>
+    {mustFileOwn ? (
+      <li>
+        File your own report{entry.formName ? <> ({entry.formName})</> : null}
+        {entry.reportTo ? <> with {entry.reportTo}</> : null}
+        {entry.deadline ? <> — {entry.deadline.toLowerCase()}</> : null}
+        {entry.kind === "driver-report-if-no-police" ? <>, if police didn't investigate</> : null}.
+      </li>
+    ) : entry.kind === "uninsured-only" ? (
+      <li>If another driver was uninsured, file {entry.formName ?? "the state's report"}{entry.deadline ? <> {entry.deadline.toLowerCase()}</> : null}.</li>
+    ) : (
+      <li>Keep the police report number — your insurer will ask for it.</li>
+    )}
+    <li>Notify your insurance company promptly, as your policy requires, and start a <a href="/forms/claim-communication-log/">claim communication log</a>.</li>
+  </ol>
+
+  {neighbors.length > 0 && (
+    <>
+      <h2>How {s} compares with bordering states</h2>
+      <p>Rules change at the state line. What applies is usually the state where the crash happened.</p>
+      <div>
+        <table>
+          <caption class="visually-hidden">Crash reporting rules in states bordering {s}</caption>
+          <thead>
+            <tr><th scope="col">State</th><th scope="col">Rule</th><th scope="col">Deadline</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">{s}</th><td>{KIND_LABEL[entry.kind]}</td><td>{entry.deadline ?? "—"}</td></tr>
+            {neighbors.map((n) => (
+              <tr>
+                <th scope="row"><a href={`/guides/accident-reporting/${crashReportingSlug(n.state)}/`}>{n.state}</a></th>
+                <td>{KIND_LABEL[n.kind]}</td>
+                <td>{n.deadline ?? "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  )}
+
+  <h2>If your car was totaled or damaged</h2>
+  <p>
+    Reporting the crash is only the first step. If your insurer says the car is a total loss, check
+    {" "}{s}'s <a href={`/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(s)}/`}>total-loss
+    threshold</a> and run the offer through the <a href="/calculators/total-loss-offer-audit/">Total-Loss
+    Offer Audit</a>. If it was repaired, you may have a <a href="/guides/diminished-value/what-is-diminished-value/">diminished-value
+    claim</a>.
+  </p>
+
+  <FaqSection faqs={faqs} />
+</GuideLayout>
+
+<style>
+  .rule-card {
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin: 8px 0 20px;
+  }
+  .rule-kind { font-weight: 700; color: var(--color-primary-dark); margin: 0 0 10px; font-size: 1.05rem; }
+  .rule-card dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; margin: 0; }
+  .rule-card dt { font-weight: 700; }
+  .rule-card dd { margin: 0; }
+  .rule-link { margin: 12px 0 0; font-size: 0.9rem; }
+  @media (max-width: 480px) { .rule-card dl { grid-template-columns: 1fr; } .rule-card dd { margin-bottom: 6px; } }
+</style>

@@ -56,7 +56,7 @@ const NEVER_ELIGIBLE_PATTERNS: RegExp[] = [
 ];
 
 /** Content sections where manual units may appear. */
-const ELIGIBLE_PREFIXES = ["/guides/", "/calculators/"];
+const ELIGIBLE_PREFIXES = ["/guides/", "/calculators/", "/forms/"];
 
 /** Returns whether a site-relative path may show a manual ad unit. */
 export function isAdEligible(path: string): boolean {

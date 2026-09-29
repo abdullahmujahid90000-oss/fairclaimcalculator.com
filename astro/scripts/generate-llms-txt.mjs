@@ -41,6 +41,8 @@ for (const [dir, name] of [
   ["guides/total-loss", "Total-loss guides"],
   ["guides/diminished-value", "Diminished-value guides"],
   ["guides/claim-process", "Claim-process guides"],
+  ["guides/accident-reporting", "Car accident reporting rules by state"],
+  ["forms", "Free fillable PDF forms and templates"],
 ]) {
   lines.push("", `## ${name}`, "", ...(await section(dir)));
 }

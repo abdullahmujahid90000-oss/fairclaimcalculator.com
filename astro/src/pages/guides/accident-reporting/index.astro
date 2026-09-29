@@ -1,0 +1,100 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+import FaqSection from "@components/FaqSection.astro";
+import {
+  STATE_CRASH_REPORTING,
+  CRASH_REPORTING_CHECKED,
+  KIND_LABEL,
+  crashReportingSlug,
+} from "@lib/content/state-crash-reporting";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
+
+const path = "/guides/accident-reporting/";
+const title = "Car Accident Reporting Requirements by State (2026)";
+const description =
+  "Do you have to report a car accident? The rule, deadline and official form for all 50 states and D.C. — checked against official DMV and state-law sources.";
+
+const count = (kinds: string[]) => STATE_CRASH_REPORTING.filter((e) => kinds.includes(e.kind)).length;
+const ownReport = count(["driver-report"]);
+const ifNoPolice = count(["driver-report-if-no-police"]);
+const policeOnly = count(["police-notice", "no-driver-form"]);
+
+const faqs: FaqItem[] = [
+  {
+    question: "Do you have to report a car accident to the DMV?",
+    answer: `It depends on the state. In ${ownReport} states you must file your own written report above a damage threshold even if police came; in ${ifNoPolice} more you file only if police didn't investigate. Elsewhere you notify police and they write the report. Find your state in the table.`,
+  },
+  {
+    question: "What happens if you don't report a car accident?",
+    answer:
+      "In many states, failing to file a required report can lead to suspension of your driver's license and registration, and in some it is a misdemeanor. Your state's page lists what the official source says.",
+  },
+  {
+    question: "Is a police report the same as a DMV report?",
+    answer:
+      "No. A police report is written by an officer. Some states also require a separate driver report to the DMV or another agency — California's SR-1 and New York's MV-104 are examples — in addition to any police report.",
+  },
+];
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Car Accident Reporting Requirements by State"
+  cluster={{ name: "Guides", href: "/guides/" }}
+  publishedDate={CRASH_REPORTING_CHECKED}
+  reviewedDate={CRASH_REPORTING_CHECKED}
+  summary="Whether you must report a crash yourself, to whom, and by when depends on your state. Every row below was checked against the state's own DMV, public-safety agency or published statute."
+  sources={[
+    "Each state's official DMV, public-safety or transportation agency page, or its published statute — linked individually on every state page.",
+  ]}
+  relatedLinks={[
+    { label: "Car accident information worksheet (free PDF)", href: "/forms/accident-information-worksheet/" },
+    { label: "Free claim forms & templates", href: "/forms/" },
+    { label: "Auto claim evidence checklist", href: "/guides/claim-process/auto-claim-evidence-checklist/" },
+  ]}
+  structuredData={[buildFaqSchema(faqs)]}
+>
+  <h2>The short version</h2>
+  <ul>
+    <li><strong>{ownReport} states</strong> require your own written report above a damage or injury threshold, even if police came.</li>
+    <li><strong>{ifNoPolice} states</strong> require your own report only when police didn't investigate.</li>
+    <li><strong>{policeOnly} states</strong> only require you to notify police (or accept no driver report at all).</li>
+    <li>The rest apply only in specific situations, such as an uninsured driver — or couldn't be confirmed and say so.</li>
+  </ul>
+  <p>
+    Whatever your state, call 911 if anyone is hurt, exchange information with the other driver, and
+    photograph everything. Our free <a href="/forms/accident-information-worksheet/">accident information
+    worksheet</a> covers it all.
+  </p>
+
+  <h2>All 50 states and D.C.</h2>
+  <div>
+    <table>
+      <caption class="visually-hidden">Car accident reporting rules by state</caption>
+      <thead>
+        <tr><th scope="col">State</th><th scope="col">Rule</th><th scope="col">Deadline</th><th scope="col">Form</th></tr>
+      </thead>
+      <tbody>
+        {STATE_CRASH_REPORTING.map((e) => (
+          <tr>
+            <th scope="row"><a href={`/guides/accident-reporting/${crashReportingSlug(e.state)}/`}>{e.state}</a></th>
+            <td>{KIND_LABEL[e.kind]}</td>
+            <td>{e.deadline ?? "—"}</td>
+            <td>{e.formName ?? "—"}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Why some states say "confirm with your state"</h2>
+  <p>
+    We only publish a rule when we could confirm it from an official source. Several widely copied
+    lists online are out of date — Minnesota repealed its driver report in 2021, Texas stopped
+    accepting its driver form in 2017, and Delaware and Nebraska raised their thresholds. Where the
+    official text wasn't clear, the state's page says so and links the source instead of guessing.
+  </p>
+
+  <FaqSection faqs={faqs} />
+</GuideLayout>
