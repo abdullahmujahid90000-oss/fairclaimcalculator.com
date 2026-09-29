@@ -2,10 +2,11 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
 import FaqSection from "@components/FaqSection.astro";
+import AdSlot from "@components/AdSlot.astro";
 import { SALES_TAX_TITLE_FEE_CONFIG } from "@lib/calculators/sales-tax-title-fee";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Sales Tax & Title Fee Estimator | FairClaimCalculator";
+const title = "Total Loss Sales Tax & Title Fee Calculator";
 const description =
   "Estimate the sales tax and title/registration cost of replacing a totaled vehicle, using your own known tax rate — no assumed state rate table.";
 const path = "/calculators/sales-tax-title-fee-estimator/";
@@ -134,6 +135,7 @@ const structuredData = [
     </div>
 
     <FaqSection faqs={faqs} />
+    <AdSlot path={path} slot="calculator-after-faq" />
 
     <h2>More Calculators</h2>
     <div class="related-tools">

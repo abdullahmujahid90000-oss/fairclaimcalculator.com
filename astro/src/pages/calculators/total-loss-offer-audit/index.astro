@@ -2,13 +2,14 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
 import FaqSection from "@components/FaqSection.astro";
+import AdSlot from "@components/AdSlot.astro";
 import {
   MISMATCH_FIELDS,
   TOTAL_LOSS_AUDIT_CONFIG,
 } from "@lib/calculators/total-loss-audit";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Total-Loss Offer Audit | FairClaimCalculator";
+const title = "Total Loss Calculator: Check Your Insurance Offer";
 const description =
   "Audit a total-loss valuation report, compare insurer and owner comps, and review comp quality — no hidden weights or invented adjustments. Free, private.";
 const path = "/calculators/total-loss-offer-audit/";
@@ -352,6 +353,7 @@ const statusOptions = [
     </div>
 
     <FaqSection faqs={faqs} />
+    <AdSlot path={path} slot="calculator-after-faq" />
 
     <section>
       <h2>What the numbers can — and cannot — show</h2>

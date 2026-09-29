@@ -3,6 +3,7 @@ import SkipLink from "@components/SkipLink.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import CookieConsent from "@components/CookieConsent.astro";
+import { ADSENSE_PUBLISHER_ID, ADSENSE_READY, ADS_ACTIVE } from "@lib/ads/config";
 import "../styles/global.css";
 
 interface Props {
@@ -13,6 +14,8 @@ interface Props {
   /** Raw JSON-LD objects (already stringified or plain objects) to emit as <script type="application/ld+json"> blocks. Only pass schema whose facts are fully supported by the visible page content. */
   structuredData?: object[];
   noindex?: boolean;
+  /** "article" for guides, "website" for everything else. */
+  ogType?: "website" | "article";
 }
 
 const {
@@ -21,6 +24,7 @@ const {
   path,
   structuredData = [],
   noindex = false,
+  ogType = "website",
 } = Astro.props;
 
 const siteOrigin = "https://www.fairclaimcalculator.com";
@@ -36,6 +40,8 @@ const organizationSchema = {
   "@type": "Organization",
   name: "FairClaimCalculator",
   url: `${siteOrigin}/`,
+  logo: `${siteOrigin}/images/icon-master.png`,
+  email: "info@fairclaimcalculator.com",
   description:
     "Free educational tools for auditing U.S. auto diminished-value and total-loss insurance claim offers.",
 };
@@ -55,7 +61,7 @@ const organizationSchema = {
   <meta property="og:site_name" content="FairClaimCalculator" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
   <meta property="og:url" content={canonicalUrl} />
   <meta property="og:image" content={ogImage} />
   <meta property="og:image:width" content="1200" />
@@ -64,6 +70,16 @@ const organizationSchema = {
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImage} />
+
+  {ADSENSE_READY && <meta name="google-adsense-account" content={ADSENSE_PUBLISHER_ID} />}
+  {ADS_ACTIVE && (
+    <script
+      is:inline
+      async
+      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_PUBLISHER_ID}`}
+      crossorigin="anonymous"
+    ></script>
+  )}
 
   <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} is:inline />
   {structuredData.map((obj) => (

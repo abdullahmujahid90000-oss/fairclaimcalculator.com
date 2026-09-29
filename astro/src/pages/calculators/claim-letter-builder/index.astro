@@ -2,6 +2,7 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
 import FaqSection from "@components/FaqSection.astro";
+import AdSlot from "@components/AdSlot.astro";
 import {
   EVIDENCE_CHECKLIST,
   LETTER_BUILDER_CONFIG,
@@ -9,7 +10,7 @@ import {
 } from "@lib/calculators/claim-letter-builder";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Claim Letter & Evidence Packet Builder | FairClaimCalculator";
+const title = "Total Loss & Diminished Value Letter Generator";
 const description =
   "Generate an editable, factual auto-claim letter and evidence checklist in your browser. No threats, fake deadlines, account, or email required.";
 const path = "/calculators/claim-letter-builder/";
@@ -216,6 +217,7 @@ const structuredData = [
     </section>
 
     <FaqSection faqs={faqs} />
+    <AdSlot path={path} slot="calculator-after-faq" />
 
     <h2>More Calculators</h2>
     <div class="related-tools">

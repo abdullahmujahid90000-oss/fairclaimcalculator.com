@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import AdSlot from "@components/AdSlot.astro";
+import { AUTHOR, authorSchema } from "@lib/site/author";
 
 interface ClusterInfo { name: string; href: string; }
 interface RelatedLink { label: string; href: string; }
@@ -45,10 +47,28 @@ const structuredData = [
       { "@type": "ListItem", position: 4, name: h1, item: `${siteOrigin}${path}` },
     ],
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: h1,
+    description,
+    mainEntityOfPage: `${siteOrigin}${path}`,
+    datePublished: publishedDate,
+    dateModified: reviewedDate,
+    author: authorSchema(siteOrigin),
+    publisher: {
+      "@type": "Organization",
+      name: "FairClaimCalculator",
+      url: `${siteOrigin}/`,
+      logo: { "@type": "ImageObject", url: `${siteOrigin}/images/icon-master.png` },
+    },
+    image: `${siteOrigin}/images/og-default.png`,
+    isPartOf: { "@type": "WebSite", name: "FairClaimCalculator", url: `${siteOrigin}/` },
+  },
   ...extraStructuredData,
 ];
 ---
-<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData} ogType="article">
   <div class="container guide-container">
     <p class="breadcrumb-text">
       <a href="/">Home</a> / <a href={cluster.href}>{cluster.name}</a>
@@ -57,7 +77,7 @@ const structuredData = [
     <p class="lead">{summary}</p>
 
     <div class="guide-byline">
-      <span>By David Bennett</span>
+      <span>By <a href={AUTHOR.aboutHref}>{AUTHOR.name}</a></span>
       <span aria-hidden="true">·</span>
       <span>Published {publishedDate}</span>
       <span aria-hidden="true">·</span>
@@ -71,9 +91,13 @@ const structuredData = [
       researched</a>.
     </div>
 
+    <AdSlot path={path} slot="guide-top" />
+
     <article class="guide-body">
       <slot />
     </article>
+
+    <AdSlot path={path} slot="guide-bottom" />
 
     <section class="calc-card" aria-labelledby="guide-sources-heading">
       <h2 id="guide-sources-heading">Sources</h2>

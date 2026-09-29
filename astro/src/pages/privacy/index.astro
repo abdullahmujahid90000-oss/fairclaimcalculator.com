@@ -3,7 +3,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 const title = "Privacy Policy | FairClaimCalculator";
 const description =
-  "What FairClaimCalculator collects (consent-gated analytics only, never calculator entries), what it doesn't, and your privacy choices.";
+  "What FairClaimCalculator collects (analytics and Google AdSense advertising cookies — never your calculator entries), and how to control it.";
 const path = "/privacy/";
 
 const structuredData = [
@@ -21,7 +21,7 @@ const structuredData = [
   <div class="container">
     <p class="breadcrumb-text"><a href="/">Home</a> / Privacy Policy</p>
     <h1 class="page-title">Privacy Policy</h1>
-    <p class="lead">Last reviewed: 2026-08-01.</p>
+    <p class="lead">Last reviewed: 2026-09-28.</p>
 
     <div class="calc-card">
       <h2>Calculator entries</h2>
@@ -42,13 +42,44 @@ const structuredData = [
         analytics script, in any circumstance.
       </p>
       <p>
-        No advertising scripts and no third-party trackers beyond Google Analytics run on this site.
         Your web browser and any network in between (such as your ISP) may still see standard
         technical information — like your IP address and browser type — simply because that is how
-        the web works; this site does not separately collect or store that information itself. Our
-        hosting provider may keep its own standard server logs; see GitHub's own privacy
-        documentation for how GitHub Pages hosting works. Google's use of Analytics data is governed
-        by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.
+        the web works. Our hosting provider may keep its own standard server logs; see GitHub's own
+        privacy documentation for how GitHub Pages hosting works. Google's use of Analytics data is
+        governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.
+      </p>
+
+      <h2 class="section-heading" id="advertising">Advertising (Google AdSense)</h2>
+      <p>
+        This free site is supported by advertising served by Google AdSense. Ads never receive
+        anything you type into a calculator.
+      </p>
+      <ul>
+        <li>
+          Third-party vendors, including Google, use cookies to serve ads based on a user's prior
+          visits to this website or other websites.
+        </li>
+        <li>
+          Google's use of advertising cookies enables it and its partners to serve ads to you based
+          on your visit to this site and/or other sites on the Internet.
+        </li>
+        <li>
+          You may opt out of personalized advertising by visiting
+          <a href="https://adssettings.google.com/" target="_blank" rel="noopener">Google Ads Settings</a>.
+          You can also opt out of some third-party vendors' use of cookies for personalized
+          advertising at <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener">www.aboutads.info</a>.
+        </li>
+        <li>
+          Learn more about <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">how
+          Google uses information from sites that use its services</a>.
+        </li>
+      </ul>
+      <p>
+        Visitors in the European Economic Area, the United Kingdom and Switzerland are shown Google's
+        certified consent message before any advertising cookies are used. Visitors in U.S. states
+        with consumer-privacy laws (such as California) are shown Google's opt-out message and can
+        opt out of the "sale" or "sharing" of personal information for targeted advertising at any
+        time using the link that message provides.
       </p>
 
       <h2 class="section-heading">Cookies</h2>
@@ -56,7 +87,7 @@ const structuredData = [
         This site sets a cookie of its own only to remember your Accept/Reject choice below (stored
         in your browser's local storage, not a tracking cookie). If you accept analytics, Google
         Analytics sets its own cookies to distinguish repeat visits — those are not set until you
-        accept. Anything else your browser stores locally (such as evidence-checklist checkbox
+        accept. Google AdSense sets advertising cookies as described in the advertising section. Anything else your browser stores locally (such as evidence-checklist checkbox
         states while a page is open) stays in your browser and is not read by this site's server.
       </p>
 
@@ -70,10 +101,9 @@ const structuredData = [
         <button type="button" class="btn-secondary" data-open-cookie-prefs>Manage cookie preferences</button>
       </p>
       <p>
-        No advertising currently runs on this site, so there is no ad-related consent to manage yet.
-        If that changes, this section and the <a href="/advertising-disclosure/">advertising
-        disclosure</a> will be updated to describe exactly what runs and how to control it, before
-        any ad request is ever made.
+        Advertising choices are managed separately, through Google's consent and opt-out messages and
+        the links in the <a href="#advertising">advertising section</a> above. See also the
+        <a href="/advertising-disclosure/">advertising disclosure</a>.
       </p>
 
       <h2 class="section-heading">Children's privacy</h2>

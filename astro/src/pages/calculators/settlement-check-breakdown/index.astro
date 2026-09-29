@@ -2,10 +2,11 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
 import FaqSection from "@components/FaqSection.astro";
+import AdSlot from "@components/AdSlot.astro";
 import { SETTLEMENT_BREAKDOWN_CONFIG } from "@lib/calculators/settlement-breakdown";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Total-Loss Settlement Check Breakdown | FairClaimCalculator";
+const title = "Total Loss Settlement Calculator & Check Breakdown";
 const description =
   "See exactly how a total-loss offer turns into your check — ACV, deductible, loan payoff, GAP, and salvage, laid out step by step. Free, math shown in full.";
 const path = "/calculators/settlement-check-breakdown/";
@@ -223,6 +224,7 @@ const structuredData = [
     </div>
 
     <FaqSection faqs={faqs} />
+    <AdSlot path={path} slot="calculator-after-faq" />
 
     <h2>More Calculators</h2>
     <div class="related-tools">

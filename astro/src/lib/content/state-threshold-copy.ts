@@ -83,3 +83,137 @@ export function getWorkedExample(entry: StateThreshold): WorkedExample {
     verdictText: `On a ${acvText} vehicle, repair costs reaching ${formatUSD(repairCents)} (${pct}% of ACV) meet ${entry.state}'s total-loss threshold.`,
   };
 }
+
+/**
+ * Land borders between states (plus D.C.), standard U.S. geography. Used to
+ * give every state page a comparison that is genuinely specific to that
+ * state: the same damaged car can be treated differently one state over.
+ * Alaska and Hawaii have no bordering states.
+ */
+export const BORDERING_STATES: Record<string, string[]> = {
+  Alabama: ["Florida", "Georgia", "Mississippi", "Tennessee"],
+  Alaska: [],
+  Arizona: ["California", "Colorado", "Nevada", "New Mexico", "Utah"],
+  Arkansas: ["Louisiana", "Mississippi", "Missouri", "Oklahoma", "Tennessee", "Texas"],
+  California: ["Arizona", "Nevada", "Oregon"],
+  Colorado: ["Arizona", "Kansas", "Nebraska", "New Mexico", "Oklahoma", "Utah", "Wyoming"],
+  Connecticut: ["Massachusetts", "New York", "Rhode Island"],
+  Delaware: ["Maryland", "New Jersey", "Pennsylvania"],
+  Florida: ["Alabama", "Georgia"],
+  Georgia: ["Alabama", "Florida", "North Carolina", "South Carolina", "Tennessee"],
+  Hawaii: [],
+  Idaho: ["Montana", "Nevada", "Oregon", "Utah", "Washington", "Wyoming"],
+  Illinois: ["Indiana", "Iowa", "Kentucky", "Missouri", "Wisconsin"],
+  Indiana: ["Illinois", "Kentucky", "Michigan", "Ohio"],
+  Iowa: ["Illinois", "Minnesota", "Missouri", "Nebraska", "South Dakota", "Wisconsin"],
+  Kansas: ["Colorado", "Missouri", "Nebraska", "Oklahoma"],
+  Kentucky: ["Illinois", "Indiana", "Missouri", "Ohio", "Tennessee", "Virginia", "West Virginia"],
+  Louisiana: ["Arkansas", "Mississippi", "Texas"],
+  Maine: ["New Hampshire"],
+  Maryland: ["Delaware", "Pennsylvania", "Virginia", "West Virginia", "Washington, D.C."],
+  Massachusetts: ["Connecticut", "New Hampshire", "New York", "Rhode Island", "Vermont"],
+  Michigan: ["Indiana", "Ohio", "Wisconsin"],
+  Minnesota: ["Iowa", "North Dakota", "South Dakota", "Wisconsin"],
+  Mississippi: ["Alabama", "Arkansas", "Louisiana", "Tennessee"],
+  Missouri: ["Arkansas", "Illinois", "Iowa", "Kansas", "Kentucky", "Nebraska", "Oklahoma", "Tennessee"],
+  Montana: ["Idaho", "North Dakota", "South Dakota", "Wyoming"],
+  Nebraska: ["Colorado", "Iowa", "Kansas", "Missouri", "South Dakota", "Wyoming"],
+  Nevada: ["Arizona", "California", "Idaho", "Oregon", "Utah"],
+  "New Hampshire": ["Maine", "Massachusetts", "Vermont"],
+  "New Jersey": ["Delaware", "New York", "Pennsylvania"],
+  "New Mexico": ["Arizona", "Colorado", "Oklahoma", "Texas", "Utah"],
+  "New York": ["Connecticut", "Massachusetts", "New Jersey", "Pennsylvania", "Vermont"],
+  "North Carolina": ["Georgia", "South Carolina", "Tennessee", "Virginia"],
+  "North Dakota": ["Minnesota", "Montana", "South Dakota"],
+  Ohio: ["Indiana", "Kentucky", "Michigan", "Pennsylvania", "West Virginia"],
+  Oklahoma: ["Arkansas", "Colorado", "Kansas", "Missouri", "New Mexico", "Texas"],
+  Oregon: ["California", "Idaho", "Nevada", "Washington"],
+  Pennsylvania: ["Delaware", "Maryland", "New Jersey", "New York", "Ohio", "West Virginia"],
+  "Rhode Island": ["Connecticut", "Massachusetts"],
+  "South Carolina": ["Georgia", "North Carolina"],
+  "South Dakota": ["Iowa", "Minnesota", "Montana", "Nebraska", "North Dakota", "Wyoming"],
+  Tennessee: ["Alabama", "Arkansas", "Georgia", "Kentucky", "Mississippi", "Missouri", "North Carolina", "Virginia"],
+  Texas: ["Arkansas", "Louisiana", "New Mexico", "Oklahoma"],
+  Utah: ["Arizona", "Colorado", "Idaho", "Nevada", "New Mexico", "Wyoming"],
+  Vermont: ["Massachusetts", "New Hampshire", "New York"],
+  Virginia: ["Kentucky", "Maryland", "North Carolina", "Tennessee", "West Virginia", "Washington, D.C."],
+  Washington: ["Idaho", "Oregon"],
+  "Washington, D.C.": ["Maryland", "Virginia"],
+  "West Virginia": ["Kentucky", "Maryland", "Ohio", "Pennsylvania", "Virginia"],
+  Wisconsin: ["Illinois", "Iowa", "Michigan", "Minnesota"],
+  Wyoming: ["Colorado", "Idaho", "Montana", "Nebraska", "South Dakota", "Utah"],
+};
+
+export function describeRule(entry: StateThreshold): string {
+  return entry.type === "percentage" ? `${entry.thresholdPct}% of ACV` : "Total Loss Formula";
+}
+
+export interface NeighborComparison {
+  state: string;
+  rule: string;
+  /** "same" | "lower" | "higher" | "different-method", relative to the page's own state. */
+  relation: "same" | "lower" | "higher" | "different-method";
+}
+
+export function getNeighborComparisons(entry: StateThreshold, all: StateThreshold[]): NeighborComparison[] {
+  const neighbors = BORDERING_STATES[entry.state] ?? [];
+  return neighbors
+    .map((name) => all.find((s) => s.state === name))
+    .filter((s): s is StateThreshold => s !== undefined)
+    .map((n) => {
+      let relation: NeighborComparison["relation"];
+      if (n.type !== entry.type) relation = "different-method";
+      else if (n.type === "tlf" || n.thresholdPct === entry.thresholdPct) relation = "same";
+      else relation = (n.thresholdPct as number) < (entry.thresholdPct as number) ? "lower" : "higher";
+      return { state: n.state, rule: describeRule(n), relation };
+    });
+}
+
+/**
+ * Where a percentage state sits nationally: how many percentage-threshold
+ * jurisdictions set a lower, equal or higher bar, and how many use the TLF.
+ */
+export function getNationalPosition(entry: StateThreshold, all: StateThreshold[]) {
+  const pctStates = all.filter((s) => s.type === "percentage");
+  const tlfCount = all.length - pctStates.length;
+  if (entry.type === "tlf") {
+    return { tlfCount, pctCount: pctStates.length, lower: 0, same: tlfCount - 1, higher: 0 };
+  }
+  const pct = entry.thresholdPct as number;
+  return {
+    tlfCount,
+    pctCount: pctStates.length,
+    lower: pctStates.filter((s) => (s.thresholdPct as number) < pct).length,
+    same: pctStates.filter((s) => s.thresholdPct === pct && s.state !== entry.state).length,
+    higher: pctStates.filter((s) => (s.thresholdPct as number) > pct).length,
+  };
+}
+
+/**
+ * A concrete cross-border scenario for the page's state: the same car and
+ * repair estimate, run through this state's rule and one bordering state's
+ * rule that differs. Returns null when every neighbor uses the same rule
+ * (or there are no neighbors). Uses the $10,000 ACV example vehicle.
+ */
+export function getCrossBorderScenario(entry: StateThreshold, all: StateThreshold[]): string | null {
+  const acv = EXAMPLE_ACV_CENTS;
+  const salvage = 100_000;
+  const neighbors = getNeighborComparisons(entry, all).filter((n) => n.relation !== "same");
+  if (neighbors.length === 0) return null;
+  const other = all.find((s) => s.state === neighbors[0].state) as StateThreshold;
+
+  const isTotal = (s: StateThreshold, repair: number) =>
+    s.type === "tlf" ? repair + salvage >= acv : repair >= (acv * (s.thresholdPct as number)) / 100;
+
+  // Find a repair estimate (in $250 steps) where the two rules disagree.
+  for (let repair = 500_000; repair <= 1_000_000; repair += 25_000) {
+    const here = isTotal(entry, repair);
+    const there = isTotal(other, repair);
+    if (here !== there) {
+      const verdict = (s: StateThreshold, total: boolean) =>
+        `${total ? "is" : "is not"} a total loss in ${s.state} (${describeRule(s)}${s.type === "tlf" ? `, with an assumed ${formatUSD(salvage)} salvage value` : ""})`;
+      return `Take a ${formatUSD(acv)} car with a ${formatUSD(repair)} repair estimate. It ${verdict(entry, here)}, but it ${verdict(other, there)}. If your accident happened near the ${other.state} line, check which state's rule actually applies — usually the state where the vehicle is registered and insured.`;
+    }
+  }
+  return null;
+}

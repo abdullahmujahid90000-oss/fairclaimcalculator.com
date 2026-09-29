@@ -2,10 +2,11 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
 import FaqSection from "@components/FaqSection.astro";
+import AdSlot from "@components/AdSlot.astro";
 import { DV_CONFIG } from "@lib/calculators/diminished-value-baseline";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Leased Vehicle Diminished Value | FairClaimCalculator";
+const title = "Leased Car Diminished Value Calculator";
 const description =
   "Diminished value on a leased vehicle: who typically holds the claim, plus the same 17c-baseline-vs-market-evidence calculator, adapted for lease context.";
 const path = "/calculators/leased-vehicle-diminished-value/";
@@ -269,6 +270,7 @@ const structuredData = [
     </div>
 
     <FaqSection faqs={faqs} />
+    <AdSlot path={path} slot="calculator-after-faq" />
 
     <h2>More Calculators</h2>
     <div class="related-tools">

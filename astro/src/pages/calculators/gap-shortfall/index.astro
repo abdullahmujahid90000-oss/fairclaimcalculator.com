@@ -2,10 +2,11 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
 import FaqSection from "@components/FaqSection.astro";
+import AdSlot from "@components/AdSlot.astro";
 import { GAP_SHORTFALL_CONFIG } from "@lib/calculators/gap-shortfall";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Loan/Lease Payoff vs. ACV Gap | FairClaimCalculator";
+const title = "Car Totaled but Still Owe? Payoff vs. ACV Gap Calculator";
 const description =
   "See the exact gap between your loan or lease payoff and your total-loss settlement, then check it against common GAP insurance exclusions.";
 const path = "/calculators/gap-shortfall/";
@@ -143,6 +144,7 @@ const structuredData = [
     </div>
 
     <FaqSection faqs={faqs} />
+    <AdSlot path={path} slot="calculator-after-faq" />
 
     <h2>More Calculators</h2>
     <div class="related-tools">

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import { AUTHOR, authorSchema } from "@lib/site/author";
 
 const title = "About FairClaimCalculator | Who Runs This Site";
 const description =
@@ -14,6 +15,12 @@ const structuredData = [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
       { "@type": "ListItem", position: 2, name: "About", item: `https://www.fairclaimcalculator.com${path}` },
     ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    url: `https://www.fairclaimcalculator.com${path}`,
+    mainEntity: authorSchema("https://www.fairclaimcalculator.com"),
   },
 ];
 ---
@@ -45,26 +52,38 @@ const structuredData = [
         <li>Not a lead-generation funnel — there is no login, email gate, or data resale.</li>
       </ul>
 
-      <h2 class="section-heading">Who runs it</h2>
+      <h2 class="section-heading" id="who-runs-it">Who runs it</h2>
+      <div class="author-card">
+        {AUTHOR.photo && (
+          <img src={AUTHOR.photo} alt={`Photo of ${AUTHOR.name}`} width="120" height="120" loading="lazy" />
+        )}
+        <div>
+          <p><strong>{AUTHOR.name}</strong> — {AUTHOR.role}</p>
+          {AUTHOR.bio && <p>{AUTHOR.bio}</p>}
+          {AUTHOR.profiles.length > 0 && (
+            <p>
+              Find {AUTHOR.name} on:{" "}
+              {AUTHOR.profiles.map((url, i) => (
+                <>{i > 0 && ", "}<a href={url} rel="me noopener" target="_blank">{new URL(url).hostname.replace(/^www\./, "")}</a></>
+              ))}
+            </p>
+          )}
+        </div>
+      </div>
       <p>
-        FairClaimCalculator is published and edited by David Bennett, an independent web publisher.
+        FairClaimCalculator is published and edited by {AUTHOR.name}, an independent web publisher.
         He is not an attorney, insurance adjuster, or licensed vehicle appraiser. Content is
         researched from public primary sources — state insurance-department materials, statutes and
         regulations, court and settlement documents, and official policy language — and is reviewed
         for accuracy on an ongoing basis. Case-specific decisions should always be verified with a
         licensed attorney or a qualified independent appraiser in your state.
       </p>
-      <p class="section-note">
-        This page intentionally does not list professional credentials, licenses, or a headshot,
-        because none are currently verified for publication. It will be updated only once specific,
-        verifiable details are available.
-      </p>
 
       <h2 class="section-heading">How the site is funded</h2>
       <p>
-        The site currently carries no advertising and earns no revenue. See the
-        <a href="/advertising-disclosure/">advertising disclosure</a> for the current status and
-        what will change if that ever does.
+        The site is free and supported by Google AdSense display advertising. Advertisers have no
+        influence over the calculators or guides — see the
+        <a href="/advertising-disclosure/">advertising disclosure</a>.
       </p>
     </div>
 
@@ -75,3 +94,9 @@ const structuredData = [
     </div>
   </div>
 </BaseLayout>
+
+<style>
+  .author-card { display: flex; gap: 16px; align-items: flex-start; margin: 0 0 12px; }
+  .author-card img { border-radius: 50%; flex-shrink: 0; object-fit: cover; }
+  .author-card p { margin: 0 0 6px; }
+</style>

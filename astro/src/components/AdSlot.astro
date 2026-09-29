@@ -1,45 +1,53 @@
 ---
 /**
- * Ad placement slot. Renders nothing at all — no element, no reserved
- * space, no placeholder markup — unless both:
- *   1. ADSENSE_ENABLED is true (astro/src/lib/ads/config.ts), and
- *   2. the current page's path is ad-eligible per isAdEligible().
+ * Manual AdSense display unit. Renders nothing at all — no element, no
+ * reserved space — unless ads are serving (see @lib/ads/config), the page
+ * is ad-eligible, and a unit ID has been configured for this slot name.
  *
- * No page in this codebase currently uses this component. It exists as
- * prepared-but-inactive scaffolding per ADSENSE-READINESS.md, so that
- * wiring in a real, approved placement later is additive (drop <AdSlot>
- * into a page) rather than requiring a rushed retrofit under pressure to
- * "just get ads live."
- *
- * When real placements are ever added, this component must still:
- *   - reserve its final dimensions only for placements that are actually
- *     approved and live (never reserve blank space for a "someday" slot —
- *     that causes layout shift for nothing);
- *   - render a clear, visible "Advertisement" label;
- *   - never be styled to resemble a calculator control, nav item, result,
- *     or download/print button;
- *   - never sit adjacent to a form field, submit button, or result panel
- *     in a way that risks accidental interaction.
+ * Placement rules every usage must keep:
+ *   - a visible "Advertisement" label;
+ *   - never styled like a calculator control, nav item, result or button;
+ *   - never adjacent to a form field, submit button or result panel.
  */
-import { ADSENSE_ENABLED, isAdEligible } from "@lib/ads/config";
+import { ADSENSE_PUBLISHER_ID, AD_UNIT_IDS, isAdEligible, type AdSlotName } from "@lib/ads/config";
 
 interface Props {
   /** Site-relative path of the current page, e.g. "/guides/total-loss/foo/". */
   path: string;
-  /** Human-readable slot name for future reference, e.g. "guide-inline-1". Unused while disabled. */
-  slot: string;
+  slot: AdSlotName;
 }
 
-const { path } = Astro.props;
-const eligible = ADSENSE_ENABLED && isAdEligible(path);
+const { path, slot } = Astro.props;
+const unitId: string = AD_UNIT_IDS[slot];
+const show = isAdEligible(path) && unitId !== "";
 ---
-{eligible && (
-  <div class="ad-slot" role="complementary" aria-label="Advertisement">
-    <!--
-      Intentionally left for future implementation. Do not add an ad
-      network script tag here without: a real, verified publisher ID: a
-      working consent/CMP gate; and the owner's sign-off per
-      ADSENSE-READINESS.md. See that file before touching this block.
-    -->
-  </div>
+{show && (
+  <aside class="ad-slot" aria-label="Advertisement">
+    <p class="ad-label">Advertisement</p>
+    <ins
+      class="adsbygoogle"
+      style="display:block"
+      data-ad-client={ADSENSE_PUBLISHER_ID}
+      data-ad-slot={unitId}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    ></ins>
+    <script is:inline>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </aside>
 )}
+
+<style>
+  .ad-slot {
+    margin: 32px 0;
+    padding-top: 8px;
+    border-top: 1px solid var(--color-border);
+    min-height: 120px;
+  }
+  .ad-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0 0 6px;
+  }
+</style>
