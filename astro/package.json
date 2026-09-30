@@ -12,7 +12,7 @@
     "test:watch": "vitest",
     "typecheck": "astro check",
     "audit:a11y": "node scripts/axe-check.mjs",
-    "postbuild": "node scripts/generate-llms-txt.mjs"
+    "postbuild": "node scripts/generate-llms-txt.mjs && node scripts/copy-sitemap.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.2.1",
