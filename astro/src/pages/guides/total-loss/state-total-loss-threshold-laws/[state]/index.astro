@@ -89,9 +89,10 @@ const structuredData = [buildFaqSchema(faqs)];
     href: "/guides/total-loss/state-total-loss-threshold-laws/",
   }}
   publishedDate="2026-08-16"
-  reviewedDate="2026-08-16"
+  reviewedDate={entry.note ? "2026-10-29" : "2026-08-16"}
   summary={`${entry.state} uses ${ruleText} to decide when a damaged vehicle must be declared a total loss instead of repaired.`}
   sources={[
+    ...(entry.statuteSource ? [entry.statuteSource] : []),
     'Brennan, R., "Total Loss Threshold by State," Policygenius, updated July 2026 — the same secondary compilation cited in the companion guide and calculator. Treat as a starting point, not a final legal citation; confirm your own state\'s current rule with your state insurance department.',
     'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a> — a real example of a state regulator publishing its own accepted methodology.',
   ]}
@@ -115,6 +116,12 @@ const structuredData = [buildFaqSchema(faqs)];
       estimate, and compares that combined figure to ACV.</>
     )}
   </p>
+
+  {entry.note && (
+    <div class="warning-note">
+      <p><strong>{entry.state}-specific note:</strong> {entry.note}</p>
+    </div>
+  )}
 
   <div class="example-box">
     <p><strong>Worked example</strong> — a {worked.acvText} vehicle:</p>

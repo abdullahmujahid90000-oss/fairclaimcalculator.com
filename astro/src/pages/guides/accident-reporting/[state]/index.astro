@@ -29,7 +29,12 @@ const title = mustFileOwn && deadlineShort
   ? `${s} Car Accident Report: When to File (${deadlineShort})`
   : `Do You Have to Report a Car Accident in ${s}?`;
 
-const description = `${s} car accident reporting rules: when a crash must be reported, who to tell, the deadline and official form${entry.formName ? ` (${entry.formName})` : ""}. Checked against official sources.`;
+const descriptionWithForm = `${s} car accident reporting rules: when a crash must be reported, who to tell, the deadline and official form${entry.formName ? ` (${entry.formName})` : ""}. Checked against official sources.`;
+// Long official form names push the description past what search results show; drop the name then.
+const description =
+  descriptionWithForm.length <= 160
+    ? descriptionWithForm
+    : `${s} car accident reporting rules: when a crash must be reported, who to tell, the deadline and the official form. Checked against official sources.`;
 
 const answerSentence: Record<string, string> = {
   "driver-report": `Yes. In ${s} you must file your own written crash report when: ${entry.trigger.charAt(0).toLowerCase()}${entry.trigger.slice(1)}`,
@@ -79,6 +84,7 @@ const structuredData = [buildFaqSchema(faqs)];
     `<a href="${entry.sourceUrl}" target="_blank" rel="noopener">${entry.sourceLabel}</a> — official source, checked ${CRASH_REPORTING_CHECKED}.`,
   ]}
   relatedLinks={[
+    { label: "What to do after a car accident: full checklist", href: "/guides/claim-process/what-to-do-after-a-car-accident/" },
     { label: "Car accident information worksheet (free PDF)", href: "/forms/accident-information-worksheet/" },
     { label: `${s} total-loss threshold`, href: `/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(s)}/` },
     { label: "Auto claim evidence checklist (free PDF)", href: "/forms/claim-evidence-checklist/" },

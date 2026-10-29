@@ -538,11 +538,11 @@ export const STATE_CRASH_REPORTING: StateCrashReporting[] = [
   {
     state: "Virginia",
     kind: "police-notice",
-    trigger: "Crashes are reported by law enforcement; Virginia DMV also accepts reports from a driver, owner or representative.",
+    trigger: "Police report crashes that cause injury, death, or property damage of $1,500 or more on a public road (form FR300P). A driver, owner or representative can also report a crash to DMV voluntarily, e.g. one police did not report.",
     reportTo: "Police; Virginia DMV",
     deadline: null,
     formName: "FR200 accident report (with CRD-93 request form)",
-    note: "Virginia DMV charges $8 for a copy of a crash report.",
+    note: "Virginia DMV's FR200 is a voluntary driver report, mailed to DMV's Insurance Verification Division with the CRD-93 request form and an $8 fee. Copies of police crash reports cost $8.",
     sourceUrl: "https://www.dmv.virginia.gov/vehicles/general/crash-dmv",
     sourceLabel: "Virginia DMV — Reporting a Crash to DMV",
   },

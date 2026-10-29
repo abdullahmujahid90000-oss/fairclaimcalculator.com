@@ -29,6 +29,8 @@ export const REDIRECT_STUBS = [
   { oldFile: "total-loss-offer-calculator/index.html", newPath: "/calculators/total-loss-offer-audit/" },
   { oldFile: "diminished-value-calculator/index.html", newPath: "/calculators/diminished-value-baseline/" },
   { oldFile: "claim-letter-builder/index.html", newPath: "/calculators/claim-letter-builder/" },
+  // Retired in July 2026, then given a real equivalent on 2026-10-29.
+  { oldFile: "articles/what-to-do-after-a-car-accident.html", newPath: "/guides/claim-process/what-to-do-after-a-car-accident/" },
 ];
 
 // Old personal-injury-era URLs that have no new equivalent (out of scope —
@@ -61,7 +63,6 @@ export const RETIRED_STUBS = [
   { oldFile: "articles/structured-settlement-vs-lump-sum.html", label: "Structured Settlement vs. Lump Sum" },
   { oldFile: "articles/taxes-on-personal-injury-settlement.html", label: "Taxes on a Personal Injury Settlement" },
   { oldFile: "articles/what-is-pain-and-suffering.html", label: "What Is Pain and Suffering" },
-  { oldFile: "articles/what-to-do-after-a-car-accident.html", label: "What to Do After a Car Accident" },
   { oldFile: "articles/why-insurance-companies-deny-claims.html", label: "Why Insurance Companies Deny Claims" },
   { oldFile: "articles/workers-comp-vs-personal-injury-lawsuit.html", label: "Workers' Comp vs. Personal Injury Lawsuit" },
 ];

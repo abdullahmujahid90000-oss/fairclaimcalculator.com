@@ -1,0 +1,172 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+import FaqSection from "@components/FaqSection.astro";
+import {
+  STATE_CRASH_REPORTING,
+  crashReportingSlug,
+} from "@lib/content/state-crash-reporting";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
+
+const title = "What to Do After a Car Accident: Step-by-Step Checklist";
+const description =
+  "What to do after a car accident, in order: at the scene, reporting it in your state, calling your insurer, and protecting your car's value during the claim.";
+const path = "/guides/claim-process/what-to-do-after-a-car-accident/";
+
+// Count states where a driver may have to file their own written report, so the
+// sentence below stays true if the state data is ever updated.
+const driverFilingStates = STATE_CRASH_REPORTING.filter(
+  (s) =>
+    s.state !== "Washington, D.C." &&
+    (s.kind === "driver-report" || s.kind === "driver-report-if-no-police"),
+).length;
+
+const faqs: FaqItem[] = [
+  {
+    question: "Do I have to call the police after a minor car accident?",
+    answer:
+      "It depends on your state and on what happened. States generally require police notice for a crash that injures or kills someone, and many also require it once property damage passes a dollar threshold (commonly $500 to $2,000). Below that, police may not come to the scene at all. Check your own state's rule in our 50-state accident-reporting directory.",
+  },
+  {
+    question: "Do I need to file my own accident report if the police already wrote one?",
+    answer:
+      "In a few states, yes. California's SR-1 and New York's MV-104, for example, are required from drivers in addition to any police report once a crash meets the state's injury or damage threshold. In other states, a driver files only when police did not investigate, or never files at all. Our state pages give the form name and deadline for each state.",
+  },
+  {
+    question: "How soon should I tell my insurance company about an accident?",
+    answer:
+      "As soon as you reasonably can. Auto policies require prompt notice of an accident, and a late report can complicate the claim. Reporting an accident to your insurer is not the same as admitting fault or making a claim payment decision.",
+  },
+  {
+    question: "Should I admit fault at the scene?",
+    answer:
+      "Stick to facts — what happened, where, and when — and let the police report, the evidence and the insurers sort out fault. Apologizing or guessing about fault at the scene can be quoted back to you later.",
+  },
+  {
+    question: "What if the insurer says my car is a total loss?",
+    answer:
+      "Ask for the full written valuation report, not just the offer amount. Check the comparable vehicles, mileage and options it used, and compare the repair estimate with your state's total-loss threshold. Our Total-Loss Offer Audit and Total-Loss Threshold Checker walk through both.",
+  },
+];
+
+const structuredData = [buildFaqSchema(faqs)];
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="What to Do After a Car Accident: A Step-by-Step Checklist"
+  cluster={{ name: "Claim Process", href: "/guides/claim-process/" }}
+  publishedDate="2026-10-29"
+  reviewedDate="2026-10-29"
+  summary="The order of things after a crash: make the scene safe, collect the facts, report it the way your state requires, notify your insurer, and keep the records that protect your car's value later in the claim."
+  sources={[
+    "State crash-reporting rules: this site's 50-state accident-reporting directory, where every entry links to the state DMV, public-safety agency or statute it was checked against.",
+    'National Association of Insurance Commissioners (NAIC), <a href="https://content.naic.org/consumer" target="_blank" rel="noopener">Consumer resources</a> — general consumer guidance on auto claims and state insurance department contacts.',
+  ]}
+  relatedLinks={[
+    { label: "Do you have to report a car accident? All 50 states", href: "/guides/accident-reporting/" },
+    { label: "Free car accident information sheet (PDF)", href: "/forms/accident-information-worksheet/" },
+    { label: "Auto Claim Evidence Checklist", href: "/guides/claim-process/auto-claim-evidence-checklist/" },
+    { label: "Total-Loss Threshold Checker", href: "/calculators/total-loss-threshold-checker/" },
+  ]}
+  structuredData={structuredData}
+>
+  <p>
+    The minutes after a crash are stressful, and the steps that matter most for your claim are easy
+    to miss. This checklist is in the order you will need it. It covers vehicle and property
+    claims; if anyone is hurt, get medical care first — this site does not cover injury claims.
+  </p>
+
+  <h2>1. At the scene: safety first</h2>
+  <ul>
+    <li><strong>Stop.</strong> Every state requires a driver involved in a crash to stop. Leaving can be a hit-and-run offense even if the crash was not your fault.</li>
+    <li><strong>Check for injuries and call 911</strong> if anyone is hurt, a vehicle cannot be moved, or the road is blocked.</li>
+    <li><strong>Make the scene safe.</strong> Turn on hazard lights. If no one is hurt and the cars can be driven, many states expect you to move them out of traffic lanes.</li>
+    <li><strong>Call the police</strong> when your state requires it. Most states require police notice for any crash that injures or kills someone, and many add a property-damage threshold. <a href="/guides/accident-reporting/">Check your state's rule</a>.</li>
+  </ul>
+
+  <h2>2. Collect the facts before anyone leaves</h2>
+  <ul>
+    <li>The other driver's name, address, phone number, driver's license number, license plate, and insurance company and policy number.</li>
+    <li>The make, model, color and, if you can, the VIN of each vehicle.</li>
+    <li>Names and phone numbers of witnesses — they are hard to find again later.</li>
+    <li>The responding officer's name, badge number and agency, and the police report number.</li>
+    <li>Photos: all vehicles from several angles, close-ups of damage, the other car's plate, road conditions, signs and signals, and skid marks or debris.</li>
+  </ul>
+  <p>
+    Our free <a href="/forms/accident-information-worksheet/">car accident information sheet</a> has
+    a space for each of these. Print a copy for your glove box.
+  </p>
+  <div class="warning-note">
+    <p>
+      <strong>Stick to facts.</strong> Describe what happened, but don't guess, argue or admit fault at
+      the scene. Fault is decided later from the evidence and the police report.
+    </p>
+  </div>
+
+  <h2>3. Report the crash the way your state requires</h2>
+  <p>
+    Reporting rules vary more than most people expect. In {driverFilingStates} states, a
+    driver may have to file their own written report in some situations — sometimes even when police
+    already wrote one (California's SR-1 and New York's MV-104 are two examples). Other states take
+    police reports only. Deadlines can be as short as a few days.
+  </p>
+  <details class="state-picker">
+    <summary>Find your state's reporting rule</summary>
+    <ul class="state-list">
+      {STATE_CRASH_REPORTING.map((s) => (
+        <li><a href={`/guides/accident-reporting/${crashReportingSlug(s.state)}/`}>{s.state}</a></li>
+      ))}
+    </ul>
+  </details>
+
+  <h2>4. Tell your insurance company</h2>
+  <ul>
+    <li><strong>Notify your own insurer promptly,</strong> even if the other driver was at fault. Policies require prompt notice.</li>
+    <li>Write down the claim number, your adjuster's name and every call. A <a href="/forms/claim-communication-log/">claim communication log</a> makes this easy.</li>
+    <li>Decide whether to claim through your own policy or the at-fault driver's insurer. The two routes have different rules and timelines — see <a href="/guides/claim-process/first-party-vs-third-party-auto-claims/">first-party vs. third-party claims</a>.</li>
+  </ul>
+
+  <h2>5. While your car is being assessed</h2>
+  <ul>
+    <li><strong>Rental car or loss of use.</strong> Check whether your policy has rental reimbursement and its daily limit, or whether the at-fault driver's insurer owes you for the time without a car. <a href="/guides/claim-process/rental-car-loss-of-use-reimbursement/">How rental reimbursement works</a>.</li>
+    <li><strong>Get the repair estimate in writing.</strong> If repairs cost close to the car's value, the insurer may declare it a total loss. Your state sets the threshold — check it with the <a href="/calculators/total-loss-threshold-checker/">Total-Loss Threshold Checker</a>.</li>
+    <li><strong>Keep every receipt</strong> — towing, storage, rental, and anything you paid out of pocket.</li>
+  </ul>
+
+  <h2>6. If the car is totaled</h2>
+  <p>
+    Ask for the complete written valuation report. Insurers base the offer on comparable vehicles,
+    and errors in mileage, trim, options or condition are common. The
+    <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit</a> checks the comparables
+    and arithmetic, and <a href="/guides/claim-process/how-to-respond-to-a-lowball-offer/">how to respond to a lowball offer</a>
+    covers the next steps. If you still owe more than the payout, see the
+    <a href="/calculators/gap-shortfall/">loan or lease gap calculator</a>.
+  </p>
+
+  <h2>7. If the car is repaired</h2>
+  <p>
+    A repaired car with an accident on its history report is usually worth less than one without.
+    That loss is called <a href="/guides/diminished-value/what-is-diminished-value/">diminished value</a>,
+    and in many states you can claim it from the at-fault driver's insurer. The
+    <a href="/calculators/diminished-value-baseline/">Diminished Value calculator</a> shows the common
+    insurer formula next to real market evidence.
+  </p>
+
+  <h2>What this guide cannot tell you</h2>
+  <p>
+    It is a general checklist, not legal advice. Your state's laws, your policy wording and the
+    facts of your crash decide what you must do and what you can recover. For a serious injury or a
+    disputed claim, consider speaking with a licensed attorney or public adjuster — see
+    <a href="/guides/claim-process/when-to-consider-an-independent-appraisal-or-attorney/">when outside help may be worth it</a>.
+  </p>
+
+  <FaqSection faqs={faqs} />
+</GuideLayout>
+
+<style>
+  .state-picker { margin: 12px 0 24px; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 12px 16px; }
+  .state-picker summary { cursor: pointer; font-weight: 600; }
+  .state-list { columns: 3 140px; margin: 12px 0 0; padding-left: 18px; }
+  .state-list li { margin: 2px 0; }
+</style>

@@ -13,9 +13,9 @@
  */
 
 export const TOTAL_LOSS_THRESHOLD_CONFIG = {
-  version: "1.0",
+  version: "1.1",
   effectiveDate: "2026-08-14",
-  reviewedDate: "2026-08-14",
+  reviewedDate: "2026-10-29",
   sources: [
     'Brennan, R., "Total Loss Threshold by State," Policygenius, updated July 2026 — same secondary compilation cited in the companion guide. Treat as a starting point, not a final legal citation; confirm your own state\'s current rule with your state insurance department.',
     'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a> — a real example of a state regulator publishing its own accepted methodology.',
@@ -29,6 +29,10 @@ export interface StateThreshold {
   type: ThresholdType;
   /** Percentage as a whole number (e.g. 75 for 75%). Null for TLF states. */
   thresholdPct: number | null;
+  /** State-specific detail, e.g. where this table departs from popular secondary lists. */
+  note?: string;
+  /** Primary-source statute citation, as an HTML string, when one was checked directly. */
+  statuteSource?: string;
 }
 
 /**
@@ -51,7 +55,13 @@ export const STATE_THRESHOLDS: StateThreshold[] = [
   { state: "Idaho", type: "tlf", thresholdPct: null },
   { state: "Illinois", type: "tlf", thresholdPct: null },
   { state: "Indiana", type: "percentage", thresholdPct: 70 },
-  { state: "Iowa", type: "percentage", thresholdPct: 70 },
+  {
+    state: "Iowa",
+    type: "percentage",
+    thresholdPct: 70,
+    note: "Iowa raised its salvage threshold from 50% to 70% of fair market value for vehicles transferred on or after July 1, 2021. Older lists that still say 50% describe the previous rule.",
+    statuteSource: 'Iowa Code § 321.52 and Iowa Admin. Code ch. 761—405, <a href="https://www.legis.iowa.gov/law/iowaCode" target="_blank" rel="noopener">Iowa Legislature</a> — "wrecked or salvage vehicle" means repair cost above 70% of fair market value (50% for vehicles transferred before July 1, 2021).',
+  },
   { state: "Kansas", type: "percentage", thresholdPct: 75 },
   { state: "Kentucky", type: "percentage", thresholdPct: 75 },
   { state: "Louisiana", type: "percentage", thresholdPct: 75 },
@@ -59,7 +69,13 @@ export const STATE_THRESHOLDS: StateThreshold[] = [
   { state: "Maryland", type: "percentage", thresholdPct: 75 },
   { state: "Massachusetts", type: "tlf", thresholdPct: null },
   { state: "Michigan", type: "percentage", thresholdPct: 75 },
-  { state: "Minnesota", type: "percentage", thresholdPct: 70 },
+  {
+    state: "Minnesota",
+    type: "percentage",
+    thresholdPct: 80,
+    note: "Minnesota's statute uses 80% of actual cash value. Many popular lists still show 70%, which was the older figure before a 2012 law (Laws 2012, ch. 267) raised it. Separately, an insurer that takes ownership of a late-model (current or prior five model years) or high-value (ACV over $9,000) vehicle must brand the title \"salvage\" whatever the percentage.",
+    statuteSource: 'Minn. Stat. § 168A.01, subd. 17b ("salvage vehicle") and § 168A.151, <a href="https://www.revisor.mn.gov/statutes/cite/168A.01" target="_blank" rel="noopener">Minnesota Revisor of Statutes</a> — repair cost exceeding 80% of the vehicle\'s value immediately before the damage.',
+  },
   { state: "Mississippi", type: "tlf", thresholdPct: null },
   { state: "Missouri", type: "percentage", thresholdPct: 80 },
   { state: "Montana", type: "tlf", thresholdPct: null },

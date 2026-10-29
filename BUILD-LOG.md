@@ -1196,3 +1196,29 @@ Owner asked to rebuild the site for AdSense approval and search traffic.
 - Nav, footer, homepage, guides hub, llms.txt and ad eligibility updated.
 - `SEO-GROWTH-PLAN.md`: keyword map, on-page summary, off-page plan.
 - Verified: typecheck, tests, axe, internal links, 390px render.
+
+### 2026-10-29 — Fact check, on-page SEO fixes, new accident checklist guide
+
+- AdSense: `ADSENSE_PUBLISHER_ID` set to the owner's existing account
+  (`ca-pub-5391037132181133`, same account as saudiutilityhub.com), so the
+  verification meta tag and `/ads.txt` ship. `ADS_SERVING_ENABLED` stays false.
+- Fact fixes:
+  - Minnesota total-loss threshold 70% → **80%** (Minn. Stat. § 168A.01
+    subd. 17b; the 70% figure predates Laws 2012 ch. 267). Policygenius and
+    other secondary lists still show 70%; the state page now says so.
+  - Iowa 70% confirmed (raised from 50% for vehicles transferred on/after
+    2021-07-01); note + statute citation added to the state page.
+  - `StateThreshold` gained optional `note` and `statuteSource`, rendered on
+    the state page (warning box + first source entry).
+  - 17c damage-multiplier labels aligned to the standard published table
+    (0.25 = minor damage to structure and panels; 0.00 = no structural
+    damage or replaced panels). Multipliers and mileage bands were already correct.
+  - Virginia crash reporting: added the $1,500 police-reportable threshold
+    (FR300P) and clarified FR200 is a voluntary driver report.
+- SEO: homepage title shortened to ≤60 chars; 31 accident-reporting and 5
+  forms descriptions brought to ≤160 chars.
+- New guide `/guides/claim-process/what-to-do-after-a-car-accident/` (FAQ
+  schema, links to all 51 state reporting pages, forms and tools). The
+  retired `/articles/what-to-do-after-a-car-accident.html` now redirects to it.
+- Verified: typecheck 0 errors, 186/186 tests, axe 0 violations, 0 broken of
+  8,412 internal links (excluding the known `/404/` self-canonical), 390px render.

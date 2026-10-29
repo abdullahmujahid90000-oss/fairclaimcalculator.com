@@ -28,7 +28,7 @@ export const DOWNLOAD_PAGES: DownloadPage[] = [
     title: "Car Accident Information Worksheet (Free PDF)",
     metaTitle: "Car Accident Information Sheet — Free Printable PDF",
     description:
-      "Free fillable car accident information sheet: what to collect at the scene — other driver, insurance, witnesses, police report number and photos. Print it for your glove box.",
+      "Free fillable car accident information sheet: what to collect at the scene — other driver, insurance, witnesses, police report number. Keep one in your glove box.",
     cardText: "Keep it in your glove box. Everything to collect at the scene of a crash.",
     whenToUse: [
       "Right after a crash, once everyone is safe and off the road.",
@@ -150,7 +150,7 @@ export const DOWNLOAD_PAGES: DownloadPage[] = [
     title: "Diminished Value Claim Letter (Free PDF Template)",
     metaTitle: "Diminished Value Claim Letter Template — Free PDF",
     description:
-      "Free fillable diminished value demand letter template. Present the loss in your car's resale value after an accident repair, with a checklist of evidence to attach.",
+      "Free fillable diminished value demand letter template. Claim the loss in your car's resale value after a repair, with a checklist of evidence to attach.",
     cardText: "Claim the loss in resale value after your car is repaired.",
     whenToUse: [
       "Your car was repaired after a crash that someone else caused, and its resale value dropped because of the accident history.",
@@ -193,7 +193,7 @@ export const DOWNLOAD_PAGES: DownloadPage[] = [
     title: "Comparable Vehicles Worksheet (Free PDF)",
     metaTitle: "Total Loss Comparable Vehicles Worksheet — Free PDF",
     description:
-      "Free fillable worksheet for gathering comparable vehicle listings to check a total-loss valuation: price, mileage, distance, listing date and URL, with a summary.",
+      "Free fillable worksheet for comparable vehicle listings to check a total-loss valuation: price, mileage, distance, listing date and URL, with a summary.",
     cardText: "Collect comparable listings to check your insurer's ACV.",
     whenToUse: [
       "You're checking whether a total-loss offer matches the local market.",
@@ -262,7 +262,7 @@ export const DOWNLOAD_PAGES: DownloadPage[] = [
     title: "Insurance Department Complaint Worksheet (Free PDF)",
     metaTitle: "How to File an Insurance Complaint — Free Worksheet PDF",
     description:
-      "Free fillable worksheet to prepare a complaint to your state insurance department about an auto claim: timeline, what went wrong, the outcome you want, and documents to attach.",
+      "Free fillable worksheet for a complaint to your state insurance department about an auto claim: timeline, what went wrong, the outcome you want.",
     cardText: "Prepare a clear, complete complaint to your state insurance department.",
     whenToUse: [
       "Your insurer stopped responding, missed deadlines, or denied or underpaid a claim without a clear reason.",
@@ -297,7 +297,7 @@ export const DOWNLOAD_PAGES: DownloadPage[] = [
     title: "Auto Insurance Claim Evidence Checklist (Free PDF)",
     metaTitle: "Car Insurance Claim Checklist — Free Printable PDF",
     description:
-      "Free printable checklist of the documents and evidence for a car insurance claim: crash reports, photos, vehicle records, valuation reports, receipts and your claim log.",
+      "Free printable checklist of documents and evidence for a car insurance claim: crash reports, photos, vehicle records, valuation reports and receipts.",
     cardText: "Every document to gather, from the crash to the settlement.",
     whenToUse: [
       "As soon as you open a claim, to see what you'll need.",

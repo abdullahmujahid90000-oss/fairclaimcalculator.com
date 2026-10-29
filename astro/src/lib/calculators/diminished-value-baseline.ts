@@ -8,16 +8,16 @@
  */
 
 export const DV_CONFIG = {
-  version: "1.1",
+  version: "1.2",
   effectiveDate: "2026-07-29",
-  reviewedDate: "2026-07-29",
+  reviewedDate: "2026-10-29",
   baseCapPct: 0.1,
   damageMultipliers: [
-    { key: "severe", label: "Severe — structural or frame damage", value: 1 },
-    { key: "major", label: "Major — structural work plus multiple panels replaced", value: 0.75 },
-    { key: "moderate", label: "Moderate — some structural work and panel replacement", value: 0.5 },
-    { key: "minor", label: "Minor — panel damage only, no structural involvement", value: 0.25 },
-    { key: "none", label: "Cosmetic only — fully repaired, no structural damage", value: 0 },
+    { key: "severe", label: "Severe — severe structural damage", value: 1 },
+    { key: "major", label: "Major — major damage to structure and panels", value: 0.75 },
+    { key: "moderate", label: "Moderate — moderate damage to structure and panels", value: 0.5 },
+    { key: "minor", label: "Minor — minor damage to structure and panels", value: 0.25 },
+    { key: "none", label: "None — no structural damage or replaced panels", value: 0 },
   ],
   mileageBands: [
     { max: 19_999, value: 1, label: "0–19,999 miles" },
