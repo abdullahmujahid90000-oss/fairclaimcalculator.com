@@ -18,7 +18,7 @@
  */
 
 /** Real AdSense publisher ID, e.g. "ca-pub-1234567890123456". Empty = not set up yet. Never invent one. */
-export const ADSENSE_PUBLISHER_ID = "";
+export const ADSENSE_PUBLISHER_ID = "ca-pub-5391037132181133";
 
 /** Master switch for actually serving ads. Requires a publisher ID. */
 export const ADS_SERVING_ENABLED = false;
