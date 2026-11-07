@@ -1222,3 +1222,15 @@ Owner asked to rebuild the site for AdSense approval and search traffic.
   retired `/articles/what-to-do-after-a-car-accident.html` now redirects to it.
 - Verified: typecheck 0 errors, 186/186 tests, axe 0 violations, 0 broken of
   8,412 internal links (excluding the known `/404/` self-canonical), 390px render.
+
+### 2026-11-07 — Team byline, live-site check, natural-writing rules
+
+- Byline changed from the invented "David Bennett" to "FairClaimCalculator
+  Editorial Team" at the owner's request (owner does not want a personal name
+  and confirmed David Bennett was not a real person). Author schema is now an
+  Organization, not a Person. Homepage, About, guide and form bylines updated.
+- Live-site check (now reachable from the build session): home, calculators,
+  state pages, sitemap (164 URLs) and robots.txt all return 200; no noindex;
+  canonicals correct; apex redirects to www. `/ads.txt` is 404 only because
+  the branch with the publisher ID is not merged into `main` yet.
+- CONTENT-ROADMAP.md: added §2b natural-writing rules for every scheduled run.

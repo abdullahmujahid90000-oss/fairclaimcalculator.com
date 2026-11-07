@@ -2,6 +2,7 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ScenarioCard from "@components/ScenarioCard.astro";
 import CalculatorCard from "@components/CalculatorCard.astro";
+import { AUTHOR } from "@lib/site/author";
 
 const title = "Free Total Loss & Diminished Value Calculators | FairClaim";
 const description =
@@ -178,11 +179,11 @@ const structuredData = [
   <section class="container author-section">
     <h2>Who runs this site</h2>
     <div class="author-card">
-      <div class="avatar" aria-hidden="true">DB</div>
+      <div class="avatar" aria-hidden="true">{AUTHOR.initials}</div>
       <div>
-        <h3>David Bennett — Founder &amp; Editor</h3>
+        <h3>{AUTHOR.name}</h3>
         <p>
-          Independent web publisher, not an attorney, insurer, or appraiser. Content on this site is
+          An independent research and editorial team, not attorneys, insurers, or appraisers. Content on this site is
           researched from public primary sources and reviewed for accuracy on an ongoing basis.
           Always verify anything case-specific with a licensed attorney or qualified appraiser in
           your state. See the full <a href="/about/">About page</a> and <a href="/editorial-policy/">Editorial Policy</a>.

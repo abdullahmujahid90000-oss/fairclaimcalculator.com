@@ -55,7 +55,7 @@ const structuredData = [
       <h2 class="section-heading" id="who-runs-it">Who runs it</h2>
       <div class="author-card">
         {AUTHOR.photo && (
-          <img src={AUTHOR.photo} alt={`Photo of ${AUTHOR.name}`} width="120" height="120" loading="lazy" />
+          <img src={AUTHOR.photo} alt={`${AUTHOR.name} logo`} width="120" height="120" loading="lazy" />
         )}
         <div>
           <p><strong>{AUTHOR.name}</strong> — {AUTHOR.role}</p>
@@ -71,8 +71,9 @@ const structuredData = [
         </div>
       </div>
       <p>
-        FairClaimCalculator is published and edited by {AUTHOR.name}, an independent web publisher.
-        He is not an attorney, insurance adjuster, or licensed vehicle appraiser. Content is
+        FairClaimCalculator is an independent website, researched, written and edited by the
+        {AUTHOR.name}. The team is not a law firm, insurance adjuster, or licensed vehicle
+        appraiser, and nobody on it gives legal advice. Content is
         researched from public primary sources — state insurance-department materials, statutes and
         regulations, court and settlement documents, and official policy language — and is reviewed
         for accuracy on an ongoing basis. Case-specific decisions should always be verified with a

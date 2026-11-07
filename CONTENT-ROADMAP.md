@@ -52,6 +52,24 @@ what is left, and the next run finishes that topic before starting a new one.
   the next logical step. Every new page is linked from at least two existing pages.
 - Reading level: plain English, short paragraphs, US spelling, US audience.
 
+### 2b. Natural writing (the owner's top priority: AdSense approval)
+AdSense and Google both reject pages that read as written for search engines.
+Every page must read like a knowledgeable person explaining it to a friend:
+- Use the main phrase where it fits naturally, usually 2–4 times on a page,
+  never forced into every heading. Use synonyms and natural variations
+  ("totaled", "written off", "a total loss") instead of repeating one phrase.
+- No lists of keywords, no "best X near me 2026" style headings, no
+  sentences that exist only to hold a keyword, no stacked city/state names.
+- No filler intros ("In today's world..."), no repeating the question back,
+  no generic AI phrasing ("delve", "navigate the complexities", "it's
+  important to note"). Get to the point in the first sentence.
+- Vary sentence length. Use "you". Use real examples with real numbers.
+- Every paragraph must teach something; if removing it loses nothing, remove it.
+- State pages and other repeated templates must differ in substance (state
+  facts, examples, comparisons), not just the swapped state name.
+- Before committing, read each rewritten page from top to bottom once as a
+  visitor would. If any sentence sounds like it was written for Google, rewrite it.
+
 ### 3. Make people come back (interaction)
 Add, where it fits the topic: results that can be saved/printed, a checklist
 with progress saved in the browser (localStorage, no account, no backend),
@@ -67,7 +85,7 @@ check with no horizontal scroll. Ads stay off tool inputs/results (see
 `astro/src/lib/ads/config.ts`).
 
 ### 5. Hard rules
-- Never change the author name, bio or credentials without the owner's input.
+- The byline is "FairClaimCalculator Editorial Team" (owner's choice, 2026-11-07). Never invent a named person, bio or credentials.
 - Never change `ADS_SERVING_ENABLED` or the publisher ID.
 - Never delete a live URL. To merge two pages, redirect the old one with the
   existing stub mechanism (`astro/scripts/legacy-paths.mjs`).
