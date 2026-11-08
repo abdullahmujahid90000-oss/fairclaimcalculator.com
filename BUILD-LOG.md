@@ -1234,3 +1234,20 @@ Owner asked to rebuild the site for AdSense approval and search traffic.
   canonicals correct; apex redirects to www. `/ads.txt` is 404 only because
   the branch with the publisher ID is not merged into `main` yet.
 - CONTENT-ROADMAP.md: added §2b natural-writing rules for every scheduled run.
+
+### 2026-11-08 — Traffic recovery: scaled content, analytics, cookie banner bug
+
+- 51 state total-loss threshold pages measured 89–94% identical; set to
+  `noindex,follow` and removed from the sitemap (`src/lib/seo/indexing.mjs`,
+  GuideLayout `noindex` prop, sitemap filter). Pages stay live; the hub keeps
+  the full table. Sitemap 165 → 114 URLs. Accident-reporting pages (79–85%)
+  stay indexed; boilerplate reduction is part of roadmap topic 5.
+- Google Analytics consent is now region-aware: analytics storage granted by
+  default outside the EEA/UK/CH (opt-out, rejectable any time), denied inside
+  until accepted. Previously gtag.js loaded only after Accept, hiding nearly all
+  U.S. visitors from reporting. Privacy policy updated (reviewed 2026-11-08).
+- Bug fix: the cookie banner never disappeared after Accept/Reject because
+  `.cookie-banner { display: flex }` overrode the `hidden` attribute. Added
+  `.cookie-banner[hidden] { display: none }`. Verified in Chromium: shows on
+  first visit, hides on choice, remembers it, reopens from Privacy choices.
+- Verified: typecheck 0 errors, 188/188 tests, axe 0 violations.

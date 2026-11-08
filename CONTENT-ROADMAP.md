@@ -93,6 +93,18 @@ check with no horizontal scroll. Ads stay off tool inputs/results (see
 
 ---
 
+## Scaled-content rule for state pages (added 2026-11-08)
+Measured 2026-11-08: the 51 total-loss threshold state pages were 89–94%
+identical to each other, and the 51 accident-reporting pages 79–85%. The
+threshold pages are now `noindex,follow` and out of the sitemap
+(`astro/src/lib/seo/indexing.mjs`). A state page goes back into the index only
+when it is rewritten with real state-specific substance (statute citation,
+state rules and exceptions, a state example, state agency links), and its
+text is under ~60% similar to any other state page. Measure similarity on the
+built `dist/` pages (word-level difflib ratio of the `<main>` text) before
+adding a slug to `INDEXED_THRESHOLD_STATE_SLUGS`. Topics 1 and 5 must cut the
+shared boilerplate on their state templates down to what is truly needed.
+
 ## Topic order
 
 Ordered by expected traffic and by what later topics depend on.
