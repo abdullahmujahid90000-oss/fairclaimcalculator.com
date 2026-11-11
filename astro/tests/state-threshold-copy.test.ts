@@ -31,9 +31,9 @@ describe("getPracticalMeaning", () => {
 
 describe("getWorkedExample", () => {
   it("normal: percentage state — repair figure is exactly pct% of the example ACV", () => {
-    const result = getWorkedExample({ state: "Oklahoma", type: "percentage", thresholdPct: 60 });
-    // $10,000 * 60% = $6,000
-    expect(result.repairText).toBe("$6,000.00");
+    const result = getWorkedExample({ state: "Nevada", type: "percentage", thresholdPct: 65 });
+    // $10,000 * 65% = $6,500
+    expect(result.repairText).toBe("$6,500.00");
     expect(result.acvText).toBe(formatUSDLocal(EXAMPLE_ACV_CENTS));
   });
 
@@ -80,7 +80,7 @@ describe("BORDERING_STATES", () => {
 });
 
 describe("getNeighborComparisons", () => {
-  it("labels Oklahoma (60%) as lower than Texas (100%)", () => {
+  it("labels Oklahoma (70%) as lower than Texas (100%)", () => {
     const texas = STATE_THRESHOLDS.find((s) => s.state === "Texas")!;
     const ok = getNeighborComparisons(texas, STATE_THRESHOLDS).find((n) => n.state === "Oklahoma");
     expect(ok?.relation).toBe("lower");

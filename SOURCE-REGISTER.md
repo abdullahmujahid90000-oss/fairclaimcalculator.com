@@ -446,6 +446,18 @@ already sourced for register entries #10 (guide) and #8.1 (calculator).
   is "Washington, D.C." at 59/60 title characters and 128/160 description
   characters.
 
+## 8b. State threshold statute checks (2026-10-29 and 2026-11-11)
+
+| State | Rule now used | Source | Checked |
+|---|---|---|---|
+| Minnesota | 80% | Minn. Stat. § 168A.01 subd. 17b, § 168A.151 | 2026-10-29 |
+| Iowa | 70% (50% before 2021-07-01) | Iowa Code § 321.52; Iowa Admin. Code 761—405 | 2026-10-29 |
+| Oklahoma | 70% from 2026-11-01 (was 60%) | 47 O.S. § 1111 as amended by SB 1920 (2026); Oklahoma Insurance Department, 2026 Statute and Rule Changes | 2026-11-11 |
+| Colorado | 100% (repair cost > retail FMV); hail excluded | C.R.S. § 42-6-102; Colorado DMV Salvage Vehicles page | 2026-11-11 |
+| Florida | 80% | Fla. Stat. § 319.30; FLHSMV procedure TL-35 | 2026-11-11 (kept; no row change) |
+
+All other rows still rest on the Policygenius compilation (July 2026) until roadmap topic 17.
+
 ## 9. What is NOT yet in this register
 
 Nothing currently published on the site is missing from this register as

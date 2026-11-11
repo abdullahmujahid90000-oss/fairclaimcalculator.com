@@ -112,7 +112,7 @@ Seed keywords are starting points for research, not final targets.
 
 | # | Topic | Pages | Seed keywords | Status |
 |---|---|---|---|---|
-| 1 | **Is my car totaled?** | `/calculators/total-loss-threshold-checker/`, `/guides/total-loss/state-total-loss-threshold-laws/` (hub), state page template (51 pages) | is my car totaled, total loss calculator, total loss threshold by state, [state] total loss threshold, when is a car totaled | todo |
+| 1 | **Is my car totaled?** | `/calculators/total-loss-threshold-checker/`, `/guides/total-loss/state-total-loss-threshold-laws/` (hub), state page template (51 pages) | is my car totaled, total loss calculator, total loss threshold by state, [state] total loss threshold, when is a car totaled | done (2026-11-11): calculator + hub rewritten; state pages stay noindex, see topic 17 |
 | 2 | **Totaled car value / payout** | `/calculators/total-loss-offer-audit/`, `/guides/total-loss/how-insurers-value-a-total-loss-vehicle/`, `/guides/total-loss/acv-vs-replacement-cost-loan-payoff-asking-price/` | totaled car value calculator, how much will insurance pay for my totaled car, actual cash value car | todo |
 | 3 | **Site theme, homepage and My Claim tracker** | homepage, header/footer, design tokens, new `/my-claim/` tracker (browser-saved claim timeline, deadlines, checklist progress) | free car insurance claim calculator, car insurance claim help | todo |
 | 4 | **What to do after a car accident** | `/guides/claim-process/what-to-do-after-a-car-accident/`, `/forms/accident-information-worksheet/`, `/guides/claim-process/auto-claim-evidence-checklist/`, `/forms/claim-evidence-checklist/` | what to do after a car accident, car accident checklist, car accident information sheet pdf | todo |
@@ -128,6 +128,7 @@ Seed keywords are starting points for research, not final targets.
 | 14 | **Claim process** | first-party vs third-party, filing a DOI complaint, appraisal/attorney, DV vs total loss, `/forms/claim-communication-log/`, `/forms/insurance-complaint-worksheet/` | how to file a complaint against an insurance company, appraisal clause auto insurance | todo |
 | 15 | **Comparables and settlement check** | `/guides/total-loss/finding-your-own-comparable-vehicles/`, `/forms/comparable-vehicles-worksheet/`, `/calculators/settlement-check-breakdown/`, `/check-my-offer/` | comparable vehicles total loss, total loss settlement breakdown | todo |
 | 16 | **Glossary, hubs and trust pages** | `/glossary/`, `/guides/` and cluster hubs, `/calculators/`, About/Methodology/Editorial policy (author details need owner input) | car insurance claim terms | todo |
+| 17 | **State threshold pages: per-state rewrite** | `/guides/total-loss/state-total-loss-threshold-laws/[state]/` — ~10 states per run, largest states first (CA, TX, FL, NY, PA, IL, OH, GA, NC, MI). Each needs its statute citation, state rules (salvage branding, owner-retained rules, exceptions like CO hail), a state example; re-index per the scaled-content rule | [state] total loss threshold, [state] salvage title rules | todo |
 
 ## New topics to add after the rewrite (from the 2026-10-29 suggestions)
 - "Should I file a claim or pay out of pocket?" calculator
