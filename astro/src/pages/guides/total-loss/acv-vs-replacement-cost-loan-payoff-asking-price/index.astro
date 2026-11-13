@@ -1,68 +1,108 @@
 ---
 import GuideLayout from "@layouts/GuideLayout.astro";
+import FaqSection from "@components/FaqSection.astro";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "ACV vs. Replacement Cost vs. Payoff | FairClaimCalculator";
+const title = "Actual Cash Value vs. Replacement Cost for a Totaled Car";
 const description =
-  "Why your total-loss check rarely matches what you paid, what a similar car costs today, or what you owe on your loan — four different numbers.";
+  "Why your total loss check doesn't match what you paid, what a new car costs, or what you owe: actual cash value vs. replacement cost and loan payoff.";
 const path = "/guides/total-loss/acv-vs-replacement-cost-loan-payoff-asking-price/";
+
+const faqs: FaqItem[] = [
+  {
+    question: "Does car insurance pay actual cash value or replacement cost?",
+    answer:
+      "Standard auto policies pay actual cash value for a totaled car: what it was worth just before the crash. Replacement cost is only paid if you bought an add-on such as new car replacement coverage, which insurers usually limit to cars in their first years.",
+  },
+  {
+    question: "Why is my total loss check less than what I paid for the car?",
+    answer:
+      "Cars lose value every year and with every mile. The insurer owes what your car was worth on the day of the loss, not the price you paid. If you owe more than that, the difference is a loan gap, not part of the total loss claim.",
+  },
+  {
+    question: "Can I use a dealer's asking price to argue for more money?",
+    answer:
+      "Asking prices of similar cars near you are exactly what most valuation reports use, so they are fair evidence. Use cars that match yours on year, trim, mileage and options, and save the listings with dates.",
+  },
+  {
+    question: "Is the loan payoff the same as what I owe each month?",
+    answer:
+      "No. The payoff amount is what it takes to close the loan today, including interest up to that date. Ask your lender for a written payoff quote and give it to the insurer.",
+  },
+];
 ---
 <GuideLayout
   title={title}
   description={description}
   path={path}
-  h1="ACV vs. Replacement Cost vs. Loan Payoff vs. Asking Price"
+  h1="Actual Cash Value vs. Replacement Cost (and Why Your Check Differs)"
   cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
   publishedDate="2026-07-29"
-  reviewedDate="2026-07-29"
-  summary="A total-loss settlement is based on actual cash value (ACV) — a distinct number from what you paid, what a similar car is listed for today, or your remaining loan balance. Confusing them is the single biggest source of 'why is this check so low' frustration."
+  reviewedDate="2026-11-13"
+  summary="A total loss is paid at actual cash value: what your car was worth the moment before the crash. That is rarely what you paid, what a brand-new replacement costs, or what you still owe, and mixing those numbers up is the most common reason a check feels wrong."
   sources={[
-    "General insurance-claims concept explanation; not tied to a single external citation. See the settlement-waterfall methodology note on the Settlement Check Breakdown calculator's own methodology page.",
+    'Washington State Office of the Insurance Commissioner, <a href="https://insurance.wa.gov/insurance-resources/auto-insurance/auto-insurance-claims/how-insurers-calculate-taxes-and-fees-when-your-car-totaled" target="_blank" rel="noopener">How insurers calculate taxes and fees when your car is totaled</a>: settlement built from actual cash value plus taxes and fees.',
+    "General explanation of policy terms; check your own declarations page for the coverage you bought.",
   ]}
   relatedLinks={[
-    { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
-    { label: "How Insurers Value a Total-Loss Vehicle", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
-    { label: "Owner-Retained Total Loss & Salvage Titles", href: "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/" },
-    { label: "GAP Insurance After a Total Loss Explained", href: "/guides/total-loss/gap-insurance-loan-lease-after-total-loss/" },
+    { label: "Totaled car value calculator", href: "/calculators/total-loss-offer-audit/" },
+    { label: "How insurance companies value a totaled car", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
+    { label: "GAP insurance after a total loss", href: "/guides/total-loss/gap-insurance-loan-lease-after-total-loss/" },
+    { label: "Loan or lease gap calculator", href: "/calculators/gap-shortfall/" },
   ]}
+  structuredData={[buildFaqSchema(faqs)]}
 >
-  <h2>Four different numbers, often confused as one</h2>
-  <table>
-    <thead><tr><th>Number</th><th>What it actually measures</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Actual cash value (ACV)</strong></td><td>What your specific car — with its actual mileage, condition, and options — was worth in the local used market right before the accident. This is what a total-loss settlement is based on.</td></tr>
-      <tr><td><strong>Replacement cost</strong></td><td>What it costs today to buy a similar car from a dealer, which is often higher than ACV because dealer prices include margin, reconditioning, and a warranty your totaled car may not have had.</td></tr>
-      <tr><td><strong>Loan payoff</strong></td><td>What you still owe your lender — unrelated to the car's market value. If it's higher than ACV, that gap is exactly what GAP insurance is designed to cover.</td></tr>
-      <tr><td><strong>Original purchase price / asking price</strong></td><td>What you paid, or what similar cars are listed for (not sold for) today. Depreciation alone usually makes this higher than current ACV.</td></tr>
-    </tbody>
-  </table>
+  <h2>Four numbers that get mixed up</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Number</th><th scope="col">What it means</th><th scope="col">Does the insurer pay it?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Actual cash value (ACV)</strong></td><td>What your car, with its miles, trim and condition, was selling for near you just before the crash.</td><td>Yes. This is the base of every total loss check.</td></tr>
+        <tr><td><strong>Replacement cost</strong></td><td>What a new car of the same make and model costs today.</td><td>Only with an add-on like new car replacement coverage.</td></tr>
+        <tr><td><strong>Loan payoff</strong></td><td>What it takes to close your loan or lease today.</td><td>The lender is paid from the settlement, up to the ACV-based amount. Anything left over is yours to pay, or GAP's.</td></tr>
+        <tr><td><strong>What you paid</strong></td><td>Your original purchase price.</td><td>No. It only matters as history.</td></tr>
+      </tbody>
+    </table>
+  </div>
 
   <div class="example-box">
     <p>
-      <strong>Worked example.</strong> You paid $28,000 three years ago. Today's ACV comes back at
-      $19,500. A similar car at a dealer lot is listed for $22,000. You still owe $21,000 on your
-      loan. All four numbers are "real" — but only the $19,500 is what the insurer owes for the
-      total loss itself. The $1,500 gap between ACV and your loan payoff is a potential GAP claim,
-      not a total-loss dispute.
+      <strong>Worked example.</strong> You paid $28,000 three years ago and still owe $21,000. A new
+      version of the same car costs $31,000. Similar three-year-old cars with your mileage are
+      selling for about $19,500 near you, so that is the ACV. With 6% sales tax ($1,170) and $150 in
+      fees added and a $500 deductible taken off, the settlement is <strong>$20,320</strong>. Your
+      lender gets all of it, and you still owe <strong>$680</strong> unless GAP covers it.
     </p>
   </div>
 
-  <h2>Why this matters for your claim</h2>
+  <h2>New car replacement and better car replacement</h2>
   <p>
-    If you dispute your settlement by pointing to what you paid or what a dealer is asking, you're
-    arguing the wrong number — the insurer will (correctly) say those aren't ACV. A stronger
-    dispute compares the insurer's ACV to <em>real comparable sales</em>, which is exactly what the
-    <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit</a> and
-    <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown</a> calculators
-    are built to do — one checks whether the ACV itself is well-supported, the other traces ACV
-    through deductions to your actual check and flags a possible GAP shortfall as its own separate
-    line.
+    Some insurers sell coverage that pays more than ACV. New car replacement pays for a new car of
+    the same make and model if yours is totaled while it is still new, usually within the first year
+    or two. Some insurers also sell "better car replacement," which pays for a slightly newer
+    model. If you think you bought one of these, check your declarations page and ask your adjuster.
+  </p>
+
+  <h2>Why the right number matters in a dispute</h2>
+  <p>
+    Arguing that you paid more, or that a new car costs more, rarely works: those aren't ACV. What
+    does work is evidence about ACV itself: similar cars for sale near you, errors in mileage, trim
+    or options, and condition. The <a href="/calculators/total-loss-offer-audit/">totaled car value
+    calculator</a> estimates your check and walks you through the valuation report.
   </p>
 
   <h2>What this guide cannot tell you</h2>
   <p>
-    It cannot tell you whether your GAP coverage will actually pay a shortfall — that depends
-    entirely on your GAP contract's own terms and exclusions, which you need to check separately.
-    See <a href="/guides/total-loss/gap-insurance-loan-lease-after-total-loss/">GAP Insurance After
-    a Total Loss Explained</a> for what GAP typically does and doesn't cover.
+    It cannot tell you what your policy covers or whether your GAP contract will pay a shortfall.
+    Those depend on the documents you signed. See <a href="/guides/total-loss/gap-insurance-loan-lease-after-total-loss/">GAP
+    insurance after a total loss</a> for what GAP usually does and doesn't cover.
   </p>
+
+  <FaqSection faqs={faqs} />
 </GuideLayout>
+
+<style>
+  .table-wrap { overflow-x: auto; }
+  .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  .table-wrap th, .table-wrap td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+</style>

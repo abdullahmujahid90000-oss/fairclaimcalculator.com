@@ -13,9 +13,9 @@
  */
 
 export const TOTAL_LOSS_THRESHOLD_CONFIG = {
-  version: "1.1",
-  effectiveDate: "2026-08-14",
-  reviewedDate: "2026-10-29",
+  version: "1.2",
+  effectiveDate: "2026-11-11",
+  reviewedDate: "2026-11-11",
   sources: [
     'Brennan, R., "Total Loss Threshold by State," Policygenius, updated July 2026 — same secondary compilation cited in the companion guide. Treat as a starting point, not a final legal citation; confirm your own state\'s current rule with your state insurance department.',
     'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a> — a real example of a state regulator publishing its own accepted methodology.',
@@ -46,7 +46,13 @@ export const STATE_THRESHOLDS: StateThreshold[] = [
   { state: "Arizona", type: "tlf", thresholdPct: null },
   { state: "Arkansas", type: "percentage", thresholdPct: 70 },
   { state: "California", type: "tlf", thresholdPct: null },
-  { state: "Colorado", type: "percentage", thresholdPct: 100 },
+  {
+    state: "Colorado",
+    type: "percentage",
+    thresholdPct: 100,
+    note: "Colorado's salvage test is repair cost above the car's retail fair market value just before the damage. Hail damage is excluded from that test, so a hail-damaged car can be paid out without a salvage brand.",
+    statuteSource: 'C.R.S. § 42-6-102 ("salvage vehicle"); Colorado DMV, <a href="https://dmv.colorado.gov/salvage-vehicles" target="_blank" rel="noopener">Salvage Vehicles</a>.',
+  },
   { state: "Connecticut", type: "tlf", thresholdPct: null },
   { state: "Delaware", type: "tlf", thresholdPct: null },
   { state: "Florida", type: "percentage", thresholdPct: 80 },
@@ -88,7 +94,13 @@ export const STATE_THRESHOLDS: StateThreshold[] = [
   { state: "North Carolina", type: "percentage", thresholdPct: 75 },
   { state: "North Dakota", type: "percentage", thresholdPct: 75 },
   { state: "Ohio", type: "tlf", thresholdPct: null },
-  { state: "Oklahoma", type: "percentage", thresholdPct: 60 },
+  {
+    state: "Oklahoma",
+    type: "percentage",
+    thresholdPct: 70,
+    note: "Oklahoma raised its threshold from 60% to 70% of fair market value on November 1, 2026 (Senate Bill 1920, which became law without the governor's signature on May 13, 2026). Lists that still show 60% describe the old rule. Oklahoma measures against the greater of the guidebook value and the actual cash value.",
+    statuteSource: '47 Okla. Stat. § 1111, as amended by 2026 Okla. SB 1920 (effective Nov. 1, 2026); summarized in the Oklahoma Insurance Department\'s <a href="https://www.oid.ok.gov/wp-content/uploads/2026/07/2026_Statute-and-Rule-Changes.pdf" target="_blank" rel="noopener">2026 Statute and Rule Changes</a>.',
+  },
   { state: "Oregon", type: "percentage", thresholdPct: 80 },
   { state: "Pennsylvania", type: "tlf", thresholdPct: null },
   { state: "Rhode Island", type: "tlf", thresholdPct: null },
@@ -176,6 +188,20 @@ export interface ThresholdResult {
   tlfSumCents: number | null;
   /** Only meaningful for TLF states when a salvage estimate was provided. */
   meetsTLF: boolean | null;
+  /**
+   * The repair estimate at which the state's own test is met: ACV × threshold
+   * in percentage states, ACV − salvage in TLF states. Null for a TLF state
+   * with no salvage estimate (the line can't be placed without it).
+   */
+  repairAtLineCents: number | null;
+  /** repairEstimate − repairAtLine. Zero or positive = at or over the line. Null when the line is unknown. */
+  marginCents: number | null;
+  /**
+   * Percentage states only, when a salvage estimate was given: repair + salvage
+   * meets or exceeds ACV. Insurers often total a car at that point even below
+   * the state percentage, because repairing it costs more than paying it out.
+   */
+  insurerMayTotalAnyway: boolean | null;
 }
 
 export function checkTotalLossThreshold(input: ThresholdInput): ThresholdResult {
@@ -201,6 +227,19 @@ export function checkTotalLossThreshold(input: ThresholdInput): ThresholdResult 
     meetsTLF = tlfSumCents >= input.acvCents;
   }
 
+  let repairAtLineCents: number | null = null;
+  if (match.type === "percentage" && match.thresholdPct !== null) {
+    repairAtLineCents = Math.ceil((input.acvCents * match.thresholdPct) / 100);
+  } else if (match.type === "tlf" && typeof input.estimatedSalvageValueCents === "number") {
+    repairAtLineCents = Math.max(0, input.acvCents - input.estimatedSalvageValueCents);
+  }
+  const marginCents = repairAtLineCents === null ? null : input.repairEstimateCents - repairAtLineCents;
+
+  let insurerMayTotalAnyway: boolean | null = null;
+  if (match.type === "percentage" && typeof input.estimatedSalvageValueCents === "number") {
+    insurerMayTotalAnyway = input.repairEstimateCents + input.estimatedSalvageValueCents >= input.acvCents;
+  }
+
   return {
     state: match.state,
     type: match.type,
@@ -212,5 +251,8 @@ export function checkTotalLossThreshold(input: ThresholdInput): ThresholdResult 
     meetsPercentageThreshold,
     tlfSumCents,
     meetsTLF,
+    repairAtLineCents,
+    marginCents,
+    insurerMayTotalAnyway,
   };
 }

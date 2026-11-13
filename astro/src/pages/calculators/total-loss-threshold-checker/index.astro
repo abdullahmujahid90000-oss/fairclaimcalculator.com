@@ -6,36 +6,49 @@ import AdSlot from "@components/AdSlot.astro";
 import { TOTAL_LOSS_THRESHOLD_CONFIG, STATE_THRESHOLDS } from "@lib/calculators/total-loss-threshold";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Is My Car Totaled? Total Loss Calculator by State";
+const title = "Is My Car Totaled? Free Total Loss Calculator by State";
 const description =
-  "Check your repair estimate and ACV against your state's actual total-loss threshold law — percentage rule or Total Loss Formula, side by side.";
+  "Find out if your car is totaled. Enter the repair estimate and your car's value to see your state's rule, how close you are to the line, and what to do next.";
 const path = "/calculators/total-loss-threshold-checker/";
+
+// Worked example shown on the page: one car, four states.
+const example = { acv: 12000, repair: 8500, salvage: 2000 };
 
 const faqs: FaqItem[] = [
   {
-    question: "Does this tool tell me whether my insurer must total my car?",
+    question: "What percentage of damage makes a car totaled?",
     answer:
-      "No. It tells you whether your numbers meet your state's default legal minimum test for a total loss. Insurers can voluntarily total a vehicle below that point, and the test itself depends on your state's exact percentage or Total Loss Formula rule, which can change — always confirm the current rule with your state insurance department.",
+      "It depends on your state. Of the 28 states (plus Washington, D.C.) that use a fixed percentage, 26 set it between 70% and 80% of the car's actual cash value. The lowest is Nevada at 65%, and Colorado and Texas use 100%. Oklahoma moved from 60% to 70% on November 1, 2026. The other 22 states use the Total Loss Formula, which adds the car's salvage value to the repair cost before comparing it with the car's value.",
   },
   {
-    question: "What's the difference between the percentage rule and the Total Loss Formula (TLF)?",
+    question: "Can my insurer total my car before it reaches my state's percentage?",
     answer:
-      "A percentage-threshold state compares repair cost directly to actual cash value (ACV). A TLF state adds estimated salvage value to the repair cost first, then compares that total to ACV — so the same repair estimate can produce a different result depending on which method your state uses. See State Total-Loss Threshold Laws Explained for the full breakdown.",
+      "Yes, and it often does. The state percentage is the point where state law treats the car as a total loss, usually so the title has to be branded salvage. An insurer can decide earlier that paying you the car's value is cheaper than repairing it, especially once the repair cost plus what the wreck sells for at auction is close to the car's value.",
   },
   {
-    question: "I'm in a TLF state — where do I get an estimated salvage value?",
+    question: "Is my car totaled if the airbags deployed?",
     answer:
-      "You can leave it blank to see your repair-to-ACV percentage for reference, or use the Salvage / Owner-Retained Value calculator to work out a supportable salvage estimate from comparable salvage-title sale prices before entering it here.",
+      "Not automatically. Airbag deployment adds the cost of new airbags, sensors and often trim and the dashboard, so on an older or lower-value car it can push repairs past your state's line. On a newer, more valuable car the same repair may stay well under it. Run the numbers from your estimate to see.",
   },
   {
-    question: "Where does the state threshold table come from?",
+    question: "Can I refuse a total loss and have my car repaired?",
     answer:
-      "The same source cited in the companion guide: a periodically updated Policygenius compilation, cross-checked against a real state regulator's own published methodology (New Hampshire) as one example. It's a secondary compilation, not a direct statute citation — treat it as a starting point.",
+      "Usually not on the insurer's money once the numbers pass your state's line. What you can do is check the numbers: if the car's value is too low or the repair estimate is padded, a corrected figure can change the outcome. Many states also let you keep the car and take a smaller payout (the insurer subtracts the salvage value), but it will carry a salvage title.",
+  },
+  {
+    question: "Is a car with frame damage always totaled?",
+    answer:
+      "No. Frame and structural repairs are expensive, which is why they often push a car over the line, but the decision still comes down to repair cost versus the car's value under your state's rule.",
+  },
+  {
+    question: "Where do I find my car's actual cash value and salvage value?",
+    answer:
+      "The actual cash value is in the insurer's valuation report, which you can ask for in writing. Salvage value is what the damaged car would sell for at a salvage auction; adjusters can tell you the figure they used, and our Salvage Value calculator helps you estimate it from real sale prices.",
   },
   {
     question: "Is anything I type sent to a server?",
     answer:
-      "No. Every number you enter stays in your browser and is never transmitted to or stored on any server operated by this site.",
+      "No. The calculation runs in your browser. If you tick \"Remember my numbers,\" they are saved only in this browser on this device, and \"Start over\" deletes them.",
   },
 ];
 
@@ -46,49 +59,38 @@ const structuredData = [
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
       { "@type": "ListItem", position: 2, name: "Calculators", item: "https://www.fairclaimcalculator.com/calculators/" },
-      { "@type": "ListItem", position: 3, name: "Total-Loss Threshold Checker", item: `https://www.fairclaimcalculator.com${path}` },
+      { "@type": "ListItem", position: 3, name: "Is My Car Totaled? Calculator", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
   {
     "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: "How to Check Your State's Total-Loss Threshold",
-    step: [
-      { "@type": "HowToStep", name: "State", text: "Select the state connected with the claim — the tool applies that state's own percentage threshold or Total Loss Formula." },
-      { "@type": "HowToStep", name: "ACV", text: "Enter the vehicle's actual cash value (ACV)." },
-      { "@type": "HowToStep", name: "Repair estimate", text: "Enter the repair estimate." },
-      { "@type": "HowToStep", name: "Salvage value (TLF states only)", text: "In Total Loss Formula states, also enter an estimated salvage value." },
-    ],
+    "@type": "WebApplication",
+    name: "Is My Car Totaled? Total Loss Calculator",
+    url: `https://www.fairclaimcalculator.com${path}`,
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "Any",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   },
   buildFaqSchema(faqs),
 ];
 ---
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
   <div class="container">
-    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/calculators/">Calculators</a> / Total-Loss Threshold Checker</p>
-    <h1 class="page-title">Total-Loss Threshold Checker</h1>
+    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/calculators/">Calculators</a> / Is My Car Totaled?</p>
+    <h1 class="page-title">Is My Car Totaled? Total Loss Calculator</h1>
     <p class="lead">
-      Pick your state, enter the repair estimate and ACV from your claim, and this tool checks your
-      numbers against your state's own total-loss rule — a simple percentage threshold, or the Total
-      Loss Formula — using the exact same state-by-state table published in the companion guide.
+      Your car is usually totaled when the repair bill gets close to what the car was worth before
+      the crash. Each state draws that line differently. Enter your numbers below to see your state's
+      rule, the exact repair amount that crosses it, and how far you are from it.
     </p>
     <ul class="trust-badges">
-      <li><span aria-hidden="true">🔒</span> Free — no login or email</li>
-      <li><span aria-hidden="true">🧮</span> Every step of the math is shown</li>
-      <li><span aria-hidden="true">💾</span> Nothing you enter is sent to a server</li>
+      <li><span aria-hidden="true">🔒</span> Free, no sign-up</li>
+      <li><span aria-hidden="true">🧮</span> Every step of the math shown</li>
+      <li><span aria-hidden="true">💾</span> Your numbers stay in your browser</li>
     </ul>
 
-    <div class="limits-note">
-      <strong>What this checks, and what it doesn't.</strong> This shows whether your numbers meet
-      your state's default <em>legal minimum</em> test for a total loss — it does not mean your
-      insurer is required to total below that point (many total voluntarily), and it isn't a
-      substitute for confirming the current rule with your state insurance department. See
-      <a href="/guides/total-loss/state-total-loss-threshold-laws/">State Total-Loss Threshold Laws
-      Explained</a> for the full table and how each method works.
-    </div>
-
     <div class="calc-card">
-      <h2>Check Your State's Threshold</h2>
+      <h2>Check your car</h2>
       <ErrorSummary id="tlt-error-summary" />
 
       <form id="tlt-form" novalidate>
@@ -99,44 +101,51 @@ const structuredData = [
               <option value="">Select a state…</option>
               {STATE_THRESHOLDS.map((s) => <option value={s.state}>{s.state}</option>)}
             </select>
-            <p class="hint" id="state-hint">Where the claim is being handled.</p>
+            <p class="hint" id="state-hint">Where the car is registered and the claim is handled.</p>
           </div>
 
           <div class="field">
-            <label for="acv">Actual cash value (ACV)</label>
+            <label for="acv">Car's value before the crash (ACV)</label>
             <input type="number" id="acv" name="acv" min="0" step="1" inputmode="decimal" required aria-describedby="acv-hint" />
-            <p class="hint" id="acv-hint">U.S. dollars, from the insurer's valuation. Example: 10000.</p>
+            <p class="hint" id="acv-hint">Dollars, from the insurer's valuation. Example: 12000.</p>
           </div>
 
           <div class="field">
             <label for="repairEstimate">Repair estimate</label>
             <input type="number" id="repairEstimate" name="repairEstimate" min="0" step="1" inputmode="decimal" required aria-describedby="repairEstimate-hint" />
-            <p class="hint" id="repairEstimate-hint">U.S. dollars. Example: 7500.</p>
+            <p class="hint" id="repairEstimate-hint">Dollars, from the body shop or adjuster. Example: 8500.</p>
           </div>
 
           <div class="field">
-            <label for="salvageValue">Estimated salvage value (TLF states only)</label>
+            <label for="salvageValue">Salvage value (optional)</label>
             <input type="number" id="salvageValue" name="salvageValue" min="0" step="1" inputmode="decimal" aria-describedby="salvageValue-hint" />
-            <p class="hint" id="salvageValue-hint">Optional. Only used if your state uses the Total Loss Formula.</p>
+            <p class="hint" id="salvageValue-hint">What the wrecked car would sell for at auction. Needed for Total Loss Formula states; in other states it shows whether the insurer may total it early.</p>
           </div>
         </div>
 
+        <label class="remember">
+          <input type="checkbox" id="tlt-remember" />
+          Remember my numbers on this device
+        </label>
+
         <div class="form-actions">
-          <button type="submit" class="btn-primary">Check My Numbers</button>
+          <button type="submit" class="btn-primary">Check my car</button>
           <button type="button" class="btn-secondary" id="tlt-start-over">Start over and delete my answers</button>
         </div>
+        <p class="restored-note" id="tlt-restored" hidden>We filled in the numbers you saved on this device last time.</p>
       </form>
 
       <div class="result-box" id="tlt-result" hidden>
-        <h2 id="tlt-result-heading" tabindex="-1">Your Threshold Check</h2>
+        <h2 id="tlt-result-heading" tabindex="-1">Your result</h2>
         <div id="tlt-summary"></div>
         <div class="breakdown" id="tlt-breakdown"></div>
         <div id="tlt-note"></div>
+        <div class="next-steps" id="tlt-next"></div>
 
         <div class="methodology-note">
-          <p><strong>Methodology version {TOTAL_LOSS_THRESHOLD_CONFIG.version}</strong> — last reviewed {TOTAL_LOSS_THRESHOLD_CONFIG.reviewedDate}.</p>
+          <p><strong>Method version {TOTAL_LOSS_THRESHOLD_CONFIG.version}</strong>, last reviewed {TOTAL_LOSS_THRESHOLD_CONFIG.reviewedDate}.</p>
           {TOTAL_LOSS_THRESHOLD_CONFIG.sources.map((source) => <p set:html={source} />)}
-          <p><a href="/methodology/">Read the full calculator methodology →</a></p>
+          <p><a href="/methodology/">How our calculators work →</a></p>
         </div>
 
         <div class="result-actions">
@@ -145,22 +154,100 @@ const structuredData = [
       </div>
     </div>
 
+    <section class="guide-section">
+      <h2>How insurers decide a car is totaled</h2>
+      <ol>
+        <li>
+          <strong>They value the car as it was before the crash.</strong> This is the actual cash
+          value (ACV): what a similar car with similar miles and options was selling for near you.
+          It comes from a valuation report built on comparable listings.
+        </li>
+        <li>
+          <strong>They estimate the repairs.</strong> An adjuster or body shop writes an estimate.
+          Hidden damage found once the car is taken apart can add a supplement later, which is why
+          some cars are totaled after repairs have started.
+        </li>
+        <li>
+          <strong>They apply your state's rule.</strong> In most states, that is a fixed
+          percentage: once repairs reach, say, 75% of the car's value, it is a total loss. In Total
+          Loss Formula states, the insurer adds the salvage value to the repair cost and totals the
+          car once that sum reaches its value.
+        </li>
+      </ol>
+      <p>
+        One thing most explanations leave out: the state percentage is a ceiling, not a floor. An
+        insurer can total your car below it whenever repairing it would cost more than paying you
+        its value and selling the wreck. That is why a car in a 100% state like Texas can still be
+        totaled with repairs at 80% of its value.
+      </p>
+
+      <h2>Same car, four states, four different answers</h2>
+      <p>
+        Take a car worth {`$${example.acv.toLocaleString("en-US")}`} with a {`$${example.repair.toLocaleString("en-US")}`}
+        repair estimate and a {`$${example.salvage.toLocaleString("en-US")}`} salvage value:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>State</th><th>Rule</th><th>Where the line is</th><th>Result</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Nevada</td><td>65% of value</td><td>$7,800 in repairs</td><td>Totaled</td></tr>
+            <tr><td>Florida</td><td>80% of value</td><td>$9,600 in repairs</td><td>Not totaled by the state rule</td></tr>
+            <tr><td>California</td><td>Total Loss Formula</td><td>$10,000 in repairs ($12,000 − $2,000 salvage)</td><td>Not totaled</td></tr>
+            <tr><td>Texas</td><td>100% of value</td><td>$12,000 in repairs</td><td>Not totaled by the state rule</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        In Florida and Texas the insurer could still decide to total it if the repair estimate grows,
+        because repairs plus salvage ($10,500) are already close to the car's value. See every
+        state's rule in our <a href="/guides/total-loss/state-total-loss-threshold-laws/">total loss
+        threshold by state</a> table.
+      </p>
+
+      <h2>If your car is totaled, what happens next</h2>
+      <ol>
+        <li>
+          <strong>Get the valuation report in writing</strong> and check it. Wrong mileage, a missing
+          option or a lower trim level is common and lowers your payout. The
+          <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit</a> walks you through it.
+        </li>
+        <li>
+          <strong>Check what is added on top of the car's value.</strong> Many states require sales
+          tax and title fees to be included. Try the
+          <a href="/calculators/sales-tax-title-fee-estimator/">sales tax and title fee estimator</a>.
+        </li>
+        <li>
+          <strong>Still owe on a loan or lease?</strong> See how big the gap is with the
+          <a href="/calculators/gap-shortfall/">loan or lease gap calculator</a>.
+        </li>
+        <li>
+          <strong>Want to keep the car?</strong> Most states allow it for a smaller payout. Estimate
+          it with the <a href="/calculators/salvage-value/">salvage value calculator</a>.
+        </li>
+        <li>
+          <strong>Offer too low?</strong> Follow our guide on
+          <a href="/guides/total-loss/how-to-dispute-a-total-loss-valuation/">how to dispute a total loss valuation</a>.
+        </li>
+      </ol>
+    </section>
+
     <div class="disclaimer-box">
       <strong>Educational tool, not legal advice.</strong>
-      This calculator checks your numbers against a published state-threshold table; it does not
-      determine your state's current legal rule with certainty, or tell you what your insurer must
-      do. See our <a href="/disclaimer/">full disclaimer</a>.
+      State rules change, and your insurer's own decision can differ from the state test. Confirm the
+      current rule with your state insurance department. See our <a href="/disclaimer/">full disclaimer</a>.
     </div>
 
-    <FaqSection faqs={faqs} />
+    <FaqSection faqs={faqs} heading="Common questions about totaled cars" />
     <AdSlot path={path} slot="calculator-after-faq" />
 
-    <h2>More Calculators</h2>
+    <h2>More calculators</h2>
     <div class="related-tools">
       <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit →</a>
+      <a href="/calculators/salvage-value/">Salvage / Keep My Car Value →</a>
+      <a href="/calculators/gap-shortfall/">Loan or Lease Gap →</a>
       <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown →</a>
-      <a href="/calculators/salvage-value/">Salvage / Owner-Retained Value →</a>
-      <a href="/calculators/gap-shortfall/">Loan/Lease Payoff vs. ACV Gap →</a>
     </div>
   </div>
 </BaseLayout>
@@ -194,6 +281,42 @@ const structuredData = [
       const stateSelect = document.getElementById("state") as HTMLSelectElement | null;
       if (stateSelect && [...stateSelect.options].some((o) => o.value === stateParam)) {
         stateSelect.value = stateParam;
+      }
+    }
+
+    const STORAGE_KEY = "fcc-total-loss-check";
+    const rememberBox = document.getElementById("tlt-remember") as HTMLInputElement | null;
+    const restoredNote = document.getElementById("tlt-restored");
+    const nextEl = document.getElementById("tlt-next");
+    const FIELDS = ["state", "acv", "repairEstimate", "salvageValue"];
+
+    // Bring back numbers the visitor chose to remember on this device.
+    // A ?state= link from a state page wins over the saved state.
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if (saved && typeof saved === "object") {
+        FIELDS.forEach((name) => {
+          const el = form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null;
+          if (el && typeof saved[name] === "string" && !(name === "state" && stateParam)) el.value = saved[name];
+        });
+        if (rememberBox) rememberBox.checked = true;
+        if (restoredNote) restoredNote.hidden = false;
+      }
+    } catch {
+      // Storage unavailable (private mode, blocked): the form still works.
+    }
+
+    function saveOrForget() {
+      try {
+        if (rememberBox?.checked) {
+          const data: Record<string, string> = {};
+          FIELDS.forEach((name) => { data[name] = fieldValue(name); });
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } else {
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      } catch {
+        // Ignore storage errors.
       }
     }
 
@@ -297,45 +420,80 @@ const structuredData = [
       summaryEl.replaceChildren();
       breakdownEl.replaceChildren();
       noteEl.replaceChildren();
+      nextEl?.replaceChildren();
 
-      const summary = document.createElement("p");
-      summary.className = "section-note";
+      const usd = (cents: number) => formatUSD(cents);
+      const headline = document.createElement("p");
+      headline.className = "verdict";
+      const rule = document.createElement("p");
+      rule.className = "section-note";
+
       if (result.type === "percentage") {
-        summary.textContent = `${result.state} uses a ${result.thresholdPct}% simple percentage threshold.`;
+        rule.textContent = `${result.state} treats a car as a total loss once repairs reach ${result.thresholdPct}% of its value.`;
+        headline.textContent = result.meetsPercentageThreshold
+          ? `Likely totaled: your repair estimate is at or over ${result.state}'s line.`
+          : `Below ${result.state}'s line, so state law doesn't require a total loss.`;
+        headline.classList.add(result.meetsPercentageThreshold ? "verdict-over" : "verdict-under");
+      } else if (result.meetsTLF !== null) {
+        rule.textContent = `${result.state} uses the Total Loss Formula: repairs plus salvage value compared with the car's value.`;
+        headline.textContent = result.meetsTLF
+          ? "Likely totaled: repairs plus salvage value reach the car's value."
+          : "Not totaled by the formula: repairs plus salvage value are below the car's value.";
+        headline.classList.add(result.meetsTLF ? "verdict-over" : "verdict-under");
       } else {
-        summary.textContent = `${result.state} uses the Total Loss Formula (repair cost + salvage value vs. ACV), not a simple percentage.`;
+        rule.textContent = `${result.state} uses the Total Loss Formula: repairs plus salvage value compared with the car's value.`;
+        headline.textContent = "Add a salvage value to get an answer for this state.";
       }
-      summaryEl.appendChild(summary);
+      summaryEl.append(headline, rule);
 
-      addRow(breakdownEl, "Repair estimate ÷ ACV", `${result.repairPercentOfACV.toFixed(1)}%`);
-      addRow(breakdownEl, "Repair estimate", formatUSD(result.repairEstimateCents));
-      addRow(breakdownEl, "ACV", formatUSD(result.acvCents));
+      addRow(breakdownEl, "Car's value (ACV)", usd(result.acvCents));
+      addRow(breakdownEl, "Repair estimate", usd(result.repairEstimateCents));
+      addRow(breakdownEl, "Repairs as a share of value", `${result.repairPercentOfACV.toFixed(1)}%`);
+      if (result.estimatedSalvageValueCents !== null) addRow(breakdownEl, "Salvage value", usd(result.estimatedSalvageValueCents));
+      if (result.tlfSumCents !== null) addRow(breakdownEl, "Repairs + salvage", usd(result.tlfSumCents));
+      if (result.repairAtLineCents !== null) addRow(breakdownEl, "Repair amount that crosses the line", usd(result.repairAtLineCents));
 
-      if (result.type === "percentage") {
-        const met = result.meetsPercentageThreshold;
-        const verdict = document.createElement("p");
-        verdict.className = met ? "warning-note" : "confidence-label";
-        verdict.textContent = met
-          ? `Meets or exceeds ${result.state}'s ${result.thresholdPct}% threshold.`
-          : `Below ${result.state}'s ${result.thresholdPct}% threshold, based on the numbers entered.`;
-        noteEl.appendChild(verdict);
-      } else if (result.estimatedSalvageValueCents !== null && result.tlfSumCents !== null) {
-        addRow(breakdownEl, "Estimated salvage value", formatUSD(result.estimatedSalvageValueCents));
-        addRow(breakdownEl, "Repair + salvage (TLF sum)", formatUSD(result.tlfSumCents));
-        const verdict = document.createElement("p");
-        verdict.className = result.meetsTLF ? "warning-note" : "confidence-label";
-        verdict.textContent = result.meetsTLF
-          ? `Repair + salvage meets or exceeds ACV — meets the Total Loss Formula.`
-          : `Repair + salvage is below ACV — does not meet the Total Loss Formula, based on the numbers entered.`;
-        noteEl.appendChild(verdict);
-      } else {
+      if (result.marginCents !== null) {
+        const gap = document.createElement("p");
+        gap.className = "gap-note";
+        gap.textContent = result.marginCents >= 0
+          ? `Your estimate is ${usd(result.marginCents)} over the line.`
+          : `Your estimate is ${usd(-result.marginCents)} under the line. A supplement for hidden damage of that size would change the answer.`;
+        noteEl.appendChild(gap);
+      }
+
+      if (result.insurerMayTotalAnyway) {
+        const early = document.createElement("p");
+        early.className = "warning-note";
+        early.textContent = "Repairs plus salvage value already reach the car's value, so your insurer may total it anyway: paying you out and selling the wreck costs it less than the repair.";
+        noteEl.appendChild(early);
+      } else if (result.type === "percentage" && result.estimatedSalvageValueCents === null && !result.meetsPercentageThreshold) {
+        const tip = document.createElement("p");
+        tip.className = "section-note";
+        tip.textContent = "Tip: add the salvage value to see whether your insurer may total the car before the state line.";
+        noteEl.appendChild(tip);
+      }
+
+      if (nextEl) {
+        const totaled = result.meetsPercentageThreshold === true || result.meetsTLF === true || result.insurerMayTotalAnyway === true;
+        const h = document.createElement("h3");
+        h.textContent = "Your next step";
         const p = document.createElement("p");
-        p.className = "warning-note";
-        p.textContent =
-          "Add an estimated salvage value above to check the Total Loss Formula — without it, only the repair-to-ACV percentage is shown for reference; it is not the legal test in this state.";
-        noteEl.appendChild(p);
+        const a = document.createElement("a");
+        if (totaled) {
+          p.textContent = "Check that the payout is fair before you accept it: ";
+          a.href = "/calculators/total-loss-offer-audit/";
+          a.textContent = "audit your total loss offer →";
+        } else {
+          p.textContent = "If the car is repaired, it may now be worth less because of the accident: ";
+          a.href = "/calculators/diminished-value-baseline/";
+          a.textContent = "estimate your diminished value →";
+        }
+        p.appendChild(a);
+        nextEl.append(h, p);
       }
 
+      saveOrForget();
       trackCalculatorCompleted("total_loss_threshold");
       resultBox.hidden = false;
       resultHeading.focus();
@@ -343,6 +501,8 @@ const structuredData = [
 
     startOverBtn?.addEventListener("click", () => {
       form.reset();
+      try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
+      if (restoredNote) restoredNote.hidden = true;
       clearFieldErrorStates();
       errorSummary.hidden = true;
       resultBox.hidden = true;
@@ -439,6 +599,22 @@ const structuredData = [
 
   .breakdown-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--color-border); font-size: 0.95rem; }
 
+  .verdict { font-size: 1.15rem; font-weight: 700; margin: 0 0 6px; }
+  .verdict-over { color: #92400e; }
+  .verdict-under { color: var(--color-primary-dark); }
+  .gap-note { font-weight: 600; margin: 12px 0 0; }
+  .next-steps h3 { margin: 18px 0 4px; font-size: 1rem; }
+  .next-steps p { margin: 0; }
+  .remember { display: flex; gap: 8px; align-items: center; font-size: 0.9rem; margin-top: 4px; min-height: var(--touch-target-min); }
+  .remember input { width: 20px; height: 20px; }
+  .restored-note { font-size: 0.85rem; color: var(--color-text-muted); margin: 10px 0 0; }
+  .guide-section { margin: 10px 0 30px; }
+  .guide-section h2 { margin-top: 32px; }
+  .guide-section li { margin-bottom: 10px; }
+  .table-wrap { overflow-x: auto; }
+  .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  .table-wrap th, .table-wrap td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+
   .confidence-label { font-size: 0.9rem; color: var(--color-text-muted); margin: 10px 0 0; font-weight: 600; }
   .warning-note { margin-top: 10px; padding: 10px 12px; background: var(--color-warning-bg); border: 1px solid var(--color-warning-border); border-radius: 8px; color: #92400e; font-weight: 600; font-size: 0.9rem; }
 
@@ -475,7 +651,7 @@ const structuredData = [
   .related-tools a:hover { border-color: var(--color-primary); color: var(--color-primary); }
 
   @media print {
-    .site-header, .site-footer, .form-actions, .result-actions, #tlt-form, .related-tools, .skip-link {
+    .site-header, .site-footer, .form-actions, .result-actions, #tlt-form, .related-tools, .skip-link, .guide-section, .faq-section {
       display: none !important;
     }
   }

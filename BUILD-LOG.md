@@ -1234,3 +1234,63 @@ Owner asked to rebuild the site for AdSense approval and search traffic.
   canonicals correct; apex redirects to www. `/ads.txt` is 404 only because
   the branch with the publisher ID is not merged into `main` yet.
 - CONTENT-ROADMAP.md: added §2b natural-writing rules for every scheduled run.
+
+### 2026-11-08 — Traffic recovery: scaled content, analytics, cookie banner bug
+
+- 51 state total-loss threshold pages measured 89–94% identical; set to
+  `noindex,follow` and removed from the sitemap (`src/lib/seo/indexing.mjs`,
+  GuideLayout `noindex` prop, sitemap filter). Pages stay live; the hub keeps
+  the full table. Sitemap 165 → 114 URLs. Accident-reporting pages (79–85%)
+  stay indexed; boilerplate reduction is part of roadmap topic 5.
+- Google Analytics consent is now region-aware: analytics storage granted by
+  default outside the EEA/UK/CH (opt-out, rejectable any time), denied inside
+  until accepted. Previously gtag.js loaded only after Accept, hiding nearly all
+  U.S. visitors from reporting. Privacy policy updated (reviewed 2026-11-08).
+- Bug fix: the cookie banner never disappeared after Accept/Reject because
+  `.cookie-banner { display: flex }` overrode the `hidden` attribute. Added
+  `.cookie-banner[hidden] { display: none }`. Verified in Chromium: shows on
+  first visit, hides on choice, remembers it, reopens from Privacy choices.
+- Verified: typecheck 0 errors, 188/188 tests, axe 0 violations.
+
+### 2026-11-11 — Topic 1 done: "Is my car totaled?" (calculator + 50-state hub)
+
+- Scheduled runs had failed to publish (fresh routine sessions had no push
+  permission); routine re-created to run inside the owner's main session.
+- Calculator `/calculators/total-loss-threshold-checker/` rewritten: answer-first
+  intro, results now show the repair amount that crosses the state line and the
+  dollar margin, an "insurer may total it anyway" check (repairs + salvage ≥ ACV)
+  for percentage states, a next-step link, opt-in "remember my numbers on this
+  device" (localStorage), how-insurers-decide steps, a same-car/four-state
+  table, what-happens-next steps, 7 FAQs (FAQPage + WebApplication schema).
+- Hub `/guides/total-loss/state-total-loss-threshold-laws/` rewritten as the
+  ranking page: full 51-row table with dollars-for-a-$10,000-car column and
+  state notes, what the threshold controls (salvage titles; insurers total
+  below it), "why lists online disagree", next steps, 5 FAQs. All counts are
+  computed from the data.
+- Fact fixes: Oklahoma 60% → 70% (SB 1920, effective 2026-11-01); Colorado
+  note (hail excluded) with statute source; "60%–100%" ranges now computed
+  (65%–100%). Lib: `repairAtLineCents`, `marginCents`, `insurerMayTotalAnyway`.
+- Verified: typecheck 0 errors, 195/195 tests (+7), axe 0 violations, 0 broken
+  of 8,418 internal links, titles 54/51 chars, descriptions 157/149, 390px
+  render with no horizontal scroll, remember/restore tested in Chromium.
+- Research notes: research/is-my-car-totaled.md.
+
+### 2026-11-13 — Topic 2 done: Totaled car value / payout
+
+- `/calculators/total-loss-offer-audit/` retitled "Totaled Car Value Calculator: What
+  Will Insurance Pay?" and restructured: Step 1 payout estimator (ACV + sales tax rate
+  + fees − deductible for own-policy claims − salvage if kept; lender paid next; loan
+  shortfall shown), Step 2 the existing valuation-report audit, then a guide (payout
+  table, report lines that lower value, steps if the offer is low) and 8 FAQs
+  (FAQPage + WebApplication schema).
+- Bug fix in `settlement-breakdown.ts`: salvage is now deducted before the lienholder
+  is paid (Washington OIC order); previously keeping the car with a large loan could
+  show a negative owner amount. Added `loanShortfallCents`. +2 tests.
+- Rewrote "How Insurance Companies Value a Totaled Car" (process, adjustments incl.
+  condition and projected sold, what's added on top, 5 FAQs; TLF count now computed,
+  22 not "about 20") and "Actual Cash Value vs. Replacement Cost" (corrected the
+  dealer-price claim, added new car / better car replacement, worked example, 4 FAQs).
+- Verified: typecheck 0 errors, 197/197 tests, axe 0 violations, 0 broken of 8,422
+  internal links, titles ≤56 / descriptions ≤160, 390px renders, payout estimator
+  tested in Chromium (first- and third-party, loan shortfall).
+- Research notes: research/totaled-car-value-payout.md.
