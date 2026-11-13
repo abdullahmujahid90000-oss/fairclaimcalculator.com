@@ -1274,3 +1274,23 @@ Owner asked to rebuild the site for AdSense approval and search traffic.
   of 8,418 internal links, titles 54/51 chars, descriptions 157/149, 390px
   render with no horizontal scroll, remember/restore tested in Chromium.
 - Research notes: research/is-my-car-totaled.md.
+
+### 2026-11-13 — Topic 2 done: Totaled car value / payout
+
+- `/calculators/total-loss-offer-audit/` retitled "Totaled Car Value Calculator: What
+  Will Insurance Pay?" and restructured: Step 1 payout estimator (ACV + sales tax rate
+  + fees − deductible for own-policy claims − salvage if kept; lender paid next; loan
+  shortfall shown), Step 2 the existing valuation-report audit, then a guide (payout
+  table, report lines that lower value, steps if the offer is low) and 8 FAQs
+  (FAQPage + WebApplication schema).
+- Bug fix in `settlement-breakdown.ts`: salvage is now deducted before the lienholder
+  is paid (Washington OIC order); previously keeping the car with a large loan could
+  show a negative owner amount. Added `loanShortfallCents`. +2 tests.
+- Rewrote "How Insurance Companies Value a Totaled Car" (process, adjustments incl.
+  condition and projected sold, what's added on top, 5 FAQs; TLF count now computed,
+  22 not "about 20") and "Actual Cash Value vs. Replacement Cost" (corrected the
+  dealer-price claim, added new car / better car replacement, worked example, 4 FAQs).
+- Verified: typecheck 0 errors, 197/197 tests, axe 0 violations, 0 broken of 8,422
+  internal links, titles ≤56 / descriptions ≤160, 390px renders, payout estimator
+  tested in Chromium (first- and third-party, loan shortfall).
+- Research notes: research/totaled-car-value-payout.md.

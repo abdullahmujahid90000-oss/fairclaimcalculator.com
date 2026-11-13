@@ -9,38 +9,53 @@ import {
 } from "@lib/calculators/total-loss-audit";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Total Loss Calculator: Check Your Insurance Offer";
+const title = "Totaled Car Value Calculator: What Will Insurance Pay?";
 const description =
-  "Audit a total-loss valuation report, compare insurer and owner comps, and review comp quality — no hidden weights or invented adjustments. Free, private.";
+  "Estimate your total loss payout: your car's value plus tax and fees, minus deductible, salvage and loan payoff. Then check the insurer's valuation report.";
 const path = "/calculators/total-loss-offer-audit/";
 const insurerRows = Array.from({ length: 4 }, (_, index) => index + 1);
 const ownerRows = Array.from({ length: 6 }, (_, index) => index + 1);
 
 const faqs: FaqItem[] = [
   {
-    question: "Does this tool tell me what my vehicle is actually worth?",
+    question: "How much will insurance pay for my totaled car?",
     answer:
-      "No. This worksheet organizes the facts and arithmetic you enter — it does not interpret your policy, determine market value, or tell you what an insurer legally owes. See the full disclaimer for what this tool cannot do.",
+      "The starting point is the car's actual cash value (ACV): what a similar car was selling for near you just before the crash. Many states then require sales tax and title fees on top. Your deductible comes off if you claim on your own policy, and the salvage value comes off if you keep the car. If you have a loan, the lender is paid first and you get what is left.",
   },
   {
-    question: "What does it mean if a comp is flagged as a possible outlier?",
+    question: "Is my deductible taken out of a total loss payout?",
     answer:
-      "A comp more than 20% from that group's median is flagged for review. This is a heuristic to help you double-check a comp, not a rule for excluding it — a real vehicle can legitimately fall outside that range.",
+      "Only when you claim on your own collision or comprehensive coverage. If the other driver's insurer is paying because their driver was at fault, there is no deductible.",
   },
   {
-    question: "How many comparables do I need before the tool compares them as a group?",
+    question: "Does insurance pay sales tax on a totaled car?",
     answer:
-      "At least two priced comps are required before a range or group comparison is shown. Two comps are labeled a limited sample; three or more give more context, though match quality (year, mileage, trim, condition, location) still matters more than count.",
+      "It depends on your state. Some states require it in writing: Kansas, for example, requires insurers to include the sales tax and title and registration fees needed to buy a comparable car. Other states have no clear rule. Ask your adjuster whether tax and fees are included and check your state insurance department's guidance.",
   },
   {
-    question: "What if I mark a report field as \"not sure\" or \"not shown\"?",
+    question: "What is a projected sold adjustment?",
     answer:
-      "It becomes a verification question in your results, not an accusation. The goal is to identify what to double-check in your written valuation report — never to assume the insurer made an error.",
+      "Some valuation reports cut each comparable car's asking price by a percentage, on the theory that cars sell for less than they are listed for. It lowers your car's value. Several class-action lawsuits have challenged this adjustment, and courts have ruled both ways, so if your report has one, ask the insurer to show what it is based on.",
+  },
+  {
+    question: "What is a condition adjustment on a valuation report?",
+    answer:
+      "It compares your car's condition with the condition of the comparable cars, which are usually dealer-ready. If your car is rated below them the value goes down, and if it is rated better it goes up. Check that the condition notes match your car, and send photos or service records if they don't.",
+  },
+  {
+    question: "Can I negotiate a total loss offer?",
+    answer:
+      "Yes. Point out specific errors (mileage, trim, options, condition) and send your own comparable listings. Many policies also have an appraisal clause that lets each side hire an appraiser, with an umpire settling any difference. Our guide on disputing a total loss valuation walks through it.",
+  },
+  {
+    question: "What if I owe more on my loan than the car is worth?",
+    answer:
+      "The insurer pays your lender up to the payoff amount, and you owe the rest. GAP coverage, if you bought it, may pay some or all of that difference. Use the estimate above with your loan payoff to see the gap.",
   },
   {
     question: "Is anything I type sent to a server?",
     answer:
-      "No. Every entry — the insurer's ACV, your comps, and your quality-review answers — stays in your browser. Nothing is transmitted to or stored on any server operated by this site.",
+      "No. Every number stays in your browser and is never sent to or stored on any server operated by this site.",
   },
 ];
 
@@ -51,19 +66,17 @@ const structuredData = [
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
       { "@type": "ListItem", position: 2, name: "Calculators", item: "https://www.fairclaimcalculator.com/calculators/" },
-      { "@type": "ListItem", position: 3, name: "Total-Loss Offer Audit", item: `https://www.fairclaimcalculator.com${path}` },
+      { "@type": "ListItem", position: 3, name: "Totaled Car Value Calculator", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
   {
     "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: "How to Audit Your Total-Loss Offer",
-    step: [
-      { "@type": "HowToStep", name: "Claim type", text: "Select your claim type." },
-      { "@type": "HowToStep", name: "Insurer's stated ACV / base value", text: "Enter the insurer's stated ACV or base value, plus your vehicle's model year, mileage at the loss, trim/option package, and engine/drivetrain/body configuration." },
-      { "@type": "HowToStep", name: "Insurer's comparables", text: "Enter each comparable vehicle the insurer used: adjusted value, model year, mileage, distance from you, whether trim/options and engine/drivetrain/body match, and listing status/date." },
-      { "@type": "HowToStep", name: "Review the audit", text: "Review the comp-quality review and the full audit results — every step of the arithmetic is shown." },
-    ],
+    "@type": "WebApplication",
+    name: "Totaled Car Value Calculator",
+    url: `https://www.fairclaimcalculator.com${path}`,
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "Any",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   },
   buildFaqSchema(faqs),
 ];
@@ -77,21 +90,87 @@ const statusOptions = [
 ---
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
   <div class="container">
-    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/calculators/">Calculators</a> / Total-Loss Offer Audit</p>
-    <h1 class="page-title">Audit Your Total-Loss Vehicle Valuation</h1>
+    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/calculators/">Calculators</a> / Totaled Car Value</p>
+    <h1 class="page-title">Totaled Car Value Calculator: What Will Insurance Pay?</h1>
     <p class="lead">
-      Check the report facts, compare the insurer's vehicles with your own, and review whether each
-      comparable is actually similar. Price statistics and quality questions stay separate — this
-      tool never invents a dollar adjustment or a “correct” ACV.
+      When your car is totaled, the insurer pays what it was worth just before the crash, not what
+      you paid or what you owe. Start with a quick estimate of your check, then check the insurer's
+      valuation for the mistakes that lower it most often.
     </p>
     <ul class="trust-badges">
-      <li><span aria-hidden="true">🔒</span> Free — no login or email</li>
-      <li><span aria-hidden="true">🧮</span> Mean, median, range, and sample size shown</li>
-      <li><span aria-hidden="true">💾</span> Entries stay in your browser</li>
+      <li><span aria-hidden="true">🔒</span> Free, no sign-up</li>
+      <li><span aria-hidden="true">🧮</span> Every step of the math shown</li>
+      <li><span aria-hidden="true">💾</span> Your numbers stay in your browser</li>
     </ul>
 
+    <div class="calc-card" id="payout">
+      <h2>Step 1: Estimate your payout</h2>
+      <ErrorSummary id="payout-error-summary" />
+      <form id="payout-form" novalidate>
+        <div class="form-grid">
+          <div class="field">
+            <label for="payoutClaimType">Who is paying?</label>
+            <select id="payoutClaimType" name="payoutClaimType" aria-describedby="payoutClaimType-hint">
+              <option value="first-party">My own insurance</option>
+              <option value="third-party">The other driver's insurance</option>
+            </select>
+            <p class="hint" id="payoutClaimType-hint">No deductible applies when the other driver's insurer pays.</p>
+          </div>
+          <div class="field">
+            <label for="payoutAcv">Car's value in the offer (ACV)</label>
+            <input type="number" id="payoutAcv" name="payoutAcv" min="0" step="1" inputmode="decimal" required aria-describedby="payoutAcv-hint" />
+            <p class="hint" id="payoutAcv-hint">Dollars, before tax, fees and deductible. Example: 18500.</p>
+          </div>
+          <div class="field">
+            <label for="payoutTaxRate">Sales tax rate (%)</label>
+            <input type="number" id="payoutTaxRate" name="payoutTaxRate" min="0" max="20" step="0.01" inputmode="decimal" aria-describedby="payoutTaxRate-hint" />
+            <p class="hint" id="payoutTaxRate-hint">Optional. Your state and local rate, if your state requires it to be paid. Example: 6.5.</p>
+          </div>
+          <div class="field">
+            <label for="payoutFees">Title and registration fees</label>
+            <input type="number" id="payoutFees" name="payoutFees" min="0" step="1" inputmode="decimal" aria-describedby="payoutFees-hint" />
+            <p class="hint" id="payoutFees-hint">Optional. Dollars. Example: 150.</p>
+          </div>
+          <div class="field" id="payoutDeductibleField">
+            <label for="payoutDeductible">Your deductible</label>
+            <input type="number" id="payoutDeductible" name="payoutDeductible" min="0" step="1" inputmode="decimal" aria-describedby="payoutDeductible-hint" />
+            <p class="hint" id="payoutDeductible-hint">Collision or comprehensive deductible. Example: 500.</p>
+          </div>
+          <div class="field">
+            <label for="payoutLoan">Loan or lease payoff</label>
+            <input type="number" id="payoutLoan" name="payoutLoan" min="0" step="1" inputmode="decimal" aria-describedby="payoutLoan-hint" />
+            <p class="hint" id="payoutLoan-hint">Optional. Ask your lender for the payoff amount, not the monthly balance.</p>
+          </div>
+          <div class="field">
+            <label for="payoutSalvage">Salvage value if you keep the car</label>
+            <input type="number" id="payoutSalvage" name="payoutSalvage" min="0" step="1" inputmode="decimal" aria-describedby="payoutSalvage-hint" />
+            <p class="hint" id="payoutSalvage-hint">Leave blank unless you plan to keep the car. The insurer subtracts it.</p>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Estimate my payout</button>
+          <button type="button" class="btn-secondary" id="payout-start-over">Start over</button>
+        </div>
+      </form>
+      <div class="result-box" id="payout-result" hidden>
+        <h2 id="payout-result-heading" tabindex="-1">Your estimated payout</h2>
+        <p class="payout-headline" id="payout-headline"></p>
+        <div class="breakdown" id="payout-breakdown"></div>
+        <div id="payout-notes"></div>
+        <p class="section-note">
+          This is an estimate from the numbers you entered, not what the insurer owes. The next
+          step checks whether the car's value itself is right.
+        </p>
+      </div>
+    </div>
+
+    <h2 class="step-heading">Step 2: Check the insurer's valuation</h2>
+    <p>
+      The car's value is the number that moves your payout most, and valuation reports are where
+      most mistakes hide. Enter what the report says and the comparable cars it used.
+    </p>
     <div class="calc-card">
-      <h2>Run Your Offer Audit</h2>
+      <h2>Audit the valuation report</h2>
       <ErrorSummary id="total-loss-error-summary" />
 
       <form id="total-loss-form" novalidate>
@@ -346,26 +425,70 @@ const statusOptions = [
       </section>
     </div>
 
+    <section class="guide-section">
+      <h2>How a total loss payout is calculated</h2>
+      <p>
+        Every total loss check is built the same way. The amounts differ by state and policy, but
+        the order is the same:
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Step</th><th scope="col">Example</th></tr></thead>
+          <tbody>
+            <tr><td>Car's actual cash value (ACV)</td><td>$18,500</td></tr>
+            <tr><td>+ Sales tax, if your state requires it (6.5%)</td><td>$1,202.50</td></tr>
+            <tr><td>+ Title and registration fees</td><td>$150</td></tr>
+            <tr><td>− Deductible (your own policy only)</td><td>−$500</td></tr>
+            <tr><td><strong>Settlement</strong></td><td><strong>$19,352.50</strong></td></tr>
+            <tr><td>− Paid to your lender (payoff $12,000)</td><td>−$12,000</td></tr>
+            <tr><td><strong>Your check</strong></td><td><strong>$7,352.50</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        If you keep the car, the insurer also subtracts its salvage value, what the wreck would have
+        sold for at auction. The Washington Insurance Commissioner publishes a
+        <a href="https://insurance.wa.gov/insurance-resources/auto-insurance/auto-insurance-claims/how-insurers-calculate-taxes-and-fees-when-your-car-totaled" target="_blank" rel="noopener">worked example</a>
+        of the same steps.
+      </p>
+
+      <h2>What's inside the valuation report</h2>
+      <p>
+        Most insurers use a valuation company such as CCC or Mitchell. The report lists your car's
+        details, several comparable cars for sale near you, and adjustments that move each one up or
+        down to match your car. These are the lines worth reading closely:
+      </p>
+      <ul>
+        <li><strong>Mileage, trim and options.</strong> A wrong trim level or a missing package (leather, navigation, a towing package) is one of the most common errors, and it lowers every comparable.</li>
+        <li><strong>Condition adjustment.</strong> Your car's condition is compared with dealer-ready cars. Check that the condition notes match reality, and send photos or service records if they don't.</li>
+        <li><strong>Projected sold adjustment.</strong> Some reports cut each comparable's asking price on the theory that cars sell below list price. Several class actions have challenged it, with courts ruling both ways. If you see one, ask what it is based on.</li>
+        <li><strong>Comparable cars.</strong> Check that they are the same model, similar year and miles, and reasonably close to you. Far-away or older listings tend to pull the value down.</li>
+      </ul>
+      <p>
+        More detail: <a href="/guides/total-loss/how-insurers-value-a-total-loss-vehicle/">how insurers value a totaled car</a>
+        and <a href="/guides/total-loss/common-valuation-report-errors/">common valuation report errors</a>.
+      </p>
+
+      <h2>If the offer looks low</h2>
+      <ol>
+        <li>Ask for the full written valuation report if you only have the offer amount.</li>
+        <li>Fix the facts first: mileage, trim, options and condition.</li>
+        <li>Find three or more similar cars for sale near you and save the listings. Our <a href="/forms/comparable-vehicles-worksheet/">comparable vehicles worksheet</a> keeps them organized.</li>
+        <li>Send a short written response with your evidence. The <a href="/calculators/claim-letter-builder/">claim letter builder</a> drafts it for you.</li>
+        <li>If you still disagree, ask about your policy's appraisal clause or contact your state insurance department.</li>
+      </ol>
+    </section>
+
     <div class="disclaimer-box">
       <strong>Educational worksheet, not legal advice or an appraisal.</strong>
       The tool organizes facts and arithmetic. It does not interpret a policy, determine market
       value, or tell you what an insurer legally owes. See the <a href="/disclaimer/">full disclaimer</a>.
     </div>
 
-    <FaqSection faqs={faqs} />
+    <FaqSection faqs={faqs} heading="Common questions about total loss payouts" />
     <AdSlot path={path} slot="calculator-after-faq" />
 
-    <section>
-      <h2>What the numbers can — and cannot — show</h2>
-      <p>
-        Mean, median, and range describe only the comparables you entered. A small or poorly matched
-        group can still be misleading, which is why one comp does not produce a group comparison
-        and two comps are labeled “limited.” Asking price, sale price, ACV, replacement cost, and
-        loan balance are different concepts; this worksheet does not silently treat them as equal.
-      </p>
-    </section>
-
-    <h2>More Calculators</h2>
+    <h2>More calculators</h2>
     <div class="related-tools">
       <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown →</a>
       <a href="/calculators/diminished-value-baseline/">Diminished Value Baseline →</a>
@@ -373,7 +496,7 @@ const statusOptions = [
       <a href="/calculators/claim-letter-builder/">Claim Letter Builder →</a>
       <a href="/calculators/loss-of-use-reimbursement/">Rental / Loss-of-Use Reimbursement →</a>
       <a href="/calculators/salvage-value/">Salvage / Owner-Retained Value →</a>
-      <a href="/calculators/total-loss-threshold-checker/">Total-Loss Threshold Checker →</a>
+      <a href="/calculators/total-loss-threshold-checker/">Is My Car Totaled? →</a>
       <a href="/check-my-offer/">Check My Offer →</a>
     </div>
   </div>
@@ -694,6 +817,131 @@ const statusOptions = [
   }
 </script>
 
+<script>
+  // Step 1: quick payout estimate. Reuses the tested settlement waterfall.
+  import { calculateSettlementBreakdown, formatUSD, toCents } from "@lib/calculators/settlement-breakdown";
+  import { trackCalculatorCompleted } from "@lib/analytics/events";
+
+  const payoutForm = document.getElementById("payout-form") as HTMLFormElement | null;
+  const payoutResult = document.getElementById("payout-result");
+  const payoutHeading = document.getElementById("payout-result-heading");
+  const payoutHeadline = document.getElementById("payout-headline");
+  const payoutBreakdown = document.getElementById("payout-breakdown");
+  const payoutNotes = document.getElementById("payout-notes");
+  const payoutErrors = document.getElementById("payout-error-summary");
+  const payoutErrorList = document.getElementById("payout-error-summary-list");
+  const claimTypeSelect = document.getElementById("payoutClaimType") as HTMLSelectElement | null;
+  const deductibleField = document.getElementById("payoutDeductibleField");
+
+  function syncDeductible() {
+    if (deductibleField && claimTypeSelect) deductibleField.hidden = claimTypeSelect.value === "third-party";
+  }
+  claimTypeSelect?.addEventListener("change", syncDeductible);
+  syncDeductible();
+
+  if (payoutForm && payoutResult && payoutHeading && payoutHeadline && payoutBreakdown && payoutNotes && payoutErrors && payoutErrorList) {
+    const value = (name: string) => (payoutForm.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | null)?.value ?? "";
+
+    payoutForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const errors: { id: string; message: string }[] = [];
+      const money = (id: string, label: string) => {
+        const res = toCents(value(id), { label });
+        if (res.error) errors.push({ id, message: res.error });
+        return res.value;
+      };
+
+      if (value("payoutAcv") === "") errors.push({ id: "payoutAcv", message: "Enter the car's value from the offer." });
+      const acv = money("payoutAcv", "Car's value");
+      const fees = money("payoutFees", "Title and registration fees");
+      const deductible = money("payoutDeductible", "Deductible");
+      const loan = money("payoutLoan", "Loan or lease payoff");
+      const salvage = money("payoutSalvage", "Salvage value");
+      const rateRaw = value("payoutTaxRate");
+      const rate = rateRaw === "" ? 0 : Number(rateRaw);
+      if (Number.isNaN(rate) || rate < 0 || rate > 20) errors.push({ id: "payoutTaxRate", message: "Sales tax rate must be a number from 0 to 20." });
+
+      payoutErrorList.replaceChildren();
+      if (errors.length) {
+        errors.forEach((err) => {
+          const li = document.createElement("li");
+          const a = document.createElement("a");
+          a.href = `#${err.id}`;
+          a.textContent = err.message;
+          li.appendChild(a);
+          payoutErrorList.appendChild(li);
+        });
+        payoutErrors.hidden = false;
+        payoutErrors.focus();
+        payoutResult.hidden = true;
+        return;
+      }
+      payoutErrors.hidden = true;
+
+      const tax = Math.round((acv * rate) / 100);
+      const claimType = value("payoutClaimType") === "third-party" ? "third-party" : "first-party";
+      const result = calculateSettlementBreakdown({
+        acvCents: acv,
+        taxFeesCents: tax + fees,
+        claimType,
+        deductibleCents: deductible,
+        hasLoan: loan > 0,
+        loanPayoffCents: loan,
+        retainingSalvage: salvage > 0,
+        salvageDeductionCents: salvage,
+      });
+
+      payoutBreakdown.replaceChildren();
+      payoutNotes.replaceChildren();
+      const row = (label: string, amount: string, strong = false) => {
+        const div = document.createElement("div");
+        div.className = "breakdown-row" + (strong ? " breakdown-total" : "");
+        const l = document.createElement("span");
+        l.textContent = label;
+        const r = document.createElement("span");
+        r.textContent = amount;
+        div.append(l, r);
+        payoutBreakdown.appendChild(div);
+      };
+      row("Car's value (ACV)", formatUSD(acv));
+      if (tax > 0) row(`Sales tax (${rate}%)`, formatUSD(tax));
+      if (fees > 0) row("Title and registration fees", formatUSD(fees));
+      if (claimType === "first-party" && deductible > 0) row("Deductible", `−${formatUSD(deductible)}`);
+      row("Settlement", formatUSD(result.grossSettlementCents), true);
+      if (salvage > 0) row("Salvage value (you keep the car)", `−${formatUSD(salvage)}`);
+      if (loan > 0) row("Paid to your lender", `−${formatUSD(result.netToLienholderCents)}`);
+      row("Your check", formatUSD(result.netToOwnerCents), true);
+
+      payoutHeadline.textContent = loan > 0
+        ? `About ${formatUSD(result.netToOwnerCents)} to you and ${formatUSD(result.netToLienholderCents)} to your lender.`
+        : `About ${formatUSD(result.netToOwnerCents)} to you.`;
+
+      const note = (text: string, cls = "section-note") => {
+        const p = document.createElement("p");
+        p.className = cls;
+        p.textContent = text;
+        payoutNotes.appendChild(p);
+      };
+      if (result.grossSettlementFlag) note(result.grossSettlementFlag, "warning-note");
+      if (result.loanShortfallCents > 0) {
+        note(`You would still owe your lender about ${formatUSD(result.loanShortfallCents)}. GAP coverage, if you have it, may pay some or all of this.`, "warning-note");
+      }
+      if (rateRaw === "") note("Tip: many states require the insurer to add sales tax. Add your rate to see the difference.");
+
+      trackCalculatorCompleted("total_loss_payout");
+      payoutResult.hidden = false;
+      payoutHeading.focus();
+    });
+
+    document.getElementById("payout-start-over")?.addEventListener("click", () => {
+      payoutForm.reset();
+      syncDeductible();
+      payoutErrors.hidden = true;
+      payoutResult.hidden = true;
+    });
+  }
+</script>
+
 <style>
   .report-checks {
     display: grid;
@@ -733,4 +981,14 @@ const statusOptions = [
   }
 
   .quality-review h4 { margin-bottom: 4px; }
+  .step-heading { margin-top: 10px; }
+  .payout-headline { font-size: 1.15rem; font-weight: 700; margin: 0 0 10px; }
+  .breakdown-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px dashed var(--color-border); }
+  .breakdown-total { font-weight: 700; }
+  .guide-section { margin: 10px 0 30px; }
+  .guide-section h2 { margin-top: 32px; }
+  .guide-section li { margin-bottom: 8px; }
+  .table-wrap { overflow-x: auto; }
+  .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  .table-wrap th, .table-wrap td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--color-border); }
 </style>

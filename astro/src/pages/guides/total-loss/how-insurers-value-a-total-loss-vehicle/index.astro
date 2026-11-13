@@ -1,90 +1,123 @@
 ---
 import GuideLayout from "@layouts/GuideLayout.astro";
+import FaqSection from "@components/FaqSection.astro";
+import { STATE_THRESHOLDS } from "@lib/calculators/total-loss-threshold";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "How Insurers Value a Total Loss | FairClaimCalculator";
+const title = "How Insurance Companies Value a Totaled Car";
 const description =
-  "How a U.S. insurer decides your car is a total loss and calculates its actual cash value (ACV) — thresholds, comparables, and adjustments explained.";
+  "How insurers calculate your totaled car's actual cash value: comparable cars, condition and mileage adjustments, and the report lines that most often lower it.";
 const path = "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/";
+const tlfCount = STATE_THRESHOLDS.filter((s) => s.type === "tlf").length;
+
+const faqs: FaqItem[] = [
+  {
+    question: "Is actual cash value the same as Kelley Blue Book?",
+    answer:
+      "No. Kelley Blue Book and similar guides are general estimates. Most insurers use a valuation company such as CCC or Mitchell that prices your car from real listings near you and adjusts each one. A guide value can still be useful as a reality check, but the report's comparable cars are what you need to answer.",
+  },
+  {
+    question: "Do insurers use dealer prices or private-party prices?",
+    answer:
+      "Reports usually start from dealer listings and then adjust for condition. Check whether your report applies a condition adjustment or a projected sold adjustment to those prices, because both can lower the value.",
+  },
+  {
+    question: "Does a new engine, new tires or recent repairs raise the value?",
+    answer:
+      "Sometimes. Valuation systems can record major repairs or replacements as refurbishments and adjust for them. Send receipts to the adjuster and ask that they be reflected in the report.",
+  },
+  {
+    question: "How far away can the comparable cars be?",
+    answer:
+      "Rules differ by state and by valuation system. In general, closer cars reflect your local market better. If the report uses cars far from you, or cars that are older, higher-mileage or a lower trim, point that out with closer listings of your own.",
+  },
+  {
+    question: "Can I get the valuation report?",
+    answer:
+      "Yes, ask your adjuster for the full written valuation report, not just the settlement amount. The report shows how the insurer reached the number, and it is what you need to check or dispute it.",
+  },
+];
 ---
 <GuideLayout
   title={title}
   description={description}
   path={path}
-  h1="How Insurers Value a Total-Loss Vehicle"
+  h1="How Insurance Companies Value a Totaled Car"
   cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
   publishedDate="2026-07-29"
-  reviewedDate="2026-07-29"
-  summary="A car becomes a 'total loss' when the cost to repair it is too high relative to its value. The insurer then owes actual cash value (ACV) — a market-value estimate built from comparable vehicle sales, not a fixed price list."
+  reviewedDate="2026-11-13"
+  summary="Insurers pay the car's actual cash value: what a similar car with the same miles, trim and condition was selling for near you just before the crash. Most build that number with a valuation company, and the adjustments in that report are where payouts are won or lost."
   sources={[
-    "State total-loss threshold rules vary — e.g., a fixed percentage-of-ACV test in most states, or a Total Loss Formula (repair cost + salvage value vs. ACV) in about 20 states including California, Georgia, and Washington. Compiled from multiple secondary summaries (not independently verified against all 50 states' statutes) — always confirm your own state's rule with your state insurance department.",
-    'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a> — a real example of one state regulator explicitly listing which valuation systems (e.g., CCC, Mitchell, Audatex-based products) insurers may use.',
+    'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a>: an example of a regulator listing the valuation systems insurers may use.',
+    'CCC Intelligent Solutions, <a href="https://help.cccis.com/webhelp/insurance_company/thecccportal/Content/Insurance/Analytics/GlossariesPDF/Valuation_Glossary.pdf" target="_blank" rel="noopener">Valuation Glossary</a>: definitions of the condition adjustment and refurbishment adjustments.',
+    'Washington State Office of the Insurance Commissioner, <a href="https://insurance.wa.gov/insurance-resources/auto-insurance/auto-insurance-claims/how-insurers-calculate-taxes-and-fees-when-your-car-totaled" target="_blank" rel="noopener">How insurers calculate taxes and fees when your car is totaled</a>.',
+    'Projected sold adjustment litigation: reporting by Repairer Driven News and Claims Journal (2021–2025) on class actions against insurers using the adjustment, including the Seventh Circuit\'s 2025 reversal of class certification.',
   ]}
   relatedLinks={[
-    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
-    { label: "Reading Your Total-Loss Valuation Report", href: "/guides/total-loss/reading-your-total-loss-valuation-report/" },
-    { label: "Finding Your Own Comparable Vehicles", href: "/guides/total-loss/finding-your-own-comparable-vehicles/" },
-    { label: "State Total-Loss Threshold Laws Explained", href: "/guides/total-loss/state-total-loss-threshold-laws/" },
-    { label: "Diminished Value vs. Total Loss: Which Claim Do I Have?", href: "/guides/claim-process/diminished-value-vs-total-loss-which-claim/" },
+    { label: "Totaled car value calculator", href: "/calculators/total-loss-offer-audit/" },
+    { label: "Reading your total loss valuation report", href: "/guides/total-loss/reading-your-total-loss-valuation-report/" },
+    { label: "Finding your own comparable vehicles", href: "/guides/total-loss/finding-your-own-comparable-vehicles/" },
+    { label: "Total loss threshold by state", href: "/guides/total-loss/state-total-loss-threshold-laws/" },
   ]}
+  structuredData={[buildFaqSchema(faqs)]}
 >
-  <h2>What "total loss" actually means</h2>
+  <h2>Step 1: The insurer decides the car is a total loss</h2>
   <p>
-    Your car isn't total-lossed because it "looks too damaged." It's declared a total loss when
-    the insurer's own math says repairing it doesn't make financial sense compared to simply
-    paying you its value. Two general approaches are used across the U.S.:
-  </p>
-  <ul>
-    <li>
-      <strong>Percentage threshold:</strong> if estimated repair cost reaches a set percentage of
-      the vehicle's actual cash value (ACV) — commonly somewhere between 65% and 100% depending on
-      the state — it's a total loss.
-    </li>
-    <li>
-      <strong>Total Loss Formula (TLF):</strong> if <em>repair cost + expected salvage value</em>
-      meets or exceeds ACV, it's a total loss. A number of states use this formula instead of, or
-      alongside, a simple percentage.
-    </li>
-  </ul>
-  <p class="state-note">
-    <strong>What varies by state:</strong> both the method used and the exact percentage differ by
-    state, and some states (like Texas) use a threshold at or near 100%. This guide describes the
-    general pattern, not your specific state's number — check your state insurance department's
-    site, or ask your adjuster which method and percentage applies to your claim.
+    First the insurer compares the repair estimate with the car's value. Most states set a fixed
+    percentage, usually 70% to 80%; the other {tlfCount} use the Total Loss Formula, which adds the
+    wreck's salvage value to the repair cost. Insurers can also total a car below the state line
+    when repairing it would cost them more than paying it out. Check your numbers with the
+    <a href="/calculators/total-loss-threshold-checker/">Is My Car Totaled? calculator</a>.
   </p>
 
-  <h2>How ACV itself gets calculated</h2>
+  <h2>Step 2: A valuation company prices your car</h2>
   <p>
-    Once your car is a total loss, the insurer owes ACV — not the price you paid, not what a
-    dealer would charge for a similar car, and not a blue-book "average" figure pulled from thin
-    air. In practice, most insurers use a licensed valuation system (commonly CCC, Mitchell, or
-    Audatex-based products) that works like this:
+    Most insurers hire a valuation company. CCC and Mitchell are the names you are most likely to
+    see on the report, and some states publish which systems they accept. The process is similar
+    across them:
   </p>
   <ol>
-    <li>Records your vehicle's year, make, model, trim, mileage, and factory options.</li>
-    <li>Searches for comparable vehicles for sale (or recently sold) in your area.</li>
-    <li>
-      Adjusts each comparable's price up or down for differences from your car — mileage, trim,
-      condition, and equipment.
-    </li>
-    <li>Averages or otherwise combines the adjusted comparable prices into a single ACV figure.</li>
+    <li><strong>Your car's details are recorded:</strong> year, make, model, trim, mileage, engine, drivetrain and factory options, usually decoded from the VIN.</li>
+    <li><strong>Comparable cars are found:</strong> similar cars recently listed for sale near you, mostly at dealers.</li>
+    <li><strong>Each comparable is adjusted</strong> up or down for differences from your car: mileage, options, and sometimes price.</li>
+    <li><strong>The adjusted prices are combined</strong> into one base value.</li>
+    <li><strong>A condition adjustment is applied</strong>, comparing your car with the typical comparable.</li>
   </ol>
+
   <div class="example-box">
     <p>
-      <strong>Worked example.</strong> Suppose the report lists three comparables priced at
-      $18,400, $19,100, and $17,650, each already adjusted for mileage/trim/condition differences
-      from your car. A simple average of those three adjusted prices is
-      <strong>$18,383.33</strong>. Some valuation systems average all comps; others weight them or
-      drop outliers first — the report should say which method it used. If it doesn't say, that's
-      worth asking about directly.
+      <strong>Worked example.</strong> Three comparables are listed at $19,400, $19,900 and $18,650.
+      Your car has 8,000 more miles than the first one, so it is adjusted down $300 to $19,100; the
+      other two already match. The average of $19,100, $19,900 and $18,650 is
+      <strong>$19,216.67</strong>. A condition adjustment of −$250 would bring the value to
+      <strong>$18,966.67</strong>. Every one of those lines can be checked.
     </p>
   </div>
 
+  <h2>The adjustments that lower payouts most often</h2>
+  <ul>
+    <li><strong>Wrong trim or missing options.</strong> If your car is listed as a base model instead of the trim you own, every comparable is the wrong car.</li>
+    <li><strong>Mileage errors.</strong> The mileage should match your last odometer record, not an estimate.</li>
+    <li><strong>Condition adjustment.</strong> CCC describes this as comparing your car's overall condition with dealer inventory or private listings. Check the condition notes against photos and service records.</li>
+    <li><strong>Projected sold adjustment.</strong> Some reports reduce each comparable's asking price, assuming cars sell below list. Several class actions have challenged it; courts have ruled both ways, and at least one federal appeals court reversed a class certification in 2025. If your report has one, ask what it is based on.</li>
+    <li><strong>Poor comparables.</strong> Older, higher-mileage, lower-trim or far-away cars pull the number down.</li>
+  </ul>
+
+  <h2>What gets added on top of the value</h2>
+  <p>
+    The car's value is not the whole check. Many states require insurers to add sales tax and title
+    and registration fees for a replacement car; your deductible comes off if you claim on your own
+    policy; and a lender with a lien is paid first. The
+    <a href="/calculators/total-loss-offer-audit/">totaled car value calculator</a> estimates the
+    full payout from those numbers.
+  </p>
+
   <h2>What this guide cannot tell you</h2>
   <p>
-    It cannot tell you whether your insurer used the right method, whether their specific
-    comparables are fair, or what your car's ACV actually is — that depends entirely on your own
-    report and the real market where you live. That's exactly what the
-    <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit calculator</a> is for:
-    enter the insurer's stated comps and your own, and see the statistics side by side.
+    It cannot tell you what your car is worth or whether your insurer's method follows your state's
+    rules. Your valuation report and your local market decide that. If the number looks wrong, see
+    <a href="/guides/total-loss/how-to-dispute-a-total-loss-valuation/">how to dispute a total loss valuation</a>.
   </p>
+
+  <FaqSection faqs={faqs} />
 </GuideLayout>

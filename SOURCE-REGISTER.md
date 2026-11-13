@@ -458,6 +458,16 @@ already sourced for register entries #10 (guide) and #8.1 (calculator).
 
 All other rows still rest on the Policygenius compilation (July 2026) until roadmap topic 17.
 
+## 8c. Total loss payout sources (2026-11-13)
+
+| Claim on the site | Source |
+|---|---|
+| Settlement order: ACV + sales tax + pro-rated fees, then salvage deducted if the owner keeps the car | Washington OIC, "How insurers calculate taxes and fees when your car is totaled" |
+| Kansas requires sales tax and title/registration fees for a comparable vehicle; deductible and retained salvage subtracted | Kansas Insurance Department Bulletin 2013-1 |
+| Condition adjustment compares the loss vehicle with dealer inventory / private listings; refurbishment adjustments | CCC Intelligent Solutions, Valuation Glossary |
+| Projected sold adjustment challenged in class actions; mixed rulings incl. 2025 Seventh Circuit reversal of class certification | Repairer Driven News; Claims Journal; Insurance Journal (2021–2025) |
+| Insurers use licensed valuation systems (CCC, Mitchell, Audatex-based) | New Hampshire Insurance Department, accepted total-loss valuation methods |
+
 ## 9. What is NOT yet in this register
 
 Nothing currently published on the site is missing from this register as

@@ -19,22 +19,26 @@
  *      whether a state requires this varies and is never assumed here).
  *   3. - Deductible (first-party claims only).
  *   4. = Gross settlement.
- *   5. Of the gross settlement, the lienholder is paid first, up to the
- *      loan/lease payoff amount. Any shortfall (payoff > gross settlement)
- *      is shown separately as a potential GAP *scenario*, never folded into
- *      the totals — GAP is typically a separate claim to a separate
- *      provider with its own terms and exclusions, never a guaranteed
- *      benefit.
- *   6. - Salvage deduction, only if the owner is retaining the vehicle.
+ *   5. - Salvage deduction, only if the owner is retaining the vehicle.
+ *      Taken off the settlement before anyone is paid, as in the
+ *      Washington Insurance Commissioner's worked example (changed
+ *      2026-11-13; it used to come off the owner's share after the
+ *      lienholder was paid, which could show a negative owner amount).
+ *   6. The lienholder is paid next, up to the loan/lease payoff amount.
+ *      Any shortfall (payoff > what is left) is shown separately as a
+ *      potential GAP *scenario*, never folded into the totals — GAP is
+ *      typically a separate claim to a separate provider with its own
+ *      terms and exclusions, never a guaranteed benefit.
  *   7. - Any prior partial payment already received.
  *   8. = Net to owner / Net to lienholder.
  */
 
 export const SETTLEMENT_BREAKDOWN_CONFIG = {
-  version: "1.0",
-  effectiveDate: "2026-07-19",
-  reviewedDate: "2026-07-19",
+  version: "1.1",
+  effectiveDate: "2026-11-13",
+  reviewedDate: "2026-11-13",
   sources: [
+    'Washington State Office of the Insurance Commissioner, <a href="https://insurance.wa.gov/insurance-resources/auto-insurance/auto-insurance-claims/how-insurers-calculate-taxes-and-fees-when-your-car-totaled" target="_blank" rel="noopener">How insurers calculate taxes and fees when your car is totaled</a>: worked example adding sales tax and pro-rated fees to the ACV, then deducting the salvage value for an owner-retained settlement.',
     "Model reflects a standard first-party/third-party total-loss settlement waterfall as commonly described in state insurance-department consumer guides on total-loss claims; it is a general organizing structure, not a citation to any single statute.",
   ],
 } as const;
@@ -124,6 +128,8 @@ export interface SettlementBreakdownInput {
 export interface SettlementBreakdownResult {
   rows: BreakdownRow[];
   grossSettlementCents: number;
+  /** Loan payoff left unpaid by the settlement (0 without a loan). Reported whether or not the owner has GAP. */
+  loanShortfallCents: number;
   grossSettlementFlag: string | null;
   netToOwnerCents: number;
   netToLienholderCents: number;
@@ -161,23 +167,24 @@ export function calculateSettlementBreakdown(i: SettlementBreakdownInput): Settl
 
   rows.push({ key: "grossSettlement", label: "Gross settlement (before loan payoff)", amountCents: grossSettlement, kind: "subtotal" });
 
+  if (salvageDeduction > 0) {
+    rows.push({ key: "salvage", label: "Salvage deduction (you're keeping the vehicle)", amountCents: -salvageDeduction, kind: "subtract" });
+  }
+  const afterSalvage = Math.max(0, grossSettlement - salvageDeduction);
+
   let toLienholder = 0;
   let shortfall = 0;
   if (i.hasLoan) {
-    toLienholder = Math.min(grossSettlement, loanPayoff);
-    shortfall = Math.max(0, loanPayoff - grossSettlement);
+    toLienholder = Math.min(afterSalvage, loanPayoff);
+    shortfall = Math.max(0, loanPayoff - afterSalvage);
     rows.push({ key: "toLienholder", label: "Paid to lienholder toward loan/lease payoff", amountCents: -toLienholder, kind: "subtract" });
-  }
-
-  if (salvageDeduction > 0) {
-    rows.push({ key: "salvage", label: "Salvage deduction (you're keeping the vehicle)", amountCents: -salvageDeduction, kind: "subtract" });
   }
 
   if (priorPayment > 0) {
     rows.push({ key: "priorPayment", label: "Prior partial payment already received", amountCents: -priorPayment, kind: "subtract" });
   }
 
-  const netToOwner = grossSettlement - toLienholder - salvageDeduction - priorPayment;
+  const netToOwner = afterSalvage - toLienholder - priorPayment;
   const netToLienholder = toLienholder;
 
   let gapNote: GapNote | null = null;
@@ -212,6 +219,7 @@ export function calculateSettlementBreakdown(i: SettlementBreakdownInput): Settl
   return {
     rows,
     grossSettlementCents: grossSettlement,
+    loanShortfallCents: shortfall,
     grossSettlementFlag,
     netToOwnerCents: netToOwner,
     netToLienholderCents: netToLienholder,
