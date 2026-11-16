@@ -1,48 +1,63 @@
 ---
-// Shared site header/nav. Uses a native <details>/<summary> disclosure for
-// the compact mobile menu — keyboard-operable and screen-reader-friendly
-// with zero custom JavaScript (Enter/Space toggles native <summary>).
-// At desktop widths, CSS forces the list open and hides the toggle.
+// Shared site header/nav.
+//
+// Desktop (>= 760px): links are shown inline, always visible. The Guides
+// submenu is a native <details> dropdown.
+// Mobile (< 760px): a native <details>/<summary> "Menu" disclosure,
+// keyboard-operable and screen-reader-friendly with no custom JavaScript.
+//
+// Fixed 2026-11-16: the previous version hid the Menu toggle on desktop but
+// left the <details> closed, so desktop visitors saw no navigation at all.
+// Both menus render from the same NAV list so they cannot drift apart.
+// Only link routes that exist and are finished.
+const NAV = [
+  { label: "Calculators", href: "/calculators/" },
+  { label: "Check My Offer", href: "/check-my-offer/" },
+  { label: "Free Forms", href: "/forms/" },
+];
+const GUIDES = [
+  { label: "All guides", href: "/guides/" },
+  { label: "Total loss", href: "/guides/total-loss/" },
+  { label: "Diminished value", href: "/guides/diminished-value/" },
+  { label: "Claim process", href: "/guides/claim-process/" },
+  { label: "Accident reporting by state", href: "/guides/accident-reporting/" },
+];
+const currentPath = Astro.url.pathname;
+const isCurrent = (href: string) => (href === "/" ? currentPath === "/" : currentPath.startsWith(href));
 ---
 <header class="site-header">
-  <div class="container header-inner">
-    <a href="/" class="logo">FairClaim<span>Calculator</span></a>
-    <nav aria-label="Primary" class="main-nav">
+  <div class="header-inner">
+    <a href="/" class="logo" aria-label="FairClaimCalculator home">
+      <span class="logo-mark" aria-hidden="true">FC</span>
+      <span class="logo-text">FairClaim<span>Calculator</span></span>
+    </a>
+
+    <nav aria-label="Primary" class="nav-desktop">
+      <ul>
+        {NAV.map((item) => (
+          <li><a href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a></li>
+        ))}
+        <li>
+          <details class="nav-dropdown">
+            <summary>Guides <span aria-hidden="true">▾</span></summary>
+            <ul>
+              {GUIDES.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+            </ul>
+          </details>
+        </li>
+        <li><a href="/my-claim/" class="nav-cta" aria-current={isCurrent("/my-claim/") ? "page" : undefined}>My Claim</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-label="Primary (mobile)" class="nav-mobile">
       <details class="nav-disclosure">
-        <summary class="nav-toggle">
-          Menu
-          <span aria-hidden="true" class="nav-toggle-icon">☰</span>
-        </summary>
+        <summary class="nav-toggle">Menu <span aria-hidden="true">☰</span></summary>
         <ul>
-          <!--
-            Only link routes that actually exist and are finished. Per
-            ASTRO-REBUILD-PLAN.md: never add a route to nav until it is
-            built. The Guides submenu was restored once the guide hubs
-            (Phase 5) were published — all 3 cluster hubs + 15 guides now
-            exist under /guides/.
-          -->
-          <li><a href="/">Home</a></li>
-          <li><a href="/check-my-offer/">Check My Offer</a></li>
-          <li><a href="/calculators/">Calculators</a></li>
-          <li><a href="/forms/">Free Forms</a></li>
-          <li>
-            <details class="nav-subdisclosure">
-              <summary>
-                Guides
-                <span aria-hidden="true" class="nav-toggle-icon">▾</span>
-              </summary>
-              <ul>
-                <li><a href="/guides/">All Guides</a></li>
-                <li><a href="/guides/total-loss/">Total Loss</a></li>
-                <li><a href="/guides/diminished-value/">Diminished Value</a></li>
-                <li><a href="/guides/claim-process/">Claim Process</a></li>
-                <li><a href="/guides/accident-reporting/">Accident Reporting by State</a></li>
-              </ul>
-            </details>
-          </li>
+          <li><a href="/my-claim/" class="nav-cta">My Claim tracker</a></li>
+          {NAV.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+          {GUIDES.map((item) => <li><a href={item.href}>{item.label === "All guides" ? "Guides" : item.label}</a></li>)}
           <li><a href="/glossary/">Glossary</a></li>
           <li><a href="/about/">About</a></li>
-          <li><a href="/contact/">Contact</a></li>
         </ul>
       </details>
     </nav>
@@ -51,28 +66,91 @@
 
 <style>
   .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(255, 255, 255, 0.96);
     border-bottom: 1px solid var(--color-border);
-    padding: 14px 0;
-    background: var(--color-bg);
+    backdrop-filter: saturate(150%) blur(6px);
   }
 
   .header-inner {
+    max-width: var(--max-width-wide);
+    margin: 0 auto;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 16px;
   }
 
   .logo {
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
     text-decoration: none;
-    white-space: nowrap;
+    min-height: var(--touch-target-min);
   }
 
-  .logo span { color: var(--color-text); font-weight: 500; }
+  .logo-mark {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+  }
 
+  .logo-text { font-weight: 800; font-size: 1.15rem; color: var(--color-primary); white-space: nowrap; }
+  .logo-text span { color: var(--color-text); font-weight: 600; }
+
+  ul { list-style: none; margin: 0; padding: 0; }
+
+  a { color: var(--color-text); text-decoration: none; font-weight: 600; }
+
+  /* ---------- Desktop ---------- */
+  .nav-desktop { display: none; }
+  .nav-desktop > ul { display: flex; align-items: center; gap: 4px; }
+  .nav-desktop a, .nav-dropdown summary {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    min-height: var(--touch-target-min);
+  }
+  .nav-desktop a:hover, .nav-dropdown summary:hover { background: var(--color-bg-soft); color: var(--color-primary); }
+  .nav-desktop a[aria-current="page"] { color: var(--color-primary); }
+
+  .nav-dropdown { position: relative; }
+  .nav-dropdown summary { list-style: none; cursor: pointer; font-weight: 600; }
+  .nav-dropdown summary::-webkit-details-marker { display: none; }
+  .nav-dropdown > ul {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    min-width: 240px;
+    padding: 8px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+  }
+  .nav-dropdown > ul a { font-weight: 500; }
+
+  .nav-cta {
+    background: var(--color-primary);
+    color: #fff !important;
+    margin-left: 6px;
+  }
+  .nav-desktop .nav-cta:hover { background: var(--color-primary-dark); }
+
+  /* ---------- Mobile ---------- */
   .nav-disclosure summary {
     list-style: none;
     cursor: pointer;
@@ -80,97 +158,40 @@
     align-items: center;
     gap: 8px;
     padding: 10px 14px;
-    font-weight: 600;
+    font-weight: 700;
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     min-height: var(--touch-target-min);
   }
-
   .nav-disclosure summary::-webkit-details-marker { display: none; }
-
   .nav-disclosure[open] summary { background: var(--color-bg-soft); }
-
   .nav-disclosure > ul {
-    list-style: none;
-    margin: 8px 0 0;
-    padding: 12px;
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    top: calc(100% + 4px);
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
+    background: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
-    position: absolute;
-    right: 20px;
-    background: var(--color-bg);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    z-index: 20;
+    box-shadow: var(--shadow-lg);
+    max-height: 75vh;
+    overflow-y: auto;
   }
-
   .nav-disclosure a {
-    display: block;
+    display: flex;
+    align-items: center;
     padding: 10px 12px;
-    color: var(--color-text);
-    text-decoration: none;
-    font-weight: 500;
     border-radius: 6px;
     min-height: var(--touch-target-min);
-    display: flex;
-    align-items: center;
   }
+  .nav-disclosure a:hover { background: var(--color-bg-soft); }
 
-  .nav-disclosure a:hover { color: var(--color-primary); background: var(--color-bg-soft); }
-
-  .nav-subdisclosure summary {
-    list-style: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 12px;
-    font-weight: 500;
-    min-height: var(--touch-target-min);
-  }
-
-  .nav-subdisclosure summary::-webkit-details-marker { display: none; }
-
-  .nav-subdisclosure > ul {
-    list-style: none;
-    padding-left: 12px;
-    margin: 4px 0 0;
-  }
-
-  /* Desktop: force the menu open and hide the toggle summary, since there's
-     room to show every link inline. */
-  @media (min-width: 720px) {
-    .nav-toggle-icon, .nav-disclosure > summary { display: none; }
-
-    .nav-disclosure > ul {
-      position: static;
-      flex-direction: row;
-      border: none;
-      box-shadow: none;
-      padding: 0;
-      background: transparent;
-    }
-
-    .nav-subdisclosure {
-      position: relative;
-    }
-
-    .nav-subdisclosure summary {
-      list-style: none;
-    }
-    .nav-subdisclosure summary::-webkit-details-marker { display: none; }
-
-    .nav-subdisclosure > ul {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: var(--color-bg);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius);
-      padding: 8px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      min-width: 180px;
-    }
+  @media (min-width: 760px) {
+    .nav-desktop { display: block; }
+    .nav-mobile { display: none; }
   }
 </style>

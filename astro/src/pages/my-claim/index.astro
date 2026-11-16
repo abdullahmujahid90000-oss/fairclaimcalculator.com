@@ -1,0 +1,507 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import FaqSection from "@components/FaqSection.astro";
+import { STEPS } from "@lib/tracker/claim-tracker";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
+
+const title = "Car Insurance Claim Tracker: Free, Private, No Sign-Up";
+const description =
+  "Track your car insurance claim in one place: claim details, every call and email, progress, follow-up reminders and calendar alerts. Saved only in your browser.";
+const path = "/my-claim/";
+
+const faqs: FaqItem[] = [
+  {
+    question: "Where is my claim information saved?",
+    answer:
+      "Only in this browser on this device. Nothing is sent to our servers, and we can't see it. Clearing your browser data deletes it, so use \"Download backup\" to keep a copy or move it to another device.",
+  },
+  {
+    question: "How long does an insurance company have to respond to a claim?",
+    answer:
+      "It depends on your state. Many states base their rules on the NAIC model, which expects insurers to acknowledge a claim within about 15 days, and most also set deadlines to accept or deny a claim once you have sent proof of loss. Your state insurance department's website lists the exact rules. The tracker reminds you to follow up when a claim goes quiet.",
+  },
+  {
+    question: "What should I write down after every call with the adjuster?",
+    answer:
+      "The date, who you spoke with, what they said, what they asked you to send, and any amount or deadline mentioned. Then send a short email confirming it, so there is a written record.",
+  },
+  {
+    question: "What if my insurer stops responding?",
+    answer:
+      "Send a dated, written follow-up and log it. If you still get no answer, ask for a supervisor, and if the delay continues you can file a complaint with your state insurance department.",
+  },
+  {
+    question: "Can I use this for a claim against the other driver's insurance?",
+    answer:
+      "Yes. Choose \"The other driver's insurance\" under who is paying. The steps are the same; you just won't have a deductible.",
+  },
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "My Claim: Car Insurance Claim Tracker",
+    url: `https://www.fairclaimcalculator.com${path}`,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Any",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  },
+  buildFaqSchema(faqs),
+];
+---
+<BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
+  <div class="container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / My Claim</p>
+    <h1 class="page-title">My Claim: Your Car Insurance Claim Tracker</h1>
+    <p class="lead">
+      Keep your claim number, adjuster, every call and every email in one place, see what to do
+      next, and get reminded when the insurer goes quiet. It saves automatically in this browser.
+      No account, and nothing is sent to us.
+    </p>
+
+    <section class="panel status" aria-labelledby="status-heading">
+      <h2 id="status-heading">Where your claim stands</h2>
+      <div class="progress" aria-hidden="true"><div class="progress-bar" id="mc-progress-bar"></div></div>
+      <p class="progress-text" id="mc-progress-text" aria-live="polite">0 of {STEPS.length} steps done</p>
+      <p class="next-step" id="mc-next"></p>
+      <ul class="prompts" id="mc-prompts" aria-live="polite"></ul>
+      <p class="saved-note" id="mc-saved" aria-live="polite"></p>
+    </section>
+
+    <form id="mc-form" novalidate autocomplete="off">
+      <section class="panel" aria-labelledby="details-heading">
+        <h2 id="details-heading">Claim details</h2>
+        <div class="grid">
+          <div class="field"><label for="mc-claimNumber">Claim number</label><input id="mc-claimNumber" name="claimNumber" maxlength="200" /></div>
+          <div class="field"><label for="mc-insurer">Insurance company</label><input id="mc-insurer" name="insurer" maxlength="200" /></div>
+          <div class="field">
+            <label for="mc-whoPays">Who is paying?</label>
+            <select id="mc-whoPays" name="whoPays">
+              <option value="unknown">Not sure yet</option>
+              <option value="own">My own insurance</option>
+              <option value="other">The other driver's insurance</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mc-claimKind">What happened to the car?</label>
+            <select id="mc-claimKind" name="claimKind">
+              <option value="unknown">Not decided yet</option>
+              <option value="repair">It's being repaired</option>
+              <option value="total-loss">It was totaled</option>
+            </select>
+          </div>
+          <div class="field"><label for="mc-dateOfLoss">Date of the accident</label><input type="date" id="mc-dateOfLoss" name="dateOfLoss" /></div>
+          <div class="field"><label for="mc-dateFiled">Date you filed the claim</label><input type="date" id="mc-dateFiled" name="dateFiled" /></div>
+          <div class="field"><label for="mc-adjusterName">Adjuster's name</label><input id="mc-adjusterName" name="adjusterName" maxlength="200" /></div>
+          <div class="field"><label for="mc-adjusterPhone">Adjuster's phone</label><input type="tel" id="mc-adjusterPhone" name="adjusterPhone" maxlength="200" /></div>
+          <div class="field"><label for="mc-adjusterEmail">Adjuster's email</label><input type="email" id="mc-adjusterEmail" name="adjusterEmail" maxlength="200" /></div>
+          <div class="field"><label for="mc-policyNumber">Your policy number</label><input id="mc-policyNumber" name="policyNumber" maxlength="200" /></div>
+          <div class="field"><label for="mc-deductible">Deductible ($)</label><input type="number" min="0" step="1" inputmode="decimal" id="mc-deductible" name="deductible" /></div>
+          <div class="field"><label for="mc-offerAmount">Latest offer ($)</label><input type="number" min="0" step="1" inputmode="decimal" id="mc-offerAmount" name="offerAmount" /></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="steps-heading">
+        <h2 id="steps-heading">Your checklist</h2>
+        <ul class="steps">
+          {STEPS.map((step, i) => (
+            <li>
+              <label class="step">
+                <input type="checkbox" name={`step-${step.key}`} data-step={step.key} />
+                <span><span class="step-num">{i + 1}.</span> {step.label}</span>
+              </label>
+              {step.href && <a class="step-help" href={step.href}>How to</a>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </form>
+
+    <section class="panel" aria-labelledby="log-heading">
+      <h2 id="log-heading">Contact log</h2>
+      <p class="hint">Log every call, email and letter. A dated record is your best tool if the claim stalls.</p>
+      <form id="mc-log-form" class="grid log-form" novalidate>
+        <div class="field"><label for="mc-log-date">Date</label><input type="date" id="mc-log-date" required /></div>
+        <div class="field">
+          <label for="mc-log-type">Type</label>
+          <select id="mc-log-type">
+            <option value="call">Phone call</option>
+            <option value="email">Email</option>
+            <option value="letter">Letter</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="field"><label for="mc-log-who">With whom</label><input id="mc-log-who" maxlength="200" /></div>
+        <div class="field full"><label for="mc-log-note">What was said or sent</label><textarea id="mc-log-note" rows="3" maxlength="2000"></textarea></div>
+        <div class="full"><button type="submit" class="btn-primary">Add to log</button> <span class="log-error" id="mc-log-error" role="alert"></span></div>
+      </form>
+      <ol class="log" id="mc-log" reversed></ol>
+      <p class="hint" id="mc-log-empty">Nothing logged yet.</p>
+    </section>
+
+    <section class="panel" id="mc-remind-panel" aria-labelledby="remind-heading">
+      <h2 id="remind-heading">Set a reminder</h2>
+      <p class="hint">Download a reminder for your phone or computer calendar (Google, Apple or Outlook). It works without an account.</p>
+      <div class="grid">
+        <div class="field">
+          <label for="mc-remind-date">Remind me on</label>
+          <input type="date" id="mc-remind-date" />
+        </div>
+        <div class="field">
+          <label for="mc-remind-what">About</label>
+          <select id="mc-remind-what">
+            <option value="Follow up with the adjuster">Follow up with the adjuster</option>
+            <option value="Check whether the valuation or estimate has arrived">Check whether the valuation or estimate has arrived</option>
+            <option value="Send my written response to the offer">Send my written response to the offer</option>
+            <option value="Check that payment has arrived">Check that payment has arrived</option>
+          </select>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn-primary" id="mc-remind">Add to my calendar</button>
+        <button type="button" class="btn-secondary" id="mc-remind-week">Remind me in 7 days</button>
+      </div>
+      <p class="log-error" id="mc-remind-error" role="alert"></p>
+    </section>
+
+    <section class="panel" aria-labelledby="backup-heading">
+      <h2 id="backup-heading">Backup, print or delete</h2>
+      <div class="actions">
+        <button type="button" class="btn-secondary" id="mc-export">Download backup</button>
+        <label class="btn-secondary file-btn">Restore from backup <input type="file" id="mc-import" accept="application/json,.json" /></label>
+        <button type="button" class="btn-secondary" id="mc-print">Print / Save as PDF</button>
+        <button type="button" class="btn-danger" id="mc-clear">Delete everything</button>
+      </div>
+      <p class="hint" id="mc-backup-msg" role="status"></p>
+    </section>
+
+    <section class="guide-section">
+      <h2>Why keep your own claim record</h2>
+      <p>
+        Adjusters handle many claims at once, and phone calls leave no trace. A simple, dated record
+        of who said what makes it easier to follow up, to push back on a low offer, and to file a
+        complaint with your state insurance department if a claim stalls. It also means you never
+        have to hunt for a claim number again.
+      </p>
+      <h2>The usual stages of a car insurance claim</h2>
+      <ol>
+        <li><strong>Report and document.</strong> Report the crash where your state requires it and collect photos and the other driver's details. See <a href="/guides/claim-process/what-to-do-after-a-car-accident/">what to do after a car accident</a>.</li>
+        <li><strong>File and get an adjuster.</strong> The insurer should acknowledge the claim and assign an adjuster. Many states expect this within about 15 days.</li>
+        <li><strong>Inspection and estimate.</strong> The adjuster inspects the car or reviews photos and writes a repair estimate, or decides the car is a total loss. Check yours with <a href="/calculators/total-loss-threshold-checker/">Is My Car Totaled?</a></li>
+        <li><strong>Offer.</strong> You get a repair payment or a total loss offer. Check it with the <a href="/calculators/total-loss-offer-audit/">totaled car value calculator</a> or, for a repaired car, the <a href="/calculators/diminished-value-baseline/">diminished value calculator</a>.</li>
+        <li><strong>Agreement and payment.</strong> If something is wrong, respond in writing. The <a href="/calculators/claim-letter-builder/">claim letter builder</a> drafts it for you.</li>
+      </ol>
+    </section>
+
+    <FaqSection faqs={faqs} heading="Common questions" />
+  </div>
+</BaseLayout>
+
+<script>
+  import {
+    TRACKER_STORAGE_KEY,
+    addDays,
+    buildIcs,
+    emptyState,
+    isIsoDate,
+    nextStep,
+    parseState,
+    progress,
+    prompts,
+    type ClaimDetails,
+    type ClaimState,
+    type LogType,
+  } from "@lib/tracker/claim-tracker";
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T | null;
+  const todayIso = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  };
+
+  let state: ClaimState = emptyState();
+  let storageOk = true;
+  try {
+    const raw = localStorage.getItem(TRACKER_STORAGE_KEY);
+    if (raw) state = parseState(JSON.parse(raw));
+  } catch {
+    storageOk = false;
+  }
+
+  const form = $<HTMLFormElement>("mc-form");
+  const savedNote = $("mc-saved");
+
+  function save() {
+    state.updatedAt = new Date().toISOString();
+    try {
+      localStorage.setItem(TRACKER_STORAGE_KEY, JSON.stringify(state));
+      storageOk = true;
+      if (savedNote) savedNote.textContent = "Saved in this browser.";
+    } catch {
+      storageOk = false;
+      if (savedNote) savedNote.textContent = "This browser isn't letting us save (private mode or blocked storage). Use Download backup to keep a copy.";
+    }
+    renderStatus();
+  }
+
+  function fillForm() {
+    if (!form) return;
+    (Object.keys(state.claim) as (keyof ClaimDetails)[]).forEach((key) => {
+      const el = form.elements.namedItem(key) as HTMLInputElement | HTMLSelectElement | null;
+      if (el) el.value = state.claim[key];
+    });
+    form.querySelectorAll<HTMLInputElement>("input[data-step]").forEach((box) => {
+      box.checked = !!state.steps[box.dataset.step as keyof ClaimState["steps"]];
+    });
+  }
+
+  function renderStatus() {
+    const p = progress(state);
+    const bar = $("mc-progress-bar");
+    if (bar) bar.style.width = `${p.percent}%`;
+    const text = $("mc-progress-text");
+    if (text) text.textContent = `${p.done} of ${p.total} steps done`;
+
+    const next = nextStep(state);
+    const nextEl = $("mc-next");
+    if (nextEl) {
+      nextEl.replaceChildren();
+      const strong = document.createElement("strong");
+      strong.textContent = next ? "Next step: " : "All steps done.";
+      nextEl.appendChild(strong);
+      if (next) {
+        nextEl.append(next.label + ". ");
+        if (next.href) {
+          const a = document.createElement("a");
+          a.href = next.href;
+          a.textContent = "Show me how →";
+          nextEl.appendChild(a);
+        }
+      }
+    }
+
+    const list = $("mc-prompts");
+    if (list) {
+      list.replaceChildren();
+      prompts(state, todayIso()).forEach((item) => {
+        const li = document.createElement("li");
+        li.className = item.level === "action" ? "prompt prompt-action" : "prompt";
+        li.append(item.text + " ");
+        if (item.href) {
+          const a = document.createElement("a");
+          a.href = item.href;
+          a.textContent = item.linkText ?? "Learn more";
+          li.appendChild(a);
+        }
+        list.appendChild(li);
+      });
+    }
+  }
+
+  function renderLog() {
+    const list = $("mc-log");
+    const empty = $("mc-log-empty");
+    if (!list) return;
+    list.replaceChildren();
+    const entries = [...state.log].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+    const labels: Record<LogType, string> = { call: "Call", email: "Email", letter: "Letter", other: "Note" };
+    entries.forEach((entry) => {
+      const li = document.createElement("li");
+      li.className = "log-item";
+      const head = document.createElement("p");
+      head.className = "log-head";
+      head.textContent = `${entry.date || "No date"} · ${labels[entry.type]}${entry.who ? ` with ${entry.who}` : ""}`;
+      const note = document.createElement("p");
+      note.className = "log-note";
+      note.textContent = entry.note;
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "link-button";
+      del.textContent = "Delete";
+      del.setAttribute("aria-label", `Delete log entry from ${entry.date || "no date"}`);
+      del.addEventListener("click", () => {
+        state.log = state.log.filter((e) => e.id !== entry.id);
+        save();
+        renderLog();
+      });
+      li.append(head, note, del);
+      list.appendChild(li);
+    });
+    if (empty) empty.hidden = entries.length > 0;
+  }
+
+  form?.addEventListener("input", (event) => {
+    const target = event.target as HTMLInputElement | HTMLSelectElement;
+    if (target instanceof HTMLInputElement && target.dataset.step) {
+      state.steps[target.dataset.step as keyof ClaimState["steps"]] = target.checked;
+    } else if (target.name && target.name in state.claim) {
+      (state.claim as unknown as Record<string, string>)[target.name] = target.value;
+    }
+    save();
+  });
+  form?.addEventListener("submit", (e) => e.preventDefault());
+
+  const logDate = $<HTMLInputElement>("mc-log-date");
+  if (logDate) logDate.value = todayIso();
+  $<HTMLFormElement>("mc-log-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const err = $("mc-log-error");
+    const date = logDate?.value ?? "";
+    const note = ($<HTMLTextAreaElement>("mc-log-note")?.value ?? "").trim();
+    if (!isIsoDate(date) || !note) {
+      if (err) err.textContent = "Add a date and a short note.";
+      return;
+    }
+    if (err) err.textContent = "";
+    state.log.push({
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      date,
+      type: ($<HTMLSelectElement>("mc-log-type")?.value ?? "other") as LogType,
+      who: ($<HTMLInputElement>("mc-log-who")?.value ?? "").trim(),
+      note,
+    });
+    const noteEl = $<HTMLTextAreaElement>("mc-log-note");
+    if (noteEl) noteEl.value = "";
+    save();
+    renderLog();
+  });
+
+  function download(filename: string, content: string, type: string) {
+    const url = URL.createObjectURL(new Blob([content], { type }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function remind(date: string) {
+    const err = $("mc-remind-error");
+    if (!isIsoDate(date)) {
+      if (err) err.textContent = "Pick a date for the reminder.";
+      return;
+    }
+    if (err) err.textContent = "";
+    const what = $<HTMLSelectElement>("mc-remind-what")?.value ?? "Follow up on my claim";
+    const claimNo = state.claim.claimNumber ? ` (claim ${state.claim.claimNumber})` : "";
+    const who = state.claim.adjusterName ? ` Adjuster: ${state.claim.adjusterName}${state.claim.adjusterPhone ? `, ${state.claim.adjusterPhone}` : ""}.` : "";
+    const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+    const ics = buildIcs({
+      date,
+      title: `${what}${claimNo}`,
+      description: `${what}${claimNo}.${who} Open your tracker: https://www.fairclaimcalculator.com/my-claim/`,
+      uid: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      stamp,
+    });
+    download("claim-reminder.ics", ics, "text/calendar");
+  }
+  $("mc-remind")?.addEventListener("click", () => remind($<HTMLInputElement>("mc-remind-date")?.value ?? ""));
+  $("mc-remind-week")?.addEventListener("click", () => remind(addDays(todayIso(), 7)));
+
+  const backupMsg = $("mc-backup-msg");
+  $("mc-export")?.addEventListener("click", () => {
+    download(`my-claim-backup-${todayIso()}.json`, JSON.stringify(state, null, 2), "application/json");
+    if (backupMsg) backupMsg.textContent = "Backup downloaded. Keep it somewhere safe; it contains your claim details.";
+  });
+  $<HTMLInputElement>("mc-import")?.addEventListener("change", async (event) => {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    try {
+      if (file.size > 1_000_000) throw new Error("That file is too large to be a My Claim backup.");
+      state = parseState(JSON.parse(await file.text()));
+      fillForm();
+      save();
+      renderLog();
+      if (backupMsg) backupMsg.textContent = "Backup restored.";
+    } catch (error) {
+      if (backupMsg) backupMsg.textContent = error instanceof Error && error.message ? error.message : "That file couldn't be read.";
+    }
+    input.value = "";
+  });
+  $("mc-print")?.addEventListener("click", () => window.print());
+  $("mc-clear")?.addEventListener("click", () => {
+    if (!window.confirm("Delete all your claim details, checklist and log from this browser? This can't be undone.")) return;
+    state = emptyState();
+    try { localStorage.removeItem(TRACKER_STORAGE_KEY); } catch { /* ignore */ }
+    fillForm();
+    renderLog();
+    renderStatus();
+    if (backupMsg) backupMsg.textContent = "Everything was deleted from this browser.";
+  });
+
+  fillForm();
+  renderLog();
+  renderStatus();
+  if (!storageOk && savedNote) savedNote.textContent = "This browser isn't letting us save. Use Download backup to keep a copy.";
+</script>
+
+<style>
+  .breadcrumb-text { font-size: 0.85rem; color: var(--color-text-muted); margin: 20px 0 8px; }
+  .breadcrumb-text a { color: inherit; }
+  .page-title { font-size: 1.8rem; margin: 0 0 10px; color: var(--color-primary-dark); }
+  .lead { color: var(--color-text-muted); font-size: 1.05rem; max-width: 680px; }
+
+  .panel { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 20px; margin: 20px 0; box-shadow: var(--shadow-sm); }
+  .panel h2 { margin-top: 0; font-size: 1.25rem; }
+  .status { background: var(--color-primary-tint); border-color: #cfe5d6; }
+
+  .progress { height: 12px; background: #fff; border: 1px solid #cfe5d6; border-radius: 999px; overflow: hidden; }
+  .progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light)); transition: width 0.3s ease; }
+  .progress-text { font-weight: 700; margin: 8px 0 4px; }
+  .next-step { margin: 6px 0; }
+  .prompts { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
+  .prompt { background: #fff; border: 1px solid var(--color-border); border-radius: 8px; padding: 10px 12px; font-size: 0.95rem; }
+  .prompt-action { border-color: var(--color-warning-border); background: var(--color-warning-bg); }
+  .saved-note { font-size: 0.85rem; color: var(--color-text-muted); margin: 10px 0 0; }
+
+  .grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .full { grid-column: 1 / -1; }
+  .field label { display: block; font-weight: 600; font-size: 0.92rem; margin-bottom: 6px; }
+  .field input, .field select, .field textarea {
+    width: 100%; padding: 11px; border: 1px solid var(--color-border); border-radius: 6px;
+    font: inherit; min-height: var(--touch-target-min); background: #fff;
+  }
+  .hint { color: var(--color-text-muted); font-size: 0.9rem; }
+
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+  .steps li { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 1px dashed var(--color-border); }
+  .step { display: flex; align-items: center; gap: 10px; padding: 6px 0; cursor: pointer; flex: 1; }
+  .step input { width: 22px; height: 22px; flex: none; }
+  .step-num { color: var(--color-text-muted); }
+  .step-help { font-size: 0.85rem; white-space: nowrap; padding: 10px 4px; }
+
+  .log-form { margin-bottom: 16px; }
+  .log-error { color: var(--color-error-text); font-weight: 600; font-size: 0.9rem; }
+  .log { padding-left: 0; list-style: none; display: grid; gap: 10px; margin: 0; }
+  .log-item { border: 1px solid var(--color-border); border-radius: 8px; padding: 10px 12px; }
+  .log-head { font-weight: 700; margin: 0; font-size: 0.92rem; }
+  .log-note { margin: 4px 0; white-space: pre-wrap; }
+  .link-button { background: none; border: none; color: var(--color-error-text); text-decoration: underline; cursor: pointer; padding: 0; font: inherit; font-size: 0.85rem; min-height: var(--touch-target-min); }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .btn-primary, .btn-secondary, .btn-danger {
+    padding: 11px 18px; border-radius: 7px; font: inherit; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; min-height: var(--touch-target-min);
+  }
+  .btn-primary { background: var(--color-primary); color: #fff; border: none; }
+  .btn-primary:hover { background: var(--color-primary-dark); }
+  .btn-secondary { background: #fff; color: var(--color-text); border: 1px solid var(--color-border); }
+  .btn-secondary:hover { border-color: var(--color-primary); color: var(--color-primary); }
+  .btn-danger { background: #fff; color: var(--color-error-text); border: 1px solid var(--color-error-border); }
+  .file-btn { position: relative; }
+  .file-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+  .file-btn:focus-within { outline: 3px solid var(--color-focus-ring); outline-offset: 2px; }
+
+  .guide-section { margin: 30px 0; }
+  .guide-section li { margin-bottom: 8px; }
+
+  @media print {
+    .actions, .log-form, .link-button, .step-help, #mc-remind-panel, .guide-section, .faq-section { display: none !important; }
+    .panel { box-shadow: none; break-inside: avoid; }
+  }
+</style>

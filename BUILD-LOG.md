@@ -1294,3 +1294,25 @@ Owner asked to rebuild the site for AdSense approval and search traffic.
   internal links, titles ≤56 / descriptions ≤160, 390px renders, payout estimator
   tested in Chromium (first- and third-party, loan shortfall).
 - Research notes: research/totaled-car-value-payout.md.
+
+### 2026-11-16 — Topic 3 done: site theme, homepage and My Claim tracker
+
+- Bug fix: desktop navigation was invisible (the `<details>` menu stayed closed
+  while its toggle was hidden at desktop widths). New Header renders an
+  always-visible desktop nav and a separate mobile disclosure from one list,
+  sticky header, logo mark, Guides dropdown, "My Claim" call-to-action.
+- Theme tokens: `--color-primary-light`, `--color-primary-tint`,
+  `--max-width-wide`, `--shadow-sm/lg`. No new fonts or libraries.
+- Homepage rewritten: gradient hero ("Free car insurance claim calculators"),
+  "Start with what happened" (totaled / repaired / just had an accident / low
+  offer), most-used tools, My Claim band, guides with counts computed from the
+  page files (24), trust section. Removed "LIVE NOW" badges and stale counts.
+- New `/my-claim/` tracker (browser-only, localStorage): claim details, 10-step
+  checklist with progress and next step, follow-up prompts (not acknowledged
+  after 15 days; no contact for 14 days; check the numbers once an estimate or
+  valuation arrives), contact log, calendar reminders (.ics), backup/restore
+  (validated import), print, delete. Logic in `src/lib/tracker/claim-tracker.ts`
+  (+14 tests). Linked from header, footer, homepage and the after-an-accident guide.
+- Verified: typecheck 0 errors, 211/211 tests, axe 0 violations, 0 broken of
+  10,143 internal links, titles 58/54, descriptions 144/160, desktop nav and
+  mobile menu tested, full tracker flow tested in Chromium at 390px.

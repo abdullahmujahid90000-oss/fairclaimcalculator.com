@@ -468,6 +468,12 @@ All other rows still rest on the Policygenius compilation (July 2026) until road
 | Projected sold adjustment challenged in class actions; mixed rulings incl. 2025 Seventh Circuit reversal of class certification | Repairer Driven News; Claims Journal; Insurance Journal (2021–2025) |
 | Insurers use licensed valuation systems (CCC, Mitchell, Audatex-based) | New Hampshire Insurance Department, accepted total-loss valuation methods |
 
+## 8d. My Claim tracker (2026-11-16)
+
+| Claim on the site | Source |
+|---|---|
+| Many states expect insurers to acknowledge a claim within about 15 days (used only as a follow-up prompt) | NAIC Unfair Claims Settlement Practices model (acknowledge within 15 days); NAIC model law chart MC-50 claims settlement provisions (state variations: 10 working days, 15 days) |
+
 ## 9. What is NOT yet in this register
 
 Nothing currently published on the site is missing from this register as
