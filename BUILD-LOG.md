@@ -1316,3 +1316,21 @@ Owner asked to rebuild the site for AdSense approval and search traffic.
 - Verified: typecheck 0 errors, 211/211 tests, axe 0 violations, 0 broken of
   10,143 internal links, titles 58/54, descriptions 144/160, desktop nav and
   mobile menu tested, full tracker flow tested in Chromium at 390px.
+
+### 2026-11-18 — Topic 4 done: What to do after a car accident
+
+- `/guides/claim-process/what-to-do-after-a-car-accident/`: added an interactive
+  10-item accident checklist (browser-saved, with "Continue in My Claim tracker",
+  which marks the tracker's reported/evidence/filed steps and fills the date of
+  loss), quick-clearance ("Steer It, Clear It") laws with FHWA/MoDOT/ADOT sources,
+  engine-off/fuel safety, an "If the crash wasn't your fault" section (whose
+  insurance, uninsured driver, hit-and-run, extra amounts), and 3 new FAQs.
+- `/guides/claim-process/auto-claim-evidence-checklist/` rewritten as "Car Insurance
+  Claim Checklist: Documents You Need", grouped by stage (scene, filing, repair,
+  total loss, receipts), organization tips, 5 FAQs; NHTSA child-seat guidance.
+- Form pages: accident information worksheet (+2 FAQs, link to the interactive
+  checklist, shorter description) and claim evidence checklist (more when/how-to,
+  +2 FAQs, tracker link). Link labels updated sitewide.
+- Verified: typecheck 0 errors, 211/211 tests, axe 0 violations, 0 broken of 10,150
+  internal links, titles ≤55 / descriptions ≤156, 390px renders, checklist save and
+  tracker hand-off tested in Chromium.

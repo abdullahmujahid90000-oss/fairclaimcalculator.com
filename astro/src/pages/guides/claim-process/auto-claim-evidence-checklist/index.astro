@@ -1,74 +1,130 @@
 ---
 import GuideLayout from "@layouts/GuideLayout.astro";
+import FaqSection from "@components/FaqSection.astro";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "Auto Claim Evidence Checklist | FairClaimCalculator";
+const title = "Car Insurance Claim Checklist: Documents You Need";
 const description =
-  "A general checklist of evidence worth gathering for a total-loss or diminished-value auto claim — from the valuation report to comparable listings.";
+  "Every document and piece of evidence for a car insurance claim, in the order you'll need it: at the scene, filing the claim, repairs or a total loss.";
 const path = "/guides/claim-process/auto-claim-evidence-checklist/";
+
+const faqs: FaqItem[] = [
+  {
+    question: "What documents do I need to file a car insurance claim?",
+    answer:
+      "To open the claim: your policy number, the date, time and place of the crash, the other driver's name, license, plate and insurance details, the police report number if there is one, and your photos. The rest (estimates, receipts, valuation reports) comes in as the claim moves along.",
+  },
+  {
+    question: "Do I need a police report to file a car insurance claim?",
+    answer:
+      "Not always. Many claims are handled without one, but a report helps when fault is disputed, when the other driver is uninsured or drove off, and when your state requires a report for the crash. Some states let you file your own report when police didn't come.",
+  },
+  {
+    question: "Should I send originals to the insurance company?",
+    answer:
+      "No. Send copies and keep the originals. Write down what you sent, when and to whom; the My Claim tracker's contact log is built for this.",
+  },
+  {
+    question: "How long should I keep claim documents?",
+    answer:
+      "At least until the claim is paid and any repair, loan or diminished value question is settled. Many people keep them for a few years in case a repair problem or a related claim comes up later.",
+  },
+  {
+    question: "What photos should I take for an insurance claim?",
+    answer:
+      "Wide shots of the whole scene and every car, close-ups of each damaged area, the other car's plate, road signs and signals, skid marks or debris, and the inside of your car if anything was damaged. Photos taken the same day carry the most weight.",
+  },
+];
 ---
 <GuideLayout
   title={title}
   description={description}
   path={path}
-  h1="Auto Claim Evidence Checklist"
+  h1="Car Insurance Claim Checklist: Every Document You Need"
   cluster={{ name: "Claim Process", href: "/guides/claim-process/" }}
   publishedDate="2026-07-29"
-  reviewedDate="2026-07-29"
-  summary="A general organizing checklist for total-loss and diminished-value claim evidence. Not every item applies to every claim — use what's relevant to yours."
+  reviewedDate="2026-11-18"
+  summary="A claim moves faster, and an offer is easier to challenge, when your evidence is complete and organized. Here is everything worth collecting, grouped by when you'll need it."
   sources={[
-    "Practical checklist compiled for this site; not a citation to an external standard. See the Claim Letter Builder's own evidence checklist, which this guide expands on.",
+    "Practical checklist compiled for this site from insurer claim instructions and state insurance department consumer guides; it is not a legal standard. Your insurer may ask for other documents.",
+    'National Highway Traffic Safety Administration, <a href="https://www.nhtsa.gov/car-seats-and-booster-seats" target="_blank" rel="noopener">Car Seats and Booster Seats</a>: replace a car seat after a moderate or severe crash.',
   ]}
   relatedLinks={[
-    { label: "Claim Letter & Evidence Packet Builder", href: "/calculators/claim-letter-builder/" },
-    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
-    { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+    { label: "Free printable claim checklist (PDF)", href: "/forms/claim-evidence-checklist/" },
+    { label: "What to do after a car accident", href: "/guides/claim-process/what-to-do-after-a-car-accident/" },
+    { label: "My Claim tracker", href: "/my-claim/" },
+    { label: "Claim letter builder", href: "/calculators/claim-letter-builder/" },
   ]}
+  structuredData={[buildFaqSchema(faqs)]}
 >
-  <h2>Paperwork from the insurer</h2>
+  <p>
+    Insurers decide claims on paper. The driver with clear photos, a complete record and dated
+    receipts usually gets a faster answer and has an easier time pushing back on a low offer. Use
+    the list below, or download the <a href="/forms/claim-evidence-checklist/">printable checklist</a>.
+  </p>
+
+  <h2>At the scene</h2>
   <ul>
-    <li>The complete written valuation report (not just a summary letter) — comparables and adjustments included.</li>
-    <li>The claim number, adjuster name, and all written correspondence, dated.</li>
-    <li>Any repair estimate or damage assessment provided.</li>
-    <li>Your policy's declarations page and full policy document (for coverage limits, deductibles, and the appraisal clause's exact wording).</li>
+    <li>Photos: the whole scene, every car from several angles, close-ups of damage, plates, signs and signals.</li>
+    <li>The other driver's name, phone, address, driver's license number, plate, and insurance company and policy number. A photo of their license and insurance card avoids mistakes.</li>
+    <li>Witness names and phone numbers.</li>
+    <li>The police officer's name, agency and the report number.</li>
+    <li>Your own notes of what happened, written while it's fresh. The <a href="/forms/accident-information-worksheet/">accident information sheet</a> has a space for each item.</li>
   </ul>
 
-  <h2>Your own vehicle records</h2>
+  <h2>When you file the claim</h2>
   <ul>
-    <li>Title, registration, and VIN.</li>
-    <li>Recent service/maintenance records (useful for verifying mileage and condition).</li>
-    <li>Photos of the vehicle's condition and any factory options, ideally from before the accident.</li>
-    <li>Purchase records if relevant (not for arguing ACV directly, but for your own reference).</li>
+    <li>Your policy number and the declarations page (it lists your coverages and deductibles).</li>
+    <li>The claim number and the adjuster's name, phone and email.</li>
+    <li>Your state crash report, if your state requires one. <a href="/guides/accident-reporting/">Check your state's rule</a>.</li>
+    <li>Your vehicle's title or registration and VIN.</li>
+    <li>Your loan or lease details and the lender's contact, if the car is financed.</li>
   </ul>
 
-  <h2>Market evidence you gather</h2>
+  <h2>If the car is being repaired</h2>
   <ul>
-    <li>Comparable vehicle listings: URL, date checked, price, mileage, trim, distance, and dealer vs. private-party status for each.</li>
-    <li>For a diminished-value claim: separate clean-history and accident-history comparable groups (see <a href="/guides/diminished-value/building-diminished-value-market-evidence/">building market evidence</a>).</li>
-    <li>Screenshots of any listing you rely on, in case it's removed later.</li>
+    <li>Every repair estimate and any supplement for hidden damage.</li>
+    <li>The final repair invoice, listing the parts used.</li>
+    <li>Rental car receipts, or a log of the days you were without a car.</li>
+    <li>For a <a href="/guides/diminished-value/what-is-diminished-value/">diminished value claim</a>: a vehicle history report showing the accident and listings of similar cars with and without accident history.</li>
   </ul>
 
-  <h2>If you're pursuing a diminished-value claim specifically</h2>
+  <h2>If the car is totaled</h2>
   <ul>
-    <li>Documentation of the completed repair (invoice, parts used, shop name).</li>
-    <li>A vehicle-history report (Carfax/AutoCheck-style) showing the accident is now on record.</li>
-    <li>Any independent appraisal you've obtained, if applicable.</li>
+    <li>The full written valuation report, not just the offer amount.</li>
+    <li>Service records and receipts for recent repairs, tires or upgrades that support a higher value.</li>
+    <li>Photos of the car's condition before the crash, if you have them.</li>
+    <li>Listings of similar cars for sale near you, saved with dates. The <a href="/forms/comparable-vehicles-worksheet/">comparable vehicles worksheet</a> keeps them organized.</li>
+    <li>A written loan payoff quote from your lender.</li>
   </ul>
+
+  <h2>Expenses to keep receipts for</h2>
+  <ul>
+    <li>Towing and storage.</li>
+    <li>Rental car or rideshare costs while your car was out of service.</li>
+    <li>Items in the car that were damaged, including a child car seat: NHTSA recommends replacing one after a moderate or severe crash.</li>
+  </ul>
+
+  <h2>How to keep it organized</h2>
+  <ol>
+    <li>Keep one folder, paper or digital, and name files by date: "2026-11-02 repair estimate".</li>
+    <li>Send copies, never originals.</li>
+    <li>After every phone call, send a short email confirming what was said, then log it. The free <a href="/my-claim/">My Claim tracker</a> does this and reminds you to follow up.</li>
+  </ol>
 
   <h2>Put it to work</h2>
   <p>
-    Once you've gathered this, the
-    <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit</a>,
-    <a href="/calculators/diminished-value-baseline/">Diminished Value Baseline</a>, and
-    <a href="/calculators/settlement-check-breakdown/">Settlement Check Breakdown</a> calculators
-    turn it into organized statistics and arithmetic, and the
-    <a href="/calculators/claim-letter-builder/">Claim Letter Builder</a> turns your findings into
-    an editable written request.
+    Once you have the numbers, the <a href="/calculators/total-loss-offer-audit/">totaled car value
+    calculator</a> and the <a href="/calculators/diminished-value-baseline/">diminished value
+    calculator</a> turn them into a clear check, and the <a href="/calculators/claim-letter-builder/">claim
+    letter builder</a> turns your evidence into a written response.
   </p>
 
   <h2>What this guide cannot tell you</h2>
   <p>
-    It cannot tell you exactly what evidence your specific insurer or state process requires — this
-    is a general starting checklist, not a guarantee of what will be accepted or needed for your
-    claim.
+    It can't tell you exactly what your insurer will ask for or accept. Ask your adjuster for their
+    list, and keep this one as a backup.
   </p>
+
+  <FaqSection faqs={faqs} />
 </GuideLayout>

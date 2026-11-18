@@ -474,6 +474,14 @@ All other rows still rest on the Policygenius compilation (July 2026) until road
 |---|---|
 | Many states expect insurers to acknowledge a claim within about 15 days (used only as a follow-up prompt) | NAIC Unfair Claims Settlement Practices model (acknowledge within 15 days); NAIC model law chart MC-50 claims settlement provisions (state variations: 10 working days, 15 days) |
 
+## 8e. After-an-accident guidance (2026-11-18)
+
+| Claim on the site | Source |
+|---|---|
+| About half of U.S. states require drivers in minor, no-injury crashes to move drivable vehicles out of travel lanes | FHWA, Traffic Incident Management Quick Clearance Laws; Missouri DOT "Steer It, Clear It" law page; Arizona DOT news release on moving cars out of travel lanes |
+| Missouri drivers won't be penalized by police or insurers for moving a car off the road after a crash with no serious injuries | Missouri DOT "Steer It, Clear It" |
+| Replace a child car seat after a moderate or severe crash | NHTSA, Car Seats and Booster Seats |
+
 ## 9. What is NOT yet in this register
 
 Nothing currently published on the site is missing from this register as

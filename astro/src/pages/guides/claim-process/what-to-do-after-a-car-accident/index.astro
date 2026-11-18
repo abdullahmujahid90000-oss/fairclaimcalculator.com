@@ -20,6 +20,21 @@ const driverFilingStates = STATE_CRASH_REPORTING.filter(
     (s.kind === "driver-report" || s.kind === "driver-report-if-no-police"),
 ).length;
 
+// The tick-off checklist shown near the top. Keys are stable: progress is
+// saved in the visitor's browser under these keys.
+const CHECKLIST = [
+  { key: "safe", label: "Everyone is safe, and I called 911 if anyone is hurt" },
+  { key: "clear", label: "Hazard lights on; cars moved out of traffic if they can be driven and no one is hurt" },
+  { key: "police", label: "Called the police, or checked that my state doesn't require it" },
+  { key: "driver", label: "Got the other driver's name, license, plate and insurance details" },
+  { key: "photos", label: "Took photos of every car, the damage and the scene" },
+  { key: "witnesses", label: "Got witness names and phone numbers" },
+  { key: "report", label: "Wrote down the officer's name and the police report number" },
+  { key: "insurer", label: "Told my insurance company and got a claim number" },
+  { key: "state", label: "Filed my own state crash report, if my state requires one" },
+  { key: "tracker", label: "Started a claim record to log calls and dates" },
+];
+
 const faqs: FaqItem[] = [
   {
     question: "Do I have to call the police after a minor car accident?",
@@ -42,6 +57,21 @@ const faqs: FaqItem[] = [
       "Stick to facts — what happened, where, and when — and let the police report, the evidence and the insurers sort out fault. Apologizing or guessing about fault at the scene can be quoted back to you later.",
   },
   {
+    question: "Should I move my car after a minor accident?",
+    answer:
+      "If no one is hurt and the cars can be driven safely, usually yes. About half of U.S. states have \"Steer It, Clear It\" or \"Move It\" laws that require drivers in a minor, no-injury crash to move drivable vehicles out of traffic lanes. Take a few quick photos first if it's safe, then move to the shoulder or a nearby lot. If anyone is hurt or a car can't be driven, stay put and call 911.",
+  },
+  {
+    question: "What should I do if the other driver doesn't have insurance or drives away?",
+    answer:
+      "Call the police right away and get a report, write down the plate number and anything you remember about the car, and tell your insurer. Uninsured motorist coverage (where your policy includes it) or your collision coverage may pay for your car, and insurers often ask for a police report for these claims.",
+  },
+  {
+    question: "Do I claim on my insurance or the other driver's if it wasn't my fault?",
+    answer:
+      "You can usually choose. Claiming with the at-fault driver's insurer means no deductible but can take longer while they decide fault. Claiming on your own collision coverage is often faster; you pay your deductible, and your insurer can try to recover it from the other driver's insurer.",
+  },
+  {
     question: "What if the insurer says my car is a total loss?",
     answer:
       "Ask for the full written valuation report, not just the offer amount. Check the comparable vehicles, mileage and options it used, and compare the repair estimate with your state's total-loss threshold. Our Total-Loss Offer Audit and Total-Loss Threshold Checker walk through both.",
@@ -57,16 +87,18 @@ const structuredData = [buildFaqSchema(faqs)];
   h1="What to Do After a Car Accident: A Step-by-Step Checklist"
   cluster={{ name: "Claim Process", href: "/guides/claim-process/" }}
   publishedDate="2026-10-29"
-  reviewedDate="2026-10-29"
+  reviewedDate="2026-11-18"
   summary="The order of things after a crash: make the scene safe, collect the facts, report it the way your state requires, notify your insurer, and keep the records that protect your car's value later in the claim."
   sources={[
     "State crash-reporting rules: this site's 50-state accident-reporting directory, where every entry links to the state DMV, public-safety agency or statute it was checked against.",
     'National Association of Insurance Commissioners (NAIC), <a href="https://content.naic.org/consumer" target="_blank" rel="noopener">Consumer resources</a> — general consumer guidance on auto claims and state insurance department contacts.',
+    'Federal Highway Administration, <a href="https://ops.fhwa.dot.gov/publications/fhwahop09005/introduction.htm" target="_blank" rel="noopener">Traffic Incident Management Quick Clearance Laws</a>: about half of states require drivers in minor, no-injury crashes to move drivable vehicles out of travel lanes.',
+    'Missouri Department of Transportation, <a href="https://www.modot.org/steer-it-clear-it-law" target="_blank" rel="noopener">Steer It, Clear It Law</a>, and Arizona Department of Transportation, <a href="https://azdot.gov/adot-news/minor-crash-move-your-car-out-travel-lanes" target="_blank" rel="noopener">Minor crash? Move your car out of travel lanes</a>: examples of state quick-clearance rules.',
   ]}
   relatedLinks={[
     { label: "Do you have to report a car accident? All 50 states", href: "/guides/accident-reporting/" },
     { label: "Free car accident information sheet (PDF)", href: "/forms/accident-information-worksheet/" },
-    { label: "Auto Claim Evidence Checklist", href: "/guides/claim-process/auto-claim-evidence-checklist/" },
+    { label: "Car insurance claim checklist", href: "/guides/claim-process/auto-claim-evidence-checklist/" },
     { label: "Total-Loss Threshold Checker", href: "/calculators/total-loss-threshold-checker/" },
   ]}
   structuredData={structuredData}
@@ -77,11 +109,28 @@ const structuredData = [buildFaqSchema(faqs)];
     claims; if anyone is hurt, get medical care first — this site does not cover injury claims.
   </p>
 
+  <section class="checklist-card" aria-labelledby="checklist-heading">
+    <h2 id="checklist-heading">Your accident checklist</h2>
+    <p class="checklist-hint">Tick items off on your phone as you go. Your progress is saved in this browser only.</p>
+    <p class="checklist-progress" id="acc-progress" aria-live="polite">0 of {CHECKLIST.length} done</p>
+    <ul class="checklist">
+      {CHECKLIST.map((item) => (
+        <li><label><input type="checkbox" data-acc={item.key} /> <span>{item.label}</span></label></li>
+      ))}
+    </ul>
+    <div class="checklist-actions">
+      <button type="button" class="btn-primary" id="acc-continue">Continue in My Claim tracker</button>
+      <button type="button" class="btn-secondary" id="acc-reset">Clear checklist</button>
+    </div>
+    <p class="checklist-hint">The tracker keeps your claim number, adjuster and every call in one place, and reminds you to follow up.</p>
+  </section>
+
   <h2>1. At the scene: safety first</h2>
   <ul>
     <li><strong>Stop.</strong> Every state requires a driver involved in a crash to stop. Leaving can be a hit-and-run offense even if the crash was not your fault.</li>
     <li><strong>Check for injuries and call 911</strong> if anyone is hurt, a vehicle cannot be moved, or the road is blocked.</li>
-    <li><strong>Make the scene safe.</strong> Turn on hazard lights. If no one is hurt and the cars can be driven, many states expect you to move them out of traffic lanes.</li>
+    <li><strong>Make the scene safe.</strong> Turn on your hazard lights. If you smell fuel or see smoke, turn the engine off and get away from the car.</li>
+    <li><strong>Move out of traffic if you can.</strong> About half of U.S. states have "Steer It, Clear It" or "Move It" laws: after a minor crash with no injuries, drivers must move drivable cars out of the travel lanes. Missouri's transportation department, for example, tells drivers they won't be penalized for moving their car off the road. Snap a few quick photos first if it's safe. If anyone is hurt or a car can't be driven, leave it and wait for help.</li>
     <li><strong>Call the police</strong> when your state requires it. Most states require police notice for any crash that injures or kills someone, and many add a property-damage threshold. <a href="/guides/accident-reporting/">Check your state's rule</a>.</li>
   </ul>
 
@@ -134,6 +183,14 @@ const structuredData = [buildFaqSchema(faqs)];
     <li><strong>Keep every receipt</strong> — towing, storage, rental, and anything you paid out of pocket.</li>
   </ul>
 
+  <h2>If the crash wasn't your fault</h2>
+  <ul>
+    <li><strong>You can usually choose whose insurance to use.</strong> A claim with the other driver's insurer has no deductible, but they may take time to accept fault. Your own collision coverage is often faster; you pay the deductible, and your insurer can try to get it back from the other insurer.</li>
+    <li><strong>If the other driver has no insurance,</strong> uninsured motorist coverage (if your policy has it) or your collision coverage may pay. A police report helps a lot.</li>
+    <li><strong>If the other driver drove away,</strong> call the police at once and note the plate, color and make. Insurers often require a police report for a hit-and-run claim.</li>
+    <li><strong>You may be owed more than repairs:</strong> a rental car or the value of the days without your car, and the drop in your car's resale value (diminished value) in many states.</li>
+  </ul>
+
   <h2>6. If the car is totaled</h2>
   <p>
     Ask for the complete written valuation report. Insurers base the offer on comparable vehicles,
@@ -169,4 +226,69 @@ const structuredData = [buildFaqSchema(faqs)];
   .state-picker summary { cursor: pointer; font-weight: 600; }
   .state-list { columns: 3 140px; margin: 12px 0 0; padding-left: 18px; }
   .state-list li { margin: 2px 0; }
+</style>
+
+<script>
+  import { TRACKER_STORAGE_KEY, emptyState, parseState } from "@lib/tracker/claim-tracker";
+
+  const KEY = "fcc-accident-checklist";
+  const boxes = Array.from(document.querySelectorAll<HTMLInputElement>("input[data-acc]"));
+  const progressEl = document.getElementById("acc-progress");
+
+  function load(): Record<string, boolean> {
+    try { return JSON.parse(localStorage.getItem(KEY) || "{}") ?? {}; } catch { return {}; }
+  }
+  function saveAndShow() {
+    const data: Record<string, boolean> = {};
+    boxes.forEach((b) => { data[b.dataset.acc as string] = b.checked; });
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch { /* storage blocked: still works this visit */ }
+    const done = boxes.filter((b) => b.checked).length;
+    if (progressEl) progressEl.textContent = `${done} of ${boxes.length} done`;
+    return data;
+  }
+
+  const saved = load();
+  boxes.forEach((b) => { b.checked = saved[b.dataset.acc as string] === true; b.addEventListener("change", saveAndShow); });
+  saveAndShow();
+
+  document.getElementById("acc-reset")?.addEventListener("click", () => {
+    boxes.forEach((b) => { b.checked = false; });
+    try { localStorage.removeItem(KEY); } catch { /* ignore */ }
+    saveAndShow();
+  });
+
+  // Carry what's done into the My Claim tracker, then open it.
+  document.getElementById("acc-continue")?.addEventListener("click", () => {
+    const data = saveAndShow();
+    try {
+      const raw = localStorage.getItem(TRACKER_STORAGE_KEY);
+      const state = raw ? parseState(JSON.parse(raw)) : emptyState();
+      if (data.police || data.state) state.steps.reported = true;
+      if (data.driver && data.photos) state.steps.evidence = true;
+      if (data.insurer) state.steps.filed = true;
+      if (!state.claim.dateOfLoss) {
+        const d = new Date();
+        state.claim.dateOfLoss = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      }
+      state.updatedAt = new Date().toISOString();
+      localStorage.setItem(TRACKER_STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      // If storage is blocked the tracker simply opens empty.
+    }
+    window.location.href = "/my-claim/";
+  });
+</script>
+
+<style>
+  .checklist-card { border: 1px solid #cfe5d6; background: var(--color-primary-tint); border-radius: var(--radius); padding: 18px 20px; margin: 20px 0 28px; }
+  .checklist-card h2 { margin-top: 0; }
+  .checklist-hint { font-size: 0.9rem; color: var(--color-text-muted); margin: 0 0 8px; }
+  .checklist-progress { font-weight: 700; margin: 6px 0; }
+  .checklist { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 2px; }
+  .checklist label { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; cursor: pointer; min-height: var(--touch-target-min); }
+  .checklist input { width: 22px; height: 22px; flex: none; margin-top: 2px; }
+  .checklist-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 10px; }
+  .checklist-actions .btn-primary, .checklist-actions .btn-secondary { padding: 11px 18px; border-radius: 7px; font: inherit; font-weight: 600; cursor: pointer; min-height: var(--touch-target-min); }
+  .checklist-actions .btn-primary { background: var(--color-primary); color: #fff; border: none; }
+  .checklist-actions .btn-secondary { background: #fff; border: 1px solid var(--color-border); color: var(--color-text); }
 </style>
