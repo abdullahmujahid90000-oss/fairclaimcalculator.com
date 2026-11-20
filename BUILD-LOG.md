@@ -1334,3 +1334,24 @@ Owner asked to rebuild the site for AdSense approval and search traffic.
 - Verified: typecheck 0 errors, 211/211 tests, axe 0 violations, 0 broken of 10,150
   internal links, titles ≤55 / descriptions ≤156, 390px renders, checklist save and
   tracker hand-off tested in Chromium.
+
+### 2026-11-20 — Topic 5 done: accident reporting by state
+
+- New `src/lib/content/crash-report-copies.ts`: how to get a crash report copy
+  (where to order, published cost, waiting periods/eligibility) for CA, TX, FL,
+  NY, PA, IL, OH, GA, NC, MI, each from the agency's own page. Remaining 41
+  states added to the roadmap as topic 18.
+- State template: removed the shared step list, shared FAQ and closing paragraph;
+  added a "your to-do" box, the report-copy section and FAQ where sourced, and a
+  short next-steps line. Similarity between state pages fell from 79–85% to
+  49–66%.
+- Hub: state picker (jump to state), shortest-deadline list and deadline FAQ
+  computed from data (4 to 30 days; 10 most common), crash-report copy table for
+  the 10 states, report-finder warning, 2 new FAQs.
+- Bugs fixed: hub table and first-party/third-party table overflowed phones
+  (now scroll inside a labelled region); Methodology and Sources pages printed
+  source links as raw HTML text (now rendered); long URLs could widen pages
+  (global overflow-wrap). Sitewide check: 0 of 167 pages overflow at 390px.
+- Verified: typecheck 0 errors, 211/211 tests, axe 0 violations, 0 broken
+  internal links, all accident pages within title/description limits, state
+  picker and Florida copy section tested in Chromium.

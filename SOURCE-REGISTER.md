@@ -482,6 +482,12 @@ All other rows still rest on the Policygenius compilation (July 2026) until road
 | Missouri drivers won't be penalized by police or insurers for moving a car off the road after a crash with no serious injuries | Missouri DOT "Steer It, Clear It" |
 | Replace a child car seat after a moderate or severe crash | NHTSA, Car Seats and Booster Seats |
 
+## 8f. Crash report copies (2026-11-20)
+
+All ten entries live in `astro/src/lib/content/crash-report-copies.ts`, each with its official ordering page:
+California (CHP, Request a Collision Report), Texas (TxDOT Crash reports and records), Florida (FLHSMV Florida Crash Portal; Fla. Stat. 316.066 and 321.23), New York (NY DMV order accident reports), Pennsylvania (PSP request a crash report), Illinois (ISP Crash reports E-Pay), Ohio (City of Columbus, Find an Accident Report; ODPS retrieval), Georgia (GDOT crash report request form), North Carolina (NC DMV crash reports), Michigan (MSP Traffic Crash Purchasing System; $15 fee per House Fiscal Agency, March 2026).
+Fees not published by the agency (Georgia, North Carolina, Ohio) are shown as "confirm before paying", never guessed.
+
 ## 9. What is NOT yet in this register
 
 Nothing currently published on the site is missing from this register as

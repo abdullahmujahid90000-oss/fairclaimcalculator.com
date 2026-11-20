@@ -59,7 +59,7 @@ const groups = [
       <div class="calc-card">
         <h2>{group.name}</h2>
         <ul class="quality-list">
-          {group.sources.map((source: string) => <li>{source}</li>)}
+          {group.sources.map((source: string) => <li set:html={source} />)}
         </ul>
         <p><a href={group.href}>Open this calculator →</a></p>
       </div>

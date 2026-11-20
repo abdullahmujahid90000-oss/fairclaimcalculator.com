@@ -31,6 +31,8 @@ body {
   /* Prevent document-level horizontal overflow on narrow viewports
      (acceptance criterion: no mobile horizontal scroll). */
   overflow-x: hidden;
+  /* Long URLs and form names wrap instead of widening the page. */
+  overflow-wrap: break-word;
 }
 
 .container {

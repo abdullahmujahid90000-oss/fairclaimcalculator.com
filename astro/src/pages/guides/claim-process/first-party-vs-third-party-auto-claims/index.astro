@@ -27,7 +27,7 @@ const path = "/guides/claim-process/first-party-vs-third-party-auto-claims/";
   ]}
 >
   <h2>The core distinction</h2>
-  <table>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="First-party vs third-party claims comparison"><table>
     <thead><tr><th><span class="visually-hidden">Comparison aspect</span></th><th>First-party claim</th><th>Third-party claim</th></tr></thead>
     <tbody>
       <tr><td><strong>Who you claim against</strong></td><td>Your own insurer</td><td>Another driver's insurer</td></tr>
@@ -35,7 +35,7 @@ const path = "/guides/claim-process/first-party-vs-third-party-auto-claims/";
       <tr><td><strong>Fault typically matters?</strong></td><td>Often less (depends on coverage type)</td><td>Central — liability usually must be established</td></tr>
       <tr><td><strong>Deductible?</strong></td><td>Yours may apply (collision/comprehensive)</td><td>Generally none — you're not the policyholder</td></tr>
     </tbody>
-  </table>
+  </table></div>
 
   <h2>Why the NAIC model act matters here</h2>
   <p>
@@ -72,3 +72,7 @@ const path = "/guides/claim-process/first-party-vs-third-party-auto-claims/";
     Your State Allow a First-Party Diminished Value Claim?</a>
   </p>
 </GuideLayout>
+
+<style>
+  .table-wrap { overflow-x: auto; max-width: 100%; }
+</style>
