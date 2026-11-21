@@ -8,6 +8,7 @@ import {
   STATE_THRESHOLDS,
   slugifyState,
   lookupStateBySlug,
+  ruleLabel,
 } from "../src/lib/calculators/total-loss-threshold";
 
 describe("toCents", () => {
@@ -87,7 +88,7 @@ describe("checkTotalLossThreshold — percentage states", () => {
   });
 
   it("tlf fields are null for a percentage-threshold state", () => {
-    const result = checkTotalLossThreshold({ state: "Florida", repairEstimateCents: 900000, acvCents: 1000000 });
+    const result = checkTotalLossThreshold({ state: "Minnesota", repairEstimateCents: 900000, acvCents: 1000000 });
     expect(result.tlfSumCents).toBeNull();
     expect(result.meetsTLF).toBeNull();
   });
@@ -167,7 +168,7 @@ describe("checkTotalLossThreshold — validation", () => {
 
 describe("checkTotalLossThreshold — distance to the line", () => {
   it("percentage state: places the line at ACV × threshold and reports the gap", () => {
-    const result = checkTotalLossThreshold({ state: "Florida", repairEstimateCents: 700000, acvCents: 1000000 });
+    const result = checkTotalLossThreshold({ state: "Minnesota", repairEstimateCents: 700000, acvCents: 1000000 });
     expect(result.repairAtLineCents).toBe(800000);
     expect(result.marginCents).toBe(-100000);
   });
@@ -220,5 +221,41 @@ describe("checkTotalLossThreshold — distance to the line", () => {
     const result = checkTotalLossThreshold({ state: "Ohio", repairEstimateCents: 500000, acvCents: 1000000 });
     expect(result.repairAtLineCents).toBeNull();
     expect(result.marginCents).toBeNull();
+  });
+});
+
+describe("checkTotalLossThreshold — 2026-11-21 state corrections", () => {
+  it("Rhode Island: 85% insurer floor, and never 'may total anyway' below it", () => {
+    const result = checkTotalLossThreshold({
+      state: "Rhode Island",
+      repairEstimateCents: 800000,
+      acvCents: 1000000,
+      estimatedSalvageValueCents: 300000,
+    });
+    expect(result.type).toBe("percentage");
+    expect(result.thresholdPct).toBe(85);
+    expect(result.insurerFloor).toBe(true);
+    expect(result.meetsPercentageThreshold).toBe(false);
+    expect(result.insurerMayTotalAnyway).toBeNull();
+    expect(result.repairAtLineCents).toBe(850000);
+  });
+
+  it("Florida, Oregon, Wyoming and Virginia have no general percentage (80%/75% apply only to special cases)", () => {
+    for (const state of ["Florida", "Oregon", "Wyoming", "Virginia"]) {
+      const result = checkTotalLossThreshold({ state, repairEstimateCents: 800000, acvCents: 1000000, estimatedSalvageValueCents: 150000 });
+      expect(result.type).toBe("tlf");
+      expect(result.thresholdPct).toBeNull();
+      expect(result.meetsTLF).toBe(false);
+    }
+  });
+
+  it("Oklahoma uses 70% (SB 1920, effective 2026-11-01)", () => {
+    const result = checkTotalLossThreshold({ state: "Oklahoma", repairEstimateCents: 650000, acvCents: 1000000 });
+    expect(result.thresholdPct).toBe(70);
+    expect(result.meetsPercentageThreshold).toBe(false);
+  });
+
+  it("every state has a rule label", () => {
+    for (const s of STATE_THRESHOLDS) expect(ruleLabel(s).length).toBeGreaterThan(3);
   });
 });
