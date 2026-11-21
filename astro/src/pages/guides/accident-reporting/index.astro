@@ -143,7 +143,7 @@ const faqs: FaqItem[] = [
       <tbody>
         {copyStates.map((st) => (
           <tr>
-            <th scope="row"><a href={`/guides/accident-reporting/${crashReportingSlug(st)}/`}>{st}</a></th>
+            <th scope="row">{st}</th>
             <td><a href={CRASH_REPORT_COPIES[st].sourceUrl} target="_blank" rel="noopener">{CRASH_REPORT_COPIES[st].sourceLabel.split(" — ")[0]}</a></td>
             <td>{CRASH_REPORT_COPIES[st].cost}</td>
           </tr>

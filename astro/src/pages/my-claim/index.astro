@@ -40,6 +40,14 @@ const faqs: FaqItem[] = [
 const structuredData = [
   {
     "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
+      { "@type": "ListItem", position: 2, name: "My Claim tracker", item: `https://www.fairclaimcalculator.com${path}` },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "My Claim: Car Insurance Claim Tracker",
     url: `https://www.fairclaimcalculator.com${path}`,

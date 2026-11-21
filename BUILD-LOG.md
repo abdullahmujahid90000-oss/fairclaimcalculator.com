@@ -1355,3 +1355,101 @@ Owner asked to rebuild the site for AdSense approval and search traffic.
 - Verified: typecheck 0 errors, 211/211 tests, axe 0 violations, 0 broken
   internal links, all accident pages within title/description limits, state
   picker and Florida copy section tested in Chromium.
+
+### 2026-11-21 — Batch 1 (Cluster A): 51-state threshold research, state pages rebuilt, change tracker
+
+Session note: started from PR #2's branch (`claude/beautiful-keller-h7960k`,
+topics 1–5) plus the internal-linking commit from
+`seo/internal-linking-2026-11-20` (6 conflicting guides resolved by keeping
+PR #2's text and re-running the idempotent `add-related-links.py`). The
+Mon/Wed/Fri scheduled rewrite task was paused at the owner's request so only
+one session edits the repo. Branch: `seo/cluster-a-total-loss`.
+
+- Audit: `research/00-audit.md` (+ per-page CSVs), new reusable
+  `astro/scripts/audit-site.py` (titles, descriptions, H1, words, canonical,
+  noindex, schema, body-link graph, orphans, broken links, `--similarity`).
+- Keywords: `research/01-keywords.md` (estimates only: no volume tool or
+  Search Console connected). Cannibalisation flagged for later batches.
+- Research: all 51 jurisdictions (`research/state-total-loss-thresholds.md`,
+  raw records in `research/data/`). Direct page loads were blocked by the
+  environment's network policy, so statute wording was read through search
+  excerpts of official pages; four states marked unconfirmed (MS, NH, NM, UT).
+  Follow-ups in `research/open-questions.md`.
+- Fact fixes in the checker data: Rhode Island TLF → 85% insurer floor
+  (2026-06-26); Florida 80% → insurer-paid total (80% only for uninsured);
+  Oregon 80% → insurer declaration (80% only uninsured); Wyoming 75% → insurer
+  declaration (75% only without an insurer); Virginia 75% → formula-style
+  test. Labels now distinguish "formula-style test in law" from "no % in law:
+  insurer decides". Glossary TLF definitions corrected.
+- New `src/lib/content/state-threshold-facts.ts` (citation, what the law
+  governs, details, keeping the car, brands, agencies, dated changes, where
+  lists are wrong, confidence). State template rebuilt around it: answer-first
+  lead, quick-answer box, state example with a different example car per
+  state, neighbors, FAQ built from the facts, Dataset schema. Tier text and
+  national-position boilerplate removed.
+- Similarity of state pages: 0.90–0.98 → 0.49–0.66. 21 re-indexed (below
+  0.60 and confirmed); 30 remain noindex (topic 17 continues).
+- New page `/guides/total-loss/total-loss-threshold-changes/` (dated, sourced
+  change tracker incl. failed bills, Dataset schema). Hub rewritten from the
+  data (three kinds of rules, law column, what it controls, corrected "why
+  lists disagree"). Checker FAQ counts computed; Rhode Island and
+  no-percentage result messages; four-state example uses Minnesota, not
+  Florida. `/sources/` lists every state's statute.
+- Technical: sitemap `lastmod` now per page from its own `dateModified`
+  (fallback: last commit); `robots.txt` names the AI crawlers explicitly.
+- Verified: typecheck 0 errors; 218/218 tests (+7); build OK; axe 0
+  violations on 199 pages; in Chromium at 390px no horizontal scroll and 0
+  axe violations incl. color contrast on the hub, tracker, checker, glossary
+  and 4 state pages; checker results checked for RI, FL, TX; 0 broken internal
+  links; titles ≤ 60 and descriptions ≤ 160 on all indexable pages; 0 invalid
+  JSON-LD; one H1 per page.
+- Still open: 30 state pages noindex; legal pages (privacy, terms,
+  accessibility) have only footer links (normal for legal pages, counted as
+  "orphans" by the strict body-link metric); 37 pages lack a visible reviewed
+  date (batch 7); accident-reporting pages still 0.57–0.81 similar (batch 2).
+
+### 2026-11-21 — Batch 1b: internal linking and ranking pass
+
+Branch `seo/internal-linking-ranking` (contains batch 1, which reaches `main`
+through PR #4: PR #3 had been merged into PR #2's branch instead of `main`).
+
+- One topic map, `astro/src/lib/seo/topic-clusters.ts`: four clusters (totaled
+  cars, diminished value, claims and disputes, after an accident), each with a
+  pillar hub and an ordered reading list of guides, calculators, forms and
+  tools. Every page belongs to one cluster.
+- New `TopicLinks.astro` (rendered by BaseLayout): "In this topic" block with
+  the previous and next page in the reading order, the cluster's main tools and
+  the pillar. Gives every clustered page two sibling links in and out.
+- Hubs rendered from the map (`ClusterHubList.astro`) so new pages appear
+  automatically: `/guides/total-loss/` (now lists the threshold change tracker
+  and all calculators and templates), `/guides/diminished-value/`,
+  `/guides/claim-process/`. Each has a 200+ word "where to start" intro and
+  CollectionPage + ItemList schema. `/guides/` counts are computed (the old
+  hard-coded "Twenty-three guides" was stale); `/calculators/` and `/forms/`
+  intros explain how to choose. Calculators hub card for the threshold checker
+  updated to the batch 1 state rules.
+- Titles: 19 guides plus the glossary and the tool chooser rewritten keyword
+  first (e.g. "Does Insurance Pay Sales Tax on a Totaled Car?", "How to File a
+  Complaint Against an Insurance Company"); hub titles no longer compete with
+  the homepage's "Free Car Insurance Claim Calculators".
+- Schema: WebApplication on the 8 calculators that lacked it
+  (`src/lib/seo/app-schema.ts`); BreadcrumbList on `/my-claim/`.
+- Glossary linked from every guide's notice box (off on templated state
+  pages, which explain their own terms and must stay below the 0.60
+  similarity line: indexed threshold pages max 0.595 after this change).
+  Repeated glossary anchors varied; duplicate state link on the
+  accident-reporting hub removed.
+- `audit-site.py`: new gate `anchor_repeated_gt2` (same anchor to the same
+  target more than twice on a page); legal pages linked only from the footer
+  (privacy, terms, accessibility, disclaimer, advertising disclosure) are
+  reported separately instead of as orphans.
+- Link graph, 51 guides/calculators/forms/tools: inbound body links min 3 → 4,
+  median 8 → 9; outbound min 3 → 7, median 11 → 13; pages with fewer than 6
+  inbound links 10 → 3. Glossary inbound 3 → 27.
+- Verified: typecheck 0 errors; 218/218 tests; build OK; axe 0 violations on
+  199 pages; Chromium at 390px: 0 overflow and 0 axe violations (incl.
+  contrast) on 11 pages incl. all hubs; gate: 0 broken links, 0 orphans, 0
+  repeated anchors, titles ≤ 60, descriptions ≤ 160, valid JSON-LD.
+- Still open: Alaska and Hawaii accident pages have 3 inbound links (no
+  bordering states); accident-reporting similarity (batch 2); 37 pages without
+  a visible reviewed date (batch 7).

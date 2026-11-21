@@ -1,4 +1,5 @@
 ---
+import { webApplicationSchema } from "@lib/seo/app-schema";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
 import FaqSection from "@components/FaqSection.astro";
@@ -60,6 +61,7 @@ const structuredData = [
       { "@type": "HowToStep", name: "Comparables", text: "Add your own comparable vehicles to check the proposed salvage deduction against real market evidence." },
     ],
   },
+  webApplicationSchema(title, path, description),
   buildFaqSchema(faqs),
 ];
 ---

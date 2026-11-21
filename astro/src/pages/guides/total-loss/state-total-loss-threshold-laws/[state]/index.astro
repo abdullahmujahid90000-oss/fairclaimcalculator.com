@@ -6,13 +6,8 @@ import {
   slugifyState,
   type StateThreshold,
 } from "@lib/calculators/total-loss-threshold";
-import {
-  getPracticalMeaning,
-  getWorkedExample,
-  getNeighborComparisons,
-  getNationalPosition,
-  getCrossBorderScenario,
-} from "@lib/content/state-threshold-copy";
+import { getWorkedExample, getNeighborComparisons, getCrossBorderScenario } from "@lib/content/state-threshold-copy";
+import { getStateLawFacts, THRESHOLD_FACTS_CHECKED, type LawKind } from "@lib/content/state-threshold-facts";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 import { isNoindexThresholdStatePage } from "@lib/seo/indexing.mjs";
 
@@ -24,204 +19,255 @@ export function getStaticPaths() {
 }
 
 const { entry } = Astro.props as { entry: StateThreshold };
+const facts = getStateLawFacts(entry.state);
 const slug = slugifyState(entry.state);
 const path = `/guides/total-loss/state-total-loss-threshold-laws/${slug}/`;
+const st = entry.state;
+const isPct = entry.type === "percentage";
+const pct = entry.thresholdPct as number;
+// Whole dollars on these pages; cents add nothing to an illustration.
+const usd = (cents: number) => (cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+// "an Ohio example", "a Texas example".
+const aOrAn = /^[AEIOU]/.test(st) ? "an" : "a";
 
-const title =
-  entry.type === "percentage"
-    ? `${entry.state} Total Loss Threshold (${entry.thresholdPct}%): Is My Car Totaled?`
-    : `${entry.state} Total Loss Formula: When Is a Car Totaled?`;
-const description =
-  entry.type === "percentage"
-    ? `${entry.state}: total-loss threshold is ${entry.thresholdPct}% of ACV. Worked example, source, and a link to check your own numbers.`
-    : `${entry.state} uses the Total Loss Formula, not a fixed percentage. Worked example, source, and a link to check your own numbers.`;
+const longDate = (d: string) =>
+  d.length === 4
+    ? d
+    : new Date(`${d}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+const checkedLong = longDate(THRESHOLD_FACTS_CHECKED);
 
-const ruleText =
-  entry.type === "percentage"
-    ? `a ${entry.thresholdPct}% simple percentage threshold`
-    : `the Total Loss Formula (repair cost + estimated salvage value vs. ACV)`;
+// Primary phrase for every state page: "[state] total loss threshold".
+const title = entry.insurerFloor
+  ? `${st} Total Loss Threshold: ${pct}% Rule (2026)`
+  : isPct
+    ? `${st} Total Loss Threshold: ${pct}% Rule Explained`
+    : `${st} Total Loss Threshold: No Set Percentage`;
 
-const worked = getWorkedExample(entry);
-const meaning = getPracticalMeaning(entry);
+const descriptionOptions = isPct
+  ? [
+      `${st}'s total loss threshold is ${pct}% under ${facts.cite.name}. What it covers, the exceptions, a worked example and what to do next.`,
+      `${st}'s total loss threshold is ${pct}%. What the law covers, the exceptions, a worked example and what to do next.`,
+    ]
+  : [
+      `${st} sets no fixed total loss percentage. How totaled cars are decided under ${facts.cite.name}, a worked example and next steps.`,
+      `${st} sets no fixed total loss percentage. How totaled cars are decided there, a worked example and what to do next.`,
+    ];
+const description = descriptionOptions.find((d) => d.length <= 160) ?? descriptionOptions[descriptionOptions.length - 1];
 
-const neighbors = getNeighborComparisons(entry, STATE_THRESHOLDS);
-const position = getNationalPosition(entry, STATE_THRESHOLDS);
-const pctValues = STATE_THRESHOLDS.flatMap((s) => (s.thresholdPct === null ? [] : [s.thresholdPct]));
-const pctRange = { min: Math.min(...pctValues), max: Math.max(...pctValues) };
-const crossBorder = getCrossBorderScenario(entry, STATE_THRESHOLDS);
-const relationText: Record<string, string> = {
-  same: "Same rule",
-  lower: "Lower bar — cars total out sooner",
-  higher: "Higher bar — more cars get repaired",
-  "different-method": "Different method",
+const h1 = `${st} Total Loss Threshold`;
+
+const kindSentence: Record<LawKind, string> = {
+  title: "It is a title rule, so it does not stop an insurer from totaling a car sooner.",
+  insurer: "It limits when the insurer may declare a total loss.",
+  both: "It affects both the title brand and how the insurer handles the claim.",
 };
 
-const calculatorHref = `/calculators/total-loss-threshold-checker/?state=${encodeURIComponent(entry.state)}`;
+// Lead: answer first, in this state's own words (first sentence of the law summary).
+const firstSentence = facts.lawSays.match(/^.*?[.!?](\s|$)/)?.[0].trim() ?? facts.lawSays;
+const saysNoPct = /no (total-loss |damage |fixed )?percentage|sets no|no statutory damage percentage|could not find a damage percentage/i.test(firstSentence);
+const summary = isPct
+  ? `${st}'s total loss threshold is ${pct}%. ${firstSentence}`
+  : saysNoPct
+    ? firstSentence
+    : `${st} sets no total loss percentage. ${firstSentence}`;
+
+const ex = getWorkedExample(entry);
+const halfway = Math.round((ex.lineCents + ex.formulaLineCents) / 2 / 2500) * 2500;
+
+const neighbors = getNeighborComparisons(entry, STATE_THRESHOLDS);
+const crossBorder = getCrossBorderScenario(entry, STATE_THRESHOLDS);
+const neighborList = neighbors.map((n) => {
+  const s2 = STATE_THRESHOLDS.find((x) => x.state === n.state) as StateThreshold;
+  return { state: n.state, short: s2.type === "percentage" ? `${s2.thresholdPct}%` : s2.basis === "formula" ? "formula-style test" : "no percentage" };
+});
+
+const calculatorHref = `/calculators/total-loss-threshold-checker/?state=${encodeURIComponent(st)}`;
+const accidentHref = `/guides/accident-reporting/${slug}/`;
+const latestEnacted = facts.changes.find((c) => c.status === "enacted");
 
 const faqs: FaqItem[] = [
   {
-    question: `What is the total-loss threshold in ${entry.state}?`,
-    answer:
-      entry.type === "percentage"
-        ? `${entry.state} uses a ${entry.thresholdPct}% simple percentage threshold: if estimated repair cost reaches ${entry.thresholdPct}% of the vehicle's actual cash value (ACV), state law treats it as a total loss.`
-        : `${entry.state} uses the Total Loss Formula: a vehicle is a total loss once estimated repair cost plus expected salvage value meets or exceeds its actual cash value (ACV) — there's no single fixed percentage.`,
+    question: `What is the total loss threshold in ${st}?`,
+    answer: isPct ? `${pct}%. ${facts.lawSays}` : saysNoPct ? facts.lawSays : `${st} has no fixed percentage. ${facts.lawSays}`,
   },
+  ...(entry.insurerFloor
+    ? [
+        {
+          question: `Can an insurer total my car below ${pct}% in ${st}?`,
+          answer: `Generally not. Below ${pct}% the insurer has to pay for repairs unless you ask for a total loss in writing, which you can do once damage reaches 75%.`,
+        },
+      ]
+    : []),
   {
-    question: `Does ${entry.state} use a percentage rule or the Total Loss Formula?`,
-    answer:
-      entry.type === "percentage"
-        ? `A percentage rule — specifically ${entry.thresholdPct}% of ACV. Some neighboring states use the Total Loss Formula instead, so the same repair estimate can produce a different result just across a state line.`
-        : `The Total Loss Formula, not a simple percentage. Some neighboring states use a fixed percentage instead, so the same repair estimate can produce a different result just across a state line.`,
-  },
-  {
-    question: "Is this the exact test my insurer will use?",
-    answer:
-      "It's the state-law minimum, compiled from a secondary source and one example state regulator's published methodology — not a live read of the current statute, and not necessarily identical to your insurer's own internal total-loss policy, which can be more (but not less) generous. Confirm the current rule with your state insurance department if it matters to your claim.",
+    question: `Can I keep my totaled car in ${st}?`,
+    answer: facts.keeping,
   },
 ];
+if (latestEnacted) {
+  faqs.push({
+    question: `Has ${st}'s total loss law changed recently?`,
+    answer: `Yes. ${longDate(latestEnacted.date)}: ${latestEnacted.text}`,
+  });
+}
+if (facts.listsSay) {
+  faqs.push({ question: `Why do websites give different answers for ${st}?`, answer: facts.listsSay });
+}
 
-const structuredData = [buildFaqSchema(faqs)];
+const datasetLd = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: `${st} total loss threshold law`,
+  description: `${st}'s rule for when a damaged car is a total loss or must get a salvage title, with the statute citation and recent changes. Checked ${THRESHOLD_FACTS_CHECKED}.`,
+  url: `https://www.fairclaimcalculator.com${path}`,
+  dateModified: THRESHOLD_FACTS_CHECKED,
+  creator: { "@type": "Organization", name: "FairClaimCalculator Editorial Team" },
+  spatialCoverage: { "@type": "Place", name: `${st}, United States` },
+  isBasedOn: facts.cite.url,
+};
+
+const structuredData = [buildFaqSchema(faqs), datasetLd];
+
+const host = (u: string) => new URL(u).hostname.replace(/^www\./, "");
+const link = (l: { name: string; url: string }) =>
+  `${l.name} (<a href="${l.url}" target="_blank" rel="noopener">${host(l.url)}</a>)`;
+const sources = [link(facts.cite), link(facts.titleAgency), link(facts.regulator), ...facts.changes.map((c) => link(c.source))].filter(
+  (v, i, a) => a.indexOf(v) === i,
+);
 ---
 <GuideLayout
+  glossaryLink={false}
   title={title}
   description={description}
   path={path}
-  h1={`${entry.state} Total-Loss Threshold Law`}
-  cluster={{
-    name: "State Total-Loss Threshold Laws",
-    href: "/guides/total-loss/state-total-loss-threshold-laws/",
-  }}
+  h1={h1}
+  cluster={{ name: "Total Loss Threshold by State", href: "/guides/total-loss/state-total-loss-threshold-laws/" }}
   publishedDate="2026-08-16"
-  reviewedDate={entry.note ? "2026-10-29" : "2026-08-16"}
-  summary={`${entry.state} uses ${ruleText} to decide when a damaged vehicle must be declared a total loss instead of repaired.`}
-  sources={[
-    ...(entry.statuteSource ? [entry.statuteSource] : []),
-    'Brennan, R., "Total Loss Threshold by State," Policygenius, updated July 2026 — the same secondary compilation cited in the companion guide and calculator. Treat as a starting point, not a final legal citation; confirm your own state\'s current rule with your state insurance department.',
-    'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a> — a real example of a state regulator publishing its own accepted methodology.',
-  ]}
+  reviewedDate={THRESHOLD_FACTS_CHECKED}
+  summary={summary}
+  sources={sources}
   relatedLinks={[
-    { label: "Total-Loss Threshold Checker calculator", href: calculatorHref },
-    { label: "State Total-Loss Threshold Laws (all 50 states)", href: "/guides/total-loss/state-total-loss-threshold-laws/" },
-    { label: "How Insurers Value a Total-Loss Vehicle", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
-    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
+    { label: `Check your numbers for ${st}`, href: calculatorHref },
+    { label: "Total loss threshold in every state", href: "/guides/total-loss/state-total-loss-threshold-laws/" },
+    { label: "Recent total loss threshold changes", href: "/guides/total-loss/total-loss-threshold-changes/" },
+    { label: `Reporting a car accident in ${st}`, href: accidentHref },
+    { label: "Keeping a totaled car and salvage titles", href: "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/" },
   ]}
   structuredData={structuredData}
   noindex={isNoindexThresholdStatePage(path)}
 >
-  <h2>The rule in {entry.state}</h2>
-  <p>
-    {entry.state} uses {ruleText} to decide when a damaged vehicle must be declared a total loss.
-    {entry.type === "percentage" ? (
-      <>Once estimated repair cost reaches {entry.thresholdPct}% of the vehicle's actual cash value
-      (ACV), state law treats it as a total loss — regardless of what the vehicle's salvage value
-      would be.</>
-    ) : (
-      <>Repair cost alone isn't the test — the state adds estimated salvage value to the repair
-      estimate, and compares that combined figure to ACV.</>
-    )}
-  </p>
+  <div class="example-box quick-answer">
+    <p><strong>Quick answer</strong></p>
+    <ul>
+      <li>
+        <strong>Rule:</strong>
+        {isPct
+          ? entry.insurerFloor
+            ? ` ${pct}% of the car's value, and the insurer can't total it sooner unless you ask.`
+            : ` ${pct}% of the car's value.`
+          : " no fixed percentage in the law."}
+      </li>
+      {facts.measuredAgainst && <li><strong>Measured against:</strong> {facts.measuredAgainst}.</li>}
+      <li><strong>Law:</strong> {facts.cite.name}.</li>
+      <li><strong>Checked:</strong> {checkedLong}.</li>
+    </ul>
+  </div>
 
-  {entry.note && (
-    <div class="warning-note">
-      <p><strong>{entry.state}-specific note:</strong> {entry.note}</p>
+  {facts.check === "unconfirmed" && (
+    <div class="limits-note">
+      <strong>We could not confirm {st}'s rule in the official text.</strong> What follows is our best
+      reading of the sources we could check. Confirm it with the {facts.regulator.name} before you rely on it.
     </div>
   )}
 
+  <h2>What {st} law says</h2>
+  <p>{facts.lawSays}</p>
+  <p>{kindSentence[facts.kind]}</p>
+
+  {facts.details.length > 0 && (
+    <>
+      <h2>Details that change the answer in {st}</h2>
+      <ul>
+        {facts.details.map((d) => <li>{d}</li>)}
+      </ul>
+    </>
+  )}
+
+  <h2>{aOrAn === "an" ? "An" : "A"} {st} example</h2>
   <div class="example-box">
-    <p><strong>Worked example</strong> — a {worked.acvText} vehicle:</p>
-    {entry.type === "percentage" ? (
+    {isPct ? (
       <p>
-        Repair estimate: {worked.repairText} ({entry.thresholdPct}% of {worked.acvText}).
-        {" "}{worked.verdictText}
+        A {usd(ex.acvCents)} car crosses {st}'s {pct}% line at <strong>{usd(ex.lineCents)}</strong> of repairs.
+        {entry.insurerFloor
+          ? ` Below that the insurer generally pays to fix it; from ${usd(Math.ceil(ex.acvCents * 0.75))} (75%) you may ask for a total loss in writing.`
+          : ex.formulaLineCents < ex.lineCents
+            ? ` With a ${usd(ex.salvageCents as number)} wreck value, an insurer may pay it out from ${usd(ex.formulaLineCents)}, so a ${usd(halfway)} estimate could be totaled while still under the line.`
+            : ` That comes before the ${usd(ex.formulaLineCents)} point where repairs plus a ${usd(ex.salvageCents as number)} wreck value would equal the car's value.`}
       </p>
     ) : (
-      <p>{worked.verdictText}</p>
+      <p>
+        A {usd(ex.acvCents)} car with a {usd(ex.salvageCents as number)} wreck value is usually totaled
+        from <strong>{usd(ex.lineCents)}</strong> of repairs, where repairs plus salvage equal its value.
+      </p>
     )}
+    <p><a href={calculatorHref}>Try your own numbers for {st}</a>.</p>
   </div>
 
-  <h2>What this means practically</h2>
-  <p>{meaning}</p>
+  <h2>Keeping a totaled car in {st}</h2>
+  <p>{facts.keeping}</p>
+  <p>
+    Title brands used in {st}: {facts.brands.join(", ")}. Where to start:
+    {" "}<a href={facts.titleAgency.url} target="_blank" rel="noopener">{facts.titleAgency.name}</a>.
+  </p>
 
-  <h2>How {entry.state} compares nationally</h2>
-  {entry.type === "percentage" ? (
-    <p>
-      Of the {position.pctCount} jurisdictions that use a fixed percentage, {position.lower} set a
-      lower bar than {entry.state}'s {entry.thresholdPct}%, {position.same} {position.same === 1 ? "uses" : "use"} the same
-      {" "}{entry.thresholdPct}%, and {position.higher} set a higher one. Another {position.tlfCount}
-      {" "}use the Total Loss Formula instead of any percentage.
-    </p>
-  ) : (
-    <p>
-      {entry.state} is one of {position.tlfCount} jurisdictions that use the Total Loss Formula. The
-      other {position.pctCount} use a fixed percentage of ACV, ranging from {pctRange.min}% to {pctRange.max}%.
-    </p>
-  )}
-
-  {neighbors.length > 0 ? (
+  {facts.changes.length > 0 && (
     <>
-      <h2>{entry.state} vs. bordering states</h2>
-      <div>
-        <table>
-          <caption class="visually-hidden">Total-loss rules in states bordering {entry.state}</caption>
-          <thead>
-            <tr><th scope="col">State</th><th scope="col">Rule</th><th scope="col">Compared with {entry.state}</th></tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">{entry.state}</th><td>{entry.type === "percentage" ? `${entry.thresholdPct}% of ACV` : "Total Loss Formula"}</td><td>—</td></tr>
-            {neighbors.map((n) => (
-              <tr>
-                <th scope="row"><a href={`/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(n.state)}/`}>{n.state}</a></th>
-                <td>{n.rule}</td>
-                <td>{relationText[n.relation]}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {crossBorder ? (
-        <div class="example-box"><p><strong>Across the state line</strong> — {crossBorder}</p></div>
-      ) : (
-        <p>Every state bordering {entry.state} uses the same rule, so crossing the state line doesn't change the total-loss test.</p>
-      )}
-    </>
-  ) : (
-    <>
-      <h2>No bordering states</h2>
-      <p>
-        {entry.state} shares no land border with another state, so the cross-border mismatches that
-        affect drivers elsewhere rarely come up. The rule that applies is almost always {entry.state}'s own.
-      </p>
+      <h2>Recent changes in {st}</h2>
+      <ul>
+        {facts.changes.map((c) => (
+          <li>
+            <strong>{longDate(c.date)}{c.status === "failed" ? " (did not pass)" : ""}:</strong> {c.text}{" "}
+            <a href={c.source.url} target="_blank" rel="noopener">Source</a>
+          </li>
+        ))}
+      </ul>
     </>
   )}
 
-  <h2>Who regulates total losses in {entry.state}</h2>
-  <p>
-    Total-loss rules are enforced by {entry.state === "Washington, D.C." ? "the District's" : `${entry.state}'s`} insurance
-    regulator. If you think your insurer applied the wrong threshold or undervalued your vehicle, you
-    can file a consumer complaint there. Find the department's contact details in the
-    <a href="https://content.naic.org/state-insurance-departments" target="_blank" rel="noopener">NAIC
-    directory of state insurance departments</a>, and see
-    <a href="/guides/claim-process/filing-a-complaint-with-your-state-insurance-department/">how to file a
-    complaint with your state insurance department</a>.
-  </p>
+  {facts.listsSay && (
+    <>
+      <h2>Where other lists get {st} wrong</h2>
+      <p>{facts.listsSay}</p>
+    </>
+  )}
 
-  <h2>Check your own numbers</h2>
-  <p>
-    The <a href={calculatorHref}>Total-Loss Threshold Checker</a> has {entry.state} pre-selected
-    from this link — enter your own repair estimate and ACV
-    {entry.type === "tlf" && <> (plus an estimated salvage value)</>} to see how they compare.
-  </p>
+  <h2>{st} and its neighbors</h2>
+  {neighborList.length > 0 ? (
+    <p>
+      {st} borders{" "}
+      {neighborList.map((n, i) => (
+        <>
+          {i > 0 && (i === neighborList.length - 1 ? " and " : ", ")}
+          <a href={`/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(n.state)}/`}>{n.state}</a> ({n.short})
+        </>
+      ))}.
+      {crossBorder && ` ${crossBorder}`}
+    </p>
+  ) : (
+    <p>{st} has no land border with another state, so its own rule nearly always applies.</p>
+  )}
 
-  <h2>What this page can't tell you</h2>
+  <h2>Who to contact in {st}</h2>
   <p>
-    It can't tell you {entry.state}'s threshold with legal certainty — this reflects one compiled
-    secondary review as of mid-2026, not a direct reading of the state's current statute or
-    administrative code, and state rules can change. It also can't tell you what your specific
-    vehicle's ACV or salvage value actually is; for that, see
-    <a href="/guides/total-loss/how-insurers-value-a-total-loss-vehicle/">How Insurers Value a
-    Total-Loss Vehicle</a> and run your own numbers through the
-    <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit calculator</a>.
+    Complaints about how an insurer handled your claim go to the
+    {" "}<a href={facts.regulator.url} target="_blank" rel="noopener">{facts.regulator.name}</a>
+    {" "}(<a href="/guides/claim-process/filing-a-complaint-with-your-state-insurance-department/">how to file</a>).
+    For a disputed or high-value claim, {aOrAn} {st}-licensed attorney can say how {facts.cite.name} applies to you.
   </p>
 
   <FaqSection faqs={faqs} />
 </GuideLayout>
+
+<style>
+  .quick-answer ul { margin: 6px 0 0; padding-left: 20px; }
+  .table-wrap { overflow-x: auto; }
+</style>

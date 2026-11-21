@@ -2,6 +2,8 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import { isNoindexThresholdStatePage } from "./src/lib/seo/indexing.mjs";
 import { execSync } from "node:child_process";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 
 // Canonical origin per ASTRO-REBUILD-PLAN.md R6 — www subdomain, GitHub Pages hosting (R4).
 
@@ -25,6 +27,23 @@ function getLastCommitDate() {
 }
 const siteLastModified = getLastCommitDate();
 
+// Per-page <lastmod>: the sitemap is written after the pages are built, so
+// read each built page's own JSON-LD `dateModified` (the same date shown as
+// "Last reviewed" on the page). Pages without one fall back to the
+// sitewide last-commit date above. This keeps lastmod honest: it only moves
+// when a page's reviewed date moves.
+const distDir = fileURLToPath(new URL("./dist/", import.meta.url));
+function pageDateModified(url) {
+  try {
+    const path = new URL(url).pathname;
+    const html = readFileSync(distDir + path.replace(/^\//, "") + "index.html", "utf-8");
+    const m = html.match(/"dateModified":"(\d{4}-\d{2}-\d{2})/);
+    return m ? m[1] : null;
+  } catch {
+    return null;
+  }
+}
+
 export default defineConfig({
   site: "https://www.fairclaimcalculator.com",
   output: "static",
@@ -38,7 +57,7 @@ export default defineConfig({
       // finished — noindex pages must not appear in the sitemap either.
       filter: (page) => !page.includes("/404") && !isNoindexThresholdStatePage(page),
       serialize(item) {
-        item.lastmod = siteLastModified;
+        item.lastmod = pageDateModified(item.url) ?? siteLastModified;
         return item;
       },
     }),

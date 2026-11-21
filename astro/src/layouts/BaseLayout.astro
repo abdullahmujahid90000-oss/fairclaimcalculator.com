@@ -3,6 +3,7 @@ import SkipLink from "@components/SkipLink.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import CookieConsent from "@components/CookieConsent.astro";
+import TopicLinks from "@components/TopicLinks.astro";
 import { ADSENSE_PUBLISHER_ID, ADSENSE_READY, ADS_ACTIVE } from "@lib/ads/config";
 import "../styles/global.css";
 
@@ -91,6 +92,7 @@ const organizationSchema = {
   <Header />
   <main id="main-content" tabindex="-1">
     <slot />
+    <TopicLinks path={path} />
   </main>
   <Footer />
   <CookieConsent />
