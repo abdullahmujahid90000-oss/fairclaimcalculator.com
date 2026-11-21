@@ -8,6 +8,7 @@ import {
   crashReportingSlug,
 } from "@lib/content/state-crash-reporting";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
+import { CRASH_REPORT_COPIES, CRASH_REPORT_COPIES_CHECKED } from "@lib/content/crash-report-copies";
 
 const path = "/guides/accident-reporting/";
 const title = "Car Accident Reporting Requirements by State (2026)";
@@ -19,6 +20,14 @@ const ownReport = count(["driver-report"]);
 const ifNoPolice = count(["driver-report-if-no-police"]);
 const policeOnly = count(["police-notice", "no-driver-form"]);
 
+// Shortest stated deadlines, computed from the data ("Within 4 days" etc.).
+const dayDeadlines = STATE_CRASH_REPORTING.flatMap((e) => {
+  const m = e.deadline?.match(/within (\d+) (?:calendar |business )?days/i);
+  return m ? [{ state: e.state, days: Number(m[1]), text: e.deadline as string }] : [];
+}).sort((a, b) => a.days - b.days);
+const shortest = dayDeadlines.filter((d) => d.days <= 5);
+const copyStates = Object.keys(CRASH_REPORT_COPIES).sort();
+
 const faqs: FaqItem[] = [
   {
     question: "Do you have to report a car accident to the DMV?",
@@ -28,6 +37,15 @@ const faqs: FaqItem[] = [
     question: "What happens if you don't report a car accident?",
     answer:
       "In many states, failing to file a required report can lead to suspension of your driver's license and registration, and in some it is a misdemeanor. Your state's page lists what the official source says.",
+  },
+  {
+    question: "How long do I have to report a car accident?",
+    answer: `It depends on the state and on who you report to. Calls to police are expected right away. Where drivers must file their own report, deadlines run from ${dayDeadlines[0]?.days ?? "a few"} days (${dayDeadlines[0]?.state ?? ""}) to ${dayDeadlines[dayDeadlines.length - 1]?.days ?? 30} days; 10 days is the most common. Your state's page gives the exact deadline from the official source.`,
+  },
+  {
+    question: "How do I get a copy of my car accident report?",
+    answer:
+      "Ask the agency that wrote it: the police department, sheriff's office or highway patrol. Many states also sell reports online through the state transportation or public-safety department, usually for $5 to $25. We list the official ordering method and cost for the largest states on this page.",
   },
   {
     question: "Is a police report the same as a DMV report?",
@@ -43,10 +61,11 @@ const faqs: FaqItem[] = [
   h1="Car Accident Reporting Requirements by State"
   cluster={{ name: "Guides", href: "/guides/" }}
   publishedDate={CRASH_REPORTING_CHECKED}
-  reviewedDate={CRASH_REPORTING_CHECKED}
+  reviewedDate={CRASH_REPORT_COPIES_CHECKED}
   summary="Whether you must report a crash yourself, to whom, and by when depends on your state. Every row below was checked against the state's own DMV, public-safety agency or published statute."
   sources={[
     "Each state's official DMV, public-safety or transportation agency page, or its published statute — linked individually on every state page.",
+    `Crash report copies: each state's official ordering page, linked on the state's page (checked ${CRASH_REPORT_COPIES_CHECKED}).`,
   ]}
   relatedLinks={[
     { label: "What to do after a car accident: step-by-step checklist", href: "/guides/claim-process/what-to-do-after-a-car-accident/" },
@@ -56,6 +75,17 @@ const faqs: FaqItem[] = [
   ]}
   structuredData={[buildFaqSchema(faqs)]}
 >
+  <form class="state-jump" id="state-jump">
+    <label for="state-jump-select">Find your state's rule</label>
+    <div class="state-jump-row">
+      <select id="state-jump-select">
+        <option value="">Choose a state…</option>
+        {STATE_CRASH_REPORTING.map((e) => <option value={`/guides/accident-reporting/${crashReportingSlug(e.state)}/`}>{e.state}</option>)}
+      </select>
+      <button type="submit" class="btn-go">Go</button>
+    </div>
+  </form>
+
   <h2>The short version</h2>
   <ul>
     <li><strong>{ownReport} states</strong> require your own written report above a damage or injury threshold, even if police came.</li>
@@ -70,7 +100,7 @@ const faqs: FaqItem[] = [
   </p>
 
   <h2>All 50 states and D.C.</h2>
-  <div>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Accident reporting rules for all states (scrolls sideways on small screens)">
     <table>
       <caption class="visually-hidden">Car accident reporting rules by state</caption>
       <thead>
@@ -89,6 +119,43 @@ const faqs: FaqItem[] = [
     </table>
   </div>
 
+  {shortest.length > 0 && (
+    <>
+      <h2>The shortest deadlines</h2>
+      <p>These states give drivers the least time to file their own report, so don't wait:</p>
+      <ul>
+        {shortest.map((d) => (
+          <li><a href={`/guides/accident-reporting/${crashReportingSlug(d.state)}/`}>{d.state}</a>: {d.text.toLowerCase()}</li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  <h2>How to get a copy of your crash report</h2>
+  <p>
+    Your insurer will usually ask for the police report. Order it from the agency that wrote it, or
+    through the state's online system. Here is the official method in the largest states:
+  </p>
+  <div class="table-wrap">
+    <table>
+      <caption class="visually-hidden">How to order a crash report copy in large states</caption>
+      <thead><tr><th scope="col">State</th><th scope="col">Where to order</th><th scope="col">Cost</th></tr></thead>
+      <tbody>
+        {copyStates.map((st) => (
+          <tr>
+            <th scope="row"><a href={`/guides/accident-reporting/${crashReportingSlug(st)}/`}>{st}</a></th>
+            <td><a href={CRASH_REPORT_COPIES[st].sourceUrl} target="_blank" rel="noopener">{CRASH_REPORT_COPIES[st].sourceLabel.split(" — ")[0]}</a></td>
+            <td>{CRASH_REPORT_COPIES[st].cost}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p>
+    Watch out for third-party "report finder" sites that charge several times the official price for
+    the same report.
+  </p>
+
   <h2>Why some states say "confirm with your state"</h2>
   <p>
     We only publish a rule when we could confirm it from an official source. Several widely copied
@@ -99,3 +166,22 @@ const faqs: FaqItem[] = [
 
   <FaqSection faqs={faqs} />
 </GuideLayout>
+
+<script>
+  const jump = document.getElementById("state-jump") as HTMLFormElement | null;
+  const select = document.getElementById("state-jump-select") as HTMLSelectElement | null;
+  jump?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (select?.value) window.location.href = select.value;
+  });
+</script>
+
+<style>
+  .state-jump { border: 2px solid var(--color-primary); border-radius: var(--radius); padding: 14px 16px; margin: 6px 0 22px; background: var(--color-primary-tint); }
+  .state-jump label { display: block; font-weight: 700; margin-bottom: 8px; }
+  .state-jump-row { display: flex; gap: 10px; }
+  .state-jump select { flex: 1; min-width: 0; padding: 10px; border: 1px solid var(--color-border); border-radius: 6px; font: inherit; min-height: var(--touch-target-min); background: #fff; }
+  .btn-go { background: var(--color-primary); color: #fff; border: none; border-radius: 6px; padding: 0 20px; font: inherit; font-weight: 700; cursor: pointer; min-height: var(--touch-target-min); }
+  .table-wrap { overflow-x: auto; max-width: 100%; }
+  .table-wrap table { min-width: 560px; }
+</style>

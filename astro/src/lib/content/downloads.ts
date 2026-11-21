@@ -20,7 +20,7 @@ export interface DownloadPage {
   related: { label: string; href: string }[];
 }
 
-export const DOWNLOADS_REVIEWED = "2026-09-29";
+export const DOWNLOADS_REVIEWED = "2026-11-18";
 
 export const DOWNLOAD_PAGES: DownloadPage[] = [
   {
@@ -28,7 +28,7 @@ export const DOWNLOAD_PAGES: DownloadPage[] = [
     title: "Car Accident Information Worksheet (Free PDF)",
     metaTitle: "Car Accident Information Sheet — Free Printable PDF",
     description:
-      "Free fillable car accident information sheet: what to collect at the scene — other driver, insurance, witnesses, police report number. Keep one in your glove box.",
+      "Free fillable car accident information sheet: what to collect at the scene, from the other driver and insurance to witnesses. Keep one in your glove box.",
     cardText: "Keep it in your glove box. Everything to collect at the scene of a crash.",
     whenToUse: [
       "Right after a crash, once everyone is safe and off the road.",
@@ -59,11 +59,22 @@ export const DOWNLOAD_PAGES: DownloadPage[] = [
         answer:
           "It depends on the state. Some states (such as California and New York) require your own written report to the DMV above a damage threshold, even if police came. Others only require you to notify police. Check your state on our accident-reporting page.",
       },
+      {
+        question: "What if the other driver won't give me their information?",
+        answer:
+          "Don't argue. Photograph their plate and car, note the time and place, and call the police. Leaving a crash without exchanging the information your state requires can be an offense for them, not for you.",
+      },
+      {
+        question: "Can I fill this in on my phone instead of printing it?",
+        answer:
+          "Yes. The PDF has fillable fields that work in most phone PDF apps. For an interactive version that saves as you go, use the checklist on our what-to-do-after-an-accident guide, then carry it into the My Claim tracker.",
+      },
     ],
     related: [
+      { label: "What to do after a car accident (interactive checklist)", href: "/guides/claim-process/what-to-do-after-a-car-accident/" },
       { label: "Car accident reporting rules by state", href: "/guides/accident-reporting/" },
       { label: "Auto claim evidence checklist (PDF)", href: "/forms/claim-evidence-checklist/" },
-      { label: "Auto Claim Evidence Checklist guide", href: "/guides/claim-process/auto-claim-evidence-checklist/" },
+      { label: "Car insurance claim checklist guide", href: "/guides/claim-process/auto-claim-evidence-checklist/" },
     ],
   },
   {
@@ -301,12 +312,16 @@ export const DOWNLOAD_PAGES: DownloadPage[] = [
     cardText: "Every document to gather, from the crash to the settlement.",
     whenToUse: [
       "As soon as you open a claim, to see what you'll need.",
+      "When the adjuster asks for documents, to check nothing is missing.",
       "Before disputing a repair estimate or total-loss offer.",
+      "If you hand the claim to a public adjuster or attorney, so they have everything at once.",
     ],
     howTo: [
       "Print it or fill it on screen and tick items as you collect them.",
-      "Store everything in one folder (paper or digital), named by date.",
+      "Start with the scene items while memories and photos are fresh, then work down the list as the claim moves.",
+      "Store everything in one folder (paper or digital), named by date, such as \"2026-11-02 repair estimate\".",
       "Send the insurer copies, never originals, and log what you sent and when.",
+      "Keep the folder until the claim is paid and any loan, repair or diminished value question is settled.",
     ],
     faqs: [
       {
@@ -319,9 +334,20 @@ export const DOWNLOAD_PAGES: DownloadPage[] = [
         answer:
           "Some states let you file your own crash report when police didn't come, and some require it. Check your state's rule, and keep your own photos, notes and witness details either way.",
       },
+      {
+        question: "What receipts should I keep after a car accident?",
+        answer:
+          "Towing, storage, rental car or rideshare costs, and anything damaged in the car. If you claim against the at-fault driver's insurer, these costs can often be part of the claim.",
+      },
+      {
+        question: "Is there a digital version that saves my progress?",
+        answer:
+          "Yes. The free My Claim tracker keeps your claim details, a step checklist and a log of every call and email in your browser, and reminds you to follow up.",
+      },
     ],
     related: [
-      { label: "Auto Claim Evidence Checklist guide", href: "/guides/claim-process/auto-claim-evidence-checklist/" },
+      { label: "Car insurance claim checklist guide", href: "/guides/claim-process/auto-claim-evidence-checklist/" },
+      { label: "My Claim tracker", href: "/my-claim/" },
       { label: "Car accident reporting rules by state", href: "/guides/accident-reporting/" },
       { label: "Car accident information worksheet (PDF)", href: "/forms/accident-information-worksheet/" },
     ],

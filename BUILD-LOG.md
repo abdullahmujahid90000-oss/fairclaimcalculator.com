@@ -1234,3 +1234,124 @@ Owner asked to rebuild the site for AdSense approval and search traffic.
   canonicals correct; apex redirects to www. `/ads.txt` is 404 only because
   the branch with the publisher ID is not merged into `main` yet.
 - CONTENT-ROADMAP.md: added §2b natural-writing rules for every scheduled run.
+
+### 2026-11-08 — Traffic recovery: scaled content, analytics, cookie banner bug
+
+- 51 state total-loss threshold pages measured 89–94% identical; set to
+  `noindex,follow` and removed from the sitemap (`src/lib/seo/indexing.mjs`,
+  GuideLayout `noindex` prop, sitemap filter). Pages stay live; the hub keeps
+  the full table. Sitemap 165 → 114 URLs. Accident-reporting pages (79–85%)
+  stay indexed; boilerplate reduction is part of roadmap topic 5.
+- Google Analytics consent is now region-aware: analytics storage granted by
+  default outside the EEA/UK/CH (opt-out, rejectable any time), denied inside
+  until accepted. Previously gtag.js loaded only after Accept, hiding nearly all
+  U.S. visitors from reporting. Privacy policy updated (reviewed 2026-11-08).
+- Bug fix: the cookie banner never disappeared after Accept/Reject because
+  `.cookie-banner { display: flex }` overrode the `hidden` attribute. Added
+  `.cookie-banner[hidden] { display: none }`. Verified in Chromium: shows on
+  first visit, hides on choice, remembers it, reopens from Privacy choices.
+- Verified: typecheck 0 errors, 188/188 tests, axe 0 violations.
+
+### 2026-11-11 — Topic 1 done: "Is my car totaled?" (calculator + 50-state hub)
+
+- Scheduled runs had failed to publish (fresh routine sessions had no push
+  permission); routine re-created to run inside the owner's main session.
+- Calculator `/calculators/total-loss-threshold-checker/` rewritten: answer-first
+  intro, results now show the repair amount that crosses the state line and the
+  dollar margin, an "insurer may total it anyway" check (repairs + salvage ≥ ACV)
+  for percentage states, a next-step link, opt-in "remember my numbers on this
+  device" (localStorage), how-insurers-decide steps, a same-car/four-state
+  table, what-happens-next steps, 7 FAQs (FAQPage + WebApplication schema).
+- Hub `/guides/total-loss/state-total-loss-threshold-laws/` rewritten as the
+  ranking page: full 51-row table with dollars-for-a-$10,000-car column and
+  state notes, what the threshold controls (salvage titles; insurers total
+  below it), "why lists online disagree", next steps, 5 FAQs. All counts are
+  computed from the data.
+- Fact fixes: Oklahoma 60% → 70% (SB 1920, effective 2026-11-01); Colorado
+  note (hail excluded) with statute source; "60%–100%" ranges now computed
+  (65%–100%). Lib: `repairAtLineCents`, `marginCents`, `insurerMayTotalAnyway`.
+- Verified: typecheck 0 errors, 195/195 tests (+7), axe 0 violations, 0 broken
+  of 8,418 internal links, titles 54/51 chars, descriptions 157/149, 390px
+  render with no horizontal scroll, remember/restore tested in Chromium.
+- Research notes: research/is-my-car-totaled.md.
+
+### 2026-11-13 — Topic 2 done: Totaled car value / payout
+
+- `/calculators/total-loss-offer-audit/` retitled "Totaled Car Value Calculator: What
+  Will Insurance Pay?" and restructured: Step 1 payout estimator (ACV + sales tax rate
+  + fees − deductible for own-policy claims − salvage if kept; lender paid next; loan
+  shortfall shown), Step 2 the existing valuation-report audit, then a guide (payout
+  table, report lines that lower value, steps if the offer is low) and 8 FAQs
+  (FAQPage + WebApplication schema).
+- Bug fix in `settlement-breakdown.ts`: salvage is now deducted before the lienholder
+  is paid (Washington OIC order); previously keeping the car with a large loan could
+  show a negative owner amount. Added `loanShortfallCents`. +2 tests.
+- Rewrote "How Insurance Companies Value a Totaled Car" (process, adjustments incl.
+  condition and projected sold, what's added on top, 5 FAQs; TLF count now computed,
+  22 not "about 20") and "Actual Cash Value vs. Replacement Cost" (corrected the
+  dealer-price claim, added new car / better car replacement, worked example, 4 FAQs).
+- Verified: typecheck 0 errors, 197/197 tests, axe 0 violations, 0 broken of 8,422
+  internal links, titles ≤56 / descriptions ≤160, 390px renders, payout estimator
+  tested in Chromium (first- and third-party, loan shortfall).
+- Research notes: research/totaled-car-value-payout.md.
+
+### 2026-11-16 — Topic 3 done: site theme, homepage and My Claim tracker
+
+- Bug fix: desktop navigation was invisible (the `<details>` menu stayed closed
+  while its toggle was hidden at desktop widths). New Header renders an
+  always-visible desktop nav and a separate mobile disclosure from one list,
+  sticky header, logo mark, Guides dropdown, "My Claim" call-to-action.
+- Theme tokens: `--color-primary-light`, `--color-primary-tint`,
+  `--max-width-wide`, `--shadow-sm/lg`. No new fonts or libraries.
+- Homepage rewritten: gradient hero ("Free car insurance claim calculators"),
+  "Start with what happened" (totaled / repaired / just had an accident / low
+  offer), most-used tools, My Claim band, guides with counts computed from the
+  page files (24), trust section. Removed "LIVE NOW" badges and stale counts.
+- New `/my-claim/` tracker (browser-only, localStorage): claim details, 10-step
+  checklist with progress and next step, follow-up prompts (not acknowledged
+  after 15 days; no contact for 14 days; check the numbers once an estimate or
+  valuation arrives), contact log, calendar reminders (.ics), backup/restore
+  (validated import), print, delete. Logic in `src/lib/tracker/claim-tracker.ts`
+  (+14 tests). Linked from header, footer, homepage and the after-an-accident guide.
+- Verified: typecheck 0 errors, 211/211 tests, axe 0 violations, 0 broken of
+  10,143 internal links, titles 58/54, descriptions 144/160, desktop nav and
+  mobile menu tested, full tracker flow tested in Chromium at 390px.
+
+### 2026-11-18 — Topic 4 done: What to do after a car accident
+
+- `/guides/claim-process/what-to-do-after-a-car-accident/`: added an interactive
+  10-item accident checklist (browser-saved, with "Continue in My Claim tracker",
+  which marks the tracker's reported/evidence/filed steps and fills the date of
+  loss), quick-clearance ("Steer It, Clear It") laws with FHWA/MoDOT/ADOT sources,
+  engine-off/fuel safety, an "If the crash wasn't your fault" section (whose
+  insurance, uninsured driver, hit-and-run, extra amounts), and 3 new FAQs.
+- `/guides/claim-process/auto-claim-evidence-checklist/` rewritten as "Car Insurance
+  Claim Checklist: Documents You Need", grouped by stage (scene, filing, repair,
+  total loss, receipts), organization tips, 5 FAQs; NHTSA child-seat guidance.
+- Form pages: accident information worksheet (+2 FAQs, link to the interactive
+  checklist, shorter description) and claim evidence checklist (more when/how-to,
+  +2 FAQs, tracker link). Link labels updated sitewide.
+- Verified: typecheck 0 errors, 211/211 tests, axe 0 violations, 0 broken of 10,150
+  internal links, titles ≤55 / descriptions ≤156, 390px renders, checklist save and
+  tracker hand-off tested in Chromium.
+
+### 2026-11-20 — Topic 5 done: accident reporting by state
+
+- New `src/lib/content/crash-report-copies.ts`: how to get a crash report copy
+  (where to order, published cost, waiting periods/eligibility) for CA, TX, FL,
+  NY, PA, IL, OH, GA, NC, MI, each from the agency's own page. Remaining 41
+  states added to the roadmap as topic 18.
+- State template: removed the shared step list, shared FAQ and closing paragraph;
+  added a "your to-do" box, the report-copy section and FAQ where sourced, and a
+  short next-steps line. Similarity between state pages fell from 79–85% to
+  49–66%.
+- Hub: state picker (jump to state), shortest-deadline list and deadline FAQ
+  computed from data (4 to 30 days; 10 most common), crash-report copy table for
+  the 10 states, report-finder warning, 2 new FAQs.
+- Bugs fixed: hub table and first-party/third-party table overflowed phones
+  (now scroll inside a labelled region); Methodology and Sources pages printed
+  source links as raw HTML text (now rendered); long URLs could widen pages
+  (global overflow-wrap). Sitewide check: 0 of 167 pages overflow at 390px.
+- Verified: typecheck 0 errors, 211/211 tests, axe 0 violations, 0 broken
+  internal links, all accident pages within title/description limits, state
+  picker and Florida copy section tested in Chromium.

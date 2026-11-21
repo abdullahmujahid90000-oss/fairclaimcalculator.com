@@ -1,103 +1,171 @@
 ---
 import GuideLayout from "@layouts/GuideLayout.astro";
+import FaqSection from "@components/FaqSection.astro";
 import { STATE_THRESHOLDS, slugifyState } from "@lib/calculators/total-loss-threshold";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
-const title = "State Total-Loss Threshold Laws | FairClaimCalculator";
+const title = "Total Loss Threshold by State (2026): All 50 States";
 const description =
-  "Every U.S. state sets its own total-loss threshold — a fixed percentage or a formula — deciding when an insurer must total your car instead of repairing it.";
+  "The total loss threshold for every state in 2026: the percentage or formula each uses, what it means in dollars for your car, and recent law changes.";
 const path = "/guides/total-loss/state-total-loss-threshold-laws/";
+
+// Everything below is computed from the one state table, so the counts,
+// examples and lists can never drift from the data.
+const EXAMPLE_ACV = 10000;
+const pctStates = STATE_THRESHOLDS.filter((s) => s.type === "percentage");
+const tlfStates = STATE_THRESHOLDS.filter((s) => s.type === "tlf");
+const pctValues = pctStates.map((s) => s.thresholdPct as number);
+const minPct = Math.min(...pctValues);
+const maxPct = Math.max(...pctValues);
+const lowest = pctStates.filter((s) => s.thresholdPct === minPct).map((s) => s.state);
+const highest = pctStates.filter((s) => s.thresholdPct === maxPct).map((s) => s.state);
+const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
+const joinNames = (names: string[]) =>
+  names.length <= 1 ? names.join("") : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+const withSources = STATE_THRESHOLDS.filter((s) => s.statuteSource);
+const firstSentence = (text: string) => text.split(/(?<=\.)\s/)[0];
+
+const faqs: FaqItem[] = [
+  {
+    question: "What is the total loss threshold in my state?",
+    answer: `Find your state in the table on this page. ${pctStates.length - 1} states and Washington, D.C. use a fixed percentage of the car's value, from ${minPct}% (${joinNames(lowest)}) to ${maxPct}% (${joinNames(highest)}). The other ${tlfStates.length} states use the Total Loss Formula, which compares repairs plus salvage value with the car's value.`,
+  },
+  {
+    question: "Which states use the Total Loss Formula?",
+    answer: `${joinNames(tlfStates.map((s) => s.state))}. In these states a car is a total loss once the repair cost plus the wreck's salvage value reaches the car's actual cash value.`,
+  },
+  {
+    question: "Does the threshold mean my insurer can't total my car below it?",
+    answer:
+      "No. The threshold is the point where state law treats the car as a total loss, mainly so its title is branded salvage. Insurers often total cars below it when repairs plus salvage value come close to the car's value, because paying you out and selling the wreck costs them less.",
+  },
+  {
+    question: "Why do websites list different thresholds for the same state?",
+    answer:
+      "Laws change and many lists are copied from older ones. For example, Oklahoma moved from 60% to 70% on November 1, 2026, Minnesota's figure has been 80% since a 2012 law, and Iowa moved from 50% to 70% in 2021, yet older figures are still widely repeated.",
+  },
+  {
+    question: "What value is the threshold measured against?",
+    answer:
+      "Usually the car's actual cash value just before the damage: what a similar car was selling for in your area. Some states define it differently; Oklahoma, for example, uses the higher of the guidebook value and the actual cash value.",
+  },
+];
+
+const structuredData = [buildFaqSchema(faqs)];
 ---
 <GuideLayout
   title={title}
   description={description}
   path={path}
-  h1="State Total-Loss Threshold Laws Explained"
+  h1="Total Loss Threshold by State"
   cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
   publishedDate="2026-08-01"
-  reviewedDate="2026-08-01"
-  summary="Whether your damaged car gets repaired or declared a total loss can depend on which state you're in as much as how bad the damage is. States use one of two different methods, and the exact number varies from 60% to 100% of your car's value."
+  reviewedDate="2026-11-11"
+  summary={`Each state decides when a damaged car counts as a total loss. ${pctStates.length - 1} states and D.C. use a fixed percentage of the car's value, from ${minPct}% to ${maxPct}%. The other ${tlfStates.length} use the Total Loss Formula. The table below shows every state's rule and what it means in dollars.`}
   sources={[
-    'Brennan, R., "Total Loss Threshold by State," Policygenius, updated July 2026 — the primary source for the state-by-state table below. Policygenius publishes its editorial standards and reviews this table periodically; state laws and administrative rules can change between reviews, so treat the table as a starting point, not a final legal citation, and confirm your own state\'s current rule with your state insurance department.',
-    'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a> — a real example of a state regulator publishing its own accepted methodology, referenced here and in the companion guide below.',
+    ...withSources.map((s) => `${s.state}: ${s.statuteSource}`),
+    'Brennan, R., "Total Loss Threshold by State," Policygenius, updated July 2026: the starting compilation for states not individually cited above. Treat those rows as a starting point and confirm the current rule with your state insurance department.',
+    'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a>.',
   ]}
   relatedLinks={[
-    { label: "Total-Loss Threshold Checker calculator", href: "/calculators/total-loss-threshold-checker/" },
-    { label: "How Insurers Value a Total-Loss Vehicle", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
-    { label: "How to Dispute a Total-Loss Valuation", href: "/guides/total-loss/how-to-dispute-a-total-loss-valuation/" },
-    { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
+    { label: "Is my car totaled? Check your numbers", href: "/calculators/total-loss-threshold-checker/" },
+    { label: "How insurers value a totaled car", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
+    { label: "How to dispute a total loss valuation", href: "/guides/total-loss/how-to-dispute-a-total-loss-valuation/" },
+    { label: "Can I keep my totaled car?", href: "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/" },
   ]}
+  structuredData={structuredData}
 >
-  <h2>Two different methods, one decision</h2>
   <p>
-    Every state requires insurers to total a car once repair costs cross a certain point relative to
-    its value — but states don't agree on how to measure that point. There are two approaches in use
-    across the U.S.:
+    A total loss threshold is the point where a damaged car stops being worth fixing in the eyes of
+    the law. States set it in one of two ways, and the gap between them is large: the same repair
+    bill can total a car in Nevada and leave it on the road in Texas.
   </p>
+
+  <h2>The two rules states use</h2>
   <ul>
     <li>
-      <strong>Simple percentage threshold.</strong> If repair cost reaches a fixed percentage of the
-      vehicle's actual cash value (ACV), it's a total loss. Example: a $10,000 car in a 75%-threshold
-      state becomes a total loss once repairs reach $7,500 — regardless of salvage value.
+      <strong>A fixed percentage.</strong> Once repairs reach a set share of the car's actual cash
+      value (ACV), it is a total loss. In a 75% state, a {usd(EXAMPLE_ACV)} car is totaled at
+      {" "}{usd(EXAMPLE_ACV * 0.75)} of repairs.
     </li>
     <li>
-      <strong>Total Loss Formula (TLF).</strong> A car is a total loss once <em>repair cost + expected
-      salvage value</em> meets or exceeds ACV. Using the same $10,000 car with $7,500 in damage and an
-      estimated $1,000 salvage value: $7,500 + $1,000 = $8,500, which is still under $10,000 — so this
-      same damage would <em>not</em> be a total loss under TLF, even though it would be under a
-      75%-only rule.
+      <strong>The Total Loss Formula (TLF).</strong> The insurer adds the salvage value, meaning what
+      the wreck would sell for at auction, to the repair cost. Once that sum reaches the car's value,
+      it is a total loss. A {usd(EXAMPLE_ACV)} car with {usd(1500)} of salvage value is totaled at
+      {" "}{usd(EXAMPLE_ACV - 1500)} of repairs.
     </li>
   </ul>
-  <div class="limits-note">
-    <strong>Same damage, different outcome.</strong> This is exactly why the same accident can total a
-    car in one state and not in the one next door — it isn't just about how bad the damage looks, it's
-    about which formula your state uses and what percentage or salvage figure gets plugged in.
+
+  <h2>Total loss threshold for all 50 states</h2>
+  <p>
+    The third column shows the repair bill that crosses the line for a car worth {usd(EXAMPLE_ACV)}.
+    To run your own numbers, use the <a href="/calculators/total-loss-threshold-checker/">Is My Car
+    Totaled? calculator</a>.
+  </p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th scope="col">State</th><th scope="col">Rule</th><th scope="col">Totals a {usd(EXAMPLE_ACV)} car at</th><th scope="col">Note</th></tr>
+      </thead>
+      <tbody>
+        {STATE_THRESHOLDS.map((s) => (
+          <tr>
+            <td><a href={`/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(s.state)}/`}>{s.state}</a></td>
+            <td>{s.type === "percentage" ? `${s.thresholdPct}% of value` : "Total Loss Formula"}</td>
+            <td>{s.type === "percentage" ? `${usd((EXAMPLE_ACV * (s.thresholdPct as number)) / 100)} of repairs` : "Repairs + salvage reach $10,000"}</td>
+            <td>{s.note ? firstSentence(s.note) : ""}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </div>
 
-  <h2>Total-loss threshold by state</h2>
+  <h2>What the threshold actually controls</h2>
   <p>
-    The table below reflects a July 2026 compiled review by Policygenius, a licensed insurance
-    broker that publishes and periodically updates state-by-state insurance comparisons. It is a
-    secondary compilation, not a citation to each state's statute directly — always verify your
-    state's current rule with your state insurance department before relying on a specific number.
-    Click any state for its own page with a worked example and a link straight into the checker.
+    Most of these laws are title laws. They decide when a car must be branded salvage, which follows
+    it for life and lowers its resale value. They do not stop an insurer from totaling a car sooner.
   </p>
-  <table>
-    <thead><tr><th>State</th><th>Threshold</th></tr></thead>
-    <tbody>
-      {STATE_THRESHOLDS.map((s) => (
-        <tr>
-          <td><a href={`/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(s.state)}/`}>{s.state}</a></td>
-          <td>{s.type === "percentage" ? `${s.thresholdPct}%` : "Total Loss Formula"}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-
-  <h2>Check your own numbers against your state's rule</h2>
   <p>
-    The <a href="/calculators/total-loss-threshold-checker/">Total-Loss Threshold Checker</a> turns
-    the table above into an interactive check — pick your state, enter your repair estimate and ACV
-    (plus an estimated salvage value if your state uses the Total Loss Formula), and it applies the
-    correct method automatically.
+    In practice, insurers total many cars below the state line. If repairing the car costs about as
+    much as paying you its value and selling the wreck, paying you out is the cheaper choice. So in a
+    100% state like Texas, a car with repairs at 80% of its value and a decent salvage value can still
+    be totaled.
   </p>
+  <div class="limits-note">
+    <strong>Watch for supplements.</strong> The first repair estimate often grows once a shop takes
+    the car apart and finds hidden damage. A car that starts just under the line can cross it
+    mid-repair, which is why some cars are totaled after repairs have begun.
+  </div>
 
-  <h2>Why some states set the bar lower than 100%</h2>
+  <h2>Why lists online disagree</h2>
   <p>
-    A threshold below 100% isn't only about repair economics — it's also a safety rule. A car can
-    have hidden structural or safety-system damage (bent frame, damaged sensors, compromised airbags)
-    that isn't fully visible in a repair estimate. States with lower thresholds, like Oklahoma at 60%,
-    are more likely to keep a heavily damaged car off the road as a total loss rather than repaired
-    and returned to service, compared to a state like Texas at 100%.
+    Search for your state and you may find two or three different numbers. Most of these lists copy
+    each other, and state laws change. Recent changes we have confirmed against the law itself:
+  </p>
+  <ul>
+    <li><strong>Oklahoma: 60% → 70%</strong> on November 1, 2026 (Senate Bill 1920).</li>
+    <li><strong>Iowa: 50% → 70%</strong> for cars transferred on or after July 1, 2021.</li>
+    <li><strong>Minnesota: 80%,</strong> not the 70% many lists still show; the figure changed in a 2012 law.</li>
+    <li><strong>Colorado: 100%,</strong> with hail damage left out of the salvage test.</li>
+  </ul>
+  <p>
+    If a number matters to your claim, ask your adjuster which rule they applied and check it with
+    your state insurance department.
   </p>
 
-  <h2>What this guide cannot tell you</h2>
-  <p>
-    It cannot tell you your state's threshold with legal certainty — insurance regulations change,
-    and this table reflects one compiled secondary review as of mid-2026, not a direct reading of
-    every state's current statute or administrative code. It also cannot tell you what your specific
-    vehicle's ACV or salvage value actually is; for that, see
-    <a href="/guides/total-loss/how-insurers-value-a-total-loss-vehicle/">How Insurers Value a
-    Total-Loss Vehicle</a> and run your own numbers through the
-    <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit calculator</a>.
-  </p>
+  <h2>If your car is over the line</h2>
+  <ol>
+    <li>Ask for the written valuation report and check the comparable cars, mileage and options. The <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit</a> helps.</li>
+    <li>Ask whether sales tax and title fees are included. Many states require it; see <a href="/guides/total-loss/sales-tax-title-fees-on-a-total-loss/">sales tax and fees on a total loss</a>.</li>
+    <li>Decide whether to keep the car. Most states allow it for a smaller payout and a salvage title; see <a href="/guides/total-loss/owner-retained-total-loss-and-salvage-titles/">keeping a totaled car</a>.</li>
+  </ol>
+
+  <FaqSection faqs={faqs} />
 </GuideLayout>
+
+<style>
+  .table-wrap { overflow-x: auto; }
+  .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  .table-wrap th, .table-wrap td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+  .table-wrap td:last-child { font-size: 0.85rem; color: var(--color-text-muted); }
+</style>

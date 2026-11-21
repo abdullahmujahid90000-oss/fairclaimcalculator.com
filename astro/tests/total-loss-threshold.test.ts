@@ -164,3 +164,61 @@ describe("checkTotalLossThreshold — validation", () => {
     );
   });
 });
+
+describe("checkTotalLossThreshold — distance to the line", () => {
+  it("percentage state: places the line at ACV × threshold and reports the gap", () => {
+    const result = checkTotalLossThreshold({ state: "Florida", repairEstimateCents: 700000, acvCents: 1000000 });
+    expect(result.repairAtLineCents).toBe(800000);
+    expect(result.marginCents).toBe(-100000);
+  });
+
+  it("percentage state: rounds the line up to the next cent", () => {
+    const result = checkTotalLossThreshold({ state: "Alabama", repairEstimateCents: 0, acvCents: 1001 });
+    expect(result.repairAtLineCents).toBe(751);
+  });
+
+  it("percentage state: flags when repair + salvage reaches ACV below the percentage", () => {
+    const result = checkTotalLossThreshold({
+      state: "Texas",
+      repairEstimateCents: 800000,
+      acvCents: 1000000,
+      estimatedSalvageValueCents: 250000,
+    });
+    expect(result.meetsPercentageThreshold).toBe(false);
+    expect(result.insurerMayTotalAnyway).toBe(true);
+  });
+
+  it("percentage state: no salvage estimate means no early-total check", () => {
+    const result = checkTotalLossThreshold({ state: "Texas", repairEstimateCents: 800000, acvCents: 1000000 });
+    expect(result.insurerMayTotalAnyway).toBeNull();
+  });
+
+  it("TLF state: line is ACV minus salvage", () => {
+    const result = checkTotalLossThreshold({
+      state: "California",
+      repairEstimateCents: 750000,
+      acvCents: 1000000,
+      estimatedSalvageValueCents: 150000,
+    });
+    expect(result.repairAtLineCents).toBe(850000);
+    expect(result.marginCents).toBe(-100000);
+    expect(result.insurerMayTotalAnyway).toBeNull();
+  });
+
+  it("TLF state: salvage above ACV puts the line at zero", () => {
+    const result = checkTotalLossThreshold({
+      state: "Ohio",
+      repairEstimateCents: 10000,
+      acvCents: 100000,
+      estimatedSalvageValueCents: 150000,
+    });
+    expect(result.repairAtLineCents).toBe(0);
+    expect(result.marginCents).toBe(10000);
+  });
+
+  it("TLF state without salvage: the line is unknown", () => {
+    const result = checkTotalLossThreshold({ state: "Ohio", repairEstimateCents: 500000, acvCents: 1000000 });
+    expect(result.repairAtLineCents).toBeNull();
+    expect(result.marginCents).toBeNull();
+  });
+});

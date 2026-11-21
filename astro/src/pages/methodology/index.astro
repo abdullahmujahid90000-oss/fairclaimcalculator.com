@@ -96,7 +96,7 @@ const tools = [
         <p class="warning-note"><strong>What it does not do:</strong> {tool.doesNot}</p>
         <p class="section-note"><strong>Basis:</strong></p>
         <ul class="quality-list">
-          {tool.sources.map((source: string) => <li>{source}</li>)}
+          {tool.sources.map((source: string) => <li set:html={source} />)}
         </ul>
         <p><a href={tool.href}>Open this calculator →</a></p>
       </div>

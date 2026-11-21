@@ -156,6 +156,35 @@ describe("calculateSettlementBreakdown", () => {
     expect(r.netToOwnerCents).toBe(1000000 - 300000 - 150000);
   });
 
+  it("keeping the car with a large loan: salvage comes off before the lender, owner never goes negative", () => {
+    const r = calculateSettlementBreakdown({
+      acvCents: 1000000,
+      claimType: "first-party",
+      hasLoan: true,
+      loanPayoffCents: 950000,
+      retainingSalvage: true,
+      salvageDeductionCents: 200000,
+    });
+    expect(r.netToLienholderCents).toBe(800000);
+    expect(r.netToOwnerCents).toBe(0);
+    expect(r.loanShortfallCents).toBe(150000);
+    expect(r.rows.map((row) => row.key)).toEqual(["acv", "grossSettlement", "salvage", "toLienholder"]);
+  });
+
+  it("reports the loan shortfall even without GAP", () => {
+    const r = calculateSettlementBreakdown({
+      acvCents: 1000000,
+      claimType: "first-party",
+      deductibleCents: 50000,
+      hasLoan: true,
+      loanPayoffCents: 1200000,
+      retainingSalvage: false,
+    });
+    expect(r.netToLienholderCents).toBe(950000);
+    expect(r.loanShortfallCents).toBe(250000);
+    expect(r.gapNote).toBeNull();
+  });
+
   it("prior partial payment reduces net to owner", () => {
     const r = calculateSettlementBreakdown({
       acvCents: 1000000,

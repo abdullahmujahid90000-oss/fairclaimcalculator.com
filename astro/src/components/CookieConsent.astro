@@ -1,9 +1,11 @@
 ---
-// Real cookie-consent banner + Google Consent Mode v2 wiring for Google
-// Analytics. Stricter than Google's own minimum: the gtag.js script tag
-// itself is never injected — no request to googletagmanager.com happens
-// at all — until the visitor has actually accepted (this run or a prior
-// one), not merely "denied by default but loaded anyway." See
+// Cookie-consent banner + Google Consent Mode v2 wiring for Google
+// Analytics. Region-aware (changed 2026-11-07): in the EEA, UK and
+// Switzerland analytics storage is denied until the visitor accepts; in the
+// U.S. and elsewhere, where privacy law uses an opt-out model, analytics is
+// on by default and the visitor can reject it here or from "Privacy
+// choices." The earlier load-only-after-accept design hid nearly all U.S.
+// visitors from reporting. A stored "Reject" means gtag.js is never loaded. See
 // astro/src/lib/analytics/config.ts for the on/off switch and measurement
 // ID, and /privacy/ for the plain-language explanation shown to visitors.
 //
@@ -16,8 +18,9 @@ import { ANALYTICS_ENABLED, GA_MEASUREMENT_ID } from "@lib/analytics/config";
 {ANALYTICS_ENABLED && (
   <div id="cookie-consent-banner" class="cookie-banner" role="region" aria-label="Cookie preferences" tabindex="-1" hidden>
     <p>
-      We use Google Analytics to see how many people visit and which pages are useful — never what
-      you type into a calculator. It only runs if you accept. See the <a href="/privacy/">privacy policy</a>.
+      We use Google Analytics to count visits and see which pages are useful — never what you type
+      into a calculator. You can accept or reject it, and change your mind any time under
+      "Privacy choices." See the <a href="/privacy/">privacy policy</a>.
     </p>
     <div class="cookie-banner-actions">
       <button type="button" id="cookie-reject-btn" class="btn-secondary">Reject</button>
@@ -35,9 +38,9 @@ import { ANALYTICS_ENABLED, GA_MEASUREMENT_ID } from "@lib/analytics/config";
       function gtag() { window.dataLayer.push(arguments); }
       window.gtag = window.gtag || gtag;
 
-      // Consent Mode v2 defaults: everything denied until a visitor
-      // affirmatively grants it. Declared even though we also withhold the
-      // gtag.js script itself, so the signal is correct the instant it does load.
+      // Consent Mode v2 defaults, set before gtag.js loads. Analytics:
+      // denied in opt-in regions until the visitor accepts, granted elsewhere
+      // until the visitor rejects.
       //
       // Advertising consent is owned by Google's own certified CMP
       // (AdSense → Privacy & messaging), which shows the IAB TCF message to
@@ -58,7 +61,7 @@ import { ANALYTICS_ENABLED, GA_MEASUREMENT_ID } from "@lib/analytics/config";
         ad_storage: "granted",
         ad_user_data: "granted",
         ad_personalization: "granted",
-        analytics_storage: "denied",
+        analytics_storage: "granted",
       });
 
       function loadGaScript() {
@@ -94,7 +97,11 @@ import { ANALYTICS_ENABLED, GA_MEASUREMENT_ID } from "@lib/analytics/config";
       if (stored === "granted") {
         gtag("consent", "update", { analytics_storage: "granted" });
         loadGaScript();
-      } else if (stored !== "denied") {
+      } else if (stored === "denied") {
+        gtag("consent", "update", { analytics_storage: "denied" });
+      } else {
+        // No choice yet: load with the regional defaults above and ask.
+        loadGaScript();
         showBanner();
       }
 
@@ -130,6 +137,12 @@ import { ANALYTICS_ENABLED, GA_MEASUREMENT_ID } from "@lib/analytics/config";
     align-items: center;
     justify-content: space-between;
     gap: 14px;
+  }
+
+  /* `display: flex` above would otherwise override the hidden attribute,
+     leaving the banner on screen after a choice was made. */
+  .cookie-banner[hidden] {
+    display: none;
   }
 
   .cookie-banner p {

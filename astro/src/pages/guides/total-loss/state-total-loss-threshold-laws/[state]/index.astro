@@ -14,6 +14,7 @@ import {
   getCrossBorderScenario,
 } from "@lib/content/state-threshold-copy";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
+import { isNoindexThresholdStatePage } from "@lib/seo/indexing.mjs";
 
 export function getStaticPaths() {
   return STATE_THRESHOLDS.map((entry) => ({
@@ -45,6 +46,8 @@ const meaning = getPracticalMeaning(entry);
 
 const neighbors = getNeighborComparisons(entry, STATE_THRESHOLDS);
 const position = getNationalPosition(entry, STATE_THRESHOLDS);
+const pctValues = STATE_THRESHOLDS.flatMap((s) => (s.thresholdPct === null ? [] : [s.thresholdPct]));
+const pctRange = { min: Math.min(...pctValues), max: Math.max(...pctValues) };
 const crossBorder = getCrossBorderScenario(entry, STATE_THRESHOLDS);
 const relationText: Record<string, string> = {
   same: "Same rule",
@@ -103,6 +106,7 @@ const structuredData = [buildFaqSchema(faqs)];
     { label: "Total-Loss Offer Audit calculator", href: "/calculators/total-loss-offer-audit/" },
   ]}
   structuredData={structuredData}
+  noindex={isNoindexThresholdStatePage(path)}
 >
   <h2>The rule in {entry.state}</h2>
   <p>
@@ -149,7 +153,7 @@ const structuredData = [buildFaqSchema(faqs)];
   ) : (
     <p>
       {entry.state} is one of {position.tlfCount} jurisdictions that use the Total Loss Formula. The
-      other {position.pctCount} use a fixed percentage of ACV, ranging from 60% to 100%.
+      other {position.pctCount} use a fixed percentage of ACV, ranging from {pctRange.min}% to {pctRange.max}%.
     </p>
   )}
 

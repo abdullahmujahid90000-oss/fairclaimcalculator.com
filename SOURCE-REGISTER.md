@@ -446,6 +446,48 @@ already sourced for register entries #10 (guide) and #8.1 (calculator).
   is "Washington, D.C." at 59/60 title characters and 128/160 description
   characters.
 
+## 8b. State threshold statute checks (2026-10-29 and 2026-11-11)
+
+| State | Rule now used | Source | Checked |
+|---|---|---|---|
+| Minnesota | 80% | Minn. Stat. § 168A.01 subd. 17b, § 168A.151 | 2026-10-29 |
+| Iowa | 70% (50% before 2021-07-01) | Iowa Code § 321.52; Iowa Admin. Code 761—405 | 2026-10-29 |
+| Oklahoma | 70% from 2026-11-01 (was 60%) | 47 O.S. § 1111 as amended by SB 1920 (2026); Oklahoma Insurance Department, 2026 Statute and Rule Changes | 2026-11-11 |
+| Colorado | 100% (repair cost > retail FMV); hail excluded | C.R.S. § 42-6-102; Colorado DMV Salvage Vehicles page | 2026-11-11 |
+| Florida | 80% | Fla. Stat. § 319.30; FLHSMV procedure TL-35 | 2026-11-11 (kept; no row change) |
+
+All other rows still rest on the Policygenius compilation (July 2026) until roadmap topic 17.
+
+## 8c. Total loss payout sources (2026-11-13)
+
+| Claim on the site | Source |
+|---|---|
+| Settlement order: ACV + sales tax + pro-rated fees, then salvage deducted if the owner keeps the car | Washington OIC, "How insurers calculate taxes and fees when your car is totaled" |
+| Kansas requires sales tax and title/registration fees for a comparable vehicle; deductible and retained salvage subtracted | Kansas Insurance Department Bulletin 2013-1 |
+| Condition adjustment compares the loss vehicle with dealer inventory / private listings; refurbishment adjustments | CCC Intelligent Solutions, Valuation Glossary |
+| Projected sold adjustment challenged in class actions; mixed rulings incl. 2025 Seventh Circuit reversal of class certification | Repairer Driven News; Claims Journal; Insurance Journal (2021–2025) |
+| Insurers use licensed valuation systems (CCC, Mitchell, Audatex-based) | New Hampshire Insurance Department, accepted total-loss valuation methods |
+
+## 8d. My Claim tracker (2026-11-16)
+
+| Claim on the site | Source |
+|---|---|
+| Many states expect insurers to acknowledge a claim within about 15 days (used only as a follow-up prompt) | NAIC Unfair Claims Settlement Practices model (acknowledge within 15 days); NAIC model law chart MC-50 claims settlement provisions (state variations: 10 working days, 15 days) |
+
+## 8e. After-an-accident guidance (2026-11-18)
+
+| Claim on the site | Source |
+|---|---|
+| About half of U.S. states require drivers in minor, no-injury crashes to move drivable vehicles out of travel lanes | FHWA, Traffic Incident Management Quick Clearance Laws; Missouri DOT "Steer It, Clear It" law page; Arizona DOT news release on moving cars out of travel lanes |
+| Missouri drivers won't be penalized by police or insurers for moving a car off the road after a crash with no serious injuries | Missouri DOT "Steer It, Clear It" |
+| Replace a child car seat after a moderate or severe crash | NHTSA, Car Seats and Booster Seats |
+
+## 8f. Crash report copies (2026-11-20)
+
+All ten entries live in `astro/src/lib/content/crash-report-copies.ts`, each with its official ordering page:
+California (CHP, Request a Collision Report), Texas (TxDOT Crash reports and records), Florida (FLHSMV Florida Crash Portal; Fla. Stat. 316.066 and 321.23), New York (NY DMV order accident reports), Pennsylvania (PSP request a crash report), Illinois (ISP Crash reports E-Pay), Ohio (City of Columbus, Find an Accident Report; ODPS retrieval), Georgia (GDOT crash report request form), North Carolina (NC DMV crash reports), Michigan (MSP Traffic Crash Purchasing System; $15 fee per House Fiscal Agency, March 2026).
+Fees not published by the agency (Georgia, North Carolina, Ohio) are shown as "confirm before paying", never guessed.
+
 ## 9. What is NOT yet in this register
 
 Nothing currently published on the site is missing from this register as

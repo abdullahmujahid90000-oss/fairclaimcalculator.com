@@ -38,7 +38,8 @@ export function trackCalculatorCompleted(
     | "leased_diminished_value"
     | "total_loss_threshold"
     | "gap_shortfall"
-    | "sales_tax_title_fee",
+    | "sales_tax_title_fee"
+    | "total_loss_payout",
 ): void {
   trackEvent("calculator_completed", { calculator });
 }
