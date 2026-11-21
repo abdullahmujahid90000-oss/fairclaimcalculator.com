@@ -16,6 +16,9 @@ from bs4 import BeautifulSoup
 
 DIST = "dist"
 SITE = "https://www.fairclaimcalculator.com"
+# Legal pages are linked from the footer on every page; that is their normal
+# home, so they are exempt from the body-link orphan check (reported in warns).
+FOOTER_ONLY = {"/privacy/", "/terms/", "/accessibility/", "/disclaimer/", "/advertising-disclosure/"}
 PLACEHOLDER = re.compile(r"\b(TODO|TBD|lorem ipsum|FIXME|XXX)\b", re.I)
 
 
@@ -72,6 +75,7 @@ def main():
                 schema += t if isinstance(t, list) else [t]
         main = s.find("main")
         words, body_links, missing_alt = 0, [], 0
+        anchors = defaultdict(int)
         if main:
             for n in main.find_all("nav"):
                 if "breadcrumb" in (n.get("aria-label", "") + " ".join(n.get("class", []))).lower():
@@ -80,6 +84,7 @@ def main():
                 t = norm(a["href"], url)
                 if t:
                     body_links.append(t)
+                    anchors[(t, a.get_text(" ", strip=True).lower())] += 1
             for sc in main.find_all(["script", "style", "noscript", "template"]):
                 sc.decompose()
             txt = main.get_text(" ", strip=True)
@@ -99,6 +104,7 @@ def main():
             schema=sorted({x for x in schema if x}), bad_jsonld=bad_ld,
             out=len(outlinks[url]), last_reviewed=m.group(1) if m else "",
             placeholder=bool(PLACEHOLDER.search(texts.get(url, ""))), missing_alt=missing_alt,
+            repeated_anchor=[f"{k[1]} -> {k[0]} x{v}" for k, v in anchors.items() if v > 2 and k[1]],
             ext_sources=len({a["href"] for a in (main.find_all("a", href=True) if main else []) if a["href"].startswith("http") and "fairclaimcalculator" not in a["href"]}),
         )
     inbound = defaultdict(set)
@@ -125,13 +131,15 @@ def main():
         "title_over_60": [(u, r["title_len"]) for u, r in idx.items() if r["title_len"] > 60],
         "desc_over_160": [(u, r["desc_len"]) for u, r in idx.items() if r["desc_len"] > 160],
         "bad_jsonld": [u for u, r in live.items() if r["bad_jsonld"]],
-        "orphans_lt3_in": [(u, r["in"]) for u, r in idx.items() if r["in"] < 3 and u != "/"],
+        "orphans_lt3_in": [(u, r["in"]) for u, r in idx.items() if r["in"] < 3 and u != "/" and u not in FOOTER_ONLY],
+        "anchor_repeated_gt2": [(u, r["repeated_anchor"]) for u, r in idx.items() if r["repeated_anchor"]],
     }
     warns = {
         "dup_titles": dup("title"),
         "desc_under_110": [(u, r["desc_len"]) for u, r in idx.items() if r["desc_len"] < 110],
         "thin_lt700": [(u, r["words"]) for u, r in idx.items() if r["words"] < 700],
         "in_lt4": [(u, r["in"]) for u, r in idx.items() if r["in"] < 4],
+        "footer_only_pages": [(u, r["in"]) for u, r in idx.items() if u in FOOTER_ONLY and r["in"] < 3],
         "out_lt3": [(u, r["out"]) for u, r in idx.items() if r["out"] < 3],
         "no_last_reviewed": [u for u, r in idx.items() if not r["last_reviewed"]],
         "placeholder": [u for u, r in live.items() if r["placeholder"]],

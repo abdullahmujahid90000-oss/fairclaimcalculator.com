@@ -1407,3 +1407,49 @@ one session edits the repo. Branch: `seo/cluster-a-total-loss`.
   accessibility) have only footer links (normal for legal pages, counted as
   "orphans" by the strict body-link metric); 37 pages lack a visible reviewed
   date (batch 7); accident-reporting pages still 0.57–0.81 similar (batch 2).
+
+### 2026-11-21 — Batch 1b: internal linking and ranking pass
+
+Branch `seo/internal-linking-ranking` (contains batch 1, which reaches `main`
+through PR #4: PR #3 had been merged into PR #2's branch instead of `main`).
+
+- One topic map, `astro/src/lib/seo/topic-clusters.ts`: four clusters (totaled
+  cars, diminished value, claims and disputes, after an accident), each with a
+  pillar hub and an ordered reading list of guides, calculators, forms and
+  tools. Every page belongs to one cluster.
+- New `TopicLinks.astro` (rendered by BaseLayout): "In this topic" block with
+  the previous and next page in the reading order, the cluster's main tools and
+  the pillar. Gives every clustered page two sibling links in and out.
+- Hubs rendered from the map (`ClusterHubList.astro`) so new pages appear
+  automatically: `/guides/total-loss/` (now lists the threshold change tracker
+  and all calculators and templates), `/guides/diminished-value/`,
+  `/guides/claim-process/`. Each has a 200+ word "where to start" intro and
+  CollectionPage + ItemList schema. `/guides/` counts are computed (the old
+  hard-coded "Twenty-three guides" was stale); `/calculators/` and `/forms/`
+  intros explain how to choose. Calculators hub card for the threshold checker
+  updated to the batch 1 state rules.
+- Titles: 19 guides plus the glossary and the tool chooser rewritten keyword
+  first (e.g. "Does Insurance Pay Sales Tax on a Totaled Car?", "How to File a
+  Complaint Against an Insurance Company"); hub titles no longer compete with
+  the homepage's "Free Car Insurance Claim Calculators".
+- Schema: WebApplication on the 8 calculators that lacked it
+  (`src/lib/seo/app-schema.ts`); BreadcrumbList on `/my-claim/`.
+- Glossary linked from every guide's notice box (off on templated state
+  pages, which explain their own terms and must stay below the 0.60
+  similarity line: indexed threshold pages max 0.595 after this change).
+  Repeated glossary anchors varied; duplicate state link on the
+  accident-reporting hub removed.
+- `audit-site.py`: new gate `anchor_repeated_gt2` (same anchor to the same
+  target more than twice on a page); legal pages linked only from the footer
+  (privacy, terms, accessibility, disclaimer, advertising disclosure) are
+  reported separately instead of as orphans.
+- Link graph, 51 guides/calculators/forms/tools: inbound body links min 3 → 4,
+  median 8 → 9; outbound min 3 → 7, median 11 → 13; pages with fewer than 6
+  inbound links 10 → 3. Glossary inbound 3 → 27.
+- Verified: typecheck 0 errors; 218/218 tests; build OK; axe 0 violations on
+  199 pages; Chromium at 390px: 0 overflow and 0 axe violations (incl.
+  contrast) on 11 pages incl. all hubs; gate: 0 broken links, 0 orphans, 0
+  repeated anchors, titles ≤ 60, descriptions ≤ 160, valid JSON-LD.
+- Still open: Alaska and Hawaii accident pages have 3 inbound links (no
+  bordering states); accident-reporting similarity (batch 2); 37 pages without
+  a visible reviewed date (batch 7).

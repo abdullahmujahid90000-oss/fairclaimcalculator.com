@@ -1,9 +1,11 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import ClusterHubList from "@components/ClusterHubList.astro";
+import { clusterHubSchema } from "@lib/seo/hub-schema";
 
-const title = "Claim Process Guides | FairClaimCalculator";
+const title = "Car Insurance Claim Guides: Rentals, Offers, Complaints";
 const description =
-  "Source-backed guides on first-party vs. third-party auto claims, rental/loss-of-use reimbursement, outside help, and a full evidence checklist.";
+  "How a car insurance claim works after the crash: whose insurer pays, rental cars, low offers, outside help and complaints, with templates and a free tracker.";
 const path = "/guides/claim-process/";
 
 const structuredData = [
@@ -13,49 +15,63 @@ const structuredData = [
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
       { "@type": "ListItem", position: 2, name: "Guides", item: "https://www.fairclaimcalculator.com/guides/" },
-      { "@type": "ListItem", position: 3, name: "Claim Process", item: `https://www.fairclaimcalculator.com${path}` },
+      { "@type": "ListItem", position: 3, name: "Claims and disputes", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
-];
-
-const guides = [
-  { title: "What to Do After a Car Accident", href: "/guides/claim-process/what-to-do-after-a-car-accident/", desc: "A step-by-step checklist from the scene to the claim." },
-  { title: "First-Party vs. Third-Party Auto Claims", href: "/guides/claim-process/first-party-vs-third-party-auto-claims/", desc: "Why the type of claim changes your rights and process." },
-  { title: "Rental Car & Loss-of-Use Reimbursement", href: "/guides/claim-process/rental-car-loss-of-use-reimbursement/", desc: "Your own coverage vs. a claim against the at-fault driver's insurer." },
-  { title: "When to Consider an Independent Appraisal or Attorney", href: "/guides/claim-process/when-to-consider-an-independent-appraisal-or-attorney/", desc: "Signs a factual letter alone may not be enough." },
-  { title: "Car Insurance Claim Checklist", href: "/guides/claim-process/auto-claim-evidence-checklist/", desc: "Every document you need, from the scene to the settlement." },
-  { title: "How to Respond to a Lowball Offer", href: "/guides/claim-process/how-to-respond-to-a-lowball-offer/", desc: "A step-by-step, evidence-based rebuttal process." },
-  { title: "Filing a Complaint with Your State Insurance Department", href: "/guides/claim-process/filing-a-complaint-with-your-state-insurance-department/", desc: "What a DOI can and can't do, and the NAIC's real contact directory." },
-  { title: "Diminished Value vs. Total Loss: Which Claim Do I Have?", href: "/guides/claim-process/diminished-value-vs-total-loss-which-claim/", desc: "One fact — repaired or totaled — routes you to the right tools." },
+  clusterHubSchema("claim-process", "Car insurance claim guides", description, path),
 ];
 ---
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
-  <div class="container">
-    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/guides/">Guides</a> / Claim Process</p>
-    <h1 class="page-title">Claim Process Guides</h1>
+  <div class="container hub-container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/guides/">Guides</a> / Claims and disputes</p>
+    <h1 class="page-title">Car Insurance Claim Guides</h1>
     <p class="lead">
-      Eight guides on how the U.S. auto claims process works — what to do after a crash, first-party vs. third-party claims,
-      rental/loss-of-use reimbursement, responding to a lowball offer, when outside help may be
-      worth it, a full evidence checklist, filing a state DOI complaint, and which claim you have.
+      Most of a car insurance claim happens after the tow truck leaves: deciding whose insurer to
+      claim from, getting a rental, checking the offer and, sometimes, pushing back. These guides
+      take you through it in order, with a template or tool at each step.
     </p>
-    <div class="guide-hub-grid">
-      {guides.map((g) => (
-        <a href={g.href} class="guide-hub-card">
-          <h2>{g.title}</h2>
-          <p>{g.desc}</p>
-        </a>
-      ))}
-    </div>
-    <p class="browse-link"><a href="/check-my-offer/">Not sure where to start? Try Check My Offer →</a></p>
+
+    <h2>Where to start</h2>
+    <ul class="start-list">
+      <li>
+        <strong>Just had the accident?</strong> Follow the
+        {" "}<a href="/guides/claim-process/what-to-do-after-a-car-accident/">after-an-accident checklist</a>
+        {" "}and check <a href="/guides/accident-reporting/">whether your state requires a crash report</a>.
+      </li>
+      <li>
+        <strong>Filing the claim?</strong> Decide between
+        {" "}<a href="/guides/claim-process/first-party-vs-third-party-auto-claims/">your own policy and the other
+        driver's</a>, and start a record in the <a href="/my-claim/">My Claim tracker</a> or the printable
+        {" "}<a href="/forms/claim-communication-log/">claim log</a>. Dates and names matter if the claim stalls.
+      </li>
+      <li>
+        <strong>Without a car?</strong> See when the insurer pays for
+        {" "}<a href="/guides/claim-process/rental-car-loss-of-use-reimbursement/">a rental or loss of use</a> and
+        check the offer with the <a href="/calculators/loss-of-use-reimbursement/">loss of use calculator</a>.
+      </li>
+      <li>
+        <strong>Offer too low, or the claim going nowhere?</strong> Start with
+        {" "}<a href="/guides/claim-process/how-to-respond-to-a-lowball-offer/">responding to a lowball
+        offer</a>, then the <a href="/calculators/claim-letter-builder/">claim letter generator</a>. If that
+        fails, see <a href="/guides/claim-process/when-to-consider-an-independent-appraisal-or-attorney/">when
+        to bring in an appraiser or attorney</a> and
+        {" "}<a href="/guides/claim-process/filing-a-complaint-with-your-state-insurance-department/">how to
+        file a complaint</a> with your state insurance department.
+      </li>
+    </ul>
+    <p>
+      This site covers vehicle and property damage claims only, not injury claims. The guides are
+      educational and cite their sources; your policy and your state's rules decide the details.
+    </p>
+
+    <ClusterHubList clusterId="claim-process" />
+
+    <h2>After an accident</h2>
+    <ClusterHubList clusterId="accident" />
   </div>
 </BaseLayout>
 
 <style>
-  .guide-hub-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 24px 0 30px; }
-  @media (max-width: 640px) { .guide-hub-grid { grid-template-columns: 1fr; } }
-  .guide-hub-card { display: block; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 18px; text-decoration: none; color: inherit; }
-  .guide-hub-card:hover, .guide-hub-card:focus-visible { border-color: var(--color-primary); }
-  .guide-hub-card h2 { margin: 0 0 6px; font-size: 1.02rem; color: var(--color-primary-dark); }
-  .guide-hub-card p { margin: 0; font-size: 0.88rem; color: var(--color-text-muted); }
-  .browse-link { margin: 10px 0 50px; }
+  .hub-container { max-width: 900px; }
+  .start-list li { margin-bottom: 10px; }
 </style>

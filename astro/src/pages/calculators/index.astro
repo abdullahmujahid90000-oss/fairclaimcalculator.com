@@ -2,9 +2,9 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import CalculatorCard from "@components/CalculatorCard.astro";
 
-const title = "Free U.S. Auto Claim Calculators | FairClaimCalculator";
+const title = "Auto Claim Calculators: Total Loss, Diminished Value, GAP";
 const description =
-  "Ten free, private calculators for U.S. drivers — total-loss, settlement checks, diminished value, GAP gaps, tax/fees, leased vehicles, and claim letters.";
+  "Free, private car insurance claim calculators: is my car totaled, totaled car value, settlement check, diminished value, GAP shortfall, rental and more.";
 const path = "/calculators/";
 
 const structuredData = [
@@ -23,9 +23,19 @@ const structuredData = [
     <p class="breadcrumb-text"><a href="/">Home</a> / Calculators</p>
     <h1 class="page-title">Ten Free Auto Claim Calculators</h1>
     <p class="lead">
-      Built for the U.S. auto claims process — all 50 states. Choose the job you need to do. Every
-      tool runs in your browser, shows its arithmetic or template rules, and states what it cannot
-      determine.
+      Free calculators for U.S. drivers with a car insurance claim. Each one answers a single
+      question, runs entirely in your browser and shows every step of its math, so you can check the
+      insurer's numbers instead of taking them on trust.
+    </p>
+    <p>
+      Choose by where your claim is. If the car may be a write-off, start with the
+      {" "}<a href="/calculators/total-loss-threshold-checker/">Is My Car Totaled? calculator</a>, then
+      check the payout with the <a href="/calculators/total-loss-offer-audit/">totaled car value
+      calculator</a>. Once you have an offer, the settlement breakdown shows how it becomes a check,
+      and the gap and salvage calculators cover a loan you still owe or a car you want to keep. If the
+      car was repaired instead, the diminished value calculators estimate the lost resale value. The
+      rental calculator checks a loss-of-use offer, and the letter generator turns your findings into
+      a factual letter. Nothing you type is sent anywhere. Not sure which fits?
     </p>
     <div class="page-actions">
       <a href="/check-my-offer/" class="btn-primary">Help Me Choose</a>
@@ -47,8 +57,8 @@ const structuredData = [
           salvage deduction against your own market evidence.
         </CalculatorCard>
         <CalculatorCard name="Total-Loss Threshold Checker" href="/calculators/total-loss-threshold-checker/">
-          Check your repair estimate and ACV against your own state's percentage rule or Total Loss
-          Formula, using the exact published state-by-state table.
+          Check your repair estimate and the car's value against your state's rule: a percentage
+          where the law sets one, or the repairs-plus-salvage test insurers use elsewhere.
         </CalculatorCard>
         <CalculatorCard name="Loan/Lease Payoff vs. ACV Gap" href="/calculators/gap-shortfall/">
           See the exact dollar gap between your loan or lease payoff and your settlement, plus a

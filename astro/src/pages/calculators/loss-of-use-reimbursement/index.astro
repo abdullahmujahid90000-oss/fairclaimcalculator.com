@@ -1,4 +1,5 @@
 ---
+import { webApplicationSchema } from "@lib/seo/app-schema";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ErrorSummary from "@components/ErrorSummary.astro";
 import FaqSection from "@components/FaqSection.astro";
@@ -60,6 +61,7 @@ const structuredData = [
       { "@type": "HowToStep", name: "What you actually spent", text: "Enter what you actually spent on a rental, if any, to compare against the offer." },
     ],
   },
+  webApplicationSchema(title, path, description),
   buildFaqSchema(faqs),
 ];
 ---
