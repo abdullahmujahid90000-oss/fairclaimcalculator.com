@@ -14,16 +14,22 @@ const path = "/calculators/total-loss-threshold-checker/";
 // Worked example shown on the page: one car, four states.
 const example = { acv: 12000, repair: 8500, salvage: 2000 };
 
+// Counts for the FAQ, computed from the state data so they never drift.
+const pctStates = STATE_THRESHOLDS.filter((s) => s.type === "percentage");
+const pctOnlyStates = pctStates.filter((s) => s.state !== "Washington, D.C.").length;
+const noPctCount = STATE_THRESHOLDS.length - pctStates.length;
+const between70and80 = pctStates.filter((s) => (s.thresholdPct as number) >= 70 && (s.thresholdPct as number) <= 80).length;
+
 const faqs: FaqItem[] = [
   {
     question: "What percentage of damage makes a car totaled?",
     answer:
-      "It depends on your state. Of the 28 states (plus Washington, D.C.) that use a fixed percentage, 26 set it between 70% and 80% of the car's actual cash value. The lowest is Nevada at 65%, and Colorado and Texas use 100%. Oklahoma moved from 60% to 70% on November 1, 2026. The other 22 states use the Total Loss Formula, which adds the car's salvage value to the repair cost before comparing it with the car's value.",
+      `It depends on your state. ${pctOnlyStates} states and Washington, D.C. name a percentage in their law, and ${between70and80} of those set it between 70% and 80% of the car's value. Nevada is lowest at 65%, Rhode Island's insurer rule is 85%, and Colorado and Texas use 100%. The other ${noPctCount} states set no percentage: the insurer decides, usually by adding the wreck's salvage value to the repair cost and comparing that with the car's value.`,
   },
   {
     question: "Can my insurer total my car before it reaches my state's percentage?",
     answer:
-      "Yes, and it often does. The state percentage is the point where state law treats the car as a total loss, usually so the title has to be branded salvage. An insurer can decide earlier that paying you the car's value is cheaper than repairing it, especially once the repair cost plus what the wreck sells for at auction is close to the car's value.",
+      "In most states, yes, and it often does. The state percentage is usually the point where the title has to be branded salvage. An insurer can decide earlier that paying you the car's value is cheaper than repairing it, especially once the repair cost plus what the wreck sells for at auction is close to the car's value. Rhode Island is the main exception: there an insurer generally may not total a car until damage reaches 85%, unless you ask in writing.",
   },
   {
     question: "Is my car totaled if the airbags deployed?",
@@ -119,7 +125,7 @@ const structuredData = [
           <div class="field">
             <label for="salvageValue">Salvage value (optional)</label>
             <input type="number" id="salvageValue" name="salvageValue" min="0" step="1" inputmode="decimal" aria-describedby="salvageValue-hint" />
-            <p class="hint" id="salvageValue-hint">What the wrecked car would sell for at auction. Needed for Total Loss Formula states; in other states it shows whether the insurer may total it early.</p>
+            <p class="hint" id="salvageValue-hint">What the wrecked car would sell for at auction. Needed in states with no set percentage; elsewhere it shows whether the insurer may total it early.</p>
           </div>
         </div>
 
@@ -158,8 +164,8 @@ const structuredData = [
       <h2>How insurers decide a car is totaled</h2>
       <ol>
         <li>
-          <strong>They value the car as it was before the crash.</strong> This is the actual cash
-          value (ACV): what a similar car with similar miles and options was selling for near you.
+          <strong>They value the car as it was before the crash.</strong> This is the
+          {" "}<a href="/glossary/#acv-actual-cash-value">actual cash value (ACV)</a>: what a similar car with similar miles and options was selling for near you.
           It comes from a valuation report built on comparable listings.
         </li>
         <li>
@@ -168,15 +174,15 @@ const structuredData = [
           some cars are totaled after repairs have started.
         </li>
         <li>
-          <strong>They apply your state's rule.</strong> In most states, that is a fixed
-          percentage: once repairs reach, say, 75% of the car's value, it is a total loss. In Total
-          Loss Formula states, the insurer adds the salvage value to the repair cost and totals the
-          car once that sum reaches its value.
+          <strong>They apply your state's rule.</strong> About half the states name a percentage:
+          once repairs reach, say, 75% of the car's value, the car is a total loss for title
+          purposes. The rest set no percentage, so the insurer decides, usually by adding the
+          salvage value to the repair cost and totaling the car once that sum reaches its value.
         </li>
       </ol>
       <p>
-        One thing most explanations leave out: the state percentage is a ceiling, not a floor. An
-        insurer can total your car below it whenever repairing it would cost more than paying you
+        One thing most explanations leave out: in most states the percentage is a ceiling, not a
+        floor. An insurer can total your car below it whenever repairing it would cost more than paying you
         its value and selling the wreck. That is why a car in a 100% state like Texas can still be
         totaled with repairs at 80% of its value.
       </p>
@@ -193,14 +199,14 @@ const structuredData = [
           </thead>
           <tbody>
             <tr><td>Nevada</td><td>65% of value</td><td>$7,800 in repairs</td><td>Totaled</td></tr>
-            <tr><td>Florida</td><td>80% of value</td><td>$9,600 in repairs</td><td>Not totaled by the state rule</td></tr>
-            <tr><td>California</td><td>Total Loss Formula</td><td>$10,000 in repairs ($12,000 − $2,000 salvage)</td><td>Not totaled</td></tr>
+            <tr><td>Minnesota</td><td>80% of value</td><td>$9,600 in repairs</td><td>Not totaled by the state rule</td></tr>
+            <tr><td>California</td><td>No % in law; insurers usually use repairs + salvage</td><td>$10,000 in repairs ($12,000 − $2,000 salvage)</td><td>Not totaled</td></tr>
             <tr><td>Texas</td><td>100% of value</td><td>$12,000 in repairs</td><td>Not totaled by the state rule</td></tr>
           </tbody>
         </table>
       </div>
       <p>
-        In Florida and Texas the insurer could still decide to total it if the repair estimate grows,
+        In Minnesota and Texas the insurer could still decide to total it if the repair estimate grows,
         because repairs plus salvage ($10,500) are already close to the car's value. See every
         state's rule in our <a href="/guides/total-loss/state-total-loss-threshold-laws/">total loss
         threshold by state</a> table.
@@ -428,20 +434,30 @@ const structuredData = [
       const rule = document.createElement("p");
       rule.className = "section-note";
 
-      if (result.type === "percentage") {
+      if (result.type === "percentage" && result.insurerFloor) {
+        rule.textContent = `${result.state}: an insurer generally may not total the car until damage reaches ${result.thresholdPct}% of its value, unless you ask in writing (possible from 75%).`;
+        headline.textContent = result.meetsPercentageThreshold
+          ? `Likely totaled: your repair estimate is at or over ${result.state}'s ${result.thresholdPct}% line.`
+          : `Below ${result.state}'s ${result.thresholdPct}% line, so the insurer generally has to repair it unless you ask for a total loss.`;
+        headline.classList.add(result.meetsPercentageThreshold ? "verdict-over" : "verdict-under");
+      } else if (result.type === "percentage") {
         rule.textContent = `${result.state} treats a car as a total loss once repairs reach ${result.thresholdPct}% of its value.`;
         headline.textContent = result.meetsPercentageThreshold
           ? `Likely totaled: your repair estimate is at or over ${result.state}'s line.`
           : `Below ${result.state}'s line, so state law doesn't require a total loss.`;
         headline.classList.add(result.meetsPercentageThreshold ? "verdict-over" : "verdict-under");
       } else if (result.meetsTLF !== null) {
-        rule.textContent = `${result.state} uses the Total Loss Formula: repairs plus salvage value compared with the car's value.`;
+        rule.textContent = result.basis === "formula"
+          ? `${result.state}'s law compares repairs with the car's value minus its salvage value, the same as adding salvage to repairs.`
+          : `${result.state} sets no percentage, so the insurer decides. Most insurers add the salvage value to the repairs and compare that with the car's value.`;
         headline.textContent = result.meetsTLF
           ? "Likely totaled: repairs plus salvage value reach the car's value."
           : "Not totaled by the formula: repairs plus salvage value are below the car's value.";
         headline.classList.add(result.meetsTLF ? "verdict-over" : "verdict-under");
       } else {
-        rule.textContent = `${result.state} uses the Total Loss Formula: repairs plus salvage value compared with the car's value.`;
+        rule.textContent = result.basis === "formula"
+          ? `${result.state}'s law compares repairs with the car's value minus its salvage value.`
+          : `${result.state} sets no percentage, so the insurer decides, usually by comparing repairs plus salvage value with the car's value.`;
         headline.textContent = "Add a salvage value to get an answer for this state.";
       }
       summaryEl.append(headline, rule);

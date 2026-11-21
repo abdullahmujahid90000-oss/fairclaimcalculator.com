@@ -10,7 +10,38 @@
 //
 // When a state page has been rewritten that way, add its slug here
 // (e.g. "minnesota"). Used by the page template and the sitemap filter.
-export const INDEXED_THRESHOLD_STATE_SLUGS = [];
+//
+// 2026-11-21: every page was rebuilt around its own statute, details and
+// change history (src/lib/content/state-threshold-facts.ts). These 21
+// measured under 0.60 against their most similar sibling (word-level
+// difflib ratio of <main>, `python3 scripts/audit-site.py --similarity`)
+// and their rule is confirmed. The other 30 measured 0.60–0.66 and need
+// more state-specific substance (roadmap topic 17). States whose rule could
+// not be confirmed (Mississippi, New Hampshire, New Mexico, Utah) stay out
+// whatever they measure.
+export const INDEXED_THRESHOLD_STATE_SLUGS = [
+  "alaska",
+  "arkansas",
+  "california",
+  "connecticut",
+  "florida",
+  "georgia",
+  "hawaii",
+  "illinois",
+  "indiana",
+  "kentucky",
+  "massachusetts",
+  "michigan",
+  "minnesota",
+  "new-jersey",
+  "new-york",
+  "north-dakota",
+  "pennsylvania",
+  "rhode-island",
+  "south-dakota",
+  "virginia",
+  "washington",
+];
 
 export const THRESHOLD_STATE_PATH = "/guides/total-loss/state-total-loss-threshold-laws/";
 

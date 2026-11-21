@@ -1,67 +1,39 @@
 import { describe, it, expect } from "vitest";
 import { STATE_THRESHOLDS } from "../src/lib/calculators/total-loss-threshold";
-import { getPracticalMeaning, getWorkedExample, EXAMPLE_ACV_CENTS } from "../src/lib/content/state-threshold-copy";
-
-describe("getPracticalMeaning", () => {
-  it("normal: every one of the 51 entries produces non-empty text that mentions the state by name", () => {
-    for (const s of STATE_THRESHOLDS) {
-      const text = getPracticalMeaning(s);
-      expect(text.length).toBeGreaterThan(20);
-      expect(text).toContain(s.state);
-    }
-  });
-
-  it("differentiation: distinct percentage tiers produce distinct text (not just the state name swapped)", () => {
-    const tier100 = getPracticalMeaning({ state: "Texas", type: "percentage", thresholdPct: 100 });
-    const tier75 = getPracticalMeaning({ state: "Texas", type: "percentage", thresholdPct: 75 });
-    const tier60 = getPracticalMeaning({ state: "Texas", type: "percentage", thresholdPct: 60 });
-    const tierTlf = getPracticalMeaning({ state: "Texas", type: "tlf", thresholdPct: null });
-    const texts = [tier100, tier75, tier60, tierTlf];
-    expect(new Set(texts).size).toBe(texts.length);
-  });
-
-  it("same-tier states share the same underlying template but each still names its own state", () => {
-    const alabama = getPracticalMeaning({ state: "Alabama", type: "percentage", thresholdPct: 75 });
-    const kansas = getPracticalMeaning({ state: "Kansas", type: "percentage", thresholdPct: 75 });
-    expect(alabama).toContain("Alabama");
-    expect(kansas).toContain("Kansas");
-    expect(alabama).not.toBe(kansas);
-  });
-});
-
-describe("getWorkedExample", () => {
-  it("normal: percentage state — repair figure is exactly pct% of the example ACV", () => {
-    const result = getWorkedExample({ state: "Nevada", type: "percentage", thresholdPct: 65 });
-    // $10,000 * 65% = $6,500
-    expect(result.repairText).toBe("$6,500.00");
-    expect(result.acvText).toBe(formatUSDLocal(EXAMPLE_ACV_CENTS));
-  });
-
-  it("normal: TLF state — reuses the published guide's exact worked figures ($7,500 + $1,000 = $8,500 < $10,000)", () => {
-    const result = getWorkedExample({ state: "California", type: "tlf", thresholdPct: null });
-    expect(result.repairText).toBe("$7,500.00");
-    expect(result.salvageText).toBe("$1,000.00");
-    expect(result.sumText).toBe("$8,500.00");
-    expect(result.verdictText).toMatch(/not meet/);
-  });
-
-  it("edge: works for every one of the 51 entries without throwing", () => {
-    for (const s of STATE_THRESHOLDS) {
-      expect(() => getWorkedExample(s)).not.toThrow();
-    }
-  });
-});
-
-function formatUSDLocal(cents: number): string {
-  return (cents / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
-}
-
 import {
   BORDERING_STATES,
   getNeighborComparisons,
-  getNationalPosition,
   getCrossBorderScenario,
+  getWorkedExample,
+  exampleAcvCents,
+  exampleSalvageCents,
 } from "../src/lib/content/state-threshold-copy";
+import { STATE_LAW_FACTS, getAllThresholdChanges } from "../src/lib/content/state-threshold-facts";
+
+describe("getWorkedExample", () => {
+  it("percentage state: the line is exactly pct% of that state's example value", () => {
+    const nevada = STATE_THRESHOLDS.find((s) => s.state === "Nevada")!;
+    const ex = getWorkedExample(nevada);
+    expect(ex.acvCents).toBe(exampleAcvCents("Nevada"));
+    expect(ex.lineCents).toBe(Math.ceil(ex.acvCents * 0.65));
+  });
+
+  it("no-percentage state: the line is value minus example salvage", () => {
+    const ca = STATE_THRESHOLDS.find((s) => s.state === "California")!;
+    const ex = getWorkedExample(ca);
+    expect(ex.salvageCents).toBe(exampleSalvageCents(ex.acvCents));
+    expect(ex.lineCents).toBe(ex.acvCents - (ex.salvageCents as number));
+  });
+
+  it("neighbors in the list don't all use the same example car", () => {
+    const values = new Set(STATE_THRESHOLDS.map((s) => exampleAcvCents(s.state)));
+    expect(values.size).toBeGreaterThan(8);
+  });
+
+  it("works for every one of the 51 entries", () => {
+    for (const s of STATE_THRESHOLDS) expect(() => getWorkedExample(s)).not.toThrow();
+  });
+});
 
 describe("BORDERING_STATES", () => {
   it("covers every jurisdiction and only names real ones", () => {
@@ -87,26 +59,55 @@ describe("getNeighborComparisons", () => {
   });
 });
 
-describe("getNationalPosition", () => {
-  it("counts add up to all jurisdictions", () => {
-    for (const s of STATE_THRESHOLDS) {
-      const p = getNationalPosition(s, STATE_THRESHOLDS);
-      expect(p.pctCount + p.tlfCount).toBe(STATE_THRESHOLDS.length);
-      if (s.type === "percentage") expect(p.lower + p.same + p.higher + 1).toBe(p.pctCount);
-    }
-  });
-});
-
 describe("getCrossBorderScenario", () => {
   it("finds a real disagreement for Texas and none for Alaska", () => {
     const texas = STATE_THRESHOLDS.find((s) => s.state === "Texas")!;
     const alaska = STATE_THRESHOLDS.find((s) => s.state === "Alaska")!;
-    expect(getCrossBorderScenario(texas, STATE_THRESHOLDS)).toMatch(/is a total loss|is not a total loss/);
+    expect(getCrossBorderScenario(texas, STATE_THRESHOLDS)).toMatch(/crosses the line|stays under the line/);
     expect(getCrossBorderScenario(alaska, STATE_THRESHOLDS)).toBeNull();
   });
 
   it("produces distinct scenario text across states that have one", () => {
     const texts = STATE_THRESHOLDS.map((s) => getCrossBorderScenario(s, STATE_THRESHOLDS)).filter(Boolean);
     expect(new Set(texts).size).toBe(texts.length);
+  });
+});
+
+describe("STATE_LAW_FACTS", () => {
+  it("has a record for every jurisdiction and no extras", () => {
+    expect(Object.keys(STATE_LAW_FACTS).sort()).toEqual(STATE_THRESHOLDS.map((s) => s.state).sort());
+  });
+
+  it("every record has a citation, agency and regulator with https links", () => {
+    for (const [state, f] of Object.entries(STATE_LAW_FACTS)) {
+      for (const l of [f.cite, f.titleAgency, f.regulator, ...f.changes.map((c) => c.source)]) {
+        expect(l.url, state).toMatch(/^https:\/\//);
+        expect(l.name.length, state).toBeGreaterThan(3);
+      }
+      expect(f.lawSays.length, state).toBeGreaterThan(60);
+      expect(f.keeping.length, state).toBeGreaterThan(40);
+    }
+  });
+
+  it("percentage states mention their percentage in the law summary (or say it is unconfirmed)", () => {
+    for (const s of STATE_THRESHOLDS.filter((x) => x.type === "percentage")) {
+      const f = STATE_LAW_FACTS[s.state];
+      if (f.check === "unconfirmed") continue;
+      expect(f.lawSays, s.state).toContain(`${s.thresholdPct}%`);
+    }
+  });
+
+  it("change dates are YYYY or YYYY-MM-DD and sorted newest first", () => {
+    const changes = getAllThresholdChanges();
+    for (const c of changes) expect(c.date).toMatch(/^\d{4}(-\d{2}-\d{2})?$/);
+    const dates = changes.map((c) => c.date);
+    expect([...dates].sort().reverse()).toEqual(dates);
+  });
+
+  it("records the 2026 moves: RI 85% enacted, OK 70% enacted, SD SB 227 failed", () => {
+    const changes = getAllThresholdChanges();
+    expect(changes.some((c) => c.state === "Rhode Island" && c.date === "2026-06-26" && c.status === "enacted")).toBe(true);
+    expect(changes.some((c) => c.state === "Oklahoma" && c.date === "2026-11-01" && c.status === "enacted")).toBe(true);
+    expect(changes.some((c) => c.state === "South Dakota" && c.status === "failed")).toBe(true);
   });
 });
