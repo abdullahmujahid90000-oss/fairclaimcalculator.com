@@ -1355,3 +1355,55 @@ Owner asked to rebuild the site for AdSense approval and search traffic.
 - Verified: typecheck 0 errors, 211/211 tests, axe 0 violations, 0 broken
   internal links, all accident pages within title/description limits, state
   picker and Florida copy section tested in Chromium.
+
+### 2026-11-21 — Batch 1 (Cluster A): 51-state threshold research, state pages rebuilt, change tracker
+
+Session note: started from PR #2's branch (`claude/beautiful-keller-h7960k`,
+topics 1–5) plus the internal-linking commit from
+`seo/internal-linking-2026-11-20` (6 conflicting guides resolved by keeping
+PR #2's text and re-running the idempotent `add-related-links.py`). The
+Mon/Wed/Fri scheduled rewrite task was paused at the owner's request so only
+one session edits the repo. Branch: `seo/cluster-a-total-loss`.
+
+- Audit: `research/00-audit.md` (+ per-page CSVs), new reusable
+  `astro/scripts/audit-site.py` (titles, descriptions, H1, words, canonical,
+  noindex, schema, body-link graph, orphans, broken links, `--similarity`).
+- Keywords: `research/01-keywords.md` (estimates only: no volume tool or
+  Search Console connected). Cannibalisation flagged for later batches.
+- Research: all 51 jurisdictions (`research/state-total-loss-thresholds.md`,
+  raw records in `research/data/`). Direct page loads were blocked by the
+  environment's network policy, so statute wording was read through search
+  excerpts of official pages; four states marked unconfirmed (MS, NH, NM, UT).
+  Follow-ups in `research/open-questions.md`.
+- Fact fixes in the checker data: Rhode Island TLF → 85% insurer floor
+  (2026-06-26); Florida 80% → insurer-paid total (80% only for uninsured);
+  Oregon 80% → insurer declaration (80% only uninsured); Wyoming 75% → insurer
+  declaration (75% only without an insurer); Virginia 75% → formula-style
+  test. Labels now distinguish "formula-style test in law" from "no % in law:
+  insurer decides". Glossary TLF definitions corrected.
+- New `src/lib/content/state-threshold-facts.ts` (citation, what the law
+  governs, details, keeping the car, brands, agencies, dated changes, where
+  lists are wrong, confidence). State template rebuilt around it: answer-first
+  lead, quick-answer box, state example with a different example car per
+  state, neighbors, FAQ built from the facts, Dataset schema. Tier text and
+  national-position boilerplate removed.
+- Similarity of state pages: 0.90–0.98 → 0.49–0.66. 21 re-indexed (below
+  0.60 and confirmed); 30 remain noindex (topic 17 continues).
+- New page `/guides/total-loss/total-loss-threshold-changes/` (dated, sourced
+  change tracker incl. failed bills, Dataset schema). Hub rewritten from the
+  data (three kinds of rules, law column, what it controls, corrected "why
+  lists disagree"). Checker FAQ counts computed; Rhode Island and
+  no-percentage result messages; four-state example uses Minnesota, not
+  Florida. `/sources/` lists every state's statute.
+- Technical: sitemap `lastmod` now per page from its own `dateModified`
+  (fallback: last commit); `robots.txt` names the AI crawlers explicitly.
+- Verified: typecheck 0 errors; 218/218 tests (+7); build OK; axe 0
+  violations on 199 pages; in Chromium at 390px no horizontal scroll and 0
+  axe violations incl. color contrast on the hub, tracker, checker, glossary
+  and 4 state pages; checker results checked for RI, FL, TX; 0 broken internal
+  links; titles ≤ 60 and descriptions ≤ 160 on all indexable pages; 0 invalid
+  JSON-LD; one H1 per page.
+- Still open: 30 state pages noindex; legal pages (privacy, terms,
+  accessibility) have only footer links (normal for legal pages, counted as
+  "orphans" by the strict body-link metric); 37 pages lack a visible reviewed
+  date (batch 7); accident-reporting pages still 0.57–0.81 similar (batch 2).

@@ -9,6 +9,8 @@ import { SALVAGE_VALUE_CONFIG } from "@lib/calculators/salvage-value";
 import { TOTAL_LOSS_THRESHOLD_CONFIG } from "@lib/calculators/total-loss-threshold";
 import { GAP_SHORTFALL_CONFIG } from "@lib/calculators/gap-shortfall";
 import { SALES_TAX_TITLE_FEE_CONFIG } from "@lib/calculators/sales-tax-title-fee";
+import { STATE_LAW_FACTS, THRESHOLD_FACTS_CHECKED } from "@lib/content/state-threshold-facts";
+import { slugifyState } from "@lib/calculators/total-loss-threshold";
 
 const title = "Source Register | FairClaimCalculator";
 const description =
@@ -64,6 +66,25 @@ const groups = [
         <p><a href={group.href}>Open this calculator →</a></p>
       </div>
     ))}
+
+    <div class="calc-card">
+      <h2>State total loss threshold laws</h2>
+      <p>
+        The statute or regulation behind each state's entry in the
+        {" "}<a href="/guides/total-loss/state-total-loss-threshold-laws/">total loss threshold by state</a>
+        {" "}table, checked {THRESHOLD_FACTS_CHECKED}. Each state page also lists the title agency,
+        insurance regulator and the source for every dated change.
+      </p>
+      <ul class="quality-list state-sources">
+        {Object.entries(STATE_LAW_FACTS).map(([state, f]) => (
+          <li>
+            <a href={`/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(state)}/`}>{state}</a>:
+            {" "}<a href={f.cite.url} target="_blank" rel="noopener">{f.cite.name}</a>
+            {f.check === "unconfirmed" ? " (rule not confirmed in the official text)" : ""}
+          </li>
+        ))}
+      </ul>
+    </div>
 
     <div class="calc-card">
       <h2>Guides</h2>

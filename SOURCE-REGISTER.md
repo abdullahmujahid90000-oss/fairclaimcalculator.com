@@ -488,6 +488,29 @@ All ten entries live in `astro/src/lib/content/crash-report-copies.ts`, each wit
 California (CHP, Request a Collision Report), Texas (TxDOT Crash reports and records), Florida (FLHSMV Florida Crash Portal; Fla. Stat. 316.066 and 321.23), New York (NY DMV order accident reports), Pennsylvania (PSP request a crash report), Illinois (ISP Crash reports E-Pay), Ohio (City of Columbus, Find an Accident Report; ODPS retrieval), Georgia (GDOT crash report request form), North Carolina (NC DMV crash reports), Michigan (MSP Traffic Crash Purchasing System; $15 fee per House Fiscal Agency, March 2026).
 Fees not published by the agency (Georgia, North Carolina, Ohio) are shown as "confirm before paying", never guessed.
 
+## 8g. State total loss threshold laws, all 51 (2026-11-21)
+
+All 51 records live in `astro/src/lib/content/state-threshold-facts.ts`, each
+with its statute or regulation (`cite`), title agency, insurance regulator and
+a source for every dated change; the public list is on `/sources/` and on
+each state page. Method and limits: `research/state-total-loss-thresholds.md`
+(statute wording read through search excerpts of official pages because
+direct page loads were blocked; four states marked unconfirmed). This
+replaces the Policygenius compilation (Brennan, "Total Loss Threshold by
+State", July 2026) as the basis for the threshold checker and state pages.
+
+| Claim on the site | Source |
+|---|---|
+| Rhode Island insurer threshold 85% since 2026-06-26 (owner may request a total from 75%); 80% from 2025 | R.I. Gen. Laws § 27-9.1-4 (rilegislature.gov); P.L. 2026 ch. 286 / S 3115 reported by CollisionWeek (2026-06-10, 2026-07-09), Autobody News, Repairer Driven News; H 6053 (2025) on LegiScan |
+| Oklahoma 60% → 70% effective 2026-11-01 | Oklahoma Legislature SB 1920 bill page (law without signature 2026-05-13); NAMIC |
+| South Dakota SB 227 (75% floor) tabled 2026-02-24, not law | SD Legislature, House Transportation Committee minutes 2026-02-24; Repairer Driven News 2026-02-19 |
+| Florida 80% applies to uninsured vehicles; insurer-paid total = total loss | Fla. Stat. § 319.30(3)(a); FLHSMV procedures TL-35/TL-36 |
+| Oregon 80% only for damage no insurer covers | ORS 801.527; ODOT DMV insurer guidance |
+| Wyoming 75% only where no insurer is involved | Wyo. Stat. § 31-2-107 |
+| Virginia main test: repairs > ACV − salvage value; 75% for specific cases | Va. Code § 46.2-1600; Virginia DMV salvage law page |
+| Iowa 50% → 70% effective 2021-07-01; applies to vehicles worth $500+ | Iowa Code § 321.52(4); SF 230 (2021); Iowa DOT memo 21-27 |
+| Minnesota 80%; late-model / high-value brand rules; recovered-theft exclusion from 2023 | Minn. Stat. § 168A.01 subds. 6a, 8a, 17b; § 168A.151; Laws 2022 ch. 57 |
+
 ## 9. What is NOT yet in this register
 
 Nothing currently published on the site is missing from this register as
