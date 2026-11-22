@@ -1,10 +1,18 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import { TOPIC_CLUSTERS } from "@lib/seo/topic-clusters";
+import { STATE_THRESHOLDS } from "@lib/calculators/total-loss-threshold";
 
-const title = "U.S. Auto Claim Guides | FairClaimCalculator";
+const title = "Car Insurance Claim Guides for U.S. Drivers";
 const description =
-  "24 source-backed guides on total-loss valuation, diminished value, and the U.S. auto claims process — sources cited, limitations stated plainly.";
+  "Plain-English guides to car insurance claims: totaled cars, diminished value, rentals, low offers and accident reporting in every state, with sources cited.";
 const path = "/guides/";
+
+// Counts come from the topic map, so they stay right as pages are added.
+const count = (id: string, kinds: string[]) =>
+  TOPIC_CLUSTERS.find((c) => c.id === id)!.pages.filter((p) => kinds.includes(p.kind)).length;
+const guideKinds = ["guide", "data"];
+const jurisdictions = STATE_THRESHOLDS.length;
 
 const structuredData = [
   {
@@ -20,33 +28,46 @@ const structuredData = [
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
   <div class="container">
     <p class="breadcrumb-text"><a href="/">Home</a> / Guides</p>
-    <h1 class="page-title">U.S. Auto Claim Guides</h1>
+    <h1 class="page-title">Car Insurance Claim Guides</h1>
     <p class="lead">
-      Twenty-three guides across three clusters, written for the U.S. auto claims process. Every guide
-      names its author, states its published and reviewed dates, cites its sources next to
-      consequential claims, and says plainly what it cannot tell you.
+      Guides for U.S. drivers dealing with a car insurance claim for damage to their vehicle: a totaled
+      car, a repaired car that is now worth less, a rental, a low offer, or a crash that has to be
+      reported. Each guide cites its sources and says what it can't tell you.
+    </p>
+    <p>
+      Pick the topic that matches where you are. If your car may be a write-off, start with totaled
+      cars. If it was repaired, diminished value explains whether you can claim for the lost resale
+      value. Claims and disputes covers the process itself, from choosing whose insurer to claim
+      from to filing a complaint. The state pages answer the questions that depend on where you
+      live: whether you must report a crash, and when a damaged car counts as a total loss. Every
+      topic also has calculators and free templates, and the <a href="/my-claim/">My Claim tracker</a>
+      {" "}keeps your dates and contacts in one place. This site does not cover injury claims.
     </p>
 
     <div class="cluster-grid">
       <a href="/guides/total-loss/" class="cluster-card">
-        <h2>Total Loss</h2>
-        <p>10 guides — how insurers value a totaled vehicle, reading the report, state threshold laws, GAP insurance, and disputing a valuation factually.</p>
+        <h2>Totaled cars</h2>
+        <p>{count("total-loss", guideKinds)} guides and data pages: whether the car is totaled, what it's worth, the state thresholds, GAP and keeping the car.</p>
       </a>
       <a href="/guides/diminished-value/" class="cluster-card">
-        <h2>Diminished Value</h2>
-        <p>6 guides — what diminished value means, the 17c formula's real history, state-by-state rules, building market evidence, and leased vehicles.</p>
+        <h2>Diminished value</h2>
+        <p>{count("diminished-value", guideKinds)} guides: what it is, the 17c formula and its limits, state rules, evidence and leased cars.</p>
       </a>
       <a href="/guides/claim-process/" class="cluster-card">
-        <h2>Claim Process</h2>
-        <p>8 guides — what to do after a crash, first-party vs. third-party claims, rental reimbursement, lowball offers, outside help, an evidence checklist, filing a DOI complaint, and which claim you have.</p>
+        <h2>Claims and disputes</h2>
+        <p>{count("claim-process", guideKinds) + count("accident", guideKinds)} guides: after the crash, whose insurer pays, rentals, low offers, outside help and complaints.</p>
       </a>
       <a href="/guides/accident-reporting/" class="cluster-card">
-        <h2>Accident Reporting by State</h2>
-        <p>All 50 states + D.C. — when you must report a crash, to whom, by when, and the official form, checked against official sources.</p>
+        <h2>Accident reporting by state</h2>
+        <p>All {jurisdictions - 1} states and D.C.: when you must report a crash, to whom, by when, and how to get a copy of the report.</p>
+      </a>
+      <a href="/guides/total-loss/state-total-loss-threshold-laws/" class="cluster-card">
+        <h2>Total loss threshold by state</h2>
+        <p>Every state's rule for when a damaged car is a total loss, checked against its statute.</p>
       </a>
       <a href="/forms/" class="cluster-card">
-        <h2>Free Forms &amp; Templates</h2>
-        <p>8 fillable PDFs — accident information sheet, claim log, dispute and diminished-value letters, complaint worksheet and more.</p>
+        <h2>Free forms and templates</h2>
+        <p>Fillable PDFs: accident information sheet, claim log, dispute and diminished value letters, complaint worksheet and more.</p>
       </a>
     </div>
 

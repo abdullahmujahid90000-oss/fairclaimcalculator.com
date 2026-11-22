@@ -1,0 +1,46 @@
+---
+/**
+ * Renders a cluster's pages on its hub, grouped by kind, from the single
+ * topic map (src/lib/seo/topic-clusters.ts).
+ */
+import { TOPIC_CLUSTERS, type PageKind } from "@lib/seo/topic-clusters";
+
+interface Props {
+  clusterId: string;
+}
+
+const cluster = TOPIC_CLUSTERS.find((c) => c.id === Astro.props.clusterId);
+if (!cluster) throw new Error(`Unknown cluster ${Astro.props.clusterId}`);
+
+const groups: { kind: PageKind[]; heading: string }[] = [
+  { kind: ["guide", "data"], heading: "Guides" },
+  { kind: ["calculator", "tool"], heading: "Calculators and tools" },
+  { kind: ["form"], heading: "Templates" },
+];
+---
+{groups.map((g) => {
+  const pages = cluster.pages.filter((p) => g.kind.includes(p.kind));
+  return pages.length > 0 && (
+    <section class="hub-group">
+      <h2>{g.heading}</h2>
+      <div class="guide-hub-grid">
+        {pages.map((p) => (
+          <a href={p.href} class="guide-hub-card">
+            <h3>{p.label}</h3>
+            <p>{p.desc}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+})}
+
+<style>
+  .hub-group h2 { font-size: 1.2rem; margin: 28px 0 0; }
+  .guide-hub-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 14px 0 10px; }
+  @media (max-width: 640px) { .guide-hub-grid { grid-template-columns: 1fr; } }
+  .guide-hub-card { display: block; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 18px; text-decoration: none; color: inherit; }
+  .guide-hub-card:hover, .guide-hub-card:focus-visible { border-color: var(--color-primary); }
+  .guide-hub-card h3 { margin: 0 0 6px; font-size: 1.02rem; color: var(--color-primary-dark); }
+  .guide-hub-card p { margin: 0; font-size: 0.88rem; color: var(--color-text-muted); }
+</style>

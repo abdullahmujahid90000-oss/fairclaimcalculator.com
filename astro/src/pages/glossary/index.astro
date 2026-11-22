@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 
-const title = "Claim Terms Glossary | FairClaimCalculator";
+const title = "Car Insurance Claim Terms: Glossary of Definitions";
 const description =
   "Plain-language definitions of ACV, GAP, salvage title, lienholder, 17c baseline, and other auto-claim terms used across this site's tools and guides.";
 const path = "/glossary/";
@@ -35,7 +35,7 @@ const terms: Term[] = [
     definition:
       "The insurer's base value estimate for your vehicle before any deductions or additions — deductible, tax/fees, loan payoff, or salvage deduction. It is a starting figure, not the final check amount.",
     links: [
-      { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+      { label: "See ACV in a settlement breakdown", href: "/calculators/settlement-check-breakdown/" },
       { label: "ACV vs. Replacement Cost vs. Loan Payoff vs. Asking Price", href: "/guides/total-loss/acv-vs-replacement-cost-loan-payoff-asking-price/" },
     ],
   },
@@ -53,7 +53,7 @@ const terms: Term[] = [
     definition:
       "The amount subtracted from your ACV on a first-party claim (filed against your own insurer). It generally does not apply to third-party claims (filed against another driver's insurer), since you're not collecting under your own policy.",
     links: [
-      { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+      { label: "How the deductible comes off your check", href: "/calculators/settlement-check-breakdown/" },
       { label: "First-Party vs. Third-Party Auto Claims", href: "/guides/claim-process/first-party-vs-third-party-auto-claims/" },
     ],
   },
@@ -62,7 +62,7 @@ const terms: Term[] = [
     definition:
       "The gap between a vehicle's pre-accident value and its value after being damaged and repaired — even a fully, properly repaired vehicle can be worth less on paper once it carries an accident history. Whether it's recoverable, and from whom, varies by state and by claim type.",
     links: [
-      { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+      { label: "Estimate diminished value", href: "/calculators/diminished-value-baseline/" },
       { label: "What Is Diminished Value?", href: "/guides/diminished-value/what-is-diminished-value/" },
     ],
   },
@@ -80,7 +80,7 @@ const terms: Term[] = [
     definition:
       "GAP (Guaranteed Asset Protection) insurance is an optional product, sold separately from your regular auto policy, that can cover the difference between what you owe on a loan or lease and a lower total-loss payout. A GAP shortfall is that gap amount — it is not automatically paid; it depends on your specific GAP certificate's terms and exclusions.",
     links: [
-      { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+      { label: "Check a GAP shortfall in the settlement", href: "/calculators/settlement-check-breakdown/" },
       { label: "What Happens to Your Loan or Lease After a Total Loss (GAP Insurance Explained)", href: "/guides/total-loss/gap-insurance-loan-lease-after-total-loss/" },
     ],
   },
@@ -88,7 +88,7 @@ const terms: Term[] = [
     term: "Lienholder",
     definition:
       "The lender that holds a loan or lease on your vehicle. In a total-loss settlement, the lienholder is generally paid first out of the gross settlement, up to the loan or lease payoff amount, before any remaining money goes to you.",
-    links: [{ label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" }],
+    links: [{ label: "Who the lienholder's payoff goes to", href: "/calculators/settlement-check-breakdown/" }],
   },
   {
     term: "Loss of use / rental reimbursement",
@@ -100,7 +100,7 @@ const terms: Term[] = [
     term: "Market evidence",
     definition:
       "Real, user-entered comparable listings (separated into clean-history and accident-history groups) used to build descriptive statistics — mean, median, and range. This site never averages market evidence with a formula baseline like the 17c calculation; the two are shown side by side because they measure different things.",
-    links: [{ label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" }],
+    links: [{ label: "Compare market evidence with the baseline", href: "/calculators/diminished-value-baseline/" }],
   },
   {
     term: "Outlier (possible outlier)",
@@ -113,7 +113,7 @@ const terms: Term[] = [
     definition:
       "When you keep your totaled vehicle instead of surrendering it to the insurer, the insurer deducts an estimated salvage value (what the wreck itself is worth, e.g., to a salvage buyer or for parts) from your ACV before paying you, since it isn't taking possession of and reselling the vehicle.",
     links: [
-      { label: "Settlement Check Breakdown calculator", href: "/calculators/settlement-check-breakdown/" },
+      { label: "The salvage deduction in your settlement", href: "/calculators/settlement-check-breakdown/" },
       { label: "Owner-Retained Total Loss & Salvage Titles", href: "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/" },
     ],
   },
@@ -140,7 +140,7 @@ const terms: Term[] = [
     definition:
       "A commonly published diminished-value calculation — pre-accident value × a base-value cap × a damage-severity multiplier × a mileage multiplier — that traces back to a 2001–2002 Georgia class-action settlement. It is not a national or state legal standard, and this site never treats it as the final word on what diminished value is owed.",
     links: [
-      { label: "Diminished Value Baseline calculator", href: "/calculators/diminished-value-baseline/" },
+      { label: "Run a 17c baseline", href: "/calculators/diminished-value-baseline/" },
       { label: "The 17c Formula: History, Calculation, and Limits", href: "/guides/diminished-value/the-17c-formula-history-calculation-and-limits/" },
     ],
   },

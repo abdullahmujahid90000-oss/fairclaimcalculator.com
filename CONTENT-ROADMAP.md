@@ -9,6 +9,7 @@ cluster batches, one branch and one pull request each, per the owner's
 | Batch | Branch | Scope | Status |
 |---|---|---|---|
 | 1 | `seo/cluster-a-total-loss` | Cluster A: verify all 51 thresholds from statutes, fix Rhode Island, dated recent-change notes, state template rebuilt around state facts (topic 17), threshold change tracker page, Dataset schema, real sitemap lastmod | done (2026-11-21), PR open; 30 state pages still noindex (topic 17) |
+| 1b | `seo/internal-linking-ranking` | Topic-cluster link map (`src/lib/seo/topic-clusters.ts`): "In this topic" block on every clustered page, hubs rendered from the map with 200+ word intros, keyword-first titles on 21 pages, WebApplication schema on all calculators, CollectionPage schema on hubs, anchor-text and orphan checks in `audit-site.py` | done (2026-11-21), PR open |
 | 2 | `seo/cluster-g-accident-reporting` | Accident-reporting state pages below 0.60 similarity and 400+ words; crash-report copies for 41 states (topic 18); AK/HI/ME orphans | todo |
 | 3 | `seo/cluster-b-valuation` | Topics 7 and 15: disputes, valuation reports, comparables, settlement breakdown | todo |
 | 4 | `seo/cluster-c-diminished-value` | Topics 6 and 13, 51-state DV table, 2025–2026 decisions | todo |

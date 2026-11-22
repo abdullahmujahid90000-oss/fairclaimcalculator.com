@@ -1,9 +1,11 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import ClusterHubList from "@components/ClusterHubList.astro";
+import { clusterHubSchema } from "@lib/seo/hub-schema";
 
-const title = "Diminished Value Guides | FairClaimCalculator";
+const title = "Diminished Value Guides: Claims, 17c and Evidence";
 const description =
-  "Source-backed guides on what diminished value means, the 17c formula, state-by-state claim rules, and how to build real market evidence.";
+  "Your car was repaired but is now worth less. Guides, a calculator and a letter template for diminished value claims, with the 17c formula's limits explained.";
 const path = "/guides/diminished-value/";
 
 const structuredData = [
@@ -13,47 +15,62 @@ const structuredData = [
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: "https://www.fairclaimcalculator.com/" },
       { "@type": "ListItem", position: 2, name: "Guides", item: "https://www.fairclaimcalculator.com/guides/" },
-      { "@type": "ListItem", position: 3, name: "Diminished Value", item: `https://www.fairclaimcalculator.com${path}` },
+      { "@type": "ListItem", position: 3, name: "Diminished value", item: `https://www.fairclaimcalculator.com${path}` },
     ],
   },
-];
-
-const guides = [
-  { title: "What Is Diminished Value?", href: "/guides/diminished-value/what-is-diminished-value/", desc: "The basic concept, and the two different ways to measure it." },
-  { title: "Inherent vs. Repair-Related Diminished Value", href: "/guides/diminished-value/inherent-vs-repair-related-diminished-value/", desc: "Value lost from the accident itself vs. from how the repair was done." },
-  { title: "The 17c Formula's Real History, Calculation, and Limits", href: "/guides/diminished-value/the-17c-formula-history-calculation-and-limits/", desc: "Where the formula actually comes from, and why it's not a legal standard." },
-  { title: "Building Diminished-Value Market Evidence", href: "/guides/diminished-value/building-diminished-value-market-evidence/", desc: "How to compare clean-history and accident-history listings." },
-  { title: "Does Your State Allow a First-Party Diminished Value Claim?", href: "/guides/diminished-value/state-laws-first-party-diminished-value-claims/", desc: "Where courts have ruled for and against first-party DV, and how third-party claims differ." },
-  { title: "Diminished Value on a Leased Vehicle", href: "/guides/diminished-value/leased-vehicle-diminished-value/", desc: "Why a leased vehicle's title changes who typically holds a diminished-value claim." },
+  clusterHubSchema("diminished-value", "Diminished value guides", description, path),
 ];
 ---
 <BaseLayout title={title} description={description} path={path} structuredData={structuredData}>
-  <div class="container">
-    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/guides/">Guides</a> / Diminished Value</p>
+  <div class="container hub-container">
+    <p class="breadcrumb-text"><a href="/">Home</a> / <a href="/guides/">Guides</a> / Diminished value</p>
     <h1 class="page-title">Diminished Value Guides</h1>
     <p class="lead">
-      Six guides on what diminished value means, the 17c formula's real origin and limits, which
-      states recognize first-party claims, how to build market evidence, and how a lease changes who
-      holds the claim — each cites its sources and says plainly what it can't tell you.
+      Diminished value is the drop in what your car is worth because it now has an accident on its
+      history, even after a good repair. These guides explain who can claim it, how it is estimated
+      and what evidence an insurer is likely to take seriously.
     </p>
-    <div class="guide-hub-grid">
-      {guides.map((g) => (
-        <a href={g.href} class="guide-hub-card">
-          <h2>{g.title}</h2>
-          <p>{g.desc}</p>
-        </a>
-      ))}
-    </div>
-    <p class="browse-link"><a href="/calculators/diminished-value-baseline/">Ready to check your own vehicle? Open the Diminished Value Baseline calculator →</a></p>
+
+    <h2>Where to start</h2>
+    <ul class="start-list">
+      <li>
+        <strong>New to the idea?</strong> Start with
+        {" "}<a href="/guides/diminished-value/what-is-diminished-value/">what diminished value is</a>, then
+        the difference between
+        {" "}<a href="/guides/diminished-value/inherent-vs-repair-related-diminished-value/">inherent and
+        repair-related loss</a>.
+      </li>
+      <li>
+        <strong>Want a number?</strong> The <a href="/calculators/diminished-value-baseline/">diminished value
+        calculator</a> shows a 17c-style baseline next to real listings for clean and accident-history
+        cars. Read <a href="/guides/diminished-value/the-17c-formula-history-calculation-and-limits/">the
+        17c formula's limits</a> first: it is a commonly used starting point, not a legal standard, and
+        insurers often reject it.
+      </li>
+      <li>
+        <strong>Ready to claim?</strong> Check whether
+        {" "}<a href="/guides/diminished-value/state-laws-first-party-diminished-value-claims/">your state allows a
+        claim on your own policy</a>, build your
+        {" "}<a href="/guides/diminished-value/building-diminished-value-market-evidence/">market evidence</a>,
+        then send the <a href="/forms/diminished-value-claim-letter/">claim letter template</a>.
+      </li>
+      <li>
+        <strong>Leased car, or damage close to the total loss line?</strong> See
+        {" "}<a href="/guides/diminished-value/leased-vehicle-diminished-value/">diminished value on a leased car</a>
+        {" "}and <a href="/guides/claim-process/diminished-value-vs-total-loss-which-claim/">which claim fits</a>.
+      </li>
+    </ul>
+    <p>
+      Claims against the at-fault driver's insurer and claims on your own policy follow different
+      rules, and they vary by state and by policy wording. These guides are educational; for a
+      claim worth pursuing, a licensed appraiser or attorney in your state can tell you what applies.
+    </p>
+
+    <ClusterHubList clusterId="diminished-value" />
   </div>
 </BaseLayout>
 
 <style>
-  .guide-hub-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 24px 0 30px; }
-  @media (max-width: 640px) { .guide-hub-grid { grid-template-columns: 1fr; } }
-  .guide-hub-card { display: block; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 18px; text-decoration: none; color: inherit; }
-  .guide-hub-card:hover, .guide-hub-card:focus-visible { border-color: var(--color-primary); }
-  .guide-hub-card h2 { margin: 0 0 6px; font-size: 1.02rem; color: var(--color-primary-dark); }
-  .guide-hub-card p { margin: 0; font-size: 0.88rem; color: var(--color-text-muted); }
-  .browse-link { margin: 10px 0 50px; }
+  .hub-container { max-width: 900px; }
+  .start-list li { margin-bottom: 10px; }
 </style>

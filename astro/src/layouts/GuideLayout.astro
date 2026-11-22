@@ -21,6 +21,8 @@ interface Props {
   structuredData?: object[];
   /** Keep this page out of search results (still crawlable via links). */
   noindex?: boolean;
+  /** Point readers to the glossary in the notice box. Off for templated state pages, which explain their own terms. */
+  glossaryLink?: boolean;
 }
 
 const {
@@ -36,6 +38,7 @@ const {
   relatedLinks,
   structuredData: extraStructuredData = [],
   noindex = false,
+  glossaryLink = true,
 } = Astro.props;
 
 const siteOrigin = "https://www.fairclaimcalculator.com";
@@ -91,7 +94,7 @@ const structuredData = [
       This guide organizes publicly available information for general education. It is not legal
       advice and does not replace your policy, your state's law, or a licensed professional's
       review of your specific situation. See <a href="/editorial-policy/">how this guide was
-      researched</a>.
+      researched</a>{glossaryLink && <>, and the <a href="/glossary/">claim terms glossary</a> for any unfamiliar term</>}.
     </div>
 
     <AdSlot path={path} slot="guide-top" />
