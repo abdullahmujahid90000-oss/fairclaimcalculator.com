@@ -1,0 +1,163 @@
+---
+import GuideLayout from "@layouts/GuideLayout.astro";
+import FaqSection from "@components/FaqSection.astro";
+import { slugifyState } from "@lib/calculators/total-loss-threshold";
+import { getAllThresholdChanges, THRESHOLD_FACTS_CHECKED, THRESHOLD_FACTS_NEXT_REVIEW } from "@lib/content/state-threshold-facts";
+import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
+
+const title = "Total Loss Threshold Changes by State (2026 Tracker)";
+const description =
+  "Every recent change to state total loss and salvage title laws we track, dated and sourced: Rhode Island's 85%, Oklahoma's 70%, bills that failed and more.";
+const path = "/guides/total-loss/total-loss-threshold-changes/";
+
+const longDate = (d: string) =>
+  d.length === 4
+    ? d
+    : new Date(`${d}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+const all = getAllThresholdChanges();
+const thresholdMoves = all.filter((c) => c.status === "enacted" && /\d+%/.test(c.text));
+const otherEnacted = all.filter((c) => c.status === "enacted" && !/\d+%/.test(c.text));
+const failed = all.filter((c) => c.status === "failed");
+const agency = all.filter((c) => c.status === "agency");
+const statusLabel = { enacted: "Law changed", failed: "Bill failed", agency: "Agency practice" } as const;
+const stateHref = (s: string) => `/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(s)}/`;
+
+const faqs: FaqItem[] = [
+  {
+    question: "Which states changed their total loss threshold in 2026?",
+    answer:
+      "Rhode Island raised the point at which an insurer may total a car from 80% to 85% on June 26, 2026, and Oklahoma raised its salvage title threshold from 60% to 70% on November 1, 2026. South Dakota's bill for a 75% floor was tabled and did not become law.",
+  },
+  {
+    question: "Does a new threshold apply to my claim?",
+    answer:
+      "Usually the rule in force on the date of the loss applies, but that depends on how the law was written. If your accident happened close to a change, ask the adjuster which version they used, and check with your state insurance department if the answer affects your payout.",
+  },
+  {
+    question: "Why does this page include bills that failed?",
+    answer:
+      "Because news stories about a bill often get repeated as if it passed. South Dakota's 2026 bill is the clearest example: several articles described a 75% threshold, but the bill was tabled in committee.",
+  },
+  {
+    question: "How often is this tracker updated?",
+    answer: `We re-check every state at least twice a year; the last full check was ${longDate(THRESHOLD_FACTS_CHECKED)} and the next is due by ${longDate(THRESHOLD_FACTS_NEXT_REVIEW)}. If you spot a change we've missed, tell us through the corrections page.`,
+  },
+];
+
+const datasetLd = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: "State total loss and salvage title law changes",
+  description: "Dated, sourced list of changes to U.S. state total loss thresholds and salvage title laws, including failed bills.",
+  url: `https://www.fairclaimcalculator.com${path}`,
+  dateModified: THRESHOLD_FACTS_CHECKED,
+  creator: { "@type": "Organization", name: "FairClaimCalculator Editorial Team" },
+  spatialCoverage: { "@type": "Place", name: "United States" },
+};
+
+const structuredData = [buildFaqSchema(faqs), datasetLd];
+---
+<GuideLayout
+  title={title}
+  description={description}
+  path={path}
+  h1="Total Loss Threshold Changes by State"
+  cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
+  publishedDate="2026-11-21"
+  reviewedDate={THRESHOLD_FACTS_CHECKED}
+  summary="Two states moved their total loss threshold in 2026: Rhode Island to 85% (June 26) and Oklahoma to 70% (November 1). A South Dakota bill for 75% failed. Below is every dated change we track, with its source."
+  sources={[
+    ...all.map((c) => `${c.state}, ${longDate(c.date)}: <a href="${c.source.url}" target="_blank" rel="noopener">${c.source.name}</a>`),
+  ].filter((v, i, a) => a.indexOf(v) === i)}
+  relatedLinks={[
+    { label: "Total loss threshold in every state", href: "/guides/total-loss/state-total-loss-threshold-laws/" },
+    { label: "Is my car totaled? Check your numbers", href: "/calculators/total-loss-threshold-checker/" },
+    { label: "Keeping a totaled car and salvage titles", href: "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/" },
+    { label: "How insurers value a totaled car", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
+  ]}
+  structuredData={structuredData}
+>
+  <p>
+    State total loss rules change more often than the lists that repeat them. When a state moves its
+    threshold, the copied tables online can stay wrong for years, and a driver comparing their
+    insurer's decision with an old number can end up arguing over the wrong line. This page keeps a
+    dated record of what changed, with a link to the source for each entry. Terms such as
+    {" "}<a href="/glossary/#salvage-title-rebuilt-title">salvage title</a> are explained in our glossary.
+  </p>
+
+  <h2>Threshold percentages that moved</h2>
+  <div class="table-wrap" role="region" aria-label="Threshold percentage changes" tabindex="0">
+    <table>
+      <thead>
+        <tr><th scope="col">Date</th><th scope="col">State</th><th scope="col">What changed</th></tr>
+      </thead>
+      <tbody>
+        {thresholdMoves.map((c) => (
+          <tr>
+            <td>{longDate(c.date)}</td>
+            <th scope="row"><a href={stateHref(c.state)}>{c.state}</a></th>
+            <td>{c.text} <a href={c.source.url} target="_blank" rel="noopener">Source</a></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What the 2026 changes mean for you</h2>
+  <p>
+    <strong>Rhode Island</strong> is unusual because its rule is in the insurance code, not just the
+    title law. Since June 26, 2026, an insurer generally may not declare a car a total loss until
+    damage reaches 85% of its value before the accident. If repairs come to, say, 80% of the car's
+    value, the insurer has to pay to fix it unless you ask in writing for a total loss, which you can
+    do once damage reaches 75%. Read the <a href={stateHref("Rhode Island")}>Rhode Island page</a> for
+    the details.
+  </p>
+  <p>
+    <strong>Oklahoma's</strong> change is a title rule. From November 1, 2026, a car needs a salvage
+    title when repairs reach 70% of its value (the higher of a guidebook value and its actual cash
+    value), up from 60%. Fewer moderately damaged cars will end up with a salvage brand, which helps
+    their resale value. It does not, by itself, stop an insurer from paying out a car as a total loss.
+    See the <a href={stateHref("Oklahoma")}>Oklahoma page</a>.
+  </p>
+
+  <h2>Bills that did not become law</h2>
+  <p>These are worth knowing because news coverage of them is often repeated as if they passed.</p>
+  <ul>
+    {failed.map((c) => (
+      <li>
+        <strong><a href={stateHref(c.state)}>{c.state}</a>, {longDate(c.date)}:</strong> {c.text}{" "}
+        <a href={c.source.url} target="_blank" rel="noopener">Source</a>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Other title and claim law changes</h2>
+  <p>
+    These don't move a percentage, but they change how a totaled car is titled or handed over to the
+    insurer.
+  </p>
+  <ul>
+    {[...otherEnacted, ...agency].map((c) => (
+      <li>
+        <strong><a href={stateHref(c.state)}>{c.state}</a>, {longDate(c.date)} ({statusLabel[c.status]}):</strong> {c.text}{" "}
+        <a href={c.source.url} target="_blank" rel="noopener">Source</a>
+      </li>
+    ))}
+  </ul>
+
+  <h2>How we check</h2>
+  <p>
+    For each state we read the statute or regulation that defines a total loss or salvage vehicle,
+    the title agency's guidance, and, for recent changes, the bill record or trade-press reports on
+    it. Each change above links to the source we relied on. The last full check was
+    {" "}{longDate(THRESHOLD_FACTS_CHECKED)}; the next is due by {longDate(THRESHOLD_FACTS_NEXT_REVIEW)}.
+    If you know of a change we've missed, please tell us through the <a href="/corrections/">corrections
+    page</a>.
+  </p>
+
+  <FaqSection faqs={faqs} />
+</GuideLayout>
+
+<style>
+  .table-wrap { overflow-x: auto; }
+</style>

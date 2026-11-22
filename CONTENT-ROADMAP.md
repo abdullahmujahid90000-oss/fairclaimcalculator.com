@@ -1,5 +1,22 @@
 # CONTENT-ROADMAP.md: topic-by-topic rewrite (3 topics a week)
 
+## Current priority list (2026-11-21, from research/00-audit.md)
+
+The Mon/Wed/Fri scheduled run was paused on 2026-11-21; work now runs in
+cluster batches, one branch and one pull request each, per the owner's
+2026-11-21 brief. Topic numbers refer to the table further down.
+
+| Batch | Branch | Scope | Status |
+|---|---|---|---|
+| 1 | `seo/cluster-a-total-loss` | Cluster A: verify all 51 thresholds from statutes, fix Rhode Island, dated recent-change notes, state template rebuilt around state facts (topic 17), threshold change tracker page, Dataset schema, real sitemap lastmod | done (2026-11-21), PR open; 30 state pages still noindex (topic 17) |
+| 2 | `seo/cluster-g-accident-reporting` | Accident-reporting state pages below 0.60 similarity and 400+ words; crash-report copies for 41 states (topic 18); AK/HI/ME orphans | todo |
+| 3 | `seo/cluster-b-valuation` | Topics 7 and 15: disputes, valuation reports, comparables, settlement breakdown | todo |
+| 4 | `seo/cluster-c-diminished-value` | Topics 6 and 13, 51-state DV table, 2025–2026 decisions | todo |
+| 5 | `seo/cluster-d-e-gap-salvage` | Topics 9, 10, 11 | todo |
+| 6 | `seo/cluster-f-claim-process` | Topics 8, 12, 14; claim-deadline table | todo |
+| 7 | `seo/hubs-trust` | Topic 16, reviewed dates and schema on every page | todo |
+| 8+ | per topic | New pages, linking pass, AI-visibility pass, final AdSense audit | todo |
+
 Internal reference only, not part of the live site. Started 2026-11-07 at the
 owner's request: rewrite every page, one topic per run, three runs a week
 (Mon/Wed/Fri), with real research first. Goals in the owner's words: **ranking**
@@ -128,7 +145,7 @@ Seed keywords are starting points for research, not final targets.
 | 14 | **Claim process** | first-party vs third-party, filing a DOI complaint, appraisal/attorney, DV vs total loss, `/forms/claim-communication-log/`, `/forms/insurance-complaint-worksheet/` | how to file a complaint against an insurance company, appraisal clause auto insurance | todo |
 | 15 | **Comparables and settlement check** | `/guides/total-loss/finding-your-own-comparable-vehicles/`, `/forms/comparable-vehicles-worksheet/`, `/calculators/settlement-check-breakdown/`, `/check-my-offer/` | comparable vehicles total loss, total loss settlement breakdown | todo |
 | 16 | **Glossary, hubs and trust pages** | `/glossary/`, `/guides/` and cluster hubs, `/calculators/`, About/Methodology/Editorial policy (author details need owner input) | car insurance claim terms | todo |
-| 17 | **State threshold pages: per-state rewrite** | `/guides/total-loss/state-total-loss-threshold-laws/[state]/` — ~10 states per run, largest states first (CA, TX, FL, NY, PA, IL, OH, GA, NC, MI). Each needs its statute citation, state rules (salvage branding, owner-retained rules, exceptions like CO hail), a state example; re-index per the scaled-content rule | [state] total loss threshold, [state] salvage title rules | todo |
+| 17 | **State threshold pages: per-state rewrite** | `/guides/total-loss/state-total-loss-threshold-laws/[state]/` — ~10 states per run, largest states first (CA, TX, FL, NY, PA, IL, OH, GA, NC, MI). Each needs its statute citation, state rules (salvage branding, owner-retained rules, exceptions like CO hail), a state example; re-index per the scaled-content rule | [state] total loss threshold, [state] salvage title rules | in progress (2026-11-21): all 51 rebuilt from statute research; 21 re-indexed (< 0.60 similarity, rule confirmed); 30 at 0.60–0.66 need more state substance; 4 unconfirmed (MS, NH, NM, UT) need full-text checks (research/open-questions.md) |
 | 18 | **Crash report copies: remaining 41 states** | `src/lib/content/crash-report-copies.ts`, ~10 states per run, each from the state agency's own ordering page (method, published fee, waiting periods) | how to get a police report [state] | todo |
 
 ## New topics to add after the rewrite (from the 2026-10-29 suggestions)

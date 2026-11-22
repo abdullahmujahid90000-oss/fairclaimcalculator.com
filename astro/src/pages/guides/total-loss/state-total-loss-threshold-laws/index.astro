@@ -1,57 +1,78 @@
 ---
 import GuideLayout from "@layouts/GuideLayout.astro";
 import FaqSection from "@components/FaqSection.astro";
-import { STATE_THRESHOLDS, slugifyState } from "@lib/calculators/total-loss-threshold";
+import { STATE_THRESHOLDS, slugifyState, ruleLabel } from "@lib/calculators/total-loss-threshold";
+import { STATE_LAW_FACTS, THRESHOLD_FACTS_CHECKED, THRESHOLD_FACTS_NEXT_REVIEW } from "@lib/content/state-threshold-facts";
 import { buildFaqSchema, type FaqItem } from "@lib/seo/faq-schema";
 
 const title = "Total Loss Threshold by State (2026): All 50 States";
 const description =
-  "The total loss threshold for every state in 2026: the percentage or formula each uses, what it means in dollars for your car, and recent law changes.";
+  "The total loss threshold in every state for 2026, checked against each statute: the percentage or rule, what it means in dollars and recent changes.";
 const path = "/guides/total-loss/state-total-loss-threshold-laws/";
 
-// Everything below is computed from the one state table, so the counts,
-// examples and lists can never drift from the data.
+// Everything below is computed from the state data, so counts and lists can't drift.
 const EXAMPLE_ACV = 10000;
 const pctStates = STATE_THRESHOLDS.filter((s) => s.type === "percentage");
-const tlfStates = STATE_THRESHOLDS.filter((s) => s.type === "tlf");
+const noPctStates = STATE_THRESHOLDS.filter((s) => s.type === "tlf");
+const formulaStates = noPctStates.filter((s) => s.basis === "formula");
 const pctValues = pctStates.map((s) => s.thresholdPct as number);
 const minPct = Math.min(...pctValues);
 const maxPct = Math.max(...pctValues);
 const lowest = pctStates.filter((s) => s.thresholdPct === minPct).map((s) => s.state);
 const highest = pctStates.filter((s) => s.thresholdPct === maxPct).map((s) => s.state);
+const pctStatesOnly = pctStates.filter((s) => s.state !== "Washington, D.C.").length;
 const usd = (n: number) => `$${n.toLocaleString("en-US")}`;
 const joinNames = (names: string[]) =>
   names.length <= 1 ? names.join("") : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
-const withSources = STATE_THRESHOLDS.filter((s) => s.statuteSource);
-const firstSentence = (text: string) => text.split(/(?<=\.)\s/)[0];
+const kindLabel = { title: "Title brand", insurer: "Insurer", both: "Title and insurer" } as const;
+const checkedLong = new Date(`${THRESHOLD_FACTS_CHECKED}T12:00:00Z`).toLocaleDateString("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
+const unconfirmed = STATE_THRESHOLDS.filter((s) => STATE_LAW_FACTS[s.state].check === "unconfirmed").map((s) => s.state);
+const insurerRules = STATE_THRESHOLDS.filter((s) => STATE_LAW_FACTS[s.state].kind !== "title").map((s) => s.state);
 
 const faqs: FaqItem[] = [
   {
     question: "What is the total loss threshold in my state?",
-    answer: `Find your state in the table on this page. ${pctStates.length - 1} states and Washington, D.C. use a fixed percentage of the car's value, from ${minPct}% (${joinNames(lowest)}) to ${maxPct}% (${joinNames(highest)}). The other ${tlfStates.length} states use the Total Loss Formula, which compares repairs plus salvage value with the car's value.`,
+    answer: `Find your state in the table on this page. ${pctStatesOnly} states and Washington, D.C. name a percentage of the car's value in their law, from ${minPct}% (${joinNames(lowest)}) to ${maxPct}% (${joinNames(highest)}). The other ${noPctStates.length} states set no percentage; the insurer decides, usually by comparing repairs plus salvage value with the car's value.`,
   },
   {
     question: "Which states use the Total Loss Formula?",
-    answer: `${joinNames(tlfStates.map((s) => s.state))}. In these states a car is a total loss once the repair cost plus the wreck's salvage value reaches the car's actual cash value.`,
+    answer: `${joinNames(formulaStates.map((s) => s.state))} have a formula-style test written into their law. In the other states without a percentage, the formula is simply the method most insurers use.`,
   },
   {
     question: "Does the threshold mean my insurer can't total my car below it?",
     answer:
-      "No. The threshold is the point where state law treats the car as a total loss, mainly so its title is branded salvage. Insurers often total cars below it when repairs plus salvage value come close to the car's value, because paying you out and selling the wreck costs them less.",
+      "In most states, no. Most of these laws decide when a car's title must be branded salvage, not when an insurer may total it, and insurers often total cars below the line. Rhode Island is the clearest exception: since June 26, 2026 an insurer there generally may not total a car until damage reaches 85%, unless the owner asks in writing.",
   },
   {
     question: "Why do websites list different thresholds for the same state?",
     answer:
-      "Laws change and many lists are copied from older ones. For example, Oklahoma moved from 60% to 70% on November 1, 2026, Minnesota's figure has been 80% since a 2012 law, and Iowa moved from 50% to 70% in 2021, yet older figures are still widely repeated.",
+      "Most lists copy each other and some are years out of date. Rhode Island moved to 85% in 2026, Oklahoma to 70% on November 1, 2026, Minnesota to 80% in 2012 and Iowa to 70% in 2021. Lists also quote rules meant for uninsured cars as if they applied to everyone, as with Florida's 80% and Oregon's 80%.",
   },
   {
     question: "What value is the threshold measured against?",
     answer:
-      "Usually the car's actual cash value just before the damage: what a similar car was selling for in your area. Some states define it differently; Oklahoma, for example, uses the higher of the guidebook value and the actual cash value.",
+      "It varies. Some states use the car's actual cash value, others its retail value in a pricing guide, and Oklahoma uses the higher of a guidebook value and actual cash value. Each state page says which.",
   },
 ];
 
-const structuredData = [buildFaqSchema(faqs)];
+const datasetLd = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: "U.S. total loss thresholds by state",
+  description: `The rule each U.S. state and Washington, D.C. uses to decide when a damaged car is a total loss or needs a salvage title, with the statute citation, what the rule governs and recent changes. Checked ${THRESHOLD_FACTS_CHECKED}.`,
+  url: `https://www.fairclaimcalculator.com${path}`,
+  dateModified: THRESHOLD_FACTS_CHECKED,
+  creator: { "@type": "Organization", name: "FairClaimCalculator Editorial Team" },
+  spatialCoverage: { "@type": "Place", name: "United States" },
+  variableMeasured: ["Total loss threshold percentage", "Type of law", "Statute citation"],
+};
+
+const structuredData = [buildFaqSchema(faqs), datasetLd];
 ---
 <GuideLayout
   title={title}
@@ -60,70 +81,94 @@ const structuredData = [buildFaqSchema(faqs)];
   h1="Total Loss Threshold by State"
   cluster={{ name: "Total Loss", href: "/guides/total-loss/" }}
   publishedDate="2026-08-01"
-  reviewedDate="2026-11-11"
-  summary={`Each state decides when a damaged car counts as a total loss. ${pctStates.length - 1} states and D.C. use a fixed percentage of the car's value, from ${minPct}% to ${maxPct}%. The other ${tlfStates.length} use the Total Loss Formula. The table below shows every state's rule and what it means in dollars.`}
+  reviewedDate={THRESHOLD_FACTS_CHECKED}
+  summary={`${pctStatesOnly} states and D.C. name a total loss percentage in their law, from ${minPct}% to ${maxPct}% of the car's value. The other ${noPctStates.length} set no percentage and leave the call to the insurer. The table shows every state's rule, what it means in dollars and the law behind it.`}
   sources={[
-    ...withSources.map((s) => `${s.state}: ${s.statuteSource}`),
-    'Brennan, R., "Total Loss Threshold by State," Policygenius, updated July 2026: the starting compilation for states not individually cited above. Treat those rows as a starting point and confirm the current rule with your state insurance department.',
+    `Each state's statute or regulation, linked in the "Law" column of the table and on each state page (checked ${checkedLong}; next review by ${THRESHOLD_FACTS_NEXT_REVIEW}).`,
     'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a>.',
   ]}
   relatedLinks={[
     { label: "Is my car totaled? Check your numbers", href: "/calculators/total-loss-threshold-checker/" },
+    { label: "Total loss threshold changes, 2012–2026", href: "/guides/total-loss/total-loss-threshold-changes/" },
     { label: "How insurers value a totaled car", href: "/guides/total-loss/how-insurers-value-a-total-loss-vehicle/" },
     { label: "How to dispute a total loss valuation", href: "/guides/total-loss/how-to-dispute-a-total-loss-valuation/" },
     { label: "Can I keep my totaled car?", href: "/guides/total-loss/owner-retained-total-loss-and-salvage-titles/" },
+    { label: "Sales tax and title fees on a total loss", href: "/guides/total-loss/sales-tax-title-fees-on-a-total-loss/" },
   ]}
   structuredData={structuredData}
 >
   <p>
     A total loss threshold is the point where a damaged car stops being worth fixing in the eyes of
-    the law. States set it in one of two ways, and the gap between them is large: the same repair
-    bill can total a car in Nevada and leave it on the road in Texas.
+    the law. The same repair bill can total a car in Nevada and leave it on the road in Texas, and in
+    about half the country the law names no percentage at all.
   </p>
 
-  <h2>The two rules states use</h2>
+  <h2>Three kinds of rules</h2>
   <ul>
     <li>
-      <strong>A fixed percentage.</strong> Once repairs reach a set share of the car's actual cash
-      value (ACV), it is a total loss. In a 75% state, a {usd(EXAMPLE_ACV)} car is totaled at
-      {" "}{usd(EXAMPLE_ACV * 0.75)} of repairs.
+      <strong>A percentage in the law ({pctStates.length}, including D.C.).</strong> Once repairs reach a
+      set share of the car's value, the car is a total loss for title purposes. In a 75% state, a
+      {" "}{usd(EXAMPLE_ACV)} car crosses the line at {usd(EXAMPLE_ACV * 0.75)} of repairs.
     </li>
     <li>
-      <strong>The Total Loss Formula (TLF).</strong> The insurer adds the salvage value, meaning what
-      the wreck would sell for at auction, to the repair cost. Once that sum reaches the car's value,
-      it is a total loss. A {usd(EXAMPLE_ACV)} car with {usd(1500)} of salvage value is totaled at
-      {" "}{usd(EXAMPLE_ACV - 1500)} of repairs.
+      <strong>A formula-style test in the law ({formulaStates.length}).</strong> {joinNames(formulaStates.map((s) => s.state))}
+      {" "}compare repairs with the car's value minus what the wreck is worth. A {usd(EXAMPLE_ACV)} car whose wreck would sell for
+      {" "}{usd(1500)} is totaled at {usd(EXAMPLE_ACV - 1500)} of repairs.
+    </li>
+    <li>
+      <strong>No test in the law ({noPctStates.length - formulaStates.length}).</strong> The car is a total
+      loss when the insurer declares it one, and the title follows. Most insurers use the same
+      repairs-plus-salvage comparison, often called the
+      {" "}<a href="/glossary/#total-loss-formula-tlf">Total Loss Formula</a>.
     </li>
   </ul>
 
-  <h2>Total loss threshold for all 50 states</h2>
+  <h2>Total loss threshold for all 50 states and D.C.</h2>
   <p>
-    The third column shows the repair bill that crosses the line for a car worth {usd(EXAMPLE_ACV)}.
-    To run your own numbers, use the <a href="/calculators/total-loss-threshold-checker/">Is My Car
-    Totaled? calculator</a>.
+    The third column shows the repair bill that crosses the line for a car worth {usd(EXAMPLE_ACV)}
+    (for states without a percentage, assuming a {usd(1500)} salvage value). "What it controls" says
+    whether the rule brands the title, limits the insurer, or both. To run your own numbers, use the
+    {" "}<a href="/calculators/total-loss-threshold-checker/">Is My Car Totaled? calculator</a>.
   </p>
-  <div class="table-wrap">
+  <div class="table-wrap" role="region" aria-label="Total loss threshold by state" tabindex="0">
     <table>
       <thead>
-        <tr><th scope="col">State</th><th scope="col">Rule</th><th scope="col">Totals a {usd(EXAMPLE_ACV)} car at</th><th scope="col">Note</th></tr>
+        <tr>
+          <th scope="col">State</th>
+          <th scope="col">Rule</th>
+          <th scope="col">Line for a {usd(EXAMPLE_ACV)} car</th>
+          <th scope="col">What it controls</th>
+          <th scope="col">Law</th>
+        </tr>
       </thead>
       <tbody>
-        {STATE_THRESHOLDS.map((s) => (
-          <tr>
-            <td><a href={`/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(s.state)}/`}>{s.state}</a></td>
-            <td>{s.type === "percentage" ? `${s.thresholdPct}% of value` : "Total Loss Formula"}</td>
-            <td>{s.type === "percentage" ? `${usd((EXAMPLE_ACV * (s.thresholdPct as number)) / 100)} of repairs` : "Repairs + salvage reach $10,000"}</td>
-            <td>{s.note ? firstSentence(s.note) : ""}</td>
-          </tr>
-        ))}
+        {STATE_THRESHOLDS.map((s) => {
+          const f = STATE_LAW_FACTS[s.state];
+          return (
+            <tr>
+              <th scope="row"><a href={`/guides/total-loss/state-total-loss-threshold-laws/${slugifyState(s.state)}/`}>{s.state}</a></th>
+              <td>{ruleLabel(s)}{f.check === "unconfirmed" ? " (unconfirmed)" : ""}</td>
+              <td>{s.type === "percentage" ? `${usd((EXAMPLE_ACV * (s.thresholdPct as number)) / 100)} of repairs` : `${usd(EXAMPLE_ACV - 1500)} of repairs`}</td>
+              <td>{kindLabel[f.kind]}</td>
+              <td><a href={f.cite.url} target="_blank" rel="noopener">{f.cite.name}</a></td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   </div>
+  <p class="section-note">
+    Checked against each state's statute or regulation on {checkedLong}. "Unconfirmed" marks states
+    where we could not confirm the rule in the official text ({joinNames(unconfirmed)}); check those with
+    the state insurance department.
+  </p>
 
   <h2>What the threshold actually controls</h2>
   <p>
     Most of these laws are title laws. They decide when a car must be branded salvage, which follows
-    it for life and lowers its resale value. They do not stop an insurer from totaling a car sooner.
+    it for life and lowers its resale value. They usually do not stop an insurer from totaling a car
+    sooner. Only some states also write the rule into insurance law or tie it to the claim:
+    {" "}{joinNames(insurerRules)}.
   </p>
   <p>
     In practice, insurers total many cars below the state line. If repairing the car costs about as
@@ -139,24 +184,28 @@ const structuredData = [buildFaqSchema(faqs)];
 
   <h2>Why lists online disagree</h2>
   <p>
-    Search for your state and you may find two or three different numbers. Most of these lists copy
-    each other, and state laws change. Recent changes we have confirmed against the law itself:
+    Search for your state and you may find two or three different numbers. Most lists copy one
+    another, some are years out of date, and many quote a rule meant for uninsured cars as if it
+    applied to every claim. What we found when we checked each statute:
   </p>
   <ul>
-    <li><strong>Oklahoma: 60% → 70%</strong> on November 1, 2026 (Senate Bill 1920).</li>
-    <li><strong>Iowa: 50% → 70%</strong> for cars transferred on or after July 1, 2021.</li>
-    <li><strong>Minnesota: 80%,</strong> not the 70% many lists still show; the figure changed in a 2012 law.</li>
-    <li><strong>Colorado: 100%,</strong> with hail damage left out of the salvage test.</li>
+    <li><strong>Rhode Island: 85%</strong> since June 26, 2026, and it limits insurers. Most lists still say 75%.</li>
+    <li><strong>Oklahoma: 70%</strong> since November 1, 2026 (it was 60%).</li>
+    <li><strong>Florida and Oregon:</strong> the widely quoted 80% applies only to uninsured cars. When an insurer pays a total-loss claim, that payment makes the car a total loss.</li>
+    <li><strong>Wyoming:</strong> 75% applies only when no insurer is involved.</li>
+    <li><strong>Virginia:</strong> the main test is a formula; 75% covers only certain cases.</li>
+    <li><strong>South Dakota:</strong> a 2026 bill for a 75% floor was tabled; the law still sets no percentage.</li>
+    <li><strong>Age limits:</strong> several percentages apply only to newer cars, for example New York (8 model years or newer), Wisconsin (under 7 years) and Kansas, Michigan and Nebraska (late-model cars).</li>
   </ul>
   <p>
-    If a number matters to your claim, ask your adjuster which rule they applied and check it with
-    your state insurance department.
+    The full dated list is on the <a href="/guides/total-loss/total-loss-threshold-changes/">total loss
+    threshold change tracker</a>.
   </p>
 
   <h2>If your car is over the line</h2>
   <ol>
-    <li>Ask for the written valuation report and check the comparable cars, mileage and options. The <a href="/calculators/total-loss-offer-audit/">Total-Loss Offer Audit</a> helps.</li>
-    <li>Ask whether sales tax and title fees are included. Many states require it; see <a href="/guides/total-loss/sales-tax-title-fees-on-a-total-loss/">sales tax and fees on a total loss</a>.</li>
+    <li>Ask for the written valuation report and check the comparable cars, mileage and options. The <a href="/calculators/total-loss-offer-audit/">totaled car value calculator</a> helps.</li>
+    <li>Ask whether sales tax and title fees are included; see <a href="/guides/total-loss/sales-tax-title-fees-on-a-total-loss/">sales tax and fees on a total loss</a>.</li>
     <li>Decide whether to keep the car. Most states allow it for a smaller payout and a salvage title; see <a href="/guides/total-loss/owner-retained-total-loss-and-salvage-titles/">keeping a totaled car</a>.</li>
   </ol>
 
@@ -165,7 +214,7 @@ const structuredData = [buildFaqSchema(faqs)];
 
 <style>
   .table-wrap { overflow-x: auto; }
-  .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  .table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   .table-wrap th, .table-wrap td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
-  .table-wrap td:last-child { font-size: 0.85rem; color: var(--color-text-muted); }
+  .section-note { color: var(--color-text-muted); font-size: 0.88rem; }
 </style>

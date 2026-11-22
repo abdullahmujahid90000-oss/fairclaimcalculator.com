@@ -1,87 +1,57 @@
 /**
- * Per-state prose for the 51 individual state pages under
- * /guides/total-loss/state-total-loss-threshold-laws/[state]/.
+ * Computed pieces of the 51 state pages under
+ * /guides/total-loss/state-total-loss-threshold-laws/[state]/: a worked
+ * example with that state's own rule, the bordering-state comparison and a
+ * cross-border scenario. The legal facts themselves live in
+ * state-threshold-facts.ts.
  *
- * Design note (logged for the same reason as SOURCE-REGISTER.md and
- * ADSENSE-READINESS.md §4's "not mass-generated, not templated across
- * states with only place-names swapped in" rule): this file does NOT
- * generate 51 pages by find-and-replacing a state name into one fixed
- * sentence. The explanatory text is branched by threshold TIER (100%,
- * 80%, 75%, 70%, 65%, 60%, or Total Loss Formula) — a real, factual
- * difference between states, not a cosmetic one — so states that share a
- * tier share genuinely-applicable text, and states in different tiers get
- * substantively different explanations. The worked-dollar-amount example
- * on every page is also individually computed from that state's own real
- * percentage (or the TLF example already published in the companion
- * guide), not copy-pasted. No new facts are introduced beyond what's
- * already sourced in STATE_THRESHOLDS / the companion guide.
+ * 2026-11-21: the old tier-based paragraphs ("At 75%, X uses the most common
+ * threshold...") were removed. They were the same sentences on every page
+ * in a tier and made the pages near-duplicates (89–98% similar).
  */
 
 import type { StateThreshold } from "../calculators/total-loss-threshold";
-import { formatUSD } from "../calculators/total-loss-threshold";
+import { formatUSD, ruleLabel, STATE_THRESHOLDS } from "../calculators/total-loss-threshold";
 
-/** Illustrative ACV used in every worked example: $10,000 (round number, matches the companion guide's own TLF example). */
-export const EXAMPLE_ACV_CENTS = 1_000_000;
+/**
+ * Illustrative pre-crash values for the worked examples, rotated by the
+ * state's position so neighboring pages don't all use the same car. They are
+ * examples, labeled as such on the page, not market data.
+ */
+const EXAMPLE_VALUES_DOLLARS = [8450, 9725, 11380, 12640, 13950, 15275, 16890, 18420, 19760, 21350, 23180];
 
-export function getPracticalMeaning(entry: StateThreshold): string {
-  if (entry.type === "tlf") {
-    return `${entry.state} does not use a single percentage — it applies the Total Loss Formula, so a vehicle's fate depends on the combination of repair cost and expected salvage value, not repair cost alone. Two vehicles with an identical repair estimate can land on opposite sides of the total-loss line here if their salvage values differ.`;
-  }
+/** Example salvage value: 17% of the car's value, rounded to the nearest $25. */
+export function exampleSalvageCents(acvCents: number): number {
+  return Math.round((acvCents * 0.17) / 2500) * 2500;
+}
 
-  const pct = entry.thresholdPct as number;
-
-  if (pct >= 100) {
-    return `At ${pct}%, ${entry.state} sets one of the highest bars in the country — insurers are only required to total a vehicle once estimated repairs would cost as much as the car itself is worth, leaving more room for heavily damaged vehicles to be repaired and returned to the road than in most other states.`;
-  }
-  if (pct >= 80) {
-    return `At ${pct}%, ${entry.state}'s threshold is on the higher side nationally — repair costs have to reach a substantial share of the vehicle's actual cash value before state law requires a total loss.`;
-  }
-  if (pct === 75) {
-    return `${pct}% is the single most common state threshold nationally, and ${entry.state} uses it — roughly three-quarters of the vehicle's actual cash value in repair costs triggers a total loss.`;
-  }
-  if (pct >= 70) {
-    return `At ${pct}%, ${entry.state} sets its bar a little lower than the more common 75% threshold used by many other states — the legal minimum for a total loss is reached at a smaller share of the vehicle's value.`;
-  }
-  if (pct >= 65) {
-    return `At ${pct}%, ${entry.state} is among the more conservative percentage-threshold states — the legal minimum for a total loss is reached at a comparatively small share of the vehicle's value.`;
-  }
-  return `At ${pct}%, ${entry.state} has the lowest state-set percentage threshold in the country — repairs reaching just ${pct}% of the vehicle's value already meet the legal minimum for a total loss, a deliberately conservative, safety-oriented rule.`;
+export function exampleAcvCents(state: string): number {
+  const i = Math.max(0, STATE_THRESHOLDS.findIndex((s) => s.state === state));
+  return EXAMPLE_VALUES_DOLLARS[(i * 7) % EXAMPLE_VALUES_DOLLARS.length] * 100;
 }
 
 export interface WorkedExample {
-  acvText: string;
-  repairText: string;
-  salvageText?: string;
-  sumText?: string;
-  verdictText: string;
+  acvCents: number;
+  /** Repair amount where the state's test is met. */
+  lineCents: number;
+  salvageCents: number | null;
+  /** Repair amount where repairs + salvage reach the car's value (when an insurer would usually total it). */
+  formulaLineCents: number;
 }
 
 export function getWorkedExample(entry: StateThreshold): WorkedExample {
-  const acvText = formatUSD(EXAMPLE_ACV_CENTS);
-
-  if (entry.type === "tlf") {
-    // Reuses the exact worked TLF example already published in the
-    // companion guide (repair $7,500 + salvage $1,000 = $8,500 < $10,000
-    // ACV, so this specific damage would NOT be a total loss under TLF).
-    const repairCents = 750_000;
-    const salvageCents = 100_000;
-    const sumCents = repairCents + salvageCents;
+  const acvCents = exampleAcvCents(entry.state);
+  const salvageCents = exampleSalvageCents(acvCents);
+  const formulaLineCents = acvCents - salvageCents;
+  if (entry.type === "percentage") {
     return {
-      acvText,
-      repairText: formatUSD(repairCents),
-      salvageText: formatUSD(salvageCents),
-      sumText: formatUSD(sumCents),
-      verdictText: `${formatUSD(repairCents)} repair + ${formatUSD(salvageCents)} estimated salvage = ${formatUSD(sumCents)}, which is below the ${acvText} ACV — so this specific damage would not meet ${entry.state}'s Total Loss Formula, even though the repair estimate alone is 75% of ACV.`,
+      acvCents,
+      lineCents: Math.ceil((acvCents * (entry.thresholdPct as number)) / 100),
+      salvageCents,
+      formulaLineCents,
     };
   }
-
-  const pct = entry.thresholdPct as number;
-  const repairCents = Math.round((EXAMPLE_ACV_CENTS * pct) / 100);
-  return {
-    acvText,
-    repairText: formatUSD(repairCents),
-    verdictText: `On a ${acvText} vehicle, repair costs reaching ${formatUSD(repairCents)} (${pct}% of ACV) meet ${entry.state}'s total-loss threshold.`,
-  };
+  return { acvCents, lineCents: formulaLineCents, salvageCents, formulaLineCents };
 }
 
 /**
@@ -145,7 +115,7 @@ export const BORDERING_STATES: Record<string, string[]> = {
 };
 
 export function describeRule(entry: StateThreshold): string {
-  return entry.type === "percentage" ? `${entry.thresholdPct}% of ACV` : "Total Loss Formula";
+  return ruleLabel(entry);
 }
 
 export interface NeighborComparison {
@@ -170,34 +140,14 @@ export function getNeighborComparisons(entry: StateThreshold, all: StateThreshol
 }
 
 /**
- * Where a percentage state sits nationally: how many percentage-threshold
- * jurisdictions set a lower, equal or higher bar, and how many use the TLF.
- */
-export function getNationalPosition(entry: StateThreshold, all: StateThreshold[]) {
-  const pctStates = all.filter((s) => s.type === "percentage");
-  const tlfCount = all.length - pctStates.length;
-  if (entry.type === "tlf") {
-    return { tlfCount, pctCount: pctStates.length, lower: 0, same: tlfCount - 1, higher: 0 };
-  }
-  const pct = entry.thresholdPct as number;
-  return {
-    tlfCount,
-    pctCount: pctStates.length,
-    lower: pctStates.filter((s) => (s.thresholdPct as number) < pct).length,
-    same: pctStates.filter((s) => s.thresholdPct === pct && s.state !== entry.state).length,
-    higher: pctStates.filter((s) => (s.thresholdPct as number) > pct).length,
-  };
-}
-
-/**
  * A concrete cross-border scenario for the page's state: the same car and
  * repair estimate, run through this state's rule and one bordering state's
  * rule that differs. Returns null when every neighbor uses the same rule
  * (or there are no neighbors). Uses the $10,000 ACV example vehicle.
  */
 export function getCrossBorderScenario(entry: StateThreshold, all: StateThreshold[]): string | null {
-  const acv = EXAMPLE_ACV_CENTS;
-  const salvage = 100_000;
+  const acv = exampleAcvCents(entry.state);
+  const salvage = exampleSalvageCents(acv);
   const neighbors = getNeighborComparisons(entry, all).filter((n) => n.relation !== "same");
   if (neighbors.length === 0) return null;
   const other = all.find((s) => s.state === neighbors[0].state) as StateThreshold;
@@ -205,14 +155,14 @@ export function getCrossBorderScenario(entry: StateThreshold, all: StateThreshol
   const isTotal = (s: StateThreshold, repair: number) =>
     s.type === "tlf" ? repair + salvage >= acv : repair >= (acv * (s.thresholdPct as number)) / 100;
 
-  // Find a repair estimate (in $250 steps) where the two rules disagree.
-  for (let repair = 500_000; repair <= 1_000_000; repair += 25_000) {
+  // Find a repair estimate (in $250 steps, from half the car's value up) where the two rules disagree.
+  for (let repair = Math.round(acv / 2 / 25_000) * 25_000; repair <= acv; repair += 25_000) {
     const here = isTotal(entry, repair);
     const there = isTotal(other, repair);
     if (here !== there) {
       const verdict = (s: StateThreshold, total: boolean) =>
-        `${total ? "is" : "is not"} a total loss in ${s.state} (${describeRule(s)}${s.type === "tlf" ? `, with an assumed ${formatUSD(salvage)} salvage value` : ""})`;
-      return `Take a ${formatUSD(acv)} car with a ${formatUSD(repair)} repair estimate. It ${verdict(entry, here)}, but it ${verdict(other, there)}. If your accident happened near the ${other.state} line, check which state's rule actually applies — usually the state where the vehicle is registered and insured.`;
+        `${total ? "crosses" : "stays under"} the line in ${s.state} (${s.type === "tlf" ? `repairs plus a ${formatUSD(salvage)} salvage value against the car's value` : `${s.thresholdPct}% of value`})`;
+      return `The same ${formatUSD(acv)} car with a ${formatUSD(repair)} repair estimate ${verdict(entry, here)}, but ${verdict(other, there)}. The rule that applies is usually the one where the car is registered and insured, not where the crash happened.`;
     }
   }
   return null;

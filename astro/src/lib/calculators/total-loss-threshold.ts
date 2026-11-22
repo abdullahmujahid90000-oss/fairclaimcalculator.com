@@ -13,12 +13,11 @@
  */
 
 export const TOTAL_LOSS_THRESHOLD_CONFIG = {
-  version: "1.2",
-  effectiveDate: "2026-11-11",
-  reviewedDate: "2026-11-11",
+  version: "2.0",
+  effectiveDate: "2026-11-21",
+  reviewedDate: "2026-11-21",
   sources: [
-    'Brennan, R., "Total Loss Threshold by State," Policygenius, updated July 2026 — same secondary compilation cited in the companion guide. Treat as a starting point, not a final legal citation; confirm your own state\'s current rule with your state insurance department.',
-    'New Hampshire Insurance Department, <a href="https://www.insurance.nh.gov/about-us/property-casualty-division/list-accepted-valuation-methods-total-loss" target="_blank" rel="noopener">List of Accepted Valuation Methods for Total Loss</a> — a real example of a state regulator publishing its own accepted methodology.',
+    'Each state\'s statute or regulation, listed with a link on its <a href="/guides/total-loss/state-total-loss-threshold-laws/">state page</a> (checked 2026-11-21). Where a state\'s law sets no percentage, the checker applies the Total Loss Formula, the method most insurers use there.',
   ],
 } as const;
 
@@ -26,97 +25,92 @@ export type ThresholdType = "percentage" | "tlf";
 
 export interface StateThreshold {
   state: string;
+  /**
+   * "percentage": the state's statute or regulation names a percentage of the
+   * car's value. "tlf": it does not, so the checker applies the Total Loss
+   * Formula (repairs + salvage value vs. ACV), the method insurers there
+   * generally use. See `basis` for how the law itself is worded.
+   */
   type: ThresholdType;
   /** Percentage as a whole number (e.g. 75 for 75%). Null for TLF states. */
   thresholdPct: number | null;
-  /** State-specific detail, e.g. where this table departs from popular secondary lists. */
-  note?: string;
-  /** Primary-source statute citation, as an HTML string, when one was checked directly. */
-  statuteSource?: string;
+  /**
+   * TLF states only. "formula": the law itself uses a formula-style test
+   * (repairs compared with value minus salvage). "insurer": the law ties the
+   * total loss to the insurer's decision and sets no test of its own.
+   */
+  basis?: "formula" | "insurer";
+  /**
+   * The percentage limits the insurer (it may not total the car below it
+   * without the owner's written request) instead of only branding the title.
+   */
+  insurerFloor?: boolean;
 }
 
 /**
- * Same 51 entries (50 states + Washington, D.C.) as the published guide's
- * table. Keep these two in sync if either is ever updated — see the
- * guide's own sourcing note about periodic review.
+ * 50 states + Washington, D.C. Classification from the state-by-state
+ * research of 2026-11-21 (src/lib/content/state-threshold-facts.ts holds the
+ * citations and details for each state).
  */
 export const STATE_THRESHOLDS: StateThreshold[] = [
   { state: "Alabama", type: "percentage", thresholdPct: 75 },
-  { state: "Alaska", type: "tlf", thresholdPct: null },
-  { state: "Arizona", type: "tlf", thresholdPct: null },
+  { state: "Alaska", type: "tlf", thresholdPct: null, basis: "insurer" },
+  { state: "Arizona", type: "tlf", thresholdPct: null, basis: "insurer" },
   { state: "Arkansas", type: "percentage", thresholdPct: 70 },
-  { state: "California", type: "tlf", thresholdPct: null },
-  {
-    state: "Colorado",
-    type: "percentage",
-    thresholdPct: 100,
-    note: "Colorado's salvage test is repair cost above the car's retail fair market value just before the damage. Hail damage is excluded from that test, so a hail-damaged car can be paid out without a salvage brand.",
-    statuteSource: 'C.R.S. § 42-6-102 ("salvage vehicle"); Colorado DMV, <a href="https://dmv.colorado.gov/salvage-vehicles" target="_blank" rel="noopener">Salvage Vehicles</a>.',
-  },
-  { state: "Connecticut", type: "tlf", thresholdPct: null },
-  { state: "Delaware", type: "tlf", thresholdPct: null },
-  { state: "Florida", type: "percentage", thresholdPct: 80 },
-  { state: "Georgia", type: "tlf", thresholdPct: null },
-  { state: "Hawaii", type: "tlf", thresholdPct: null },
-  { state: "Idaho", type: "tlf", thresholdPct: null },
-  { state: "Illinois", type: "tlf", thresholdPct: null },
+  { state: "California", type: "tlf", thresholdPct: null, basis: "insurer" },
+  { state: "Colorado", type: "percentage", thresholdPct: 100 },
+  { state: "Connecticut", type: "tlf", thresholdPct: null, basis: "formula" },
+  { state: "Delaware", type: "tlf", thresholdPct: null, basis: "insurer" },
+  { state: "Florida", type: "tlf", thresholdPct: null, basis: "insurer" },
+  { state: "Georgia", type: "tlf", thresholdPct: null, basis: "insurer" },
+  { state: "Hawaii", type: "tlf", thresholdPct: null, basis: "insurer" },
+  { state: "Idaho", type: "tlf", thresholdPct: null, basis: "formula" },
+  { state: "Illinois", type: "tlf", thresholdPct: null, basis: "insurer" },
   { state: "Indiana", type: "percentage", thresholdPct: 70 },
-  {
-    state: "Iowa",
-    type: "percentage",
-    thresholdPct: 70,
-    note: "Iowa raised its salvage threshold from 50% to 70% of fair market value for vehicles transferred on or after July 1, 2021. Older lists that still say 50% describe the previous rule.",
-    statuteSource: 'Iowa Code § 321.52 and Iowa Admin. Code ch. 761—405, <a href="https://www.legis.iowa.gov/law/iowaCode" target="_blank" rel="noopener">Iowa Legislature</a> — "wrecked or salvage vehicle" means repair cost above 70% of fair market value (50% for vehicles transferred before July 1, 2021).',
-  },
+  { state: "Iowa", type: "percentage", thresholdPct: 70 },
   { state: "Kansas", type: "percentage", thresholdPct: 75 },
   { state: "Kentucky", type: "percentage", thresholdPct: 75 },
   { state: "Louisiana", type: "percentage", thresholdPct: 75 },
-  { state: "Maine", type: "tlf", thresholdPct: null },
+  { state: "Maine", type: "tlf", thresholdPct: null, basis: "insurer" },
   { state: "Maryland", type: "percentage", thresholdPct: 75 },
-  { state: "Massachusetts", type: "tlf", thresholdPct: null },
+  { state: "Massachusetts", type: "tlf", thresholdPct: null, basis: "formula" },
   { state: "Michigan", type: "percentage", thresholdPct: 75 },
-  {
-    state: "Minnesota",
-    type: "percentage",
-    thresholdPct: 80,
-    note: "Minnesota's statute uses 80% of actual cash value. Many popular lists still show 70%, which was the older figure before a 2012 law (Laws 2012, ch. 267) raised it. Separately, an insurer that takes ownership of a late-model (current or prior five model years) or high-value (ACV over $9,000) vehicle must brand the title \"salvage\" whatever the percentage.",
-    statuteSource: 'Minn. Stat. § 168A.01, subd. 17b ("salvage vehicle") and § 168A.151, <a href="https://www.revisor.mn.gov/statutes/cite/168A.01" target="_blank" rel="noopener">Minnesota Revisor of Statutes</a> — repair cost exceeding 80% of the vehicle\'s value immediately before the damage.',
-  },
-  { state: "Mississippi", type: "tlf", thresholdPct: null },
+  { state: "Minnesota", type: "percentage", thresholdPct: 80 },
+  { state: "Mississippi", type: "tlf", thresholdPct: null, basis: "insurer" },
   { state: "Missouri", type: "percentage", thresholdPct: 80 },
-  { state: "Montana", type: "tlf", thresholdPct: null },
+  { state: "Montana", type: "tlf", thresholdPct: null, basis: "insurer" },
   { state: "Nebraska", type: "percentage", thresholdPct: 75 },
   { state: "Nevada", type: "percentage", thresholdPct: 65 },
   { state: "New Hampshire", type: "percentage", thresholdPct: 75 },
-  { state: "New Jersey", type: "tlf", thresholdPct: null },
-  { state: "New Mexico", type: "tlf", thresholdPct: null },
+  { state: "New Jersey", type: "tlf", thresholdPct: null, basis: "insurer" },
+  { state: "New Mexico", type: "tlf", thresholdPct: null, basis: "insurer" },
   { state: "New York", type: "percentage", thresholdPct: 75 },
   { state: "North Carolina", type: "percentage", thresholdPct: 75 },
   { state: "North Dakota", type: "percentage", thresholdPct: 75 },
-  { state: "Ohio", type: "tlf", thresholdPct: null },
-  {
-    state: "Oklahoma",
-    type: "percentage",
-    thresholdPct: 70,
-    note: "Oklahoma raised its threshold from 60% to 70% of fair market value on November 1, 2026 (Senate Bill 1920, which became law without the governor's signature on May 13, 2026). Lists that still show 60% describe the old rule. Oklahoma measures against the greater of the guidebook value and the actual cash value.",
-    statuteSource: '47 Okla. Stat. § 1111, as amended by 2026 Okla. SB 1920 (effective Nov. 1, 2026); summarized in the Oklahoma Insurance Department\'s <a href="https://www.oid.ok.gov/wp-content/uploads/2026/07/2026_Statute-and-Rule-Changes.pdf" target="_blank" rel="noopener">2026 Statute and Rule Changes</a>.',
-  },
-  { state: "Oregon", type: "percentage", thresholdPct: 80 },
-  { state: "Pennsylvania", type: "tlf", thresholdPct: null },
-  { state: "Rhode Island", type: "tlf", thresholdPct: null },
+  { state: "Ohio", type: "tlf", thresholdPct: null, basis: "insurer" },
+  { state: "Oklahoma", type: "percentage", thresholdPct: 70 },
+  { state: "Oregon", type: "tlf", thresholdPct: null, basis: "insurer" },
+  { state: "Pennsylvania", type: "tlf", thresholdPct: null, basis: "formula" },
+  { state: "Rhode Island", type: "percentage", thresholdPct: 85, insurerFloor: true },
   { state: "South Carolina", type: "percentage", thresholdPct: 75 },
-  { state: "South Dakota", type: "tlf", thresholdPct: null },
+  { state: "South Dakota", type: "tlf", thresholdPct: null, basis: "insurer" },
   { state: "Tennessee", type: "percentage", thresholdPct: 75 },
   { state: "Texas", type: "percentage", thresholdPct: 100 },
-  { state: "Utah", type: "tlf", thresholdPct: null },
-  { state: "Vermont", type: "tlf", thresholdPct: null },
-  { state: "Virginia", type: "percentage", thresholdPct: 75 },
-  { state: "Washington", type: "tlf", thresholdPct: null },
+  { state: "Utah", type: "tlf", thresholdPct: null, basis: "insurer" },
+  { state: "Vermont", type: "tlf", thresholdPct: null, basis: "insurer" },
+  { state: "Virginia", type: "tlf", thresholdPct: null, basis: "formula" },
+  { state: "Washington", type: "tlf", thresholdPct: null, basis: "formula" },
   { state: "Washington, D.C.", type: "percentage", thresholdPct: 75 },
   { state: "West Virginia", type: "percentage", thresholdPct: 75 },
   { state: "Wisconsin", type: "percentage", thresholdPct: 70 },
-  { state: "Wyoming", type: "percentage", thresholdPct: 75 },
+  { state: "Wyoming", type: "tlf", thresholdPct: null, basis: "insurer" },
 ];
+
+/** Short label for tables: "75% of value", "85% (limits insurers)", "Formula in law", "Insurer decides". */
+export function ruleLabel(s: StateThreshold): string {
+  if (s.type === "percentage") return s.insurerFloor ? `${s.thresholdPct}% (limits insurers)` : `${s.thresholdPct}% of value`;
+  return s.basis === "formula" ? "Formula-style test in law" : "No % in law: insurer decides";
+}
 
 export interface ToCentsResult {
   value: number;
@@ -177,6 +171,9 @@ export interface ThresholdResult {
   state: string;
   type: ThresholdType;
   thresholdPct: number | null;
+  basis: "formula" | "insurer" | null;
+  /** True when the state's percentage stops the insurer totaling below it (Rhode Island). */
+  insurerFloor: boolean;
   repairEstimateCents: number;
   acvCents: number;
   estimatedSalvageValueCents: number | null;
@@ -236,7 +233,7 @@ export function checkTotalLossThreshold(input: ThresholdInput): ThresholdResult 
   const marginCents = repairAtLineCents === null ? null : input.repairEstimateCents - repairAtLineCents;
 
   let insurerMayTotalAnyway: boolean | null = null;
-  if (match.type === "percentage" && typeof input.estimatedSalvageValueCents === "number") {
+  if (match.type === "percentage" && !match.insurerFloor && typeof input.estimatedSalvageValueCents === "number") {
     insurerMayTotalAnyway = input.repairEstimateCents + input.estimatedSalvageValueCents >= input.acvCents;
   }
 
@@ -244,6 +241,8 @@ export function checkTotalLossThreshold(input: ThresholdInput): ThresholdResult 
     state: match.state,
     type: match.type,
     thresholdPct: match.thresholdPct,
+    basis: match.basis ?? null,
+    insurerFloor: match.insurerFloor === true,
     repairEstimateCents: input.repairEstimateCents,
     acvCents: input.acvCents,
     estimatedSalvageValueCents: input.estimatedSalvageValueCents ?? null,
